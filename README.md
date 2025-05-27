@@ -52,5 +52,10 @@ python per_project_train_test.py --config_file config/per_project.json
 python train_test_5fold.py --config_file config/cross_validation.json
 ```
 
+### 3.Nondex Validation
+
+```bash
+python ./nondex_script/main_script.py
+```
 
 
