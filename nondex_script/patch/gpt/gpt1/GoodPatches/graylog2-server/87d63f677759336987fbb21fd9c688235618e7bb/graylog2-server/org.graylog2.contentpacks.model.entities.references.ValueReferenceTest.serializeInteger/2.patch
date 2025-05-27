@@ -1,0 +1,29 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/contentpacks/model/entities/references/ValueReferenceTest.java
+Original Test Method:
+     public void serializeInteger() throws IOException {
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(1))).isEqualTo("{\"@type\":\"integer\",\"@value\":1}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(42))).isEqualTo("{\"@type\":\"integer\",\"@value\":42}");
+    }
+Patch:
+
+test_code:
+public void serializeInteger() throws IOException, JSONException {
+    String expected1 = "{\"@type\":\"integer\",\"@value\":1}";
+    String actual1 = objectMapper.writeValueAsString(ValueReference.of(1));
+    JSONAssert.assertEquals(expected1, actual1, JSONCompareMode.NON_EXTENSIBLE);
+
+    String expected42 = "{\"@type\":\"integer\",\"@value\":42}";
+    String actual42 = objectMapper.writeValueAsString(ValueReference.of(42));
+    JSONAssert.assertEquals(expected42, actual42, JSONCompareMode.NON_EXTENSIBLE);
+}
+
+import:
+['import org.json.JSONException;']
+pom:
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>

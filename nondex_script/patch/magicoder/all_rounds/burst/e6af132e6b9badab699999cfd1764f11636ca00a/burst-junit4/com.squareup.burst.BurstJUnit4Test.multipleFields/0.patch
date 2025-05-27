@@ -1,0 +1,25 @@
+Test File Path: projects/e6af132e6b9badab699999cfd1764f11636ca00a/burst/burst-junit4/src/test/java/com/squareup/burst/BurstJUnit4Test.java
+Original Test Method:
+   @Test public void multipleFields() throws InitializationError {
+    BurstJUnit4 runner = new BurstJUnit4(MultipleFieldsTest.class);
+    runner.run(listener.notifier());
+    assertThat(listener.journal()).containsExactly(
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[PEPSI, CHIPS])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[PEPSI, CHIPS])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[PEPSI, NUTS])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[PEPSI, NUTS])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[PEPSI, CANDY])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[PEPSI, CANDY])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[COKE, CHIPS])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[COKE, CHIPS])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[COKE, NUTS])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[COKE, NUTS])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[COKE, CANDY])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[COKE, CANDY])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[RC_COLA, CHIPS])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[RC_COLA, CHIPS])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[RC_COLA, NUTS])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[RC_COLA, NUTS])",
+        "START testMethod(com.squareup.burst.MultipleFieldsTest[RC_COLA, CANDY])",
+        "FINISH testMethod(com.squareup.burst.MultipleFieldsTest[RC_COLA, CANDY])");
+  }

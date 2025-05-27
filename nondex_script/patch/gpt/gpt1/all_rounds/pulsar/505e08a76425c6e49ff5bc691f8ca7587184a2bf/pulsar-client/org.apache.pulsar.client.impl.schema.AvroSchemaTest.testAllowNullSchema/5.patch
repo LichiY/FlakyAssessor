@@ -1,0 +1,267 @@
+Test File Path: projects/505e08a76425c6e49ff5bc691f8ca7587184a2bf/pulsar/pulsar-client/src/test/java/org/apache/pulsar/client/impl/schema/AvroSchemaTest.java
+Original Test Method:
+     public void testAllowNullSchema() {
+        AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).build());
+        assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+        Schema.Parser parser = new Schema.Parser();
+        String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+        assertEquals(schemaJson, SCHEMA_AVRO_ALLOW_NULL);
+        Schema schema = parser.parse(schemaJson);
+
+        for (String fieldName : FOO_FIELDS) {
+            Schema.Field field = schema.getField(fieldName);
+            Assert.assertNotNull(field);
+
+            if (field.name().equals("field4")) {
+                Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+            }
+            if (field.name().equals("fieldUnableNull")) {
+                Assert.assertNotNull(field.schema().getType());
+            }
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    
+    // Parse both expected and actual schemas to compare them structurally
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_ALLOW_NULL);
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    assertEquals(expectedSchema.toString(), actualSchema.toString());
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = actualSchema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.11.1</version>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    
+    // Parse both expected and actual schemas to compare them structurally
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_ALLOW_NULL);
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Compare schemas structurally instead of using toString()
+    assertEquals(expectedSchema, actualSchema);
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = actualSchema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.11.3</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    
+    // Create a deterministic parser configuration
+    Schema.Parser parser = new Schema.Parser();
+    parser.setValidateDefaults(false); // Disable validation to prevent ordering issues
+    
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Parse expected schema with same parser configuration
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_ALLOW_NULL);
+    
+    // Compare schemas structurally
+    assertEquals(expectedSchema.toString(/* pretty: */ false), actualSchema.toString(/* pretty: */ false));
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = actualSchema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.11.3</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    
+    // Create a deterministic parser configuration
+    Schema.Parser parser = new Schema.Parser();
+    parser.setValidateDefaults(false); // Disable validation to prevent ordering issues
+    
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Parse expected schema with same parser configuration using deterministic JSON parsing
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode expectedNode = mapper.readTree(SCHEMA_AVRO_ALLOW_NULL);
+    JsonNode actualNode = mapper.readTree(schemaJson);
+    
+    // Compare schemas structurally by comparing JSON trees
+    assertEquals(expectedNode, actualNode);
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = actualSchema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.4</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    
+    // Create a deterministic parser configuration
+    Schema.Parser parser = new Schema.Parser();
+    parser.setValidateDefaults(false);
+    
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Use deterministic JSON parsing with ordered properties
+    ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+    JsonNode expectedNode = mapper.readTree(SCHEMA_AVRO_ALLOW_NULL);
+    JsonNode actualNode = mapper.readTree(schemaJson);
+    
+    // Compare schemas structurally by comparing sorted JSON trees
+    assertEquals(mapper.writeValueAsString(expectedNode), mapper.writeValueAsString(actualNode));
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = actualSchema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.SerializationFeature;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.13.0</version>
+</dependency>
+

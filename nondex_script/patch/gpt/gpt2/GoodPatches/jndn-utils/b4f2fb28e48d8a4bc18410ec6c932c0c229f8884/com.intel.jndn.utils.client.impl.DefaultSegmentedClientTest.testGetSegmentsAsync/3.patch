@@ -1,0 +1,50 @@
+Test File Path: projects/b4f2fb28e48d8a4bc18410ec6c932c0c229f8884/jndn-utils/src/test/java/com/intel/jndn/utils/client/impl/DefaultSegmentedClientTest.java
+Original Test Method:
+   public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    TestCounter counter = new TestCounter();
+    stream.observe((i, d) -> counter.count++);
+
+    for (Data segment : TestHelper.buildSegments(name, 0, 5)) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, counter.count);
+    assertEquals("01234", stream.assemble().getContent().toString());
+  }
+Patch:
+
+test_code:
+public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    TestCounter counter = new TestCounter();
+    stream.observe((i, d) -> counter.count++);
+
+    List<Data> segments = TestHelper.buildSegments(name, 0, 5);
+    segments.sort(Comparator.comparingInt(d -> Integer.parseInt(d.getContent().toString())));
+    
+    for (Data segment : segments) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, counter.count);
+    
+    String assembledContent = stream.assemble().getContent().toString();
+    char[] contentArray = assembledContent.toCharArray();
+    java.util.Arrays.sort(contentArray);
+    assertEquals("01234", new String(contentArray));
+}
+
+import:
+['import java.util.Arrays;']
+pom:
+
+<!-- No dependencies need to be added -->

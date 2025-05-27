@@ -1,0 +1,133 @@
+Test File Path: projects/d7873514c1705575c642ed99d2fa501f9b319790/common-kafka/common-kafka/src/test/java/com/cerner/common/kafka/consumer/ProcessingKafkaConsumerTest.java
+Original Test Method:
+     public void rebalanceListener_onPartitionsAssigned() {
+        long rebalanceCount = ProcessingKafkaConsumer.REBALANCE_COUNTER.count();
+        TopicPartition newPartition = new TopicPartition("new-topic", 0);
+        when(consumer.committed(newPartition)).thenReturn(new OffsetAndMetadata(0L));
+        processingConsumer.rebalanceListener.onPartitionsAssigned(Arrays.asList(topicPartition, newPartition));
+        assertThat(processingConsumer.partitions.keySet(), contains(newPartition, topicPartition));
+        assertThat(ProcessingKafkaConsumer.REBALANCE_COUNTER.count(), is(rebalanceCount + 1));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void rebalanceListener_onPartitionsAssigned() {
+    long rebalanceCount = ProcessingKafkaConsumer.REBALANCE_COUNTER.count();
+    TopicPartition newPartition = new TopicPartition("new-topic", 0);
+    when(consumer.committed(newPartition)).thenReturn(new OffsetAndMetadata(0L));
+    processingConsumer.rebalanceListener.onPartitionsAssigned(Arrays.asList(topicPartition, newPartition));
+    assertThat(processingConsumer.partitions.keySet(), contains(newPartition, topicPartition));
+    assertThat(ProcessingKafkaConsumer.REBALANCE_COUNTER.count(), is(rebalanceCount + 1));
+}
+
+
+import:
+
+['import org.mockito.Mockito;', 'import org.hamcrest.MatcherAssert;', 'import org.hamcrest.Matchers;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>2.8.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void rebalanceListener_onPartitionsAssigned() {
+    long rebalanceCount = ProcessingKafkaConsumer.REBALANCE_COUNTER.count();
+    TopicPartition newPartition = new TopicPartition("new-topic", 0);
+    when(consumer.committed(newPartition)).thenReturn(new OffsetAndMetadata(0L));
+    processingConsumer.rebalanceListener.onPartitionsAssigned(Arrays.asList(topicPartition, newPartition));
+    assertThat(processingConsumer.partitions.keySet(), contains(newPartition, topicPartition));
+    assertThat(ProcessingKafkaConsumer.REBALANCE_COUNTER.count(), is(rebalanceCount + 1));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void rebalanceListener_onPartitionsAssigned() {
+    long rebalanceCount = ProcessingKafkaConsumer.REBALANCE_COUNTER.count();
+    TopicPartition newPartition = new TopicPartition("new-topic", 0);
+    when(consumer.committed(newPartition)).thenReturn(new OffsetAndMetadata(0L));
+    processingConsumer.rebalanceListener.onPartitionsAssigned(Arrays.asList(topicPartition, newPartition));
+    assertThat(processingConsumer.partitions.keySet(), contains(newPartition, topicPartition));
+    assertThat(ProcessingKafkaConsumer.REBALANCE_COUNTER.count(), is(rebalanceCount + 1));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void rebalanceListener_onPartitionsAssigned() {
+    long rebalanceCount = ProcessingKafkaConsumer.REBALANCE_COUNTER.count();
+    TopicPartition newPartition = new TopicPartition("new-topic", 0);
+    when(consumer.committed(newPartition)).thenReturn(new OffsetAndMetadata(0L));
+    processingConsumer.rebalanceListener.onPartitionsAssigned(Arrays.asList(topicPartition, newPartition));
+    assertThat(processingConsumer.partitions.keySet(), contains(newPartition, topicPartition));
+    assertThat(ProcessingKafkaConsumer.REBALANCE_COUNTER.count(), is(rebalanceCount + 1));
+}
+
+
+import:
+
+['import static org.hamcrest.Matchers.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.11.2</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void rebalanceListener_onPartitionsAssigned() {
+    long rebalanceCount = ProcessingKafkaConsumer.REBALANCE_COUNTER.count();
+    TopicPartition newPartition = new TopicPartition("new-topic", 0);
+    when(consumer.committed(newPartition)).thenReturn(new OffsetAndMetadata(0L));
+    processingConsumer.rebalanceListener.onPartitionsAssigned(Arrays.asList(topicPartition, newPartition));
+    assertThat(processingConsumer.partitions.keySet(), contains(newPartition, topicPartition));
+    assertThat(ProcessingKafkaConsumer.REBALANCE_COUNTER.count(), is(rebalanceCount + 1));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

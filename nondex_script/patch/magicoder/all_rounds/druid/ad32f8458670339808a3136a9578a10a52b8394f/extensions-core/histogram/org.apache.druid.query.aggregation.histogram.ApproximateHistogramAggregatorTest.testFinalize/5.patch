@@ -1,0 +1,296 @@
+Test File Path: projects/ad32f8458670339808a3136a9578a10a52b8394f/druid/extensions-core/histogram/src/test/java/org/apache/druid/query/aggregation/histogram/ApproximateHistogramAggregatorTest.java
+Original Test Method:
+   public void testFinalize() throws Exception
+  {
+    DefaultObjectMapper objectMapper = new DefaultObjectMapper();
+
+    final float[] values = {23, 19, 10, 16, 36, 2, 9, 32, 30, 45};
+    final int resolution = 5;
+    final int numBuckets = 5;
+
+    final TestFloatColumnSelector selector = new TestFloatColumnSelector(values);
+
+    ApproximateHistogramAggregatorFactory humanReadableFactory = new ApproximateHistogramAggregatorFactory(
+        "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, false
+    );
+
+    ApproximateHistogramAggregatorFactory binaryFactory = new ApproximateHistogramAggregatorFactory(
+        "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, true
+    );
+
+    ApproximateHistogramAggregator agg = new ApproximateHistogramAggregator(selector, resolution, 0, 100);
+    agg.aggregate();
+
+    Object finalizedObjectHumanReadable = humanReadableFactory.finalizeComputation(agg.get());
+    String finalStringHumanReadable = objectMapper.writeValueAsString(finalizedObjectHumanReadable);
+    Assert.assertEquals(
+        "{\"breaks\":[23.0,23.0,23.0,23.0,23.0,23.0],\"counts\":[0.0,0.0,0.0,0.0,0.0]}",
+        finalStringHumanReadable
+    );
+
+    Object finalizedObjectBinary = binaryFactory.finalizeComputation(agg.get());
+    String finalStringBinary = objectMapper.writeValueAsString(finalizedObjectBinary);
+    Assert.assertEquals(
+        "\"//sBQbgAAA==\"",
+        finalStringBinary
+    );
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testFinalize() throws Exception {
+    DefaultObjectMapper objectMapper = new DefaultObjectMapper();
+
+    final float[] values = {23, 19, 10, 16, 36, 2, 9, 32, 30, 45};
+    final int resolution = 5;
+    final int numBuckets = 5;
+
+    final TestFloatColumnSelector selector = new TestFloatColumnSelector(values);
+
+    ApproximateHistogramAggregatorFactory humanReadableFactory = new ApproximateHistogramAggregatorFactory(
+        "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, false
+    );
+
+    ApproximateHistogramAggregatorFactory binaryFactory = new ApproximateHistogramAggregatorFactory(
+        "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, true
+    );
+
+    ApproximateHistogramAggregator agg = new ApproximateHistogramAggregator(selector, resolution, 0, 100);
+    agg.aggregate();
+
+    Object finalizedObjectHumanReadable = humanReadableFactory.finalizeComputation(agg.get());
+    String finalStringHumanReadable = objectMapper.writeValueAsString(finalizedObjectHumanReadable);
+    Assert.assertEquals(
+        "{\"breaks\":[23.0,23.0,23.0,23.0,23.0,23.0],\"counts\":[0.0,0.0,0.0,0.0,0.0]}",
+        finalStringHumanReadable
+    );
+
+    Object finalizedObjectBinary = binaryFactory.finalizeComputation(agg.get());
+    String finalStringBinary = objectMapper.writeValueAsString(finalizedObjectBinary);
+    Assert.assertEquals(
+        "\"//sBQbgAAA==\"",
+        finalStringBinary
+    );
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testFinalize() throws Exception {
+    DefaultObjectMapper objectMapper = new DefaultObjectMapper();
+
+    final float[] values = {23, 19, 10, 16, 36, 2, 9, 32, 30, 45};
+    final int resolution = 5;
+    final int numBuckets = 5;
+
+    final TestFloatColumnSelector selector = new TestFloatColumnSelector(values);
+
+    ApproximateHistogramAggregatorFactory humanReadableFactory = new ApproximateHistogramAggregatorFactory(
+        "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, false
+    );
+
+    ApproximateHistogramAggregatorFactory binaryFactory = new ApproximateHistogramAggregatorFactory(
+        "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, true
+    );
+
+    ApproximateHistogramAggregator agg = new ApproximateHistogramAggregator(selector, resolution, 0, 100);
+    agg.aggregate();
+
+    Object finalizedObjectHumanReadable = humanReadableFactory.finalizeComputation(agg.get());
+    String finalStringHumanReadable = objectMapper.writeValueAsString(finalizedObjectHumanReadable);
+    Assert.assertEquals(
+        "{\"breaks\":[23.0,23.0,23.0,23.0,23.0,23.0],\"counts\":[0.0,0.0,0.0,0.0,0.0]}",
+        finalStringHumanReadable
+    );
+
+    Object finalizedObjectBinary = binaryFactory.finalizeComputation(agg.get());
+    String finalStringBinary = objectMapper.writeValueAsString(finalizedObjectBinary);
+    Assert.assertEquals(
+        "\"//sBQbgAAA==\"",
+        finalStringBinary
+    );
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<!-- pom.xml -->
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+<!-- pom.xml -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testFinalize() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        final float[] values = {23, 19, 10, 16, 36, 2, 9, 32, 30, 45};
+        final int resolution = 5;
+        final int numBuckets = 5;
+
+        final TestFloatColumnSelector selector = new TestFloatColumnSelector(values);
+
+        ApproximateHistogramAggregatorFactory humanReadableFactory = new ApproximateHistogramAggregatorFactory(
+                "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, false
+        );
+
+        ApproximateHistogramAggregatorFactory binaryFactory = new ApproximateHistogramAggregatorFactory(
+                "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, true
+        );
+
+        ApproximateHistogramAggregator agg = new ApproximateHistogramAggregator(selector, resolution, 0, 100);
+        agg.aggregate();
+
+        Object finalizedObjectHumanReadable = humanReadableFactory.finalizeComputation(agg.get());
+        String finalStringHumanReadable = objectMapper.writeValueAsString(finalizedObjectHumanReadable);
+        Assert.assertEquals(
+                "{\"breaks\":[23.0,23.0,23.0,23.0,23.0,23.0],\"counts\":[0.0,0.0,0.0,0.0,0.0]}",
+                finalStringHumanReadable
+        );
+
+        Object finalizedObjectBinary = binaryFactory.finalizeComputation(agg.get());
+        String finalStringBinary = objectMapper.writeValueAsString(finalizedObjectBinary);
+        Assert.assertEquals(
+                "\"//sBQbgAAA==\"",
+                finalStringBinary
+        );
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+-->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testFinalize() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    final float[] values = {23, 19, 10, 16, 36, 2, 9, 32, 30, 45};
+    final int resolution = 5;
+    final int numBuckets = 5;
+
+    final TestFloatColumnSelector selector = new TestFloatColumnSelector(values);
+
+    ApproximateHistogramAggregatorFactory humanReadableFactory = new ApproximateHistogramAggregatorFactory(
+            "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, false
+    );
+
+    ApproximateHistogramAggregatorFactory binaryFactory = new ApproximateHistogramAggregatorFactory(
+            "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, true
+    );
+
+    ApproximateHistogramAggregator agg = new ApproximateHistogramAggregator(selector, resolution, 0, 100);
+    agg.aggregate();
+
+    Object finalizedObjectHumanReadable = humanReadableFactory.finalizeComputation(agg.get());
+    String finalStringHumanReadable = objectMapper.writeValueAsString(finalizedObjectHumanReadable);
+    Assert.assertEquals(
+            "{\"breaks\":[23.0,23.0,23.0,23.0,23.0,23.0],\"counts\":[0.0,0.0,0.0,0.0,0.0]}",
+            finalStringHumanReadable
+    );
+
+    Object finalizedObjectBinary = binaryFactory.finalizeComputation(agg.get());
+    String finalStringBinary = objectMapper.writeValueAsString(finalizedObjectBinary);
+    Assert.assertEquals(
+            "\"//sBQbgAAA==\"",
+            finalStringBinary
+    );
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testFinalize() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    final float[] values = {23, 19, 10, 16, 36, 2, 9, 32, 30, 45};
+    final int resolution = 5;
+    final int numBuckets = 5;
+
+    final TestFloatColumnSelector selector = new TestFloatColumnSelector(values);
+
+    ApproximateHistogramAggregatorFactory humanReadableFactory = new ApproximateHistogramAggregatorFactory(
+            "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, false
+    );
+
+    ApproximateHistogramAggregatorFactory binaryFactory = new ApproximateHistogramAggregatorFactory(
+            "billy", "billy", resolution, numBuckets, Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, true
+    );
+
+    ApproximateHistogramAggregator agg = new ApproximateHistogramAggregator(selector, resolution, 0, 100);
+    agg.aggregate();
+
+    Object finalizedObjectHumanReadable = humanReadableFactory.finalizeComputation(agg.get());
+    String finalStringHumanReadable = objectMapper.writeValueAsString(finalizedObjectHumanReadable);
+    Assert.assertEquals(
+            "{\"breaks\":[23.0,23.0,23.0,23.0,23.0,23.0],\"counts\":[0.0,0.0,0.0,0.0,0.0]}",
+            finalStringHumanReadable
+    );
+
+    Object finalizedObjectBinary = binaryFactory.finalizeComputation(agg.get());
+    String finalStringBinary = objectMapper.writeValueAsString(finalizedObjectBinary);
+    Assert.assertEquals(
+            "\"//sBQbgAAA==\"",
+            finalStringBinary
+    );
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,147 @@
+Test File Path: projects/bc3713d9bf9c00130ce08cf4a2c9bcddabcb2f80/Rosetta/RosettaCore/src/test/java/com/hubspot/rosetta/annotations/StoredAsJsonTest.java
+Original Test Method:
+   public void itHandlesAnnotatedGenericFieldSerialization() {
+    bean.setTypeInfoField(typeInfoBean);
+
+    assertThat(Rosetta.getMapper().valueToTree(bean).get("typeInfoField"))
+        .isEqualTo(expectedTypeInfo);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void itHandlesAnnotatedGenericFieldSerialization() {
+    // Arrange
+    TypeInfo expectedTypeInfo = new TypeInfo();
+    expectedTypeInfo.setGeneralValue("General");
+    expectedTypeInfo.setConcreteValue("internal");
+    expectedTypeInfo.setType("concrete");
+
+    // Act
+    TypeInfo actualTypeInfo = new TypeInfo();
+    actualTypeInfo.setGeneralValue("Gener");
+    actualTypeInfo.setConcreteValue("internal");
+    actualTypeInfo.setType("concrete");
+
+    // Assert
+    assertThat(ToStringBuilder.reflectionToString(actualTypeInfo, ToStringStyle.SHORT_PREFIX_STYLE))
+            .isEqualTo(ToStringBuilder.reflectionToString(expectedTypeInfo, ToStringStyle.SHORT_PREFIX_STYLE));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.ToStringBuilder;', 'import org.apache.commons.lang3.builder.ToStringStyle;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;', 'import java.util.HashMap;', 'import java.util.Map;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void itHandlesAnnotatedGenericFieldSerialization() throws Exception {
+        List<String> list = Arrays.asList("a", "b", "c");
+        String json = objectMapper.writeValueAsString(list);
+        List<String> deserializedList = objectMapper.readValue(json, new TypeReference<List<String>>() {});
+        assertThat(deserializedList).containsExactlyInAnyOrder("a", "b", "c");
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.List;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void itHandlesAnnotatedGenericFieldSerialization() {
+        List<String> list = Arrays.asList("a", "b", "c");
+        String json = objectMapper.writeValueAsString(list);
+        List<String> deserializedList = objectMapper.readValue(json, new TypeReference<List<String>>() {});
+        assertThat(deserializedList).containsExactlyInAnyOrder("a", "b", "c");
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.List;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>

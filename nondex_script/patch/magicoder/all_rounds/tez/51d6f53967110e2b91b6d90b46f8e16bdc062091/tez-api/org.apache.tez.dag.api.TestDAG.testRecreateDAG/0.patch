@@ -1,0 +1,21 @@
+Test File Path: projects/51d6f53967110e2b91b6d90b46f8e16bdc062091/tez/tez-api/src/test/java/org/apache/tez/dag/api/TestDAG.java
+Original Test Method:
+   public void testRecreateDAG() {
+    Map<String, LocalResource> lrDAG = Collections.singletonMap("LR1",
+        LocalResource.newInstance(
+            URL.newInstance("file", "localhost", 0, "/test1"),
+            LocalResourceType.FILE,
+            LocalResourceVisibility.PUBLIC, 1, 1));
+    Vertex v1 = Vertex.create("v1", ProcessorDescriptor.create("dummyProcessor1"), 1,
+        Resource.newInstance(1, 1));
+    Vertex v2 = Vertex.create("v2", ProcessorDescriptor.create("dummyProcessor2"), 1,
+        Resource.newInstance(1, 1));
+    DAG dag = DAG.create("DAG-testRecreateDAG").addVertex(v1).addVertex(v2).addTaskLocalFiles(lrDAG);
+
+    TezConfiguration tezConf = new TezConfiguration();
+    DAGPlan firstPlan = dag.createDag(tezConf, null, null, null, false);
+    for (int i = 0; i < 3; ++i) {
+        DAGPlan dagPlan = dag.createDag(tezConf, null, null, null, false);
+        Assert.assertEquals(dagPlan, firstPlan);
+    }
+  }

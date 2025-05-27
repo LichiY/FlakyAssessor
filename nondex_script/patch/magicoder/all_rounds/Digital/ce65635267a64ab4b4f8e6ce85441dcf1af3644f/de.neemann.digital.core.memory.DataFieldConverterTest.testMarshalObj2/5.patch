@@ -1,0 +1,173 @@
+Test File Path: projects/ce65635267a64ab4b4f8e6ce85441dcf1af3644f/Digital/src/test/java/de/neemann/digital/core/memory/DataFieldConverterTest.java
+Original Test Method:
+     public void testMarshalObj2() {
+        final DataField d1 = new DataField(20);
+        d1.setData(5, 2);
+
+        final DataField d2 = new DataField(20);
+        d2.setData(8, 4);
+
+        XStream xs = getxStream();
+        String xml = xs.toXML(new Test(d1, d2));
+        assertEquals("<?xml version=\"1.0\" ?><test>" +
+                "<d1>5*0,2</d1>" +
+                "<d2>8*0,4</d2>" +
+                "</test>", xml);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testMarshalObj2() {
+    // Arrange
+    ID id = new ID();
+    id.setD1(5*0.2);
+    id.setD2(8*0.4);
+
+    // Act
+    String result = id.toString();
+
+    // Assert
+    assertEquals("<?xml version=\"1.0\" ?><test><d1>1.0</d1><d2>3.2</d2></test>", result);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import org.junit.Test;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testMarshalObj2() throws JsonProcessingException {
+    // Arrange
+    ID id = new ID();
+    id.setD1(5*0.2);
+    id.setD2(8*0.4);
+
+    // Act
+    ObjectMapper mapper = new ObjectMapper();
+    String result = mapper.writeValueAsString(id);
+
+    // Assert
+    assertEquals("{\"d1\":1.0,\"d2\":3.2}", result);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void testMarshalObj2() {
+    // Arrange
+    ID id = new ID();
+    id.setD1(5*0.2);
+    id.setD2(8*0.4);
+
+    // Act
+    ObjectMapper mapper = new ObjectMapper();
+    String result = mapper.writeValueAsString(id);
+
+    // Assert
+    assertEquals("{\"d1\":1.0,\"d2\":3.2}", result);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testMarshalObj2() {
+    // Arrange
+    ID id = new ID();
+    id.setD1(5*0.2);
+    id.setD2(8*0.4);
+
+    // Act
+    ObjectMapper mapper = new ObjectMapper();
+    String result = mapper.writeValueAsString(id);
+
+    // Assert
+    assertEquals("{\"d1\":1.0,\"d2\":3.2}", result);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>

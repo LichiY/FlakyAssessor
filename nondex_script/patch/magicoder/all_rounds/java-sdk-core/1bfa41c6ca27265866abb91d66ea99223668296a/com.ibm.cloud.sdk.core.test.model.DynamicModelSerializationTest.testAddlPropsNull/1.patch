@@ -1,0 +1,39 @@
+Test File Path: projects/1bfa41c6ca27265866abb91d66ea99223668296a/java-sdk-core/src/test/java/com/ibm/cloud/sdk/core/test/model/DynamicModelSerializationTest.java
+Original Test Method:
+   public void testAddlPropsNull() {
+    ModelAPString model = createModelAPString();
+    model.put("basketball", null);
+
+    String json = serialize(model);
+    display("Serialized: " + json);
+    assertTrue(json.contains("\"basketball\": null"));
+
+    ModelAPString newModel = deserialize(json, ModelAPString.class);
+    assertEquals(newModel, model);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testAddlPropsNull() {
+    ModelAPString model = createModelAPString();
+    model.put("basketball", null);
+
+    String json = serialize(model);
+    display("Serialized: " + json);
+    assertTrue(json.contains("\"basketball\": null"));
+
+    ModelAPString newModel = deserialize(json, ModelAPString.class);
+    assertEquals(newModel.get("basketball"), model.get("basketball"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

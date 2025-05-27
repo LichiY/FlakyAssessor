@@ -1,0 +1,143 @@
+Test File Path: projects/b998b2bc5183e67f267d1f573939a42fa9ee4bf3/Strata/modules/data/src/test/java/com/opengamma/strata/data/MarketDataTest.java
+Original Test Method:
+   public void test_combinedWith_noClashSame() {
+    Map<MarketDataId<?>, Object> dataMap1 = ImmutableMap.of(ID1, VAL1);
+    MarketData test1 = MarketData.of(VAL_DATE, dataMap1);
+    Map<MarketDataId<?>, Object> dataMap2 = ImmutableMap.of(ID1, VAL1, ID2, VAL2);
+    MarketData test2 = MarketData.of(VAL_DATE, dataMap2);
+
+    MarketData test = test1.combinedWith(test2);
+    assertThat(test.getValue(ID1)).isEqualTo(VAL1);
+    assertThat(test.getValue(ID2)).isEqualTo(VAL2);
+    assertThat(test.getIds()).containsExactly(ID1, ID2);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_combinedWith_noClashSame() {
+    Map<MarketDataId<?>, Object> dataMap1 = ImmutableMap.of(ID1, VAL1);
+    MarketData test1 = MarketData.of(VAL_DATE, dataMap1);
+    Map<MarketDataId<?>, Object> dataMap2 = ImmutableMap.of(ID1, VAL1, ID2, VAL2);
+    MarketData test2 = MarketData.of(VAL_DATE, dataMap2);
+
+    MarketData test = test1.combinedWith(test2);
+    assertThat(test.getValue(ID1)).isEqualTo(VAL1);
+    assertThat(test.getValue(ID2)).isEqualTo(VAL2);
+    assertThat(test.getIds()).containsExactly(ID1, ID2);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_combinedWith_noClashSame() {
+    Map<MarketDataId<?>, Object> dataMap1 = ImmutableMap.of(ID1, VAL1);
+    MarketData test1 = MarketData.of(VAL_DATE, dataMap1);
+    Map<MarketDataId<?>, Object> dataMap2 = ImmutableMap.of(ID1, VAL1, ID2, VAL2);
+    MarketData test2 = MarketData.of(VAL_DATE, dataMap2);
+
+    MarketData test = test1.combinedWith(test2);
+    assertThat(test.getValue(ID1)).isEqualTo(VAL1);
+    assertThat(test.getValue(ID2)).isEqualTo(VAL2);
+    assertThat(test.getIds()).containsExactly(ID1, ID2);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_combinedWith_noClashSame() {
+    Map<MarketDataId<?>, Object> dataMap1 = ImmutableMap.of(ID1, VAL1);
+    MarketData test1 = MarketData.of(VAL_DATE, dataMap1);
+    Map<MarketDataId<?>, Object> dataMap2 = ImmutableMap.of(ID1, VAL1, ID2, VAL2);
+    MarketData test2 = MarketData.of(VAL_DATE, dataMap2);
+
+    MarketData test = test1.combinedWith(test2);
+    assertThat(test.getValue(ID1)).isEqualTo(VAL1);
+    assertThat(test.getValue(ID2)).isEqualTo(VAL2);
+    assertThat(test.getIds()).containsExactly(ID1, ID2);
+}
+
+
+import:
+
+['import org.assertj.core.api.Assertions.*;', 'import java.util.*;']
+
+pom:
+
+<!-- pom.xml code -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_combinedWith_noClashSame() {
+    Map<MarketDataId<?>, Object> dataMap1 = ImmutableMap.of(ID1, VAL1);
+    MarketData test1 = MarketData.of(VAL_DATE, dataMap1);
+    Map<MarketDataId<?>, Object> dataMap2 = ImmutableMap.of(ID1, VAL1, ID2, VAL2);
+    MarketData test2 = MarketData.of(VAL_DATE, dataMap2);
+
+    MarketData test = test1.combinedWith(test2);
+    assertThat(test.getValue(ID1)).isEqualTo(VAL1);
+    assertThat(test.getValue(ID2)).isEqualTo(VAL2);
+    assertThat(test.getIds()).containsExactly(ID1, ID2);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- Add your dependencies here -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_combinedWith_noClashSame() {
+    Map<MarketDataId<?>, Object> dataMap1 = ImmutableMap.of(ID1, VAL1);
+    MarketData test1 = MarketData.of(VAL_DATE, dataMap1);
+    Map<MarketDataId<?>, Object> dataMap2 = ImmutableMap.of(ID1, VAL1, ID2, VAL2);
+    MarketData test2 = MarketData.of(VAL_DATE, dataMap2);
+
+    MarketData test = test1.combinedWith(test2);
+    assertThat(test.getValue(ID1)).isEqualTo(VAL1);
+    assertThat(test.getValue(ID2)).isEqualTo(VAL2);
+    assertThat(test.getIds()).containsExactly(ID1, ID2);
+}
+
+
+import:
+
+['import org.assertj.core.api.SoftAssertions;', 'import org.assertj.core.api.junit.SoftAssertionsExtension;', 'import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;', 'import org.assertj.core.api.junit.jupiter.InjectSoftAssertionsExtension;', 'import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;']
+
+pom:
+
+<!-- <pom.xml end> -->

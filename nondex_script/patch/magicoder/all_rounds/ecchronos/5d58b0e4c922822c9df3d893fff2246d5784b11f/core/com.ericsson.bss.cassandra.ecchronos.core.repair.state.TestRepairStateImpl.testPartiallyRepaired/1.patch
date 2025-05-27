@@ -1,0 +1,59 @@
+Test File Path: projects/5d58b0e4c922822c9df3d893fff2246d5784b11f/ecchronos/core/src/test/java/com/ericsson/bss/cassandra/ecchronos/core/repair/state/TestRepairStateImpl.java
+Original Test Method:
+     public void testPartiallyRepaired()
+    {
+        long now = System.currentTimeMillis();
+        long repairIntervalInMs = TimeUnit.HOURS.toMillis(1);
+        long expectedAtLeastRepairedAt = now - repairIntervalInMs;
+
+        RepairConfiguration repairConfiguration = repairConfiguration(repairIntervalInMs);
+
+        Node node = mockNode("DC1");
+        when(mockHostStates.isUp(eq(node))).thenReturn(true);
+
+        VnodeRepairState vnodeRepairState = new VnodeRepairState(new LongTokenRange(1, 2), ImmutableSet.of(node), VnodeRepairState.UNREPAIRED);
+        VnodeRepairState repairedVnodeRepairState = new VnodeRepairState(new LongTokenRange(2, 3), ImmutableSet.of(node), now);
+
+        VnodeRepairStates vnodeRepairStates = VnodeRepairStatesImpl.newBuilder(Arrays.asList(vnodeRepairState, repairedVnodeRepairState))
+                .build();
+
+        when(mockVnodeRepairStateFactory.calculateNewState(eq(tableReference), isNull())).thenReturn(vnodeRepairStates);
+        when(mockReplicaRepairGroupFactory.generateReplicaRepairGroups(repairGroupCaptor.capture())).thenReturn(Collections.singletonList(mockReplicaRepairGroup));
+
+        RepairState repairState = new RepairStateImpl(tableReference, repairConfiguration,
+                mockVnodeRepairStateFactory, mockHostStates,
+                mockTableRepairMetrics, mockReplicaRepairGroupFactory, mockPostUpdateHook);
+
+        RepairStateSnapshot repairStateSnapshot = repairState.getSnapshot();
+
+        List<VnodeRepairState> capturedVnodeStates = repairGroupCaptor.getValue();
+
+        assertThat(capturedVnodeStates).hasSize(1);
+        VnodeRepairState capturedVnodeRepairState = capturedVnodeStates.get(0);
+
+        assertVnodeRepairStateRepairedBefore(vnodeRepairState, capturedVnodeRepairState, System.currentTimeMillis() - repairIntervalInMs);
+        assertRepairStateSnapshot(repairStateSnapshot, expectedAtLeastRepairedAt, Collections.singletonList(mockReplicaRepairGroup), vnodeRepairStates);
+
+        verify(mockTableRepairMetrics).repairState(eq(tableReference), eq(1), eq(1));
+        verify(mockTableRepairMetrics).lastRepairedAt(eq(tableReference), eq(repairStateSnapshot.lastCompletedAt()));
+        verify(mockPostUpdateHook, times(1)).postUpdate(repairStateSnapshot);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.Ordering;', 'import org.mockito.Mockito;', 'import static org.mockito.Mockito.any;', 'import static org.mockito.Mockito.anyLong;', 'import static org.mockito.Mockito.anyString;', 'import static org.mockito.Mockito.anyObject;', 'import static org.mockito.Mockito.anyList;', 'import static org.mockito.Mockito.anySet;', 'import static org.mockito.Mockito.anyMap;', 'import static org.mockito.Mockito.anyIterable;', 'import static org.mockito.Mockito.anyIterableOf;', 'import static org.mockito.Mockito.anyIterableOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;', 'import static org.mockito.Mockito.anyIterableOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAnyOfAny;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>

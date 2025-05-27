@@ -1,0 +1,120 @@
+Test File Path: projects/8c93b59dbc57841959f5237cb141ce0b3c18b778/retrofit/retrofit/src/test/java/retrofit2/OptionalConverterFactoryAndroidTest.java
+Original Test Method:
+   @Test public void optionalPreApi24() {
+    try {
+      service.optional();
+      fail();
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessage(
+          "Unable to create converter for java.util.Optional<java.lang.Object>\n"
+              + "    for method Service.optional");
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void optionalPreApi24() {
+    service.optional();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void optionalPreApi24() {
+    List<String> list = new ArrayList<>();
+    service.optional().forEach(list::add);
+    assertThat(list).containsExactlyInAnyOrder(service.optional().toArray(new String[0]));
+}
+
+
+import:
+
+['import org.assertj.core.api.Assertions;', 'import java.util.ArrayList;', 'import java.util.List;']
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void optionalPreApi24() {
+    List<String> list = new ArrayList<>();
+    service.optional().forEach(list::add);
+    assertThat(list).containsExactlyInAnyOrder(service.optional().toArray(new String[0]));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void optionalPreApi24() {
+        List<String> list = new ArrayList<>();
+        service.optional().forEach(list::add);
+        Assertions.assertThat(list).containsExactlyInAnyOrder(service.optional().toArray(new String[0]));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.22.0</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void optionalPreApi24() {
+        List<String> list = new ArrayList<>();
+        service.optional().forEach(list::add);
+        Assertions.assertThat(list).containsExactlyInAnyOrder(service.optional().toArray(new String[0]));
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None

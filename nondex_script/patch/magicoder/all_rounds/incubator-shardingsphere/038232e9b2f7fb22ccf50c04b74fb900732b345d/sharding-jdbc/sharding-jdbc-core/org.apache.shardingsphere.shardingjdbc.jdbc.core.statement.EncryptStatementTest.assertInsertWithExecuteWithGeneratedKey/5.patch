@@ -1,0 +1,141 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptStatementTest.java
+Original Test Method:
+     public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+        try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+            statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            assertTrue(resultSet.next());
+            assertThat(resultSet.getInt(1), is(6));
+            assertFalse(resultSet.next());
+        }
+        assertResultSet(3, 6, "encryptValue", "b");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+        statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 6, "encryptValue", "b");
+}
+
+
+import:
+
+['import static org.junit.Assert.*;', 'import java.sql.*;', 'import org.hamcrest.Matchers;']
+
+pom:
+
+<!-- Add your dependencies here -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+        statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 6, "encryptValue", "b");
+}
+
+
+import:
+
+['import com.google.gson.JsonParser;', 'import com.google.gson.JsonElement;', 'import com.google.gson.JsonArray;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+        statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 6, "encryptValue", "b");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+        statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 6, "encryptValue", "b");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+        statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 6, "encryptValue", "b");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

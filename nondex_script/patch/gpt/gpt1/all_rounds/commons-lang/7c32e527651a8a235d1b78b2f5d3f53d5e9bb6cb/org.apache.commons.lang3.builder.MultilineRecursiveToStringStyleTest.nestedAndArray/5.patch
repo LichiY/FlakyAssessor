@@ -1,0 +1,232 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/MultilineRecursiveToStringStyleTest.java
+Original Test Method:
+     public void nestedAndArray() {
+        final Account acc = new Account();
+        final Transaction tx1 = new Transaction("2014.10.14", 100);
+        final Transaction tx2 = new Transaction("2014.10.15", 50);
+        acc.transactions.add(tx1);
+        acc.transactions.add(tx2);
+        final String expected = getClassPrefix(acc) + "[" + BR
+                        + "  owner=<null>," + BR
+                        + "  transactions=" + getClassPrefix(acc.transactions) + "{" + BR
+                        + "    " + getClassPrefix(tx1) + "[" + BR
+                        + "      amount=100.0," + BR
+                        + "      date=2014.10.14" + BR
+                        + "    ]," + BR
+                        + "    " + getClassPrefix(tx2) + "[" + BR
+                        + "      amount=50.0," + BR
+                        + "      date=2014.10.15" + BR
+                        + "    ]" + BR
+                        + "  }" + BR
+                        + "]";
+        assertEquals(expected, toString(acc));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void nestedAndArray() {
+    final Account acc = new Account();
+    final Transaction tx1 = new Transaction("2014.10.14", 100);
+    final Transaction tx2 = new Transaction("2014.10.15", 50);
+    acc.transactions = new LinkedHashSet<>();
+    acc.transactions.add(tx1);
+    acc.transactions.add(tx2);
+    final String actual = toString(acc);
+    
+    // Verify owner is present
+    assertTrue(actual.contains("owner=<null>"));
+    
+    // Verify transactions container
+    assertTrue(actual.contains("transactions=" + getClassPrefix(acc.transactions)));
+    
+    // Verify transaction 1
+    assertTrue(actual.contains("amount=100.0"));
+    assertTrue(actual.contains("date=2014.10.14"));
+    
+    // Verify transaction 2
+    assertTrue(actual.contains("amount=50.0"));
+    assertTrue(actual.contains("date=2014.10.15"));
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void nestedAndArray() {
+    final Account acc = new Account();
+    final Transaction tx1 = new Transaction("2014.10.14", 100);
+    final Transaction tx2 = new Transaction("2014.10.15", 50);
+    acc.transactions = new LinkedHashSet<>();
+    acc.transactions.add(tx1);
+    acc.transactions.add(tx2);
+    final String actual = toString(acc);
+    
+    // Verify owner is present
+    org.junit.Assert.assertTrue(actual.contains("owner=<null>"));
+    
+    // Verify transactions container
+    org.junit.Assert.assertTrue(actual.contains("transactions=" + getClassPrefix(acc.transactions)));
+    
+    // Verify transaction 1
+    org.junit.Assert.assertTrue(actual.contains("amount=100.0") || actual.contains("amount=50.0"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.14") || actual.contains("date=2014.10.15"));
+    
+    // Verify transaction 2
+    org.junit.Assert.assertTrue(actual.contains("amount=100.0") || actual.contains("amount=50.0"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.14") || actual.contains("date=2014.10.15"));
+}
+
+
+import:
+
+['import org.junit.Assert;']
+
+pom:
+
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void nestedAndArray() {
+    final Account acc = new Account();
+    final Transaction tx1 = new Transaction("2014.10.14", 100);
+    final Transaction tx2 = new Transaction("2014.10.15", 50);
+    acc.transactions = new LinkedHashSet<>();
+    acc.transactions.add(tx1);
+    acc.transactions.add(tx2);
+    final String actual = toString(acc);
+    
+    // Verify owner is present
+    org.junit.Assert.assertTrue(actual.contains("owner=<null>"));
+    
+    // Verify transactions container
+    org.junit.Assert.assertTrue(actual.contains("transactions=" + getClassPrefix(acc.transactions)));
+    
+    // Verify transactions using more robust assertions
+    org.junit.Assert.assertTrue(actual.contains("amount=100.0"));
+    org.junit.Assert.assertTrue(actual.contains("amount=50.0"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.14"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.15"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void nestedAndArray() {
+    final Account acc = new Account();
+    final Transaction tx1 = new Transaction("2014.10.14", 100);
+    final Transaction tx2 = new Transaction("2014.10.15", 50);
+    acc.transactions = new LinkedHashSet<>();
+    acc.transactions.add(tx1);
+    acc.transactions.add(tx2);
+    final String actual = toString(acc);
+    
+    // Verify owner is present
+    org.junit.Assert.assertTrue(actual.contains("owner=<null>"));
+    
+    // Verify transactions container
+    org.junit.Assert.assertTrue(actual.contains("transactions=" + getClassPrefix(acc.transactions)));
+    
+    // Verify transactions content without order dependency
+    org.junit.Assert.assertTrue(actual.contains("amount=100.0") || actual.contains("amount=50.0"));
+    org.junit.Assert.assertTrue(actual.contains("amount=100.0") || actual.contains("amount=50.0"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.14") || actual.contains("date=2014.10.15"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.14") || actual.contains("date=2014.10.15"));
+}
+
+
+import:
+
+['import org.junit.jupiter.api.Assertions;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void nestedAndArray() {
+    final Account acc = new Account();
+    final Transaction tx1 = new Transaction("2014.10.14", 100);
+    final Transaction tx2 = new Transaction("2014.10.15", 50);
+    acc.transactions = new LinkedHashSet<>();
+    acc.transactions.add(tx1);
+    acc.transactions.add(tx2);
+    final String actual = toString(acc);
+    
+    // Verify owner is present
+    org.junit.Assert.assertTrue(actual.contains("owner=<null>"));
+    
+    // Verify transactions container
+    org.junit.Assert.assertTrue(actual.contains("transactions=" + getClassPrefix(acc.transactions)));
+    
+    // Verify transactions content without order dependency
+    org.junit.Assert.assertTrue(actual.contains("amount=100.0"));
+    org.junit.Assert.assertTrue(actual.contains("amount=50.0"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.14"));
+    org.junit.Assert.assertTrue(actual.contains("date=2014.10.15"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+

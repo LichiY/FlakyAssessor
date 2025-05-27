@@ -1,0 +1,155 @@
+Test File Path: projects/8c93b59dbc57841959f5237cb141ce0b3c18b778/retrofit/retrofit/src/test/java/retrofit2/OptionalConverterFactoryAndroidTest.java
+Original Test Method:
+   @Test public void optionalApi24() throws IOException {
+    server.enqueue(new MockResponse());
+
+    Optional<Object> optional = service.optional().execute().body();
+    assertThat(optional).isNotNull();
+    assertThat(optional.get()).isSameAs(ObjectInstanceConverterFactory.VALUE);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void optionalApi24() throws IOException {
+    server.enqueue(new MockResponse());
+
+    Optional<Object> optional = service.optional().execute().body();
+    assertThat(optional).isNotNull();
+    assertThat(optional.get()).isSameAs(ObjectInstanceConverterFactory.VALUE);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void optionalApi24() throws IOException {
+    server.enqueue(new MockResponse());
+
+    Optional<Object> optional = service.optional().execute().body();
+    assertThat(optional).isNotNull();
+    assertThat(optional.get()).isSameAs(ObjectInstanceConverterFactory.VALUE);
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.Arrays;', 'import java.util.List;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void optionalApi24() {
+    // Setup
+    final String expected = "expected";
+    final String actual = "actual";
+
+    // Run the test
+    final String result = actual;
+
+    // Verify the results
+    assertEquals(expected, result);
+}
+
+
+import:
+
+['import static org.junit.Assert.*;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+@Test public void optionalApi24() throws IOException {
+    // Setup
+    final String expected = "expected";
+    final String actual = "actual";
+
+    // Run the test
+    final String result = actual;
+
+    // Verify the results
+    assertEquals(expected, result);
+}
+
+
+import:
+
+['import static org.junit.Assert.*;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+

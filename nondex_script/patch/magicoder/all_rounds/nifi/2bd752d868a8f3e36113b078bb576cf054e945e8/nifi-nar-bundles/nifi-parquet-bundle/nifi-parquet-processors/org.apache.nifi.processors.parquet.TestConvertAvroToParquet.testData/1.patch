@@ -1,0 +1,77 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-parquet-bundle/nifi-parquet-processors/src/test/java/org/apache/nifi/processors/parquet/TestConvertAvroToParquet.java
+Original Test Method:
+     public void testData() throws Exception {
+        FileInputStream fileInputStream = new FileInputStream(tmpAvro);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int readedBytes;
+        byte[] buf = new byte[1024];
+        while ((readedBytes = fileInputStream.read(buf)) > 0) {
+            out.write(buf, 0, readedBytes);
+        }
+        out.close();
+
+        Map<String, String> attributes = Collections.singletonMap(CoreAttributes.FILENAME.key(), "test.avro");
+        runner.enqueue(out.toByteArray(), attributes);
+        runner.run();
+        MockFlowFile resultFlowFile = runner.getFlowFilesForRelationship(ConvertAvroToParquet.SUCCESS).get(0);
+
+        byte[] resultContents = runner.getContentAsByteArray(resultFlowFile);
+        FileOutputStream fos = new FileOutputStream(tmpParquet);
+        fos.write(resultContents);
+        fos.flush();
+        fos.close();
+
+        Configuration conf = new Configuration();
+        ParquetReader<Group> reader = ParquetReader.builder(new GroupReadSupport(), new Path(tmpParquet.getAbsolutePath()))
+                        .withConf(conf)
+                        .build();
+
+        List<Group> parquetRecords = new ArrayList<>();
+
+        Group current;
+        current = reader.read();
+        while (current != null) {
+            parquetRecords.add(current);
+            current = reader.read();
+        }
+
+        Group firstRecord = parquetRecords.get(0);
+
+        // Primitive
+        assertEquals(firstRecord.getInteger("myint", 0), 1);
+        assertEquals(firstRecord.getLong("mylong", 0), 2);
+        assertTrue(firstRecord.getBoolean("myboolean", 0));
+        assertEquals(firstRecord.getFloat("myfloat", 0), 3.1, 0.0001);
+        assertEquals(firstRecord.getDouble("mydouble", 0), 4.1, 0.001);
+        assertEquals(firstRecord.getString("mybytes", 0), "hello");
+        assertEquals(firstRecord.getString("mystring", 0), "hello");
+
+        // Nested
+        assertEquals(firstRecord.getGroup("mynestedrecord",0).getInteger("mynestedint",0), 1);
+
+        // Array
+        assertEquals(firstRecord.getGroup("myarray",0).getGroup("list",0).getInteger("element", 0), 1);
+        assertEquals(firstRecord.getGroup("myarray",0).getGroup("list",1).getInteger("element", 0), 2);
+
+        // Map
+        assertEquals(firstRecord.getGroup("mymap",0).getGroup("key_value",0).getInteger("value", 0), 1);
+        assertEquals(firstRecord.getGroup("mymap",0).getGroup("key_value",1).getInteger("value", 0), 2);
+
+        // Fixed
+        assertEquals(firstRecord.getString("myfixed",0), "A");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.avro.generic.GenericArray;', 'import org.apache.avro.generic.GenericFixed;', 'import org.apache.avro.generic.GenericEnumSymbol;', 'import org.apache.avro.generic.GenericUnion;', 'import org.apache.avro.generic.GenericData.Record;', 'import org.apache.avro.generic.GenericData.Array;', 'import org.apache.avro.generic.GenericData.Fixed;', 'import org.apache.avro.generic.GenericData.EnumSymbol;', 'import org.apache.avro.generic.GenericData.Union;', 'import org.apache.avro.generic.GenericData.Field;', 'import org.apache.avro.generic.GenericData.Value;', 'import org.apache.avro.generic.GenericData.RecordBuilder;', 'import org.apache.avro.generic.GenericData.ArrayBuilder;', 'import org.apache.avro.generic.GenericData.FixedBuilder;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilder;', 'import org.apache.avro.generic.GenericData.UnionBuilder;', 'import org.apache.avro.generic.GenericData.FieldBuilder;', 'import org.apache.avro.generic.GenericData.ValueBuilder;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.EnumSymbolBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.UnionBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FieldBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ValueBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.RecordBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.ArrayBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;', 'import org.apache.avro.generic.GenericData.FixedBuilderFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactoryFactory;']
+
+pom:
+
+None

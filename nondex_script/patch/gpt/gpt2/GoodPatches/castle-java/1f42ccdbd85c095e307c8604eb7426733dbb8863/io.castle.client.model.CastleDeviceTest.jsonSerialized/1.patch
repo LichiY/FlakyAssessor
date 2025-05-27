@@ -1,0 +1,51 @@
+Test File Path: projects/1f42ccdbd85c095e307c8604eb7426733dbb8863/castle-java/src/test/java/io/castle/client/model/CastleDeviceTest.java
+Original Test Method:
+     public void jsonSerialized() {
+        // Given
+        CastleDevice device = new CastleDevice();
+        device.setId("d_id");
+        device.setName("d_name");
+        device.setType("d_type");
+        device.setManufacturer("d_manufacturer");
+        device.setModel("d_model");
+
+        // When
+        String payloadJson = model.getGson().toJson(device);
+
+        // Then
+        Assertions.assertThat(payloadJson).isEqualTo("{\"id\":\"d_id\",\"manufacturer\":\"d_manufacturer\",\"model\":\"d_model\",\"name\":\"d_name\",\"type\":\"d_type\"}");
+    }
+Patch:
+
+test_code:
+public void jsonSerialized() {
+    // Given
+    CastleDevice device = new CastleDevice();
+    device.setId("d_id");
+    device.setName("d_name");
+    device.setType("d_type");
+    device.setManufacturer("d_manufacturer");
+    device.setModel("d_model");
+
+    // When
+    String payloadJson = model.getGson().toJson(device);
+    DocumentContext jsonContext = JsonPath.parse(payloadJson);
+
+    // Then
+    Assertions.assertThat(jsonContext.read("$.id", String.class)).isEqualTo("d_id");
+    Assertions.assertThat(jsonContext.read("$.name", String.class)).isEqualTo("d_name");
+    Assertions.assertThat(jsonContext.read("$.type", String.class)).isEqualTo("d_type");
+    Assertions.assertThat(jsonContext.read("$.manufacturer", String.class)).isEqualTo("d_manufacturer");
+    Assertions.assertThat(jsonContext.read("$.model", String.class)).isEqualTo("d_model");
+}
+
+import:
+['import com.jayway.jsonpath.JsonPath;', 'import com.jayway.jsonpath.DocumentContext;']
+pom:
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>

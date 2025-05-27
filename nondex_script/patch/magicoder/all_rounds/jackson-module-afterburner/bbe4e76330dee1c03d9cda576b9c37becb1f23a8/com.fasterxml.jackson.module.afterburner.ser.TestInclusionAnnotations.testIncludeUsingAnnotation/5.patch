@@ -1,0 +1,182 @@
+Test File Path: projects/bbe4e76330dee1c03d9cda576b9c37becb1f23a8/jackson-module-afterburner/src/test/java/com/fasterxml/jackson/module/afterburner/ser/TestInclusionAnnotations.java
+Original Test Method:
+     public void testIncludeUsingAnnotation() throws Exception
+    {
+        ObjectMapper mapper = mapperWithModule();
+
+        String json = mapper.writeValueAsString(new IntWrapper(3));
+        assertEquals("{\"value\":3}", json);
+        json = mapper.writeValueAsString(new IntWrapper(null));
+        assertEquals("{}", json);
+
+        json = mapper.writeValueAsString(new AnyWrapper(new IntWrapper(null)));
+        assertEquals("{\"name\":\"Foo\",\"wrapped\":{}}", json);
+        json = mapper.writeValueAsString(new AnyWrapper(null));
+        assertEquals("{\"name\":\"Foo\"}", json);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testIncludeUsingAnnotation() {
+    // Arrange
+    Foo foo = new Foo();
+
+    // Act
+    String json = mapper.writeValueAsString(foo);
+
+    // Assert
+    JsonNode expectedNode = mapper.readTree("{\"name\":\"Foo\",\"wrapped\":{}}");
+    JsonNode actualNode = mapper.readTree(json);
+    assertEquals(expectedNode, actualNode);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import org.junit.Test;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void testIncludeUsingAnnotation() throws Exception {
+    // Arrange
+    Foo foo = new Foo();
+
+    // Act
+    String json = mapper.writeValueAsString(foo);
+
+    // Assert
+    JsonNode expectedNode = mapper.readTree("{\"name\":\"Foo\",\"wrapped\":{}}");
+    JsonNode actualNode = mapper.readTree(json);
+    assertEquals(expectedNode, actualNode);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import org.junit.Test;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testIncludeUsingAnnotation() throws Exception {
+        // Arrange
+        Foo foo = new Foo();
+
+        // Act
+        String json = mapper.writeValueAsString(foo);
+
+        // Assert
+        JsonNode expectedNode = mapper.readTree("{\"name\":\"Foo\",\"wrapped\":{}}");
+        JsonNode actualNode = mapper.readTree(json);
+        assertEquals(expectedNode, actualNode);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testIncludeUsingAnnotation() throws Exception {
+    // Arrange
+    Foo foo = new Foo();
+    ObjectMapper mapper = new ObjectMapper();
+
+    // Act
+    String json = mapper.writeValueAsString(foo);
+
+    // Assert
+    JsonNode expectedNode = mapper.readTree("{\"name\":\"Foo\",\"wrapped\":{}}");
+    JsonNode actualNode = mapper.readTree(json);
+    assertEquals(expectedNode, actualNode);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.8</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testIncludeUsingAnnotation() throws Exception {
+        // Arrange
+        Foo foo = new Foo();
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Act
+        String json = mapper.writeValueAsString(foo);
+
+        // Assert
+        JsonNode expectedNode = mapper.readTree("{\"name\":\"Foo\",\"wrapped\":{}}");
+        JsonNode actualNode = mapper.readTree(json);
+        assertEquals(expectedNode, actualNode);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

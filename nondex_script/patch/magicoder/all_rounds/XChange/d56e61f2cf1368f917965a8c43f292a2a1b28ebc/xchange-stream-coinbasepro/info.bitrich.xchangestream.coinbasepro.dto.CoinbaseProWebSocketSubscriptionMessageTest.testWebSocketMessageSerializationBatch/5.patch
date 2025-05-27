@@ -1,0 +1,222 @@
+Test File Path: projects/d56e61f2cf1368f917965a8c43f292a2a1b28ebc/XChange/xchange-stream-coinbasepro/src/test/java/info/bitrich/xchangestream/coinbasepro/dto/CoinbaseProWebSocketSubscriptionMessageTest.java
+Original Test Method:
+   public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+
+    ProductSubscription productSubscription =
+            ProductSubscription.create()
+                    .addOrderbook(CurrencyPair.BTC_USD)
+                    .addTrades(CurrencyPair.BTC_USD)
+                    .addTicker(CurrencyPair.BTC_USD)
+                    .build();
+    CoinbaseProWebSocketSubscriptionMessage message =
+            new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, CoinbaseProOrderBookMode.Batch, null);
+
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+    String serialized = mapper.writeValueAsString(message);
+
+    Assert.assertEquals(
+            "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
+            serialized);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+
+    ProductSubscription productSubscription =
+            ProductSubscription.create()
+                    .addOrderbook(CurrencyPair.BTC_USD)
+                    .addTrades(CurrencyPair.BTC_USD)
+                    .addTicker(CurrencyPair.BTC_USD)
+                    .build();
+    CoinbaseProWebSocketSubscriptionMessage message =
+            new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, CoinbaseProOrderBookMode.Batch, null);
+
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+    String serialized = mapper.writeValueAsString(message);
+
+    Assert.assertEquals(
+            "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
+            serialized);
+  }
+
+
+import:
+
+[]
+
+pom:
+
+<!-- Add your dependencies here -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+
+    ProductSubscription productSubscription =
+            ProductSubscription.create()
+                    .addOrderbook(CurrencyPair.BTC_USD)
+                    .addTrades(CurrencyPair.BTC_USD)
+                    .addTicker(CurrencyPair.BTC_USD)
+                    .build();
+    CoinbaseProWebSocketSubscriptionMessage message =
+            new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, CoinbaseProOrderBookMode.Batch, null);
+
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+    String serialized = mapper.writeValueAsString(message);
+
+    Assert.assertEquals(
+            "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
+            serialized);
+  }
+
+
+import:
+
+['import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProOrderBookMode;', 'import org.knowm.xchange.coinbasepro.dto.marketdata.CoinbaseProWebSocketSubscriptionMessage;']
+
+pom:
+
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+    <dependency>
+        <groupId>org.knowm.xchange</groupId>
+        <artifactId>xchange-coinbasepro</artifactId>
+        <version>3.2.0</version>
+    </dependency>
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+
+    ProductSubscription productSubscription =
+            ProductSubscription.create()
+                    .addOrderbook(CurrencyPair.BTC_USD)
+                    .addTrades(CurrencyPair.BTC_USD)
+                    .addTicker(CurrencyPair.BTC_USD)
+                    .build();
+    CoinbaseProWebSocketSubscriptionMessage message =
+            new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, CoinbaseProOrderBookMode.Batch, null);
+
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+    String serialized = mapper.writeValueAsString(message);
+
+    Assert.assertEquals(
+            "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
+            serialized);
+  }
+
+
+import:
+
+[]
+
+pom:
+
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+
+    ProductSubscription productSubscription =
+            ProductSubscription.create()
+                    .addOrderbook(CurrencyPair.BTC_USD)
+                    .addTrades(CurrencyPair.BTC_USD)
+                    .addTicker(CurrencyPair.BTC_USD)
+                    .build();
+    CoinbaseProWebSocketSubscriptionMessage message =
+            new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, CoinbaseProOrderBookMode.Batch, null);
+
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+    String serialized = mapper.writeValueAsString(message);
+
+    Assert.assertEquals(
+            "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
+            serialized);
+  }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.knowm.xchange</groupId>
+    <artifactId>xchange-coinbasepro</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testWebSocketMessageSerializationBatch() throws JsonProcessingException {
+
+    ProductSubscription productSubscription =
+            ProductSubscription.create()
+                    .addOrderbook(CurrencyPair.BTC_USD)
+                    .addTrades(CurrencyPair.BTC_USD)
+                    .addTicker(CurrencyPair.BTC_USD)
+                    .build();
+    CoinbaseProWebSocketSubscriptionMessage message =
+            new CoinbaseProWebSocketSubscriptionMessage("subscribe", productSubscription, CoinbaseProOrderBookMode.Batch, null);
+
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+    String serialized = mapper.writeValueAsString(message);
+
+    Assert.assertEquals(
+            "{\"type\":\"subscribe\",\"channels\":[{\"name\":\"matches\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"level2_batch\",\"product_ids\":[\"BTC-USD\"]},{\"name\":\"ticker\",\"product_ids\":[\"BTC-USD\"]}]}",
+            serialized);
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None

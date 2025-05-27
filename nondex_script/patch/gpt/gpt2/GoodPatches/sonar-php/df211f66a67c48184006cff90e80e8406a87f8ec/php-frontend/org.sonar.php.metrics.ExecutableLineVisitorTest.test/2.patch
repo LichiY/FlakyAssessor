@@ -1,0 +1,28 @@
+Test File Path: projects/df211f66a67c48184006cff90e80e8406a87f8ec/sonar-php/php-frontend/src/test/java/org/sonar/php/metrics/ExecutableLineVisitorTest.java
+Original Test Method:
+   public void test() throws Exception {
+    String filename = "metrics/executable_lines.php";
+    PhpFile file = FileTestUtils.getFile(new File("src/test/resources/"+filename));
+    Set<Integer> executableLines = new ExecutableLineVisitor(parse(filename)).getExecutableLines();
+    assertThat(executableLines).containsExactlyElementsOf(expectedExecutableLines(file));
+  }
+Patch:
+
+test_code:
+public void test() throws Exception {
+    String filename = "metrics/executable_lines.php";
+    PhpFile file = FileTestUtils.getFile(new File("src/test/resources/"+filename));
+    Set<Integer> executableLines = new ExecutableLineVisitor(parse(filename)).getExecutableLines();
+    assertThat(executableLines).containsExactlyInAnyOrder(expectedExecutableLines(file).toArray(new Integer[0]));
+}
+
+import:
+[]
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>

@@ -1,0 +1,115 @@
+Test File Path: projects/5f1d93f977b3702b63c72d7e07af7dc820a2fc70/nifi/nifi-nar-bundles/nifi-standard-services/nifi-record-serialization-services-bundle/nifi-record-serialization-services/src/test/java/org/apache/nifi/json/TestJsonTreeRowRecordReader.java
+Original Test Method:
+     void testReadRawRecordFieldOrderPreserved() throws IOException, MalformedRecordException {
+        final List<RecordField> fields = new ArrayList<>();
+        fields.add(new RecordField("id", RecordFieldType.INT.getDataType()));
+        final RecordSchema schema = new SimpleRecordSchema(fields);
+
+        final String expectedMap = "{id=1, name=John Doe, address=123 My Street, city=My City, state=MS, zipCode=11111, country=USA, account=MapRecord[{balance=4750.89, id=42}]}";
+        final String expectedRecord = String.format("MapRecord[%s]", expectedMap);
+        try (final InputStream in = new FileInputStream("src/test/resources/json/single-element-nested.json");
+             final JsonTreeRowRecordReader reader = new JsonTreeRowRecordReader(in, mock(ComponentLog.class), schema, dateFormat, timeFormat, timestampFormat)) {
+
+            final Record rawRecord = reader.nextRecord(false, false);
+
+            assertEquals(expectedRecord, rawRecord.toString());
+
+            final Map<String, Object> map = rawRecord.toMap();
+            assertEquals(expectedMap, map.toString());
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+void testReadRawRecordFieldOrderPreserved() throws IOException, MalformedRecordException {
+    final List<RecordField> fields = new ArrayList<>();
+    fields.add(new RecordField("id", RecordFieldType.INT.getDataType()));
+    final RecordSchema schema = new SimpleRecordSchema(fields);
+
+    try (final InputStream in = new FileInputStream("src/test/resources/json/single-element-nested.json");
+         final JsonTreeRowRecordReader reader = new JsonTreeRowRecordReader(in, mock(ComponentLog.class), schema, dateFormat, timeFormat, timestampFormat)) {
+
+        final Record rawRecord = reader.nextRecord(false, false);
+        final Map<String, Object> map = rawRecord.toMap();
+
+        // Verify account sub-map separately
+        @SuppressWarnings("unchecked")
+        final Map<String, Object> accountMap = (Map<String, Object>) map.get("account");
+        assertEquals(42, accountMap.get("id"));
+        assertEquals(4750.89, accountMap.get("balance"));
+
+        // Remove account from main map for comparison
+        map.remove("account");
+        assertEquals("{id=1, name=John Doe, address=123 My Street, city=My City, state=MS, zipCode=11111, country=USA}", map.toString());
+    }
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;', 'import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+void testReadRawRecordFieldOrderPreserved() throws IOException, MalformedRecordException {
+    final List<RecordField> fields = new ArrayList<>();
+    fields.add(new RecordField("id", RecordFieldType.INT.getDataType()));
+    final RecordSchema schema = new SimpleRecordSchema(fields);
+
+    try (final InputStream in = new FileInputStream("src/test/resources/json/single-element-nested.json");
+         final JsonTreeRowRecordReader reader = new JsonTreeRowRecordReader(in, mock(ComponentLog.class), schema, dateFormat, timeFormat, timestampFormat)) {
+
+        final Record rawRecord = reader.nextRecord(false, false);
+        final Map<String, Object> map = new LinkedHashMap<>(rawRecord.toMap());
+
+        // Verify account sub-map separately
+        final Record accountRecord = (Record) map.get("account");
+        assertEquals(42, accountRecord.getAsInt("id"));
+        assertEquals(4750.89, accountRecord.getAsDouble("balance"));
+
+        // Remove account from main map for comparison
+        map.remove("account");
+        final Map<String, Object> expected = new LinkedHashMap<>();
+        expected.put("id", 1);
+        expected.put("name", "John Doe");
+        expected.put("address", "123 My Street");
+        expected.put("city", "My City");
+        expected.put("state", "MS");
+        expected.put("zipCode", "11111");
+        expected.put("country", "USA");
+        assertEquals(expected, map);
+    }
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;', 'import org.assertj.core.api.Assertions;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+

@@ -1,0 +1,124 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/contentpacks/model/entities/references/ValueReferenceTest.java
+Original Test Method:
+     public void serializeInteger() throws IOException {
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(1))).isEqualTo("{\"@type\":\"integer\",\"@value\":1}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(42))).isEqualTo("{\"@type\":\"integer\",\"@value\":42}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void serializeInteger() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new ValueReferenceModule());
+
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(1))).isEqualTo("{\"@type\":\"integer\",\"@value\":1}");
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(42))).isEqualTo("{\"@type\":\"integer\",\"@value\":42}");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void serializeInteger() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new ValueReferenceModule());
+
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(1))).isEqualTo("{\"@type\":\"integer\",\"@value\":1}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(42))).isEqualTo("{\"@type\":\"integer\",\"@value\":42}");
+    }
+
+
+import:
+
+['import org.graylog2.contentpacks.model.entities.references.ValueReference;', 'import org.graylog2.contentpacks.model.entities.references.ValueReferenceModule;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void serializeInteger() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new ValueReferenceModule());
+
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(1))).isEqualTo("{\"@type\":\"integer\",\"@value\":1}");
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(42))).isEqualTo("{\"@type\":\"integer\",\"@value\":42}");
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.graylog2</groupId>
+    <artifactId>contentpacks-model</artifactId>
+    <version>1.2.3</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void serializeInteger() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Assertions.assertThat(objectMapper.writeValueAsString(1)).isEqualTo("1");
+        Assertions.assertThat(objectMapper.writeValueAsString(42)).isEqualTo("42");
+    }
+
+
+import:
+
+['import org.assertj.core.api.Assertions;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void serializeInteger() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Assertions.assertThat(objectMapper.writeValueAsString(1)).isEqualTo("1");
+        Assertions.assertThat(objectMapper.writeValueAsString(42)).isEqualTo("42");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

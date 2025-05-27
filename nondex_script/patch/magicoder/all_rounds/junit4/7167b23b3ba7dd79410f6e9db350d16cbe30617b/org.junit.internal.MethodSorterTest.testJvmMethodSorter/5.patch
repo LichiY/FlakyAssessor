@@ -1,0 +1,116 @@
+Test File Path: projects/7167b23b3ba7dd79410f6e9db350d16cbe30617b/junit4/src/test/java/org/junit/internal/MethodSorterTest.java
+Original Test Method:
+     public void testJvmMethodSorter() {
+        Method[] fromJvmWithSynthetics = DummySortJvm.class.getDeclaredMethods();
+        Method[] sorted = MethodSorter.getDeclaredMethods(DummySortJvm.class);
+        assertArrayEquals(fromJvmWithSynthetics, sorted);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testJvmMethodSorter() {
+        Method[] fromJvmWithSynthetics = DummySortJvm.class.getDeclaredMethods();
+        Method[] sorted = MethodSorter.getDeclaredMethods(DummySortJvm.class);
+        assertArrayEquals(fromJvmWithSynthetics, sorted);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testJvmMethodSorter() {
+    Method[] fromJvmWithSynthetics = DummySortJvm.class.getDeclaredMethods();
+    Method[] sorted = MethodSorter.getDeclaredMethods(DummySortJvm.class);
+    assertArrayEquals(fromJvmWithSynthetics, sorted);
+}
+
+
+import:
+
+['import org.junit.internal.MethodSorter;']
+
+pom:
+
+<dependency>
+    <groupId>org.junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testJvmMethodSorter() {
+    Method[] fromJvmWithSynthetics = DummySortJvm.class.getDeclaredMethods();
+    Method[] sorted = MethodSorter.getDeclaredMethods(DummySortJvm.class);
+    assertArrayEquals(fromJvmWithSynthetics, sorted);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testJvmMethodSorter() {
+    Method[] fromJvmWithSynthetics = DummySortJvm.class.getDeclaredMethods();
+    Method[] sorted = MethodSorter.getDeclaredMethods(DummySortJvm.class);
+    assertArrayEquals(fromJvmWithSynthetics, sorted);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testJvmMethodSorter() {
+    Method[] fromJvmWithSynthetics = DummySortJvm.class.getDeclaredMethods();
+    Method[] sorted = MethodSorter.getDeclaredMethods(DummySortJvm.class);
+    assertTrue(Arrays.equals(fromJvmWithSynthetics, sorted));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,148 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/issue_1100/Issue1177_2.java
+Original Test Method:
+     public void test_for_issue() throws Exception {
+        String text = "{\"a\":{\"x\":\"y\"},\"b\":{\"x\":\"y\"}}";
+        Map<String, Model> jsonObject = JSONObject.parseObject(text, new TypeReference<Map<String, Model>>(){});
+        System.out.println(JSON.toJSONString(jsonObject));
+        String jsonpath = "$..x";
+        String value="y2";
+        JSONPath.set(jsonObject, jsonpath, value);
+        assertEquals("{\"a\":{\"x\":\"y2\"},\"b\":{\"x\":\"y2\"}}", JSON.toJSONString(jsonObject));
+
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        String text = "{\"a\":{\"x\":\"y\"},\"b\":{\"x\":\"y\"}}";
+        Map<String, Model> jsonObject = JSONObject.parseObject(text, new TypeReference<Map<String, Model>>(){});
+        System.out.println(JSON.toJSONString(jsonObject));
+        String jsonpath = "$..x";
+        String value="y2";
+        JsonPath.set(jsonObject, jsonpath, value);
+        assertEquals("{\"a\":{\"x\":\"y2\"},\"b\":{\"x\":\"y2\"}}", JSON.toJSONString(jsonObject));
+    }
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;', 'import org.junit.Test;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        String text = "{\"a\":{\"x\":\"y\"},\"b\":{\"x\":\"y\"}}";
+        Map<String, Model> jsonObject = JSONObject.parseObject(text, new TypeReference<Map<String, Model>>(){});
+        System.out.println(JSON.toJSONString(jsonObject));
+        String jsonpath = "$..x";
+        String value="y2";
+        JsonPath.set(jsonObject, jsonpath, value);
+        assertEquals("{\"a\":{\"x\":\"y2\"},\"b\":{\"x\":\"y2\"}}", JSON.toJSONString(jsonObject));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.4.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        String text = "{\"a\":{\"x\":\"y\"},\"b\":{\"x\":\"y\"}}";
+        Map<String, Model> jsonObject = JSONObject.parseObject(text, new TypeReference<Map<String, Model>>(){});
+        System.out.println(JSON.toJSONString(jsonObject));
+        String jsonpath = "$..x";
+        String value="y2";
+        JsonPath.set(new LinkedHashMap<>(jsonObject), jsonpath, value);
+        assertEquals("{\"a\":{\"x\":\"y2\"},\"b\":{\"x\":\"y2\"}}", JSON.toJSONString(jsonObject));
+    }
+
+
+import:
+
+['import java.util.LinkedHashMap;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue() throws Exception {
+    String text = "{\"a\":{\"x\":\"y\"},\"b\":{\"x\":\"y\"}}";
+    Map<String, Model> jsonObject = JSONObject.parseObject(text, new TypeReference<Map<String, Model>>(){});
+    System.out.println(JSON.toJSONString(jsonObject));
+    String jsonpath = "$..x";
+    String value="y2";
+    JsonPath.set(new LinkedHashMap<>(jsonObject), jsonpath, value);
+    assertEquals("{\"a\":{\"x\":\"y2\"},\"b\":{\"x\":\"y2\"}}", JSON.toJSONString(jsonObject));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.76</version>
+    </dependency>
+    <dependency>
+        <groupId>com.jayway.jsonpath</groupId>
+        <artifactId>json-path</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        String text = "{\"a\":{\"x\":\"y\"},\"b\":{\"x\":\"y\"}}";
+        Map<String, Model> jsonObject = JSONObject.parseObject(text, new TypeReference<Map<String, Model>>(){});
+        System.out.println(JSON.toJSONString(jsonObject));
+        String jsonpath = "$..x";
+        String value="y2";
+        JsonPath.set(new LinkedHashMap<>(jsonObject), jsonpath, value);
+        String expected = "{\"a\":{\"x\":\"y2\"},\"b\":{\"x\":\"y2\"}}";
+        assertEquals(expected, JSON.toJSONString(jsonObject));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,169 @@
+Test File Path: projects/d2fa87606246e1f1dc1450d7199778343945197e/jenkins/test/src/test/java/lib/layout/IconTest.java
+Original Test Method:
+     public void testBallColorTd() throws Exception {
+        HtmlPage p = j.createWebClient().goTo("testBallColorTd");
+
+        DomElement ballColorAborted = p.getElementById("ballColorAborted");
+        List<DomElement> ballIcons = StreamSupport.stream(ballColorAborted.getChildElements().spliterator(), false).collect(Collectors.toList());
+        assertIconToSvgOkay(ballIcons.get(0).getFirstElementChild(), "icon-aborted icon-lg");
+
+        DomElement statusIcons = p.getElementById("statusIcons");
+        List<DomElement> statusIconsList = StreamSupport.stream(statusIcons.getChildElements().spliterator(), false).collect(Collectors.toList());
+
+        assertIconToImageOkay(statusIconsList.get(0).getFirstElementChild(), "/images/svgs/user.svg", "icon-user icon-xlg");
+
+        assertIconToImageOkay(statusIconsList.get(1).getFirstElementChild(), "/plugin/12345/icons/s2.png");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testBallColorTd() throws Exception {
+    HtmlPage p = j.createWebClient().goTo("testBallColorTd");
+
+    DomElement ballColorAborted = p.getElementById("ballColorAborted");
+    List<DomElement> ballIcons = StreamSupport.stream(ballColorAborted.getChildElements().spliterator(), false).collect(Collectors.toList());
+    assertIconToSvgOkay(ballIcons.get(0).getFirstElementChild(), "icon-aborted icon-lg");
+
+    DomElement statusIcons = p.getElementById("statusIcons");
+    List<DomElement> statusIconsList = StreamSupport.stream(statusIcons.getChildElements().spliterator(), false).collect(Collectors.toList());
+
+    assertIconToImageOkay(statusIconsList.get(0).getFirstElementChild(), "/images/svgs/user.svg", "icon-user icon-xlg");
+
+    assertIconToImageOkay(statusIconsList.get(1).getFirstElementChild(), "/plugin/12345/icons/s2.png");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testBallColorTd() throws Exception {
+    HtmlPage p = j.createWebClient().goTo("testBallColorTd");
+
+    DomElement ballColorAborted = p.getElementById("ballColorAborted");
+    List<DomElement> ballIcons = StreamSupport.stream(ballColorAborted.getChildElements().spliterator(), false).collect(Collectors.toList());
+    assertIconToSvgOkay(ballIcons.get(0).getFirstElementChild(), "icon-aborted icon-lg");
+
+    DomElement statusIcons = p.getElementById("statusIcons");
+    List<DomElement> statusIconsList = StreamSupport.stream(statusIcons.getChildElements().spliterator(), false).collect(Collectors.toList());
+
+    assertIconToImageOkay(statusIconsList.get(0).getFirstElementChild(), "/images/svgs/user.svg", "icon-user icon-xlg");
+
+    assertIconToImageOkay(statusIconsList.get(1).getFirstElementChild(), "/plugin/12345/icons/s2.png");
+}
+
+
+import:
+
+['import com.example.MyClass;', 'import com.example.MyOtherClass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testBallColorTd() throws Exception {
+    HtmlPage p = j.createWebClient().goTo("testBallColorTd");
+
+    DomElement ballColorAborted = p.getElementById("ballColorAborted");
+    List<DomElement> ballIcons = StreamSupport.stream(ballColorAborted.getChildElements().spliterator(), false).collect(Collectors.toList());
+    assertIconToSvgOkay(ballIcons.get(0).getFirstElementChild(), "icon-aborted icon-lg");
+
+    DomElement statusIcons = p.getElementById("statusIcons");
+    List<DomElement> statusIconsList = StreamSupport.stream(statusIcons.getChildElements().spliterator(), false).collect(Collectors.toList());
+
+    assertIconToImageOkay(statusIconsList.get(0).getFirstElementChild(), "/images/svgs/user.svg", "icon-user icon-xlg");
+
+    assertIconToImageOkay(statusIconsList.get(1).getFirstElementChild(), "/plugin/12345/icons/s2.png");
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- put your dependencies here -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testBallColorTd() throws Exception {
+    HtmlPage p = j.createWebClient().goTo("testBallColorTd");
+
+    DomElement ballColorAborted = p.getElementById("ballColorAborted");
+    List<DomElement> ballIcons = StreamSupport.stream(ballColorAborted.getChildElements().spliterator(), false).collect(Collectors.toList());
+    assertIconToSvgOkay(ballIcons.get(0).getFirstElementChild(), "icon-aborted icon-lg");
+
+    DomElement statusIcons = p.getElementById("statusIcons");
+    List<DomElement> statusIconsList = StreamSupport.stream(statusIcons.getChildElements().spliterator(), false).collect(Collectors.toList());
+
+    assertIconToImageOkay(statusIconsList.get(0).getFirstElementChild(), "/images/svgs/user.svg", "icon-user icon-xlg");
+
+    assertIconToImageOkay(statusIconsList.get(1).getFirstElementChild(), "/plugin/12345/icons/s2.png");
+}
+
+
+import:
+
+['import java.util.*;', 'import org.jsoup.nodes.*;', 'import java.util.stream.*;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testBallColorTd() throws Exception {
+    HtmlPage p = j.createWebClient().goTo("testBallColorTd");
+
+    DomElement ballColorAborted = p.getElementById("ballColorAborted");
+    List<DomElement> ballIcons = StreamSupport.stream(ballColorAborted.getChildElements().spliterator(), false).collect(Collectors.toList());
+    assertIconToSvgOkay(ballIcons.get(0).getFirstElementChild(), "icon-aborted icon-lg");
+
+    DomElement statusIcons = p.getElementById("statusIcons");
+    List<DomElement> statusIconsList = StreamSupport.stream(statusIcons.getChildElements().spliterator(), false).collect(Collectors.toList());
+
+    assertIconToImageOkay(statusIconsList.get(0).getFirstElementChild(), "/images/svgs/user.svg", "icon-user icon-xlg");
+
+    assertIconToImageOkay(statusIconsList.get(1).getFirstElementChild(), "/plugin/12345/icons/s2.png");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

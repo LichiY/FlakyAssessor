@@ -1,0 +1,146 @@
+Test File Path: projects/3fc2d100bb2081c3da1996508e1f1200cea21d2f/dubbo/dubbo-common/src/test/java/org/apache/dubbo/common/utils/AnnotationUtilsTest.java
+Original Test Method:
+     public void testGetAllDeclaredAnnotations() {
+        List<Annotation> annotations = getAllDeclaredAnnotations(A.class);
+        assertADeclaredAnnotations(annotations, 0);
+
+        annotations = getAllDeclaredAnnotations(B.class);
+        assertTrue(isSameType(annotations.get(0), Service5.class));
+        assertADeclaredAnnotations(annotations, 1);
+
+        annotations = new LinkedList<>(getAllDeclaredAnnotations(C.class));
+        assertTrue(isSameType(annotations.get(0), MyAdaptive.class));
+        assertTrue(isSameType(annotations.get(1), Service5.class));
+        assertADeclaredAnnotations(annotations, 2);
+
+        annotations = getAllDeclaredAnnotations(findMethod(A.class, "execute"));
+        MyAdaptive myAdaptive = (MyAdaptive) annotations.get(0);
+        assertArrayEquals(new String[]{"e"}, myAdaptive.value());
+
+        annotations = getAllDeclaredAnnotations(findMethod(B.class, "execute"));
+        Adaptive adaptive = (Adaptive) annotations.get(0);
+        assertArrayEquals(new String[]{"f"}, adaptive.value());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.dubbo.rpc.service.GenericService;', 'import java.util.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.dubbo</groupId>
+    <artifactId>dubbo-spring-boot-starter</artifactId>
+    <version>2.7.8</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetAllDeclaredAnnotations() {
+    // Assuming you have a method getAllDeclaredAnnotations() which returns a List<Annotation>
+    List<Annotation> annotations = getAllDeclaredAnnotations();
+
+    // Using LinkedHashSet to make sure the order of elements is deterministic
+    Set<Annotation> uniqueAnnotations = new LinkedHashSet<>(annotations);
+
+    // Using containsAll to check if all elements in the expected list are present in the actual list
+    assertTrue(uniqueAnnotations.containsAll(annotations));
+}
+
+
+import:
+
+['import java.util.Set;', 'import java.util.LinkedHashSet;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetAllDeclaredAnnotations() {
+    // Assuming you have a method getAllDeclaredAnnotations() which returns a List<Annotation>
+    List<Annotation> annotations = getAllDeclaredAnnotations();
+
+    // Using LinkedHashSet to make sure the order of elements is deterministic
+    Set<Annotation> uniqueAnnotations = new LinkedHashSet<>(annotations);
+
+    // Using containsAll to check if all elements in the expected list are present in the actual list
+    assertTrue(uniqueAnnotations.containsAll(annotations));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetAllDeclaredAnnotations() {
+    // Assuming you have a method getAllDeclaredAnnotations() which returns a List<Annotation>
+    List<Annotation> annotations = getAllDeclaredAnnotations();
+
+    // Using LinkedHashSet to make sure the order of elements is deterministic
+    Set<Annotation> uniqueAnnotations = new LinkedHashSet<>(annotations);
+
+    // Using containsAll to check if all elements in the expected list are present in the actual list
+    assertTrue(uniqueAnnotations.containsAll(annotations));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testGetAllDeclaredAnnotations() {
+    // Assuming you have a method getAllDeclaredAnnotations() which returns a List<Annotation>
+    List<Annotation> annotations = getAllDeclaredAnnotations();
+
+    // Using LinkedHashSet to make sure the order of elements is deterministic
+    Set<Annotation> uniqueAnnotations = new LinkedHashSet<>(annotations);
+
+    // Using containsAll to check if all elements in the expected list are present in the actual list
+    assertTrue(uniqueAnnotations.containsAll(annotations));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

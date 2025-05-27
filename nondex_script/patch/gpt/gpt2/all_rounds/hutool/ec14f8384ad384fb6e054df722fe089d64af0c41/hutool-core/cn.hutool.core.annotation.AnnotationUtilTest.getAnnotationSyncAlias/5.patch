@@ -1,0 +1,182 @@
+Test File Path: projects/ec14f8384ad384fb6e054df722fe089d64af0c41/hutool/hutool-core/src/test/java/cn/hutool/core/annotation/AnnotationUtilTest.java
+Original Test Method:
+ 	public void getAnnotationSyncAlias() {
+		// 直接获取
+		Assert.assertEquals("", ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class).retry());
+
+		// 加别名适配
+		final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+		Assert.assertEquals("测试", annotation.retry());
+		Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+	public void getAnnotationSyncAlias() {
+		// 直接获取
+		AnnotationForTest directAnnotation = ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class);
+		Assert.assertNotNull(directAnnotation);
+		Assert.assertEquals("", directAnnotation.retry());
+
+		// 加别名适配
+		final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+		Assert.assertNotNull(annotation);
+		Assert.assertEquals("测试", annotation.retry());
+		Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+	}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    AnnotationForTest directAnnotation = ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class);
+    Assert.assertNotNull(directAnnotation);
+    Assert.assertEquals("", directAnnotation.retry());
+
+    // 加别名适配
+    Annotation[] annotations = ClassWithAnnotation.class.getAnnotations();
+    AnnotationForTest annotation = null;
+    for (Annotation ann : annotations) {
+        if (ann.annotationType().equals(AnnotationForTest.class)) {
+            annotation = (AnnotationForTest) ann;
+            break;
+        }
+    }
+    Assert.assertNotNull(annotation);
+    Assert.assertEquals("测试", annotation.retry());
+    Assert.assertTrue(annotation instanceof SynthesizedAnnotation);
+}
+
+
+import:
+
+['import org.springframework.core.annotation.SynthesizedAnnotation;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>5.3.18</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    AnnotationForTest directAnnotation = ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class);
+    Assert.assertNotNull(directAnnotation);
+    Assert.assertEquals("", directAnnotation.retry());
+
+    // 加别名适配
+    List<Annotation> annotations = Arrays.stream(ClassWithAnnotation.class.getAnnotations())
+        .filter(ann -> ann.annotationType().equals(AnnotationForTest.class))
+        .collect(Collectors.toList());
+    Assert.assertEquals(1, annotations.size());
+    AnnotationForTest annotation = (AnnotationForTest) annotations.get(0);
+    Assert.assertNotNull(annotation);
+    Assert.assertEquals("测试", annotation.retry());
+}
+
+
+import:
+
+['import java.util.Arrays;', 'import java.util.stream.Collectors;']
+
+pom:
+
+
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    AnnotationForTest directAnnotation = ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class);
+    Assert.assertNotNull(directAnnotation);
+    Assert.assertEquals("", directAnnotation.retry());
+
+    // 加别名适配
+    List<Annotation> annotations = Arrays.stream(ClassWithAnnotation.class.getDeclaredAnnotations())
+        .filter(ann -> ann.annotationType().equals(AnnotationForTest.class))
+        .sorted((a1, a2) -> a1.toString().compareTo(a2.toString()))
+        .collect(Collectors.toList());
+    Assert.assertEquals(1, annotations.size());
+    AnnotationForTest annotation = (AnnotationForTest) annotations.get(0);
+    Assert.assertNotNull(annotation);
+    Assert.assertEquals("测试", annotation.retry());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>5.3.18</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    AnnotationForTest directAnnotation = ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class);
+    Assert.assertNotNull(directAnnotation);
+    Assert.assertEquals("", directAnnotation.retry());
+
+    // 加别名适配
+    List<Annotation> annotations = Arrays.stream(ClassWithAnnotation.class.getDeclaredAnnotations())
+        .filter(ann -> ann.annotationType().equals(AnnotationForTest.class))
+        .collect(Collectors.toList());
+    Assert.assertEquals(1, annotations.size());
+    AnnotationForTest annotation = (AnnotationForTest) annotations.get(0);
+    Assert.assertNotNull(annotation);
+    Assert.assertEquals("测试", annotation.retry());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>5.3.18</version>
+</dependency>
+

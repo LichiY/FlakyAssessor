@@ -1,0 +1,133 @@
+Test File Path: projects/6925cf4c19d313504b416f58a349a36bf563e0e1/java/src/test/java/com/jsoniter/output/TestObject.java
+Original Test Method:
+     public void test_omit_null() {
+        assertEquals("{\"field3\":null}", JsonStream.serialize(new TestObject11()));
+        TestObject11 obj = new TestObject11();
+        obj.field1 = "hello";
+        assertEquals("{\"field1\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+        obj = new TestObject11();
+        obj.field2 = "hello";
+        assertEquals("{\"field2\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+        obj = new TestObject11();
+        obj.field3 = 3;
+        assertEquals("{\"field3\":3}", JsonStream.serialize(obj));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_omit_null() {
+    TestObject11 obj = new TestObject11();
+    obj.field1 = "hello";
+    assertEquals("{\"field1\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+    obj = new TestObject11();
+    obj.field2 = "hello";
+    assertEquals("{\"field2\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+    obj = new TestObject11();
+    obj.field3 = 3;
+    assertEquals("{\"field3\":3}", JsonStream.serialize(obj));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_omit_null() {
+    TestObject11 obj = new TestObject11();
+    obj.field1 = "hello";
+    assertEquals("{\"field1\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+    obj = new TestObject11();
+    obj.field2 = "hello";
+    assertEquals("{\"field2\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+    obj = new TestObject11();
+    obj.field3 = 3;
+    assertEquals("{\"field3\":3}", JsonStream.serialize(obj));
+}
+
+
+import:
+
+['import com.example.myartifact.TestObject11;', 'import com.example.myartifact.JsonStream;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_omit_null() {
+    TestObject11 obj = new TestObject11();
+    obj.field1 = "hello";
+    assertEquals("{\"field1\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+    obj = new TestObject11();
+    obj.field2 = "hello";
+    assertEquals("{\"field2\":\"hello\",\"field3\":null}", JsonStream.serialize(obj));
+    obj = new TestObject11();
+    obj.field3 = 3;
+    assertEquals("{\"field3\":3}", JsonStream.serialize(obj));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.gson.JsonParser;', 'import java.util.Arrays;', 'import java.util.HashSet;', 'import java.util.Set;', 'import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>

@@ -1,0 +1,134 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-orchestration/sharding-orchestration-core/src/test/java/org/apache/shardingsphere/orchestration/internal/registry/config/service/ConfigurationServiceTest.java
+Original Test Method:
+     public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+        ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+        configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+        verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+        verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+        verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+        verify(regCenter).persist("/test/config/props", PROPS_YAML);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import org.apache.shardingsphere.orchestration.internal.registry.config.service.ConfigurationService;', 'import org.apache.shardingsphere.orchestration.internal.registry.config.service.ConfigurationServiceTest;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.shardingsphere</groupId>
+    <artifactId>sharding-jdbc-orchestration-core</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import org.mockito.Mockito;']
+
+pom:
+
+<!-- no dependencies needed -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import static org.mockito.Mockito.*;', 'import java.util.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.3.3</version>
+</dependency>

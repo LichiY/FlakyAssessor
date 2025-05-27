@@ -1,0 +1,244 @@
+Test File Path: projects/d6d663f07e0ef086a4b910e79df900a1ac8c0104/spring-cloud-tencent/spring-cloud-tencent-starters/spring-cloud-tencent-metadata/src/test/java/com/tencent/cloud/metadata/core/intercepter/feign/Metadata2HeaderFeignInterceptorTest.java
+Original Test Method:
+     public void test1() {
+        String metadata = testFeign.test();
+        Assertions.assertThat(metadata).isEqualTo("{\"a\":\"11\",\"b\":\"22\",\"c\":\"33\"}{\"LOCAL_SERVICE\":\"test"
+                + "\",\"LOCAL_PATH\":\"/test\",\"LOCAL_NAMESPACE\":\"default\"}");
+        Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+        Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    DocumentContext metadataJson = JsonPath.parse(metadata);
+    Assertions.assertThat(metadataJson.read("$.a", String.class)).isEqualTo("11");
+    Assertions.assertThat(metadataJson.read("$.b", String.class)).isEqualTo("22");
+    Assertions.assertThat(metadataJson.read("$.c", String.class)).isEqualTo("33");
+    Assertions.assertThat(metadataJson.read("$.LOCAL_SERVICE", String.class)).isEqualTo("test");
+    Assertions.assertThat(metadataJson.read("$.LOCAL_PATH", String.class)).isEqualTo("/test");
+    Assertions.assertThat(metadataJson.read("$.LOCAL_NAMESPACE", String.class)).isEqualTo("default");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;', 'import com.jayway.jsonpath.DocumentContext;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode metadataJson;
+    try {
+        metadataJson = objectMapper.readTree(metadata);
+    } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+    }
+    Assertions.assertThat(metadataJson.get("a").asText()).isEqualTo("11");
+    Assertions.assertThat(metadataJson.get("b").asText()).isEqualTo("22");
+    Assertions.assertThat(metadataJson.get("c").asText()).isEqualTo("33");
+    Assertions.assertThat(metadataJson.get("LOCAL_SERVICE").asText()).isEqualTo("test");
+    Assertions.assertThat(metadataJson.get("LOCAL_PATH").asText()).isEqualTo("/test");
+    Assertions.assertThat(metadataJson.get("LOCAL_NAMESPACE").asText()).isEqualTo("default");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;', 'import com.fasterxml.jackson.core.JsonProcessingException;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.4</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode metadataJson;
+    try {
+        metadataJson = objectMapper.readTree(metadata);
+    } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+    }
+    
+    Map<String, String> expectedMetadata = Map.of(
+        "a", "11",
+        "b", "22",
+        "c", "33",
+        "LOCAL_SERVICE", "test",
+        "LOCAL_PATH", "/test",
+        "LOCAL_NAMESPACE", "default"
+    );
+    
+    expectedMetadata.forEach((key, value) -> 
+        Assertions.assertThat(metadataJson.get(key).asText()).isEqualTo(value)
+    );
+    
+    Assertions.assertThat(metadataLocalProperties.getContent())
+        .containsEntry("a", "1")
+        .containsEntry("b", "2");
+    
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+['import java.util.Map;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode metadataJson;
+    try {
+        metadataJson = objectMapper.readTree(metadata);
+    } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+    }
+    
+    Map<String, String> expectedMetadata = new LinkedHashMap<>();
+    expectedMetadata.put("a", "11");
+    expectedMetadata.put("b", "22");
+    expectedMetadata.put("c", "33");
+    expectedMetadata.put("LOCAL_SERVICE", "test");
+    expectedMetadata.put("LOCAL_PATH", "/test");
+    expectedMetadata.put("LOCAL_NAMESPACE", "default");
+    
+    expectedMetadata.forEach((key, value) -> 
+        Assertions.assertThat(metadataJson.get(key).asText()).isEqualTo(value)
+    );
+    
+    Assertions.assertThat(metadataLocalProperties.getContent())
+        .containsEntry("a", "1")
+        .containsEntry("b", "2");
+    
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;']
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode metadataJson;
+    try {
+        metadataJson = objectMapper.readTree(metadata);
+    } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+    }
+    
+    Map<String, String> expectedMetadata = new LinkedHashMap<>();
+    expectedMetadata.put("a", "11");
+    expectedMetadata.put("b", "22");
+    expectedMetadata.put("c", "33");
+    expectedMetadata.put("LOCAL_SERVICE", "test");
+    expectedMetadata.put("LOCAL_PATH", "/test");
+    expectedMetadata.put("LOCAL_NAMESPACE", "default");
+    
+    expectedMetadata.forEach((key, value) -> 
+        Assertions.assertThat(metadataJson.get(key).asText()).isEqualTo(value)
+    );
+    
+    Assertions.assertThat(metadataLocalProperties.getContent())
+        .hasSize(2)
+        .containsEntry("a", "1")
+        .containsEntry("b", "2");
+    
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.jqwik</groupId>
+    <artifactId>jqwik</artifactId>
+    <version>1.7.2</version>
+    <scope>test</scope>
+</dependency>
+

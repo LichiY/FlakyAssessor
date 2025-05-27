@@ -1,0 +1,65 @@
+Test File Path: projects/64262d943f012c40deac3cd87c67d44fdc727b52/cloudstack/server/src/test/java/com/cloud/server/StatsCollectorTest.java
+Original Test Method:
+     public void persistVirtualMachineStatsTestPersistsSuccessfully() {
+        statsCollector.msId = 1L;
+        Date timestamp = new Date();
+        VmStatsEntry statsForCurrentIteration = new VmStatsEntry(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, "vm");
+        Mockito.doReturn(new VmStatsVO()).when(vmStatsDaoMock).persist(Mockito.any());
+        String expectedVmStatsStr = "{\"vmId\":2,\"cpuUtilization\":6.0,\"networkReadKBs\":7.0,\"networkWriteKBs\":8.0,\"diskReadIOs\":12.0,\"diskWriteIOs\":13.0,\"diskReadKBs\":10.0"
+                + ",\"diskWriteKBs\":11.0,\"memoryKBs\":3.0,\"intFreeMemoryKBs\":4.0,\"targetMemoryKBs\":5.0,\"numCPUs\":9,\"entityType\":\"vm\"}";
+
+        statsCollector.persistVirtualMachineStats(statsForCurrentIteration, timestamp);
+
+        Mockito.verify(vmStatsDaoMock).persist(vmStatsVOCaptor.capture());
+        VmStatsVO actual = vmStatsVOCaptor.getAllValues().get(0);
+        Assert.assertEquals(Long.valueOf(2L), actual.getVmId());
+        Assert.assertEquals(Long.valueOf(1L), actual.getMgmtServerId());
+        Assert.assertEquals(expectedVmStatsStr, actual.getVmStatsData());
+        Assert.assertEquals(timestamp, actual.getTimestamp());
+    }
+Patch:
+
+test_code:
+public void persistVirtualMachineStatsTestPersistsSuccessfully() {
+    statsCollector.msId = 1L;
+    Date timestamp = new Date();
+    VmStatsEntry statsForCurrentIteration = new VmStatsEntry(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, "vm");
+    Mockito.doReturn(new VmStatsVO()).when(vmStatsDaoMock).persist(Mockito.any());
+    
+    JsonObject expectedJson = new JsonObject();
+    expectedJson.addProperty("vmId", 2);
+    expectedJson.addProperty("cpuUtilization", 6.0);
+    expectedJson.addProperty("networkReadKBs", 7.0);
+    expectedJson.addProperty("networkWriteKBs", 8.0);
+    expectedJson.addProperty("diskReadIOs", 12.0);
+    expectedJson.addProperty("diskWriteIOs", 13.0);
+    expectedJson.addProperty("diskReadKBs", 10.0);
+    expectedJson.addProperty("diskWriteKBs", 11.0);
+    expectedJson.addProperty("memoryKBs", 3.0);
+    expectedJson.addProperty("intFreeMemoryKBs", 4.0);
+    expectedJson.addProperty("targetMemoryKBs", 5.0);
+    expectedJson.addProperty("numCPUs", 9);
+    expectedJson.addProperty("entityType", "vm");
+
+    statsCollector.persistVirtualMachineStats(statsForCurrentIteration, timestamp);
+
+    Mockito.verify(vmStatsDaoMock).persist(vmStatsVOCaptor.capture());
+    VmStatsVO actual = vmStatsVOCaptor.getAllValues().get(0);
+    Assert.assertEquals(Long.valueOf(2L), actual.getVmId());
+    Assert.assertEquals(Long.valueOf(1L), actual.getMgmtServerId());
+    
+    JsonParser parser = new JsonParser();
+    JsonObject actualJson = parser.parse(actual.getVmStatsData()).getAsJsonObject();
+    Assert.assertEquals(expectedJson, actualJson);
+    Assert.assertEquals(timestamp, actual.getTimestamp());
+}
+
+import:
+['import com.google.gson.JsonObject;', 'import com.google.gson.JsonParser;']
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.9</version>
+</dependency>

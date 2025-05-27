@@ -1,0 +1,235 @@
+Test File Path: projects/d28019640ac3eb6ac167dd0dc582adac7656226e/jetcache/jetcache-test/src/test/java/com/alicp/jetcache/embedded/CaffeineCacheTest.java
+Original Test Method:
+     public void test() throws Exception {
+        super.test(500, false);
+
+//        cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+//                .buildFunc(getBuildFunc()).expireAfterWrite(100, TimeUnit.MILLISECONDS).limit(2).build();
+//        cache.put("K1", "V1");
+//        cache.put("K2", "V2");
+//        cache.put("K3", "V3");
+//        System.out.println(cache.get("K1"));
+//        System.out.println(cache.get("K2"));
+//        System.out.println(cache.get("K3"));
+//        System.out.println(cache.get("K1"));
+//        System.out.println(cache.get("K2"));
+//        System.out.println(cache.get("K3"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    super.test(500, false);
+
+    cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+            .buildFunc(getBuildFunc()).expireAfterWrite(100, TimeUnit.MILLISECONDS).limit(2).build();
+    cache.put("K1", "V1");
+    cache.put("K2", "V2");
+    cache.put("K3", "V3");
+    
+    Map<String, String> expectedValues = new LinkedHashMap<>();
+    expectedValues.put("K1", "V1");
+    expectedValues.put("K2", "V2");
+    expectedValues.put("K3", "V3");
+    
+    Map<String, String> actualValues = new LinkedHashMap<>();
+    actualValues.put("K1", cache.get("K1"));
+    actualValues.put("K2", cache.get("K2"));
+    actualValues.put("K3", cache.get("K3"));
+    
+    assertEquals(expectedValues, actualValues);
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;', 'import java.util.Map;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    super.test(500, false);
+
+    cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+            .buildFunc(getBuildFunc()).expireAfterWrite(100, java.util.concurrent.TimeUnit.MILLISECONDS).limit(2).build();
+    cache.put("K1", "V1");
+    cache.put("K2", "V2");
+    cache.put("K3", "V3");
+    
+    Map<String, String> expectedValues = new LinkedHashMap<>();
+    expectedValues.put("K2", "V2");
+    expectedValues.put("K3", "V3");
+    
+    // Wait for expiration
+    Thread.sleep(150);
+    
+    Map<String, String> actualValues = new LinkedHashMap<>();
+    String value;
+    if ((value = (String) cache.get("K1")) != null) {
+        actualValues.put("K1", value);
+    }
+    if ((value = (String) cache.get("K2")) != null) {
+        actualValues.put("K2", value);
+    }
+    if ((value = (String) cache.get("K3")) != null) {
+        actualValues.put("K3", value);
+    }
+    
+    assertEquals(expectedValues, actualValues);
+}
+
+
+import:
+
+['import java.util.concurrent.TimeUnit;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.github.ben-manes.caffeine</groupId>
+    <artifactId>caffeine</artifactId>
+    <version>3.1.8</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    super.test(500, false);
+
+    cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+            .buildFunc(getBuildFunc()).expireAfterWrite(100, java.util.concurrent.TimeUnit.MILLISECONDS).limit(2).build();
+    cache.put("K1", "V1");
+    cache.put("K2", "V2");
+    cache.put("K3", "V3");
+    
+    // Wait for expiration
+    Thread.sleep(150);
+    
+    Map<String, String> actualValues = new LinkedHashMap<>();
+    for (String key : Arrays.asList("K1", "K2", "K3")) {
+        String value = (String) cache.get(key);
+        if (value != null) {
+            actualValues.put(key, value);
+        }
+    }
+    
+    assertThat(actualValues.keySet(), containsInAnyOrder("K2", "K3"));
+    assertThat(actualValues.values(), containsInAnyOrder("V2", "V3"));
+}
+
+
+import:
+
+['import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.containsInAnyOrder;', 'import java.util.Arrays;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    super.test(500, false);
+
+    cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+            .buildFunc(getBuildFunc()).expireAfterWrite(100, java.util.concurrent.TimeUnit.MILLISECONDS).limit(2).build();
+    cache.put("K1", "V1");
+    cache.put("K2", "V2");
+    cache.put("K3", "V3");
+    
+    // Wait for expiration
+    Thread.sleep(150);
+    
+    Map<String, String> actualValues = new LinkedHashMap<>();
+    for (String key : Arrays.asList("K1", "K2", "K3")) {
+        String value = (String) cache.get(key);
+        if (value != null) {
+            actualValues.put(key, value);
+        }
+    }
+    
+    assertThat(actualValues.keySet(), containsInAnyOrder("K2", "K3"));
+    assertThat(actualValues.values(), containsInAnyOrder("V2", "V3"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    super.test(500, false);
+
+    cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+            .buildFunc(getBuildFunc()).expireAfterWrite(100, java.util.concurrent.TimeUnit.MILLISECONDS).limit(2).build();
+    cache.put("K1", "V1");
+    cache.put("K2", "V2");
+    cache.put("K3", "V3");
+    
+    // Wait for expiration
+    Thread.sleep(150);
+    
+    Map<String, String> actualValues = new LinkedHashMap<>();
+    for (String key : Arrays.asList("K1", "K2", "K3")) {
+        String value = (String) cache.get(key);
+        if (value != null) {
+            actualValues.put(key, value);
+        }
+    }
+    
+    assertThat(actualValues.keySet(), containsInAnyOrder("K2", "K3"));
+    assertThat(actualValues.values(), containsInAnyOrder("V2", "V3"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+

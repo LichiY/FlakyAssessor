@@ -1,0 +1,91 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-splunk-bundle/nifi-splunk-processors/src/test/java/org/apache/nifi/processors/splunk/TestPutSplunkHTTP.java
+Original Test Method:
+     public void testHappyPathWithCustomQueryParameters() throws Exception {
+        // given
+        testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+        testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+        givenSplunkReturnsWithSuccess();
+
+        // when
+        testRunner.enqueue(EVENT);
+        testRunner.run();
+
+        // then
+        testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+        Assert.assertEquals("/services/collector/raw?sourcetype=test%3Fsource%3Ftype&source=test_source", path.getValue());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testHappyPathWithCustomQueryParameters() throws Exception {
+    // given
+    testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+    testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+    givenSplunkReturnsWithSuccess();
+
+    // when
+    testRunner.enqueue(EVENT);
+    testRunner.run();
+
+    // then
+    testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+    String actualPath = path.getValue();
+    assertTrue(actualPath.startsWith("/services/collector/raw?"));
+    assertTrue(actualPath.contains("sourcetype=test%3Fsource%3Ftype"));
+    assertTrue(actualPath.contains("source=test_source"));
+    assertEquals(2, actualPath.split("&").length);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies needed for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testHappyPathWithCustomQueryParameters() throws Exception {
+    // given
+    testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+    testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+    givenSplunkReturnsWithSuccess();
+
+    // when
+    testRunner.enqueue(EVENT);
+    testRunner.run();
+
+    // then
+    testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+    String actualPath = path.getValue();
+    assertThat(actualPath).startsWith("/services/collector/raw?");
+    assertThat(actualPath).contains("sourcetype=test%3Fsource%3Ftype");
+    assertThat(actualPath).contains("source=test_source");
+    assertThat(actualPath.split("&")).hasSize(2);
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+

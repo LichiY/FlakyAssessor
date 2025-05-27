@@ -1,0 +1,163 @@
+Test File Path: projects/b65d9413e2dc29b662a1bb2db146b536471167a9/graphhopper/core/src/test/java/com/graphhopper/routing/DirectionResolverOnQueryGraphTest.java
+Original Test Method:
+     public void duplicateCoordinatesAtBaseOrAdjNode() {
+        // 0-x   x-1
+        //   x-x-x
+        addNode(0, 0, 0);
+        addNode(1, 1, 1);
+        // todo: we add duplicate coordinates to the beginning/end of the geometry, these are currently possible, so we
+        // have to handle this separately, see #1694
+        addEdge(0, 1, true).setWayGeometry(createPointList(0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.9, 0.9, 0.9, 0.9));
+        init();
+        checkResult(0.1, 0.1, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+        checkResult(0.9, 0.9, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void duplicateCoordinatesAtBaseOrAdjNode() {
+    // 0-x   x-1
+    //   x-x-x
+    addNode(0, 0, 0);
+    addNode(1, 1, 1);
+    // todo: we add duplicate coordinates to the beginning/end of the geometry, these are currently possible, so we
+    // have to handle this separately, see #1694
+    addEdge(0, 1, true).setWayGeometry(createPointList(0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.9, 0.9, 0.9, 0.9));
+    init();
+    checkResult(0.1, 0.1, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+    checkResult(0.9, 0.9, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+}
+
+
+import:
+
+['import com.example.myClass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void duplicateCoordinatesAtBaseOrAdjNode() {
+    // 0-x   x-1
+    //   x-x-x
+    addNode(0, 0, 0);
+    addNode(1, 1, 1);
+    // todo: we add duplicate coordinates to the beginning/end of the geometry, these are currently possible, so we
+    // have to handle this separately, see #1694
+    addEdge(0, 1, true).setWayGeometry(createPointList(0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.9, 0.9, 0.9, 0.9));
+    init();
+    checkResult(0.1, 0.1, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+    checkResult(0.9, 0.9, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void duplicateCoordinatesAtBaseOrAdjNode() {
+    // 0-x   x-1
+    //   x-x-x
+    addNode(0, 0, 0);
+    addNode(1, 1, 1);
+    // todo: we add duplicate coordinates to the beginning/end of the geometry, these are currently possible, so we
+    // have to handle this separately, see #1694
+    addEdge(0, 1, true).setWayGeometry(createPointList(0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.9, 0.9, 0.9, 0.9));
+    init();
+    checkResult(0.1, 0.1, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+    checkResult(0.9, 0.9, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void duplicateCoordinatesAtBaseOrAdjNode() {
+        // 0-x   x-1
+        //   x-x-x
+        addNode(0, 0, 0);
+        addNode(1, 1, 1);
+        // todo: we add duplicate coordinates to the beginning/end of the geometry, these are currently possible, so we
+        // have to handle this separately, see #1694
+        addEdge(0, 1, true).setWayGeometry(createPointList(0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.9, 0.9, 0.9, 0.9));
+        init();
+        checkResult(0.1, 0.1, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+        checkResult(0.9, 0.9, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+    }
+
+
+import:
+
+['import org.projectlombok.Lombok;']
+
+pom:
+
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.20</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void duplicateCoordinatesAtBaseOrAdjNode() {
+    // 0-x   x-1
+    //   x-x-x
+    addNode(0, 0, 0);
+    addNode(1, 1, 1);
+    // todo: we add duplicate coordinates to the beginning/end of the geometry, these are currently possible, so we
+    // have to handle this separately, see #1694
+    addEdge(0, 1, true).setWayGeometry(createPointList(0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.9, 0.9, 0.9, 0.9));
+    init();
+    checkResult(0.1, 0.1, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+    checkResult(0.9, 0.9, restricted(edge(0, 2), edge(2, 1), edge(1, 2), edge(2, 0)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->

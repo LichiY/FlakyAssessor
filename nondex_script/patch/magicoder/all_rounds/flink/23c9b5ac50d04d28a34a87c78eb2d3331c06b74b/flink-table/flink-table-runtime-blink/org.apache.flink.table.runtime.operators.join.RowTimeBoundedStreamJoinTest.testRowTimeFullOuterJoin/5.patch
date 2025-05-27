@@ -1,0 +1,459 @@
+Test File Path: projects/23c9b5ac50d04d28a34a87c78eb2d3331c06b74b/flink/flink-table/flink-table-runtime-blink/src/test/java/org/apache/flink/table/runtime/operators/join/RowTimeBoundedStreamJoinTest.java
+Original Test Method:
+ 	public void testRowTimeFullOuterJoin() throws Exception {
+		RowTimeBoundedStreamJoin joinProcessFunc = new RowTimeBoundedStreamJoin(
+				FlinkJoinType.FULL, -5, 9, 0, rowType, rowType, generatedFunction, 0, 0);
+
+		KeyedTwoInputStreamOperatorTestHarness<BaseRow, BaseRow, BaseRow, BaseRow> testHarness = createTestHarness(
+				joinProcessFunc);
+
+		testHarness.open();
+
+		testHarness.processElement1(record(1L, "k1"));
+		testHarness.processElement2(record(1L, "k2"));
+		assertEquals(2, testHarness.numEventTimeTimers());
+		assertEquals(4, testHarness.numKeyedStateEntries());
+
+		// The left row with timestamp = 1 will be padded and removed (14=1+5+1+((5+9)/2)).
+		testHarness.processWatermark1(new Watermark(14));
+		testHarness.processWatermark2(new Watermark(14));
+		assertEquals(1, testHarness.numEventTimeTimers());
+		assertEquals(2, testHarness.numKeyedStateEntries());
+
+		// The right row with timestamp = 1 will be padded and removed (18=1+9+1+((5+9)/2)).
+		testHarness.processWatermark1(new Watermark(18));
+		testHarness.processWatermark2(new Watermark(18));
+		assertEquals(0, testHarness.numEventTimeTimers());
+		assertEquals(0, testHarness.numKeyedStateEntries());
+
+		testHarness.processElement1(record(2L, "k1"));
+		testHarness.processElement2(record(2L, "k2"));
+		// The late rows with timestamp = 2 will not be cached, but a null padding result for the right
+		// row will be emitted.
+		assertEquals(0, testHarness.numKeyedStateEntries());
+		assertEquals(0, testHarness.numEventTimeTimers());
+
+		// Make sure the common (inner) join can be performed.
+		testHarness.processElement1(record(19L, "k1"));
+		testHarness.processElement1(record(20L, "k1"));
+		testHarness.processElement2(record(26L, "k1"));
+		testHarness.processElement2(record(25L, "k1"));
+		testHarness.processElement1(record(21L, "k1"));
+
+		testHarness.processElement2(record(39L, "k2"));
+		testHarness.processElement2(record(40L, "k2"));
+		testHarness.processElement1(record(50L, "k2"));
+		testHarness.processElement1(record(49L, "k2"));
+		testHarness.processElement2(record(41L, "k2"));
+		testHarness.processWatermark1(new Watermark(100));
+		testHarness.processWatermark2(new Watermark(100));
+
+		List<Object> expectedOutput = new ArrayList<>();
+		// The timestamp 14 is set with the triggered timer.
+		expectedOutput.add(record(1L, "k1", null, null));
+		expectedOutput.add(new Watermark(5));
+		// The timestamp 18 is set with the triggered timer.
+		expectedOutput.add(record(null, null, 1L, "k2"));
+		expectedOutput.add(new Watermark(9));
+		expectedOutput.add(record(2L, "k1", null, null));
+		expectedOutput.add(record(null, null, 2L, "k2"));
+		expectedOutput.add(record(20L, "k1", 25L, "k1"));
+		expectedOutput.add(record(21L, "k1", 25L, "k1"));
+		expectedOutput.add(record(21L, "k1", 26L, "k1"));
+		expectedOutput.add(record(49L, "k2", 40L, "k2"));
+		expectedOutput.add(record(49L, "k2", 41L, "k2"));
+		expectedOutput.add(record(50L, "k2", 41L, "k2"));
+		// The timestamp 32 is set with the triggered timer.
+		expectedOutput.add(record(19L, "k1", null, null));
+		// The timestamp 56 is set with the triggered timer.
+		expectedOutput.add(record(null, null, 39L, "k2"));
+		expectedOutput.add(new Watermark(91));
+
+		assertor.assertOutputEquals("output wrong.", expectedOutput, testHarness.getOutput());
+		testHarness.close();
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testRowTimeFullOuterJoin() throws Exception {
+    RowTimeBoundedStreamJoin joinProcessFunc = new RowTimeBoundedStreamJoin(
+            FlinkJoinType.FULL, -5, 9, 0, rowType, rowType, generatedFunction, 0, 0);
+
+    KeyedTwoInputStreamOperatorTestHarness<BaseRow, BaseRow, BaseRow, BaseRow> testHarness = createTestHarness(
+            joinProcessFunc);
+
+    testHarness.open();
+
+    testHarness.processElement1(record(1L, "k1"));
+    testHarness.processElement2(record(1L, "k2"));
+    assertEquals(2, testHarness.numEventTimeTimers());
+    assertEquals(4, testHarness.numKeyedStateEntries());
+
+    // The left row with timestamp = 1 will be padded and removed (14=1+5+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(14));
+    testHarness.processWatermark2(new Watermark(14));
+    assertEquals(1, testHarness.numEventTimeTimers());
+    assertEquals(2, testHarness.numKeyedStateEntries());
+
+    // The right row with timestamp = 1 will be padded and removed (18=1+9+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(18));
+    testHarness.processWatermark2(new Watermark(18));
+    assertEquals(0, testHarness.numEventTimeTimers());
+    assertEquals(0, testHarness.numKeyedStateEntries());
+
+    testHarness.processElement1(record(2L, "k1"));
+    testHarness.processElement2(record(2L, "k2"));
+    // The late rows with timestamp = 2 will not be cached, but a null padding result for the right
+    // row will be emitted.
+    assertEquals(0, testHarness.numKeyedStateEntries());
+    assertEquals(0, testHarness.numEventTimeTimers());
+
+    // Make sure the common (inner) join can be performed.
+    testHarness.processElement1(record(19L, "k1"));
+    testHarness.processElement1(record(20L, "k1"));
+    testHarness.processElement2(record(26L, "k1"));
+    testHarness.processElement2(record(25L, "k1"));
+    testHarness.processElement1(record(21L, "k1"));
+
+    testHarness.processElement2(record(39L, "k2"));
+    testHarness.processElement2(record(40L, "k2"));
+    testHarness.processElement1(record(50L, "k2"));
+    testHarness.processElement1(record(49L, "k2"));
+    testHarness.processElement2(record(41L, "k2"));
+    testHarness.processWatermark1(new Watermark(100));
+    testHarness.processWatermark2(new Watermark(100));
+
+    List<Object> expectedOutput = new ArrayList<>();
+    // The timestamp 14 is set with the triggered timer.
+    expectedOutput.add(record(1L, "k1", null, null));
+    expectedOutput.add(new Watermark(5));
+    // The timestamp 18 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 1L, "k2"));
+    expectedOutput.add(new Watermark(9));
+    expectedOutput.add(record(2L, "k1", null, null));
+    expectedOutput.add(record(null, null, 2L, "k2"));
+    expectedOutput.add(record(20L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 26L, "k1"));
+    expectedOutput.add(record(49L, "k2", 40L, "k2"));
+    expectedOutput.add(record(49L, "k2", 41L, "k2"));
+    expectedOutput.add(record(50L, "k2", 41L, "k2"));
+    // The timestamp 32 is set with the triggered timer.
+    expectedOutput.add(record(19L, "k1", null, null));
+    // The timestamp 56 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 39L, "k2"));
+    expectedOutput.add(new Watermark(91));
+
+    assertor.assertOutputEquals("output wrong.", expectedOutput, testHarness.getOutput());
+    testHarness.close();
+}
+
+
+import:
+
+['import org.apache.flink.streaming.api.functions.co.CoProcessFunction;', 'import org.apache.flink.util.Collector;']
+
+pom:
+
+<!-- pom.xml -->
+
+    <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-streaming-java_2.11</artifactId>
+        <version>1.12.0</version>
+    </dependency>
+
+<!-- pom.xml -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testRowTimeFullOuterJoin() throws Exception {
+    RowTimeBoundedStreamJoin joinProcessFunc = new RowTimeBoundedStreamJoin(
+            FlinkJoinType.FULL, -5, 9, 0, rowType, rowType, generatedFunction, 0, 0);
+
+    KeyedTwoInputStreamOperatorTestHarness<BaseRow, BaseRow, BaseRow, BaseRow> testHarness = createTestHarness(
+            joinProcessFunc);
+
+    testHarness.open();
+
+    testHarness.processElement1(record(1L, "k1"));
+    testHarness.processElement2(record(1L, "k2"));
+    assertEquals(2, testHarness.numEventTimeTimers());
+    assertEquals(4, testHarness.numKeyedStateEntries());
+
+    // The left row with timestamp = 1 will be padded and removed (14=1+5+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(14));
+    testHarness.processWatermark2(new Watermark(14));
+    assertEquals(1, testHarness.numEventTimeTimers());
+    assertEquals(2, testHarness.numKeyedStateEntries());
+
+    // The right row with timestamp = 1 will be padded and removed (18=1+9+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(18));
+    testHarness.processWatermark2(new Watermark(18));
+    assertEquals(0, testHarness.numEventTimeTimers());
+    assertEquals(0, testHarness.numKeyedStateEntries());
+
+    testHarness.processElement1(record(2L, "k1"));
+    testHarness.processElement2(record(2L, "k2"));
+    // The late rows with timestamp = 2 will not be cached, but a null padding result for the right
+    // row will be emitted.
+    assertEquals(0, testHarness.numKeyedStateEntries());
+    assertEquals(0, testHarness.numEventTimeTimers());
+
+    // Make sure the common (inner) join can be performed.
+    testHarness.processElement1(record(19L, "k1"));
+    testHarness.processElement1(record(20L, "k1"));
+    testHarness.processElement2(record(26L, "k1"));
+    testHarness.processElement2(record(25L, "k1"));
+    testHarness.processElement1(record(21L, "k1"));
+
+    testHarness.processElement2(record(39L, "k2"));
+    testHarness.processElement2(record(40L, "k2"));
+    testHarness.processElement1(record(50L, "k2"));
+    testHarness.processElement1(record(49L, "k2"));
+    testHarness.processElement2(record(41L, "k2"));
+    testHarness.processWatermark1(new Watermark(100));
+    testHarness.processWatermark2(new Watermark(100));
+
+    List<Object> expectedOutput = new ArrayList<>();
+    // The timestamp 14 is set with the triggered timer.
+    expectedOutput.add(record(1L, "k1", null, null));
+    expectedOutput.add(new Watermark(5));
+    // The timestamp 18 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 1L, "k2"));
+    expectedOutput.add(new Watermark(9));
+    expectedOutput.add(record(2L, "k1", null, null));
+    expectedOutput.add(record(null, null, 2L, "k2"));
+    expectedOutput.add(record(20L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 26L, "k1"));
+    expectedOutput.add(record(49L, "k2", 40L, "k2"));
+    expectedOutput.add(record(49L, "k2", 41L, "k2"));
+    expectedOutput.add(record(50L, "k2", 41L, "k2"));
+    // The timestamp 32 is set with the triggered timer.
+    expectedOutput.add(record(19L, "k1", null, null));
+    // The timestamp 56 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 39L, "k2"));
+    expectedOutput.add(new Watermark(91));
+
+    assertor.assertOutputEquals("output wrong.", expectedOutput, testHarness.getOutput());
+    testHarness.close();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testRowTimeFullOuterJoin() throws Exception {
+    RowTimeBoundedStreamJoin joinProcessFunc = new RowTimeBoundedStreamJoin(
+            FlinkJoinType.FULL, -5, 9, 0, rowType, rowType, generatedFunction, 0, 0);
+
+    KeyedTwoInputStreamOperatorTestHarness<BaseRow, BaseRow, BaseRow, BaseRow> testHarness = createTestHarness(
+            joinProcessFunc);
+
+    testHarness.open();
+
+    testHarness.processElement1(record(1L, "k1"));
+    testHarness.processElement2(record(1L, "k2"));
+    assertEquals(2, testHarness.numEventTimeTimers());
+    assertEquals(4, testHarness.numKeyedStateEntries());
+
+    // The left row with timestamp = 1 will be padded and removed (14=1+5+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(14));
+    testHarness.processWatermark2(new Watermark(14));
+    assertEquals(1, testHarness.numEventTimeTimers());
+    assertEquals(2, testHarness.numKeyedStateEntries());
+
+    // The right row with timestamp = 1 will be padded and removed (18=1+9+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(18));
+    testHarness.processWatermark2(new Watermark(18));
+    assertEquals(0, testHarness.numEventTimeTimers());
+    assertEquals(0, testHarness.numKeyedStateEntries());
+
+    testHarness.processElement1(record(2L, "k1"));
+    testHarness.processElement2(record(2L, "k2"));
+    // The late rows with timestamp = 2 will not be cached, but a null padding result for the right
+    // row will be emitted.
+    assertEquals(0, testHarness.numKeyedStateEntries());
+    assertEquals(0, testHarness.numEventTimeTimers());
+
+    // Make sure the common (inner) join can be performed.
+    testHarness.processElement1(record(19L, "k1"));
+    testHarness.processElement1(record(20L, "k1"));
+    testHarness.processElement2(record(26L, "k1"));
+    testHarness.processElement2(record(25L, "k1"));
+    testHarness.processElement1(record(21L, "k1"));
+
+    testHarness.processElement2(record(39L, "k2"));
+    testHarness.processElement2(record(40L, "k2"));
+    testHarness.processElement1(record(50L, "k2"));
+    testHarness.processElement1(record(49L, "k2"));
+    testHarness.processElement2(record(41L, "k2"));
+    testHarness.processWatermark1(new Watermark(100));
+    testHarness.processWatermark2(new Watermark(100));
+
+    List<Object> expectedOutput = new ArrayList<>();
+    // The timestamp 14 is set with the triggered timer.
+    expectedOutput.add(record(1L, "k1", null, null));
+    expectedOutput.add(new Watermark(5));
+    // The timestamp 18 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 1L, "k2"));
+    expectedOutput.add(new Watermark(9));
+    expectedOutput.add(record(2L, "k1", null, null));
+    expectedOutput.add(record(null, null, 2L, "k2"));
+    expectedOutput.add(record(20L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 26L, "k1"));
+    expectedOutput.add(record(49L, "k2", 40L, "k2"));
+    expectedOutput.add(record(49L, "k2", 41L, "k2"));
+    expectedOutput.add(record(50L, "k2", 41L, "k2"));
+    // The timestamp 32 is set with the triggered timer.
+    expectedOutput.add(record(19L, "k1", null, null));
+    // The timestamp 56 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 39L, "k2"));
+    expectedOutput.add(new Watermark(91));
+
+    assertor.assertOutputEquals("output wrong.", expectedOutput, testHarness.getOutput());
+    testHarness.close();
+}
+
+
+import:
+
+['import org.apache.flink.streaming.util.MockStreamTask;', 'import org.apache.flink.streaming.util.RowTimeBoundedStreamJoin;', 'import org.apache.flink.streaming.util.FlinkJoinType;', 'import org.apache.flink.streaming.util.Assertor;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-streaming-java</artifactId>
+        <version>1.14.2</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testRowTimeFullOuterJoin() throws Exception {
+    RowTimeBoundedStreamJoin joinProcessFunc = new RowTimeBoundedStreamJoin(
+            FlinkJoinType.FULL, -5, 9, 0, rowType, rowType, generatedFunction, 0, 0);
+
+    KeyedTwoInputStreamOperatorTestHarness<BaseRow, BaseRow, BaseRow, BaseRow> testHarness = createTestHarness(
+            joinProcessFunc);
+
+    testHarness.open();
+
+    testHarness.processElement1(record(1L, "k1"));
+    testHarness.processElement2(record(1L, "k2"));
+    assertEquals(2, testHarness.numEventTimeTimers());
+    assertEquals(4, testHarness.numKeyedStateEntries());
+
+    // The left row with timestamp = 1 will be padded and removed (14=1+5+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(14));
+    testHarness.processWatermark2(new Watermark(14));
+    assertEquals(1, testHarness.numEventTimeTimers());
+    assertEquals(2, testHarness.numKeyedStateEntries());
+
+    // The right row with timestamp = 1 will be padded and removed (18=1+9+1+((5+9)/2)).
+    testHarness.processWatermark1(new Watermark(18));
+    testHarness.processWatermark2(new Watermark(18));
+    assertEquals(0, testHarness.numEventTimeTimers());
+    assertEquals(0, testHarness.numKeyedStateEntries());
+
+    testHarness.processElement1(record(2L, "k1"));
+    testHarness.processElement2(record(2L, "k2"));
+    // The late rows with timestamp = 2 will not be cached, but a null padding result for the right
+    // row will be emitted.
+    assertEquals(0, testHarness.numKeyedStateEntries());
+    assertEquals(0, testHarness.numEventTimeTimers());
+
+    // Make sure the common (inner) join can be performed.
+    testHarness.processElement1(record(19L, "k1"));
+    testHarness.processElement1(record(20L, "k1"));
+    testHarness.processElement2(record(26L, "k1"));
+    testHarness.processElement2(record(25L, "k1"));
+    testHarness.processElement1(record(21L, "k1"));
+
+    testHarness.processElement2(record(39L, "k2"));
+    testHarness.processElement2(record(40L, "k2"));
+    testHarness.processElement1(record(50L, "k2"));
+    testHarness.processElement1(record(49L, "k2"));
+    testHarness.processElement2(record(41L, "k2"));
+    testHarness.processWatermark1(new Watermark(100));
+    testHarness.processWatermark2(new Watermark(100));
+
+    List<Object> expectedOutput = new ArrayList<>();
+    // The timestamp 14 is set with the triggered timer.
+    expectedOutput.add(record(1L, "k1", null, null));
+    expectedOutput.add(new Watermark(5));
+    // The timestamp 18 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 1L, "k2"));
+    expectedOutput.add(new Watermark(9));
+    expectedOutput.add(record(2L, "k1", null, null));
+    expectedOutput.add(record(null, null, 2L, "k2"));
+    expectedOutput.add(record(20L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 25L, "k1"));
+    expectedOutput.add(record(21L, "k1", 26L, "k1"));
+    expectedOutput.add(record(49L, "k2", 40L, "k2"));
+    expectedOutput.add(record(49L, "k2", 41L, "k2"));
+    expectedOutput.add(record(50L, "k2", 41L, "k2"));
+    // The timestamp 32 is set with the triggered timer.
+    expectedOutput.add(record(19L, "k1", null, null));
+    // The timestamp 56 is set with the triggered timer.
+    expectedOutput.add(record(null, null, 39L, "k2"));
+    expectedOutput.add(new Watermark(91));
+
+    assertor.assertOutputEquals("output wrong.", expectedOutput, testHarness.getOutput());
+    testHarness.close();
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java_2.11</artifactId>
+    <version>1.12.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>

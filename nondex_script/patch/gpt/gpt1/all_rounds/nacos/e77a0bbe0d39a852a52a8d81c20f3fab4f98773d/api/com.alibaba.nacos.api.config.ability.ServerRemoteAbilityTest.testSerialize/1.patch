@@ -1,0 +1,37 @@
+Test File Path: projects/e77a0bbe0d39a852a52a8d81c20f3fab4f98773d/nacos/api/src/test/java/com/alibaba/nacos/api/config/ability/ServerRemoteAbilityTest.java
+Original Test Method:
+     public void testSerialize() throws JsonProcessingException {
+        serverAbilities = new ServerRemoteAbility();
+        String json = mapper.writeValueAsString(serverAbilities);
+        assertEquals("{\"supportRemoteConnection\":false,\"grpcReportEnabled\":true}", json);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSerialize() throws JsonProcessingException {
+    serverAbilities = new ServerRemoteAbility();
+    String json = mapper.writeValueAsString(serverAbilities);
+    Boolean supportRemoteConnection = JsonPath.read(json, "$.supportRemoteConnection");
+    Boolean grpcReportEnabled = JsonPath.read(json, "$.grpcReportEnabled");
+    assertEquals(false, supportRemoteConnection);
+    assertEquals(true, grpcReportEnabled);
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+

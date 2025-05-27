@@ -1,0 +1,152 @@
+Test File Path: projects/dff7457cb5ba1557727deddef5b675dd00fbf8a8/optaplanner/optaplanner-core/src/test/java/org/optaplanner/core/config/solver/SolverConfigTest.java
+Original Test Method:
+     public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+        String solverConfigResource = "org/optaplanner/core/config/solver/testdataSolverConfig.xml";
+        String originalXml = IOUtils.toString(
+                getClass().getClassLoader().getResourceAsStream(solverConfigResource), StandardCharsets.UTF_8);
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource);
+        assertNotNull(SolverFactory.create(solverConfig).buildSolver());
+        XStream xStream = XStreamConfigReader.buildXStream(getClass().getClassLoader());
+        xStream.setMode(XStream.NO_REFERENCES);
+        String savedXml = xStream.toXML(solverConfig);
+        assertEquals(originalXml.trim(), savedXml.trim());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String solverConfigResource = "org/optaplanner/core/config/solver/testdataSolverConfig.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(solverConfigResource), StandardCharsets.UTF_8);
+    SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource);
+    assertNotNull(SolverFactory.create(solverConfig).buildSolver());
+    XStream xStream = XStreamConfigReader.buildXStream(getClass().getClassLoader());
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(solverConfig);
+    assertEquals(StringUtils.trim(originalXml), StringUtils.trim(savedXml));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+        String solverConfigResource = "org/optaplanner/core/config/solver/testdataSolverConfig.xml";
+        String originalXml = IOUtils.toString(
+                getClass().getClassLoader().getResourceAsStream(solverConfigResource), StandardCharsets.UTF_8);
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource);
+        assertNotNull(SolverFactory.create(solverConfig).buildSolver());
+        XStream xStream = XStreamConfigReader.buildXStream(getClass().getClassLoader());
+        xStream.setMode(XStream.NO_REFERENCES);
+        String savedXml = xStream.toXML(solverConfig);
+        assertEquals(StringUtils.trim(originalXml), StringUtils.trim(savedXml));
+    }
+
+
+import:
+
+['import org.optaplanner.core.config.solver.SolverConfig;', 'import static org.junit.jupiter.api.Assertions.assertEquals;', 'import static org.junit.jupiter.api.Assertions.assertNotNull;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+        String solverConfigResource = "org/optaplanner/core/config/solver/testdataSolverConfig.xml";
+        String originalXml = IOUtils.toString(
+                getClass().getClassLoader().getResourceAsStream(solverConfigResource), StandardCharsets.UTF_8);
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource);
+        assertNotNull(SolverFactory.create(solverConfig).buildSolver());
+        XStream xStream = XStreamConfigReader.buildXStream(getClass().getClassLoader());
+        xStream.setMode(XStream.NO_REFERENCES);
+        String savedXml = xStream.toXML(solverConfig);
+        assertEquals(StringUtils.trim(originalXml), StringUtils.trim(savedXml));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String solverConfigResource = "org/optaplanner/core/config/solver/testdataSolverConfig.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(solverConfigResource), StandardCharsets.UTF_8);
+    SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource);
+    assertNotNull(SolverFactory.create(solverConfig).buildSolver());
+    XStream xStream = XStreamConfigReader.buildXStream(getClass().getClassLoader());
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(solverConfig);
+    assertEquals(StringUtils.trim(originalXml), StringUtils.trim(savedXml));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.6.0</version>
+    <scope>test</scope>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String solverConfigResource = "org/optaplanner/core/config/solver/testdataSolverConfig.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(solverConfigResource), StandardCharsets.UTF_8);
+    SolverConfig solverConfig = SolverConfig.createFromXmlResource(solverConfigResource);
+    assertNotNull(SolverFactory.create(solverConfig).buildSolver());
+    XStream xStream = XStreamConfigReader.buildXStream(getClass().getClassLoader());
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(solverConfig);
+    assertEquals(StringUtils.trim(originalXml), StringUtils.trim(savedXml));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

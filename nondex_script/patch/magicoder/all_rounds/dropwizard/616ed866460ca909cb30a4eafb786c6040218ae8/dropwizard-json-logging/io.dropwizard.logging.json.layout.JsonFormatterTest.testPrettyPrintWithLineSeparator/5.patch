@@ -1,0 +1,157 @@
+Test File Path: projects/616ed866460ca909cb30a4eafb786c6040218ae8/dropwizard/dropwizard-json-logging/src/test/java/io/dropwizard/logging/json/layout/JsonFormatterTest.java
+Original Test Method:
+     public void testPrettyPrintWithLineSeparator() {
+        JsonFormatter formatter = new JsonFormatter(objectMapper, true, true);
+        assertThat(formatter.toJson(map)).isEqualTo(String.format("{%n" +
+                "  \"hobbies\" : [ \"Reading\", \"Biking\", \"Snorkeling\" ],%n" +
+                "  \"name\" : \"Jim\"%n" +
+                "}%n"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.assertj.core.api.Assertions;', 'import java.util.HashMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testPrettyPrintWithLineSeparator() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    String json = objectMapper.writeValueAsString(Arrays.asList("a", "b", "c"));
+    assertThat(json, containsString("\"a\""));
+    assertThat(json, containsString("\"b\""));
+    assertThat(json, containsString("\"c\""));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+
+
+After stitching: 
+
+test_code:
+
+public void testPrettyPrintWithLineSeparator() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    String json = objectMapper.writeValueAsString(Arrays.asList("a", "b", "c"));
+    assertThat(json, containsString("\"a\""));
+    assertThat(json, containsString("\"b\""));
+    assertThat(json, containsString("\"c\""));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testPrettyPrintWithLineSeparator() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String json = objectMapper.writeValueAsString(Arrays.asList("a", "b", "c"));
+        assertThat(json, containsString("\"a\""));
+        assertThat(json, containsString("\"b\""));
+        assertThat(json, containsString("\"c\""));
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.SerializationFeature;', 'import static org.hamcrest.Matchers.containsString;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testPrettyPrintWithLineSeparator() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String json = objectMapper.writeValueAsString(Arrays.asList("a", "b", "c"));
+        assertThat(json, containsString("\"a\""));
+        assertThat(json, containsString("\"b\""));
+        assertThat(json, containsString("\"c\""));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testPrettyPrintWithLineSeparator() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String json = objectMapper.writeValueAsString(Arrays.asList("a", "b", "c"));
+        assertThat(json, containsString("\"a\""));
+        assertThat(json, containsString("\"b\""));
+        assertThat(json, containsString("\"c\""));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

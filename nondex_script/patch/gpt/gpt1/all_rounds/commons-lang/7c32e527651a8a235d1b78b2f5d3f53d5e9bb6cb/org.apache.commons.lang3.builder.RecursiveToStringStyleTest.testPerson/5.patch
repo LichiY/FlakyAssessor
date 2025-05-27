@@ -1,0 +1,227 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/RecursiveToStringStyleTest.java
+Original Test Method:
+     public void testPerson() {
+        final Person p = new Person();
+        p.name = "John Doe";
+        p.age = 33;
+        p.smoker = false;
+        p.job = new Job();
+        p.job.title = "Manager";
+        final String pBaseStr = p.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(p));
+        final String pJobStr  = p.job.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(p.job));
+        assertEquals(pBaseStr + "[name=John Doe,age=33,smoker=false,job=" + pJobStr + "[title=Manager]]",
+                     new ReflectionToStringBuilder(p, new RecursiveToStringStyle()).toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testPerson() {
+    final Person p = new Person();
+    p.name = "John Doe";
+    p.age = 33;
+    p.smoker = false;
+    p.job = new Job();
+    p.job.title = "Manager";
+    final String actual = new ReflectionToStringBuilder(p, new RecursiveToStringStyle()).toString();
+    
+    assertTrue(actual.contains("name=John Doe"));
+    assertTrue(actual.contains("age=33"));
+    assertTrue(actual.contains("smoker=false"));
+    assertTrue(actual.contains("job=" + p.job.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(p.job)) + "[title=Manager]"));
+    assertTrue(actual.startsWith(p.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(p)) + "["));
+    assertTrue(actual.endsWith("]"));
+}
+
+
+import:
+
+['import static org.junit.Assert.assertTrue;']
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testPerson() {
+    final Person p = new Person();
+    p.name = "John Doe";
+    p.age = 33;
+    p.smoker = false;
+    p.job = new Job();
+    p.job.title = "Manager";
+    
+    final String actual = new ReflectionToStringBuilder(p, new RecursiveToStringStyle()).toString();
+    
+    assertTrue(actual.contains("name=John Doe"));
+    assertTrue(actual.contains("age=33"));
+    assertTrue(actual.contains("smoker=false"));
+    assertTrue(actual.contains("title=Manager"));
+    assertTrue(actual.contains(p.getClass().getName()));
+    assertTrue(actual.contains(Integer.toHexString(System.identityHashCode(p))));
+    assertTrue(actual.endsWith("]"));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.ReflectionToStringBuilder;', 'import org.apache.commons.lang3.builder.RecursiveToStringStyle;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testPerson() {
+    final Person p = new Person();
+    p.name = "John Doe";
+    p.age = 33;
+    p.smoker = false;
+    p.job = new Job();
+    p.job.title = "Manager";
+    
+    final String actual = new ReflectionToStringBuilder(p, new RecursiveToStringStyle()).toString();
+    
+    assertThat(actual, allOf(
+        containsString("name=John Doe"),
+        containsString("age=33"),
+        containsString("smoker=false"),
+        containsString("title=Manager"),
+        containsString(p.getClass().getName()),
+        containsString(Integer.toHexString(System.identityHashCode(p))),
+        endsWith("]")
+    ));
+}
+
+
+import:
+
+['import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.*;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-all</artifactId>
+    <version>1.3</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testPerson() {
+    final Person p = new Person();
+    p.name = "John Doe";
+    p.age = 33;
+    p.smoker = false;
+    p.job = new Job();
+    p.job.title = "Manager";
+    
+    final String actual = new ReflectionToStringBuilder(p, new RecursiveToStringStyle() {
+        @Override
+        protected void appendDetail(StringBuffer buffer, String fieldName, Object value) {
+            if (value instanceof Job) {
+                Job job = (Job) value;
+                buffer.append("Job[title=").append(job.title).append("]");
+            } else {
+                super.appendDetail(buffer, fieldName, value);
+            }
+        }
+    }).toString();
+    
+    assertThat(actual, allOf(
+        containsString("name=John Doe"),
+        containsString("age=33"),
+        containsString("smoker=false"),
+        containsString("title=Manager"),
+        containsString(p.getClass().getName()),
+        containsString(Integer.toHexString(System.identityHashCode(p))),
+        endsWith("]")
+    ));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testPerson() {
+    final Person p = new Person();
+    p.name = "John Doe";
+    p.age = 33;
+    p.smoker = false;
+    p.job = new Job();
+    p.job.title = "Manager";
+    
+    final String actual = new ReflectionToStringBuilder(p, new RecursiveToStringStyle() {
+        @Override
+        protected void appendDetail(StringBuffer buffer, String fieldName, Object value) {
+            if (value instanceof Job) {
+                Job job = (Job) value;
+                buffer.append("Job[title=").append(job.title).append("]");
+            } else {
+                super.appendDetail(buffer, fieldName, value);
+            }
+        }
+    }).toString();
+    
+    assertThat(actual, allOf(
+        containsString("name=John Doe"),
+        containsString("age=33"),
+        containsString("smoker=false"),
+        containsString("title=Manager"),
+        containsString(p.getClass().getName()),
+        containsString(Integer.toHexString(System.identityHashCode(p))),
+        endsWith("]")
+    ));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+

@@ -1,0 +1,318 @@
+Test File Path: projects/624b3aa22e4064b42bd171e8d7753238a1d6616c/wildfly-core/cli/src/test/java/org/jboss/as/cli/impl/aesh/HelpSupportTestCase.java
+Original Test Method:
+     public void testStandalone() throws Exception {
+        for (Class<? extends Command> clazz : Commands.TESTS_STANDALONE) {
+            testStandalone(clazz);
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testStandalone() throws Exception {
+    for (Class<? extends Command> clazz : Commands.TESTS_STANDALONE) {
+        String fullHelp = HelpSupport.getCommandHelp(new AeshCommandContainerBuilder().create(clazz).getParser());
+        String expected = ((TestCommand) clazz.newInstance()).getSynopsis();
+        String actual = fullHelp.replaceAll("\\s+", " ").trim();
+        expected = expected.replaceAll("\\s+", " ").trim();
+        
+        // Split options and compare unordered
+        String[] actualParts = actual.split("\\|");
+        String[] expectedParts = expected.split("\\|");
+        
+        Assert.assertEquals(clazz.getName() + " option count mismatch", expectedParts.length, actualParts.length);
+        Assert.assertThat(clazz.getName() + " options mismatch", 
+            Arrays.asList(actualParts), 
+            Matchers.containsInAnyOrder(expectedParts));
+    }
+}
+
+
+import:
+
+['import org.hamcrest.Matchers;', 'import java.util.Arrays;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testStandalone() throws Exception {
+    for (Class<? extends Command> clazz : Commands.TESTS_STANDALONE) {
+        String fullHelp = HelpSupport.getCommandHelp(new AeshCommandContainerBuilder().create(clazz).getParser());
+        String expected = ((TestCommand) clazz.newInstance()).getSynopsis();
+        String actual = fullHelp.replaceAll("\\s+", " ").trim();
+        expected = expected.replaceAll("\\s+", " ").trim();
+        
+        // Remove "SYNOPSIS" prefix if present
+        if (actual.startsWith("SYNOPSIS ")) {
+            actual = actual.substring("SYNOPSIS ".length());
+        }
+        
+        // Split options and compare unordered
+        String[] actualParts = actual.split("\\|");
+        String[] expectedParts = expected.split("\\|");
+        
+        Assert.assertEquals(clazz.getName() + " option count mismatch", expectedParts.length, actualParts.length);
+        Assert.assertThat(clazz.getName() + " options mismatch", 
+            Arrays.asList(actualParts), 
+            Matchers.containsInAnyOrder(expectedParts));
+    }
+}
+
+
+import:
+
+['import java.util.List;']
+
+pom:
+
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.Set;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+private static void testStandalone(Class<? extends Command> clazz) throws Exception {
+    for (Class<? extends Command> clazz : Commands.TESTS_STANDALONE) {
+        String fullHelp = HelpSupport.getCommandHelp(new AeshCommandContainerBuilder().create(clazz).getParser());
+        String expected = ((TestCommand) clazz.newInstance()).getSynopsis();
+        String actual = fullHelp.replaceAll("\\s+", " ").trim();
+        expected = expected.replaceAll("\\s+", " ").trim();
+        
+        // Remove "SYNOPSIS" prefix if present
+        if (actual.startsWith("SYNOPSIS ")) {
+            actual = actual.substring("SYNOPSIS ".length());
+        }
+        
+        // Split options and compare unordered
+        String[] actualParts = actual.split("\\|");
+        String[] expectedParts = expected.split("\\|");
+        
+        Assert.assertEquals(clazz.getName() + " option count mismatch", expectedParts.length, actualParts.length);
+        Assert.assertThat(clazz.getName() + " options mismatch", 
+            Arrays.asList(actualParts), 
+            Matchers.containsInAnyOrder(expectedParts));
+    }
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.Set;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+private static void testStandalone() throws Exception {
+    for (Class<? extends Command> commandClass : Commands.TESTS_STANDALONE) {
+        String fullHelp = HelpSupport.getCommandHelp(new AeshCommandContainerBuilder().create(commandClass).getParser());
+        String expected = ((TestCommand) commandClass.newInstance()).getSynopsis();
+        String actual = fullHelp.replaceAll("\\s+", " ").trim();
+        expected = expected.replaceAll("\\s+", " ").trim();
+        
+        // Remove "SYNOPSIS" prefix if present
+        if (actual.startsWith("SYNOPSIS ")) {
+            actual = actual.substring("SYNOPSIS ".length());
+        }
+        
+        // Split options and compare unordered
+        String[] actualParts = actual.split("\\|");
+        String[] expectedParts = expected.split("\\|");
+        
+        Assert.assertEquals(commandClass.getName() + " option count mismatch", expectedParts.length, actualParts.length);
+        Assert.assertThat(commandClass.getName() + " options mismatch", 
+            Arrays.asList(actualParts), 
+            Matchers.containsInAnyOrder(expectedParts));
+    }
+}
+
+
+import:
+
+['import static org.junit.Assert.*;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+private static void testStandalone(Class<? extends Command> clazz) throws Exception {
+    for (Class<? extends Command> commandClass : Commands.TESTS_STANDALONE) {
+        String fullHelp = HelpSupport.getCommandHelp(new AeshCommandContainerBuilder().create(commandClass).getParser());
+        String expected = ((TestCommand) commandClass.newInstance()).getSynopsis();
+        String actual = fullHelp.replaceAll("\\s+", " ").trim();
+        expected = expected.replaceAll("\\s+", " ").trim();
+        
+        // Remove "SYNOPSIS" prefix if present
+        if (actual.startsWith("SYNOPSIS ")) {
+            actual = actual.substring("SYNOPSIS ".length());
+        }
+        
+        // Split options and compare unordered
+        String[] actualParts = actual.split("\\|");
+        String[] expectedParts = expected.split("\\|");
+        
+        Assert.assertEquals(commandClass.getName() + " option count mismatch", expectedParts.length, actualParts.length);
+        Assert.assertThat(commandClass.getName() + " options mismatch", 
+            Arrays.asList(actualParts), 
+            Matchers.containsInAnyOrder(expectedParts));
+    }
+}
+
+
+import:
+
+['import static org.junit.Assert.*;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+private static void testStandalone(Class<? extends Command> clazz) throws Exception {
+    for (Class<? extends Command> commandClass : Commands.TESTS_STANDALONE) {
+        String fullHelp = HelpSupport.getCommandHelp(new AeshCommandContainerBuilder().create(commandClass).getParser());
+        String expected = ((TestCommand) commandClass.newInstance()).getSynopsis();
+        String actual = fullHelp.replaceAll("\\s+", " ").trim();
+        expected = expected.replaceAll("\\s+", " ").trim();
+        
+        // Remove "SYNOPSIS" prefix if present
+        if (actual.startsWith("SYNOPSIS ")) {
+            actual = actual.substring("SYNOPSIS ".length());
+        }
+        
+        // Split options and compare unordered using TreeSet for deterministic order
+        String[] actualParts = actual.split("\\|");
+        String[] expectedParts = expected.split("\\|");
+        
+        Set<String> actualSet = new TreeSet<>(Arrays.asList(actualParts));
+        Set<String> expectedSet = new TreeSet<>(Arrays.asList(expectedParts));
+        
+        Assert.assertEquals(commandClass.getName() + " option count mismatch", expectedSet.size(), actualSet.size());
+        Assert.assertEquals(commandClass.getName() + " options mismatch", expectedSet, actualSet);
+    }
+}
+
+
+import:
+
+['import java.util.TreeSet;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+
+
+After stitching: 
+
+test_code:
+
+private static void testStandalone(Class<? extends Command> clazz) throws Exception {
+    for (Class<? extends Command> commandClass : Commands.TESTS_STANDALONE) {
+        String fullHelp = HelpSupport.getCommandHelp(new AeshCommandContainerBuilder().create(commandClass).getParser());
+        String expected = ((TestCommand) commandClass.newInstance()).getSynopsis();
+        String actual = fullHelp.replaceAll("\\s+", " ").trim();
+        expected = expected.replaceAll("\\s+", " ").trim();
+        
+        // Remove "SYNOPSIS" prefix if present
+        if (actual.startsWith("SYNOPSIS ")) {
+            actual = actual.substring("SYNOPSIS ".length());
+        }
+        
+        // Split options and compare unordered using TreeSet for deterministic order
+        String[] actualParts = actual.split("\\|");
+        String[] expectedParts = expected.split("\\|");
+        
+        Set<String> actualSet = new TreeSet<>(Arrays.asList(actualParts));
+        Set<String> expectedSet = new TreeSet<>(Arrays.asList(expectedParts));
+        
+        Assert.assertEquals(commandClass.getName() + " option count mismatch", expectedSet.size(), actualSet.size());
+        Assert.assertEquals(commandClass.getName() + " options mismatch", expectedSet, actualSet);
+    }
+}
+
+
+import:
+
+['import java.util.TreeSet;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+

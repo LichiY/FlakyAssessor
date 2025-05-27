@@ -1,0 +1,165 @@
+Test File Path: projects/a88ae3c41589a21eb4df6049982620ebb152de97/jackson-dataformats-text/yaml/src/test/java/com/fasterxml/jackson/dataformat/yaml/misc/ObjectIdTest.java
+Original Test Method:
+     public void testNativeSerialization() throws Exception
+    {
+        Node first = new Node("first");
+        Node second = new Node("second");
+        first.next = second;
+        second.next = first;
+        String yaml = MAPPER.writeValueAsString(first);
+        assertYAML(SIMPLE_YAML_NATIVE, yaml);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testNativeSerialization() throws Exception {
+    Node first = new Node("first");
+    Node second = new Node("second");
+    first.next = second;
+    second.next = first;
+    String yaml = MAPPER.writeValueAsString(first);
+    assertYAML(SIMPLE_YAML_NATIVE, yaml);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testNativeSerialization() throws Exception {
+    Node first = new Node("first");
+    Node second = new Node("second");
+    first.next = second;
+    second.next = first;
+    String yaml = MAPPER.writeValueAsString(first);
+    assertYAML(SIMPLE_YAML_NATIVE, yaml);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testNativeSerialization() throws Exception {
+    Node first = new Node("first");
+    Node second = new Node("second");
+    first.next = second;
+    second.next = first;
+    String yaml = MAPPER.writeValueAsString(first);
+    assertYAML(SIMPLE_YAML_NATIVE, yaml);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testNativeSerialization() throws Exception {
+    Node first = new Node("first");
+    Node second = new Node("second");
+    first.next = second;
+    second.next = first;
+    String yaml = MAPPER.writeValueAsString(first);
+    assertYAML(SIMPLE_YAML_NATIVE, yaml);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.yaml</groupId>
+    <artifactId>snakeyaml</artifactId>
+    <version>1.27</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    void testNativeSerialization() throws Exception {
+        Node first = new Node("first");
+        Node second = new Node("second");
+        first.next = second;
+        second.next = first;
+
+        Map<String, Object> expected = new LinkedHashMap<>();
+        expected.put("name", "first");
+        expected.put("next", second);
+
+        Map<String, Object> actual = MAPPER.readValue(MAPPER.writeValueAsString(first), Map.class);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import java.util.LinkedHashMap;', 'import java.util.Map;', 'import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void testNativeSerialization() throws Exception {
+        Node first = new Node("first");
+        Node second = new Node("second");
+        first.next = second;
+        second.next = first;
+
+        Map<String, Object> expected = new LinkedHashMap<>();
+        expected.put("name", "first");
+        expected.put("next", second);
+
+        Map<String, Object> actual = MAPPER.readValue(MAPPER.writeValueAsString(first), Map.class);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import java.util.LinkedHashMap;', 'import java.util.Map;', 'import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+None

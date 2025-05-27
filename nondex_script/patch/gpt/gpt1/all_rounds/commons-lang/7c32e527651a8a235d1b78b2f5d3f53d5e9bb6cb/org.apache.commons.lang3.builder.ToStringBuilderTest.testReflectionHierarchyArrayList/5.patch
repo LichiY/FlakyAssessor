@@ -1,0 +1,165 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/ToStringBuilderTest.java
+Original Test Method:
+     public void testReflectionHierarchyArrayList() {
+        // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+        final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+        final String baseString = this.toBaseString(list);
+        final String expectedWithTransients = baseString + "[elementData={<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>},size=0,modCount=0]";
+        final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+        if (!expectedWithTransients.equals(toStringWithTransients)) {
+            assertEquals(expectedWithTransients, toStringWithTransients);
+        }
+        final String expectedWithoutTransients = baseString + "[size=0]";
+        final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+        if (!expectedWithoutTransients.equals(toStringWithoutTransients)) {
+            assertEquals(expectedWithoutTransients, toStringWithoutTransients);
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+    final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+    final String baseString = this.toBaseString(list);
+    
+    // Split the string into parts that can be checked independently
+    final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+    assertTrue(toStringWithTransients.startsWith(baseString + "["));
+    assertTrue(toStringWithTransients.contains("elementData={<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>}"));
+    assertTrue(toStringWithTransients.contains("size=0"));
+    assertTrue(toStringWithTransients.contains("modCount=0"));
+    assertTrue(toStringWithTransients.endsWith("]"));
+
+    final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+    assertEquals(baseString + "[size=0]", toStringWithoutTransients);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+    final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+    final String baseString = this.toBaseString(list);
+    
+    // Split the string into parts that can be checked independently
+    final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+    assertThat(toStringWithTransients, startsWith(baseString + "["));
+    assertThat(toStringWithTransients, containsString("elementData={<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>}"));
+    assertThat(toStringWithTransients, containsString("size=0"));
+    assertThat(toStringWithTransients, containsString("modCount=0"));
+    assertThat(toStringWithTransients, endsWith("]"));
+
+    final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+    assertEquals(baseString + "[size=0]", toStringWithoutTransients);
+}
+
+
+import:
+
+['import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.*;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-core</artifactId>
+    <version>1.3</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+    final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+    final String baseString = this.toBaseString(list);
+    
+    // Split the string into parts that can be checked independently
+    final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+    assertThat(toStringWithTransients, startsWith(baseString + "["));
+    assertThat(toStringWithTransients, containsString("size=0"));
+    assertThat(toStringWithTransients, containsString("modCount=0"));
+    assertThat(toStringWithTransients, endsWith("]"));
+    // Check elementData contents without assuming order
+    assertThat(toStringWithTransients, matchesPattern(".*elementData=\\{.*<null>(,<null>)*\\}.*"));
+
+    final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+    assertEquals(baseString + "[size=0]", toStringWithoutTransients);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+    final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+    final String baseString = this.toBaseString(list);
+    
+    // Split the string into parts that can be checked independently
+    final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+    assertThat(toStringWithTransients, startsWith(baseString + "["));
+    assertThat(toStringWithTransients, containsString("size=0"));
+    assertThat(toStringWithTransients, containsString("modCount=0"));
+    assertThat(toStringWithTransients, endsWith("]"));
+    // Check elementData contents without assuming order
+    assertThat(toStringWithTransients, matchesPattern(".*elementData=\\{.*(<null>,)*<null>\\}.*"));
+
+    final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+    assertEquals(baseString + "[size=0]", toStringWithoutTransients);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,67 @@
+Test File Path: projects/689f5a36713a1e09edeeb8ecd7a822dbc097d7cd/modelmapper/core/src/test/java/org/modelmapper/internal/converter/ArrayConverterTest.java
+Original Test Method:
+   public void shouldConvertFromSet() {
+    Set<Integer> source = new HashSet<Integer>(Arrays.asList(3, 4, 5));
+    String[] dest = (String[]) convert(source, String[].class);
+    assertEquals(Arrays.asList(dest), Arrays.asList("3", "4", "5"));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldConvertFromSet() {
+        Set<Integer> source = new HashSet<>(Arrays.asList(3, 4, 5));
+        String[] dest = (String[]) convert(source, String[].class);
+        assertEquals(Arrays.asList(dest), Arrays.asList("3", "4", "5"));
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldConvertFromSet() {
+        Set<Integer> source = new HashSet<>(Arrays.asList(3, 4, 5));
+        String[] dest = (String[]) convert(source, String[].class);
+        assertEquals(Arrays.asList(dest), Arrays.asList("3", "4", "5"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void shouldConvertFromSet() {
+    Set<Integer> source = new LinkedHashSet<>(Arrays.asList(3, 4, 5));
+    String[] dest = (String[]) convert(source, String[].class);
+    assertEquals(Arrays.asList(dest), Arrays.asList("3", "4", "5"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

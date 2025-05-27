@@ -1,0 +1,33 @@
+Test File Path: projects/922590e084284fc95566f8dcb277e94733cff2ec/spring-cloud-config/spring-cloud-config-monitor/src/test/java/org/springframework/cloud/config/monitor/GiteePropertyPathNotificationExtractorTests.java
+Original Test Method:
+ 	public void giteeSample() throws Exception {
+		// See https://git.mydoc.io/?t=154711
+		Map<String, Object> value = new ObjectMapper().readValue(
+				new ClassPathResource("pathsamples/gitee.json").getInputStream(),
+				new TypeReference<Map<String, Object>>() {
+				});
+		this.headers.set("x-git-oschina-event", "Push Hook");
+		PropertyPathNotification extracted = this.extractor.extract(this.headers, value);
+		assertThat(extracted).isNotNull();
+		assertThat(extracted.getPaths()[0]).isEqualTo("d.txt");
+	}
+Patch:
+
+test_code:
+	public void giteeSample() throws Exception {
+		// See https://git.mydoc.io/?t=154711
+		Map<String, Object> value = new ObjectMapper().readValue(
+				new ClassPathResource("pathsamples/gitee.json").getInputStream(),
+				new TypeReference<Map<String, Object>>() {
+				});
+		this.headers.set("x-git-oschina-event", "Push Hook");
+		PropertyPathNotification extracted = this.extractor.extract(this.headers, value);
+		assertThat(extracted).isNotNull();
+		assertThat(extracted.getPaths()).contains("d.txt");
+	}
+
+import:
+[]
+pom:
+
+<!-- No new dependencies needed -->

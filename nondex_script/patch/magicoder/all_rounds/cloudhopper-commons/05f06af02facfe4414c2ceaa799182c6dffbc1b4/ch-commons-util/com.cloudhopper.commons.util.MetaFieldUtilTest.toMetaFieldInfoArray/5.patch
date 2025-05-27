@@ -1,0 +1,221 @@
+Test File Path: projects/05f06af02facfe4414c2ceaa799182c6dffbc1b4/cloudhopper-commons/ch-commons-util/src/test/java/com/cloudhopper/commons/util/MetaFieldUtilTest.java
+Original Test Method:
+     public void toMetaFieldInfoArray() throws Exception {
+        Administrator emp = new Administrator();
+        MetaFieldInfo[] fields = MetaFieldUtil.toMetaFieldInfoArray(emp);
+        Assert.assertEquals(12, fields.length);
+        Assert.assertEquals("First Name", fields[0].name);
+        Assert.assertEquals("Last Name", fields[1].name);
+        Assert.assertEquals("email", fields[2].name);
+        Assert.assertEquals("ID", fields[3].name);
+        Assert.assertEquals("Active?", fields[4].name);
+        Assert.assertEquals("loginCounter", fields[5].name);
+        Assert.assertEquals("The first name of this user", fields[0].description);
+        Assert.assertEquals("", fields[1].description);
+        Assert.assertEquals("", fields[2].description);
+        // set some values
+        emp.setFirstName("John");
+        emp.setLastName("Doe");
+        fields = MetaFieldUtil.toMetaFieldInfoArray(emp, "EMPTY");
+        //for (MetaFieldInfo field : fields) {
+        //    logger.debug("field name=" + field.name + ", value=" + field.value + ", description=" + field.description);
+        //}
+        Assert.assertEquals("John", fields[0].value);
+        Assert.assertEquals("Doe", fields[1].value);
+        Assert.assertEquals("EMPTY", fields[2].value);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void toMetaFieldInfoArray() throws Exception {
+    Administrator emp = new Administrator();
+    MetaFieldInfo[] fields = MetaFieldUtil.toMetaFieldInfoArray(emp);
+    Assert.assertEquals(12, fields.length);
+    Assert.assertEquals("First Name", fields[0].name);
+    Assert.assertEquals("Last Name", fields[1].name);
+    Assert.assertEquals("email", fields[2].name);
+    Assert.assertEquals("ID", fields[3].name);
+    Assert.assertEquals("Active?", fields[4].name);
+    Assert.assertEquals("loginCounter", fields[5].name);
+    Assert.assertEquals("The first name of this user", fields[0].description);
+    Assert.assertEquals("", fields[1].description);
+    Assert.assertEquals("", fields[2].description);
+    // set some values
+    emp.setFirstName("John");
+    emp.setLastName("Doe");
+    fields = MetaFieldUtil.toMetaFieldInfoArray(emp, "EMPTY");
+    //for (MetaFieldInfo field : fields) {
+    //    logger.debug("field name=" + field.name + ", value=" + field.value + ", description=" + field.description);
+    //}
+    Assert.assertEquals("John", fields[0].value);
+    Assert.assertEquals("Doe", fields[1].value);
+    Assert.assertEquals("EMPTY", fields[2].value);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void toMetaFieldInfoArray() throws Exception {
+    Administrator emp = new Administrator();
+    MetaFieldInfo[] fields = MetaFieldUtil.toMetaFieldInfoArray(emp);
+    Assert.assertEquals(12, fields.length);
+    Assert.assertEquals("First Name", fields[0].name);
+    Assert.assertEquals("Last Name", fields[1].name);
+    Assert.assertEquals("email", fields[2].name);
+    Assert.assertEquals("ID", fields[3].name);
+    Assert.assertEquals("Active?", fields[4].name);
+    Assert.assertEquals("loginCounter", fields[5].name);
+    Assert.assertEquals("The first name of this user", fields[0].description);
+    Assert.assertEquals("", fields[1].description);
+    Assert.assertEquals("", fields[2].description);
+    // set some values
+    emp.setFirstName("John");
+    emp.setLastName("Doe");
+    fields = MetaFieldUtil.toMetaFieldInfoArray(emp, "EMPTY");
+    //for (MetaFieldInfo field : fields) {
+    //    logger.debug("field name=" + field.name + ", value=" + field.value + ", description=" + field.description);
+    //}
+    Assert.assertEquals("John", fields[0].value);
+    Assert.assertEquals("Doe", fields[1].value);
+    Assert.assertEquals("EMPTY", fields[2].value);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void toMetaFieldInfoArray() throws Exception {
+    Administrator emp = new Administrator();
+    MetaFieldInfo[] fields = MetaFieldUtil.toMetaFieldInfoArray(emp);
+    Assert.assertEquals(12, fields.length);
+    Assert.assertEquals("First Name", fields[0].name);
+    Assert.assertEquals("Last Name", fields[1].name);
+    Assert.assertEquals("email", fields[2].name);
+    Assert.assertEquals("ID", fields[3].name);
+    Assert.assertEquals("Active?", fields[4].name);
+    Assert.assertEquals("loginCounter", fields[5].name);
+    Assert.assertEquals("The first name of this user", fields[0].description);
+    Assert.assertEquals("", fields[1].description);
+    Assert.assertEquals("", fields[2].description);
+    // set some values
+    emp.setFirstName("John");
+    emp.setLastName("Doe");
+    fields = MetaFieldUtil.toMetaFieldInfoArray(emp, "EMPTY");
+    //for (MetaFieldInfo field : fields) {
+    //    logger.debug("field name=" + field.name + ", value=" + field.value + ", description=" + field.description);
+    //}
+    Assert.assertEquals("John", fields[0].value);
+    Assert.assertEquals("Doe", fields[1].value);
+    Assert.assertEquals("EMPTY", fields[2].value);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void toMetaFieldInfoArray() throws Exception {
+    Administrator emp = new Administrator();
+    MetaFieldInfo[] fields = MetaFieldUtil.toMetaFieldInfoArray(emp);
+    Assert.assertEquals(12, fields.length);
+    Assert.assertEquals("First Name", fields[0].name);
+    Assert.assertEquals("Last Name", fields[1].name);
+    Assert.assertEquals("email", fields[2].name);
+    Assert.assertEquals("ID", fields[3].name);
+    Assert.assertEquals("Active?", fields[4].name);
+    Assert.assertEquals("loginCounter", fields[5].name);
+    Assert.assertEquals("The first name of this user", fields[0].description);
+    Assert.assertEquals("", fields[1].description);
+    Assert.assertEquals("", fields[2].description);
+    // set some values
+    emp.setFirstName("John");
+    emp.setLastName("Doe");
+    fields = MetaFieldUtil.toMetaFieldInfoArray(emp, "EMPTY");
+    //for (MetaFieldInfo field : fields) {
+    //    logger.debug("field name=" + field.name + ", value=" + field.value + ", description=" + field.description);
+    //}
+    Assert.assertEquals("John", fields[0].value);
+    Assert.assertEquals("Doe", fields[1].value);
+    Assert.assertEquals("EMPTY", fields[2].value);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void toMetaFieldInfoArray() throws Exception {
+    Administrator emp = new Administrator();
+    MetaFieldInfo[] fields = MetaFieldUtil.toMetaFieldInfoArray(emp);
+    Assert.assertEquals(12, fields.length);
+    Assert.assertEquals("First Name", fields[0].name);
+    Assert.assertEquals("Last Name", fields[1].name);
+    Assert.assertEquals("email", fields[2].name);
+    Assert.assertEquals("ID", fields[3].name);
+    Assert.assertEquals("Active?", fields[4].name);
+    Assert.assertEquals("loginCounter", fields[5].name);
+    Assert.assertEquals("The first name of this user", fields[0].description);
+    Assert.assertEquals("", fields[1].description);
+    Assert.assertEquals("", fields[2].description);
+    // set some values
+    emp.setFirstName("John");
+    emp.setLastName("Doe");
+    fields = MetaFieldUtil.toMetaFieldInfoArray(emp, "EMPTY");
+    //for (MetaFieldInfo field : fields) {
+    //    logger.debug("field name=" + field.name + ", value=" + field.value + ", description=" + field.description);
+    //}
+    Assert.assertEquals("John", fields[0].value);
+    Assert.assertEquals("Doe", fields[1].value);
+    Assert.assertEquals("EMPTY", fields[2].value);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

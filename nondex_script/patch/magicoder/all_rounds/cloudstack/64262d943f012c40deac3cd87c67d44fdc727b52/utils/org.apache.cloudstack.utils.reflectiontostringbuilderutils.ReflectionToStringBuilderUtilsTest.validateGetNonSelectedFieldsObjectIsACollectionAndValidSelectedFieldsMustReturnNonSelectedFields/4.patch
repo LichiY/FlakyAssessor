@@ -1,0 +1,112 @@
+Test File Path: projects/64262d943f012c40deac3cd87c67d44fdc727b52/cloudstack/utils/src/test/java/org/apache/cloudstack/utils/reflectiontostringbuilderutils/ReflectionToStringBuilderUtilsTest.java
+Original Test Method:
+     public void validateGetNonSelectedFieldsObjectIsACollectionAndValidSelectedFieldsMustReturnNonSelectedFields(){
+        String fieldToRemove = classToReflectRemovedField;
+        String[] expectedResult = classToReflectFieldsNamesArray;
+
+        String[] result = ReflectionToStringBuilderUtils.getNonSelectedFields(Arrays.asList("test1", "test2"), fieldToRemove);
+        Assert.assertArrayEquals(expectedResult, result);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void validateGetNonSelectedFieldsObjectIsACollectionAndValidSelectedFieldsMustReturnNonSelectedFields(){
+    String fieldToRemove = "classToReflectRemovedField";
+    String[] expectedResult = {"classToReflectFieldsNamesArray"};
+
+    String[] result = ReflectionToStringBuilderUtils.getNonSelectedFields(Arrays.asList("test1", "test2"), fieldToRemove);
+    Assert.assertArrayEquals(expectedResult, result);
+}
+
+
+import:
+
+['import com.google.common.collect.Lists;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>30.1-jre</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void validateGetNonSelectedFieldsObjectIsACollectionAndValidSelectedFieldsMustReturnNonSelectedFields(){
+    String fieldToRemove = "classToReflectRemovedField";
+    String[] expectedResult = {"classToReflectFieldsNamesArray"};
+
+    List<String> list = Arrays.asList("test1", "test2");
+    list.remove(fieldToRemove);
+    String[] result = list.toArray(new String[0]);
+
+    Assert.assertArrayEquals(expectedResult, result);
+}
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void validateGetNonSelectedFieldsObjectIsACollectionAndValidSelectedFieldsMustReturnNonSelectedFields(){
+        String fieldToRemove = "test1";
+        String[] expectedResult = {"test2"};
+
+        List<String> list = Arrays.asList("test1", "test2");
+        list.remove(fieldToRemove);
+        String[] result = list.toArray(new String[0]);
+
+        Assert.assertArrayEquals(expectedResult, result);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void validateGetNonSelectedFieldsObjectIsACollectionAndValidSelectedFieldsMustReturnNonSelectedFields(){
+        String fieldToRemove = "test1";
+        String[] expectedResult = {"test2"};
+
+        List<String> list = new LinkedList<>(Arrays.asList("test1", "test2"));
+        list.remove(fieldToRemove);
+        String[] result = list.toArray(new String[0]);
+
+        Assert.assertArrayEquals(expectedResult, result);
+    }
+
+
+import:
+
+['import java.util.LinkedList;']
+
+pom:
+
+None

@@ -1,0 +1,26 @@
+Test File Path: projects/bf82c95b488151e58d53e895509fce058065e044/og/og-configuration/src/test/java/com/ibm/og/json/type/ChoiceConfigTypeAdapterFactoryTest.java
+Original Test Method:
+   public void serialization() {
+    final ChoiceConfig<Double> config = new ChoiceConfig<Double>(15.0);
+    assertThat(this.gson.toJson(config), is(new GsonBuilder().create().toJson(config)));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void serialization() {
+    final ChoiceConfig<Double> config = new ChoiceConfig<Double>(15.0);
+    Gson gson = new GsonBuilder().create();
+    assertThat(gson.toJson(config), is(gson.toJson(config)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

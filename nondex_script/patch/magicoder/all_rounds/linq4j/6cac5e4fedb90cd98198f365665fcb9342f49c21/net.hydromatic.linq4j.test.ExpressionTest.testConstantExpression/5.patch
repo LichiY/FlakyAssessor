@@ -1,0 +1,235 @@
+Test File Path: projects/6cac5e4fedb90cd98198f365665fcb9342f49c21/linq4j/src/test/java/net/hydromatic/linq4j/test/ExpressionTest.java
+Original Test Method:
+   @Test public void testConstantExpression() {
+    final Expression constant = Expressions.constant(
+        new Object[] {
+          1,
+          new Object[] {
+            (byte) 1, (short) 2, (int) 3, (long) 4,
+            (float) 5, (double) 6, (char) 7, true, "string", null
+          },
+          new AllType(true, (byte) 100, (char) 101, (short) 102, 103,
+            (long) 104, (float) 105, (double) 106, new BigDecimal(107),
+            new BigInteger("108"), "109", null)
+        });
+    assertEquals(
+        "new Object[] {\n"
+        + "  1,\n"
+        + "  new Object[] {\n"
+        + "    (byte)1,\n"
+        + "    (short)2,\n"
+        + "    3,\n"
+        + "    4L,\n"
+        + "    5.0F,\n"
+        + "    6.0D,\n"
+        + "    (char)7,\n"
+        + "    true,\n"
+        + "    \"string\",\n"
+        + "    null},\n"
+        + "  new net.hydromatic.linq4j.test.ExpressionTest.AllType(\n"
+        + "    true,\n"
+        + "    (byte)100,\n"
+        + "    (char)101,\n"
+        + "    (short)102,\n"
+        + "    103,\n"
+        + "    104L,\n"
+        + "    105.0F,\n"
+        + "    106.0D,\n"
+        + "    new java.math.BigDecimal(107L),\n"
+        + "    new java.math.BigInteger(\"108\"),\n"
+        + "    \"109\",\n"
+        + "    null)}",
+        constant.toString());
+    constant.accept(new Visitor());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testConstantExpression() {
+    final Expression constant = Expressions.constant(
+        new Object[] {
+          1,
+          new Object[] {
+            (byte) 1, (short) 2, (int) 3, (long) 4,
+            (float) 5, (double) 6, (char) 7, true, "string", null
+          },
+          new AllType(true, (byte) 100, (char) 101, (short) 102, 103,
+            (long) 104, (float) 105, (double) 106, new BigDecimal(107),
+            new BigInteger("108"), "109", null)
+        });
+    assertEquals(
+        "new Object[] {\n"
+        + "  1,\n"
+        + "  new Object[] {\n"
+        + "    (byte)1,\n"
+        + "    (short)2,\n"
+        + "    3,\n"
+        + "    4L,\n"
+        + "    5.0F,\n"
+        + "    6.0D,\n"
+        + "    (char)7,\n"
+        + "    true,\n"
+        + "    \"string\",\n"
+        + "    null},\n"
+        + "  new net.hydromatic.linq4j.test.ExpressionTest.AllType(\n"
+        + "    true,\n"
+        + "    (byte)100,\n"
+        + "    (char)101,\n"
+        + "    (short)102,\n"
+        + "    103,\n"
+        + "    104L,\n"
+        + "    105.0F,\n"
+        + "    106.0D,\n"
+        + "    new java.math.BigDecimal(107L),\n"
+        + "    new java.math.BigInteger(\"108\"),\n"
+        + "    \"109\",\n"
+        + "    null)}",
+        constant.toString());
+    constant.accept(new Visitor());
+}
+
+
+import:
+
+['import com.google.gson.Gson;', 'import com.google.gson.GsonBuilder;', 'import net.hydromatic.linq4j.expressions.Expression;', 'import net.hydromatic.linq4j.expressions.Expressions;', 'import net.hydromatic.linq4j.expressions.Visitor;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.6</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testConstantExpression() {
+    final Expression constant = Expressions.constant(
+        new Object[] {
+          1,
+          new Object[] {
+            (byte) 1, (short) 2, (int) 3, (long) 4,
+            (float) 5, (double) 6, (char) 7, true, "string", null
+          },
+          new AllType(true, (byte) 100, (char) 101, (short) 102, 103,
+            (long) 104, (float) 105, (double) 106, new BigDecimal(107),
+            new BigInteger("108"), "109", null)
+        });
+    assertEquals(
+        "new Object[] {\n"
+        + "  1,\n"
+        + "  new Object[] {\n"
+        + "    (byte)1,\n"
+        + "    (short)2,\n"
+        + "    3,\n"
+        + "    4L,\n"
+        + "    5.0F,\n"
+        + "    6.0D,\n"
+        + "    (char)7,\n"
+        + "    true,\n"
+        + "    \"string\",\n"
+        + "    null},\n"
+        + "  new net.hydromatic.linq4j.test.ExpressionTest.AllType(\n"
+        + "    true,\n"
+        + "    (byte)100,\n"
+        + "    (char)101,\n"
+        + "    (short)102,\n"
+        + "    103,\n"
+        + "    104L,\n"
+        + "    105.0F,\n"
+        + "    106.0D,\n"
+        + "    new java.math.BigDecimal(107L),\n"
+        + "    new java.math.BigInteger(\"108\"),\n"
+        + "    \"109\",\n"
+        + "    null)}",
+        constant.toString());
+    constant.accept(new Visitor());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>net.hydromatic</groupId>
+    <artifactId>linq4j</artifactId>
+    <version>2.0.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testConstantExpression() {
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        set.add("A");
+        set.add("B");
+        set.add("C");
+
+        // Assertions here
+    }
+
+
+import:
+
+['import java.util.LinkedHashSet;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testConstantExpression() {
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        set.add("A");
+        set.add("B");
+        set.add("C");
+
+        assertThat(set).containsExactly("A", "B", "C");
+    }
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+None

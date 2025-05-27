@@ -1,0 +1,173 @@
+Test File Path: projects/08f6dca23e5296d6affdc40895bf294d9b3144f6/CoreNLP/test/src/edu/stanford/nlp/naturalli/RelationTripleSegmenterTest.java
+Original Test Method:
+   public void testAmericanActorChrisPratt() {
+    String conll =
+        "1\tAmerican\t4\tamod\tNN\tLOCATION\n" +
+        "2\tactor\t4\tcompound\tNN\tTITLE\n" +
+        "3\tChris\t4\tcompound\tNNP\tPERSON\n" +
+        "4\tPratt\t0\troot\tNNP\tPERSON\n";
+    Optional<RelationTriple> extraction = mkExtraction(conll, 0);
+    assertTrue("No first extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis actor of\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 1);
+    assertTrue("No second extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 2);
+    assertTrue("No third extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tactor", extraction.get().toString());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testAmericanActorChrisPratt() {
+    String conll =
+        "1\tAmerican\t4\tamod\tNN\tLOCATION\n" +
+        "2\tactor\t4\tcompound\tNN\tTITLE\n" +
+        "3\tChris\t4\tcompound\tNNP\tPERSON\n" +
+        "4\tPratt\t0\troot\tNNP\tPERSON\n";
+    Optional<RelationTriple> extraction = mkExtraction(conll, 0);
+    assertTrue("No first extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis actor of\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 1);
+    assertTrue("No second extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 2);
+    assertTrue("No third extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tactor", extraction.get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testAmericanActorChrisPratt() {
+    String conll =
+        "1\tAmerican\t4\tamod\tNN\tLOCATION\n" +
+        "2\tactor\t4\tcompound\tNN\tTITLE\n" +
+        "3\tChris\t4\tcompound\tNNP\tPERSON\n" +
+        "4\tPratt\t0\troot\tNNP\tPERSON\n";
+    Optional<RelationTriple> extraction = mkExtraction(conll, 0);
+    assertTrue("No first extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis actor of\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 1);
+    assertTrue("No second extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 2);
+    assertTrue("No third extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tactor", extraction.get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testAmericanActorChrisPratt() {
+    String conll =
+        "1\tAmerican\t4\tamod\tNN\tLOCATION\n" +
+        "2\tactor\t4\tcompound\tNN\tTITLE\n" +
+        "3\tChris\t4\tcompound\tNNP\tPERSON\n" +
+        "4\tPratt\t0\troot\tNNP\tPERSON\n";
+    Optional<RelationTriple> extraction = mkExtraction(conll, 0);
+    assertTrue("No first extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis actor of\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 1);
+    assertTrue("No second extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 2);
+    assertTrue("No third extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tactor", extraction.get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testAmericanActorChrisPratt() {
+    String conll =
+        "1\tAmerican\t4\tamod\tNN\tLOCATION\n" +
+        "2\tactor\t4\tcompound\tNN\tTITLE\n" +
+        "3\tChris\t4\tcompound\tNNP\tPERSON\n" +
+        "4\tPratt\t0\troot\tNNP\tPERSON\n";
+    Optional<RelationTriple> extraction = mkExtraction(conll, 0);
+    assertTrue("No first extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis actor of\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 1);
+    assertTrue("No second extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 2);
+    assertTrue("No third extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tactor", extraction.get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testAmericanActorChrisPratt() {
+    String conll =
+        "1\tAmerican\t4\tamod\tNN\tLOCATION\n" +
+        "2\tactor\t4\tcompound\tNN\tTITLE\n" +
+        "3\tChris\t4\tcompound\tNNP\tPERSON\n" +
+        "4\tPratt\t0\troot\tNNP\tPERSON\n";
+    Optional<RelationTriple> extraction = mkExtraction(conll, 0);
+    assertTrue("No first extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis actor of\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 1);
+    assertTrue("No second extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tAmerican", extraction.get().toString());
+    extraction = mkExtraction(conll, 2);
+    assertTrue("No third extraction for sentence!", extraction.isPresent());
+    assertEquals("1.0\tChris Pratt\tis\tactor", extraction.get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

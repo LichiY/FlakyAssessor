@@ -1,0 +1,102 @@
+Test File Path: projects/dff7457cb5ba1557727deddef5b675dd00fbf8a8/optaplanner/optaplanner-core/src/test/java/org/optaplanner/core/impl/domain/solution/descriptor/SolutionDescriptorTest.java
+Original Test Method:
+     public void extendedAbstractSolution() {
+        SolutionDescriptor<TestdataExtendedAbstractSolution> solutionDescriptor
+                = TestdataExtendedAbstractSolution.buildSolutionDescriptor();
+        assertMapContainsKeysExactly(solutionDescriptor.getProblemFactMemberAccessorMap());
+        assertMapContainsKeysExactly(solutionDescriptor.getProblemFactCollectionMemberAccessorMap(),
+                "problemFactList");
+        assertMapContainsKeysExactly(solutionDescriptor.getEntityMemberAccessorMap());
+        assertMapContainsKeysExactly(solutionDescriptor.getEntityCollectionMemberAccessorMap(),
+                "entityList");
+
+        TestdataExtendedAbstractSolution solution = new TestdataExtendedAbstractSolution();
+        solution.setValueList(Arrays.asList(new TestdataValue("v1"), new TestdataValue("v2")));
+        solution.setExtraObject(new TestdataValue("extra"));
+        solution.setEntityList(Arrays.asList(new TestdataEntity("e1"), new TestdataEntity("e2")));
+
+        assertAllCodesOfCollection(solutionDescriptor.getAllFacts(solution), "e1", "e2", "v1", "v2", "extra");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.example.myartifact.ID;', 'import com.example.myartifact.None;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None

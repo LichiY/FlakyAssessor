@@ -1,0 +1,179 @@
+Test File Path: projects/97745dd754eb9aee59aa806d90be53aac051a3e5/nutz/test/org/nutz/json/JsonTest.java
+Original Test Method:
+     public void testDuplicateArrayList() {
+        A a = new A();
+        a.list1 = new ArrayList<String>();
+        a.list1.add("aaa");
+        a.list2 = new ArrayList<String>();
+        a.list2.add("aaa");
+        String json = Json.toJson(a, JsonFormat.compact().setQuoteName(false));
+        String exp = "{list1:[\"aaa\"],list2:[\"aaa\"]}";
+        assertEquals(exp, json);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testDuplicateArrayList() {
+        A a = new A();
+        a.list1 = new ArrayList<>();
+        a.list1.add("aaa");
+        a.list2 = new ArrayList<>();
+        a.list2.add("aaa");
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(a);
+
+        String exp = "{\n" +
+                "  \"list1\": [\n" +
+                "    \"aaa\"\n" +
+                "  ],\n" +
+                "  \"list2\": [\n" +
+                "    \"aaa\"\n" +
+                "  ]\n" +
+                "}";
+        assertEquals(exp, json);
+    }
+
+
+import:
+
+['import com.google.gson.Gson;', 'import com.google.gson.GsonBuilder;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testDuplicateArrayList() {
+        A a = new A();
+        a.list1 = new ArrayList<>(Arrays.asList("aaa"));
+        a.list2 = new ArrayList<>(Arrays.asList("aaa"));
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(a);
+
+        String exp = "{\n" +
+                "  \"list1\": [\n" +
+                "    \"aaa\"\n" +
+                "  ],\n" +
+                "  \"list2\": [\n" +
+                "    \"aaa\"\n" +
+                "  ]\n" +
+                "}";
+        assertEquals(exp, json);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testDuplicateArrayList() {
+        A a = new A();
+        a.list1 = new ArrayList<>(Arrays.asList("aaa"));
+        a.list2 = new ArrayList<>(Arrays.asList("aaa"));
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(a);
+
+        String exp = "{\n" +
+                "  \"list1\": [\n" +
+                "    \"aaa\"\n" +
+                "  ],\n" +
+                "  \"list2\": [\n" +
+                "    \"aaa\"\n" +
+                "  ]\n" +
+                "}";
+        assertEquals(exp, json);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testDuplicateArrayList() {
+        A a = new A();
+        a.list1 = new ArrayList<>(Arrays.asList("aaa"));
+        a.list2 = new ArrayList<>(Arrays.asList("aaa"));
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(a);
+
+        String exp = "{\n" +
+                "  \"list1\": [\n" +
+                "    \"aaa\"\n" +
+                "  ],\n" +
+                "  \"list2\": [\n" +
+                "    \"aaa\"\n" +
+                "  ]\n" +
+                "}";
+        assertEquals(exp, json);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testDuplicateArrayList() {
+    A a = new A();
+    a.list1 = new ArrayList<>(Arrays.asList("aaa"));
+    a.list2 = new ArrayList<>(Arrays.asList("aaa"));
+
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    String json = gson.toJson(a);
+
+    String exp = "{\n" +
+            "  \"list1\": [\n" +
+            "    \"aaa\"\n" +
+            "  ],\n" +
+            "  \"list2\": [\n" +
+            "    \"aaa\"\n" +
+            "  ]\n" +
+            "}";
+    assertEquals(exp, json);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

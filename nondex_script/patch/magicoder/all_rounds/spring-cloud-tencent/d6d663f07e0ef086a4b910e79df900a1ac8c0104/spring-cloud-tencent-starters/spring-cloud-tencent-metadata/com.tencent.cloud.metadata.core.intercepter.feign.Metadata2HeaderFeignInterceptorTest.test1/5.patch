@@ -1,0 +1,215 @@
+Test File Path: projects/d6d663f07e0ef086a4b910e79df900a1ac8c0104/spring-cloud-tencent/spring-cloud-tencent-starters/spring-cloud-tencent-metadata/src/test/java/com/tencent/cloud/metadata/core/intercepter/feign/Metadata2HeaderFeignInterceptorTest.java
+Original Test Method:
+     public void test1() {
+        String metadata = testFeign.test();
+        Assertions.assertThat(metadata).isEqualTo("{\"a\":\"11\",\"b\":\"22\",\"c\":\"33\"}{\"LOCAL_SERVICE\":\"test"
+                + "\",\"LOCAL_PATH\":\"/test\",\"LOCAL_NAMESPACE\":\"default\"}");
+        Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+        Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    Map<String, String> metadataMap = new LinkedHashMap<>();
+    metadataMap.put("a", "11");
+    metadataMap.put("b", "22");
+    metadataMap.put("c", "33");
+    Map<String, String> localPropertiesMap = new LinkedHashMap<>();
+    localPropertiesMap.put("LOCAL_SERVICE", "test");
+    localPropertiesMap.put("LOCAL_PATH", "/test");
+    localPropertiesMap.put("LOCAL_NAMESPACE", "default");
+    String expectedMetadata = "{" + String.join(",", metadataMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}" + "{" + String.join(",", localPropertiesMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}";
+    Assertions.assertThat(metadata).isEqualTo(expectedMetadata);
+    Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;', 'import java.util.Map;', 'import java.util.stream.Collectors;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    Map<String, String> metadataMap = new LinkedHashMap<>();
+    metadataMap.put("a", "11");
+    metadataMap.put("b", "22");
+    metadataMap.put("c", "33");
+    Map<String, String> localPropertiesMap = new LinkedHashMap<>();
+    localPropertiesMap.put("LOCAL_SERVICE", "test");
+    localPropertiesMap.put("LOCAL_PATH", "/test");
+    localPropertiesMap.put("LOCAL_NAMESPACE", "default");
+    String expectedMetadata = "{" + String.join(",", metadataMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}" + "{" + String.join(",", localPropertiesMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}";
+    Assertions.assertThat(StringUtils.strip(metadata, "\n")).isEqualTo(StringUtils.strip(expectedMetadata, "\n"));
+    Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    Map<String, String> metadataMap = new LinkedHashMap<>();
+    metadataMap.put("a", "11");
+    metadataMap.put("b", "22");
+    metadataMap.put("c", "33");
+    Map<String, String> localPropertiesMap = new LinkedHashMap<>();
+    localPropertiesMap.put("LOCAL_SERVICE", "test");
+    localPropertiesMap.put("LOCAL_PATH", "/test");
+    localPropertiesMap.put("LOCAL_NAMESPACE", "default");
+    String expectedMetadata = "{" + String.join(",", metadataMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}" + "{" + String.join(",", localPropertiesMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}";
+    Assertions.assertThat(StringUtils.strip(metadata, "\n")).isEqualTo(StringUtils.strip(expectedMetadata, "\n"));
+    Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-text</artifactId>
+        <version>1.9</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test1() {
+    String metadata = testFeign.test();
+    Map<String, String> metadataMap = new LinkedHashMap<>();
+    metadataMap.put("a", "11");
+    metadataMap.put("b", "22");
+    metadataMap.put("c", "33");
+    Map<String, String> localPropertiesMap = new LinkedHashMap<>();
+    localPropertiesMap.put("LOCAL_SERVICE", "test");
+    localPropertiesMap.put("LOCAL_PATH", "/test");
+    localPropertiesMap.put("LOCAL_NAMESPACE", "default");
+    String expectedMetadata = "{" + String.join(",", metadataMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}" + "{" + String.join(",", localPropertiesMap.entrySet().stream()
+            .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+            .collect(Collectors.toList())) + "}";
+    Assertions.assertThat(StringUtils.strip(metadata, "\n")).isEqualTo(StringUtils.strip(expectedMetadata, "\n"));
+    Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+    Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+    Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test1() {
+        String metadata = testFeign.test();
+        Map<String, String> metadataMap = new LinkedHashMap<>();
+        metadataMap.put("a", "11");
+        metadataMap.put("b", "22");
+        metadataMap.put("c", "33");
+        Map<String, String> localPropertiesMap = new LinkedHashMap<>();
+        localPropertiesMap.put("LOCAL_SERVICE", "test");
+        localPropertiesMap.put("LOCAL_PATH", "/test");
+        localPropertiesMap.put("LOCAL_NAMESPACE", "default");
+        String expectedMetadata = "{" + String.join(",", metadataMap.entrySet().stream()
+                .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+                .collect(Collectors.toList())) + "}" + "{" + String.join(",", localPropertiesMap.entrySet().stream()
+                .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+                .collect(Collectors.toList())) + "}";
+        Assertions.assertThat(metadata).isEqualTo(expectedMetadata);
+        Assertions.assertThat(metadataLocalProperties.getContent().get("a")).isEqualTo("1");
+        Assertions.assertThat(metadataLocalProperties.getContent().get("b")).isEqualTo("2");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("a")).isEqualTo("11");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("b")).isEqualTo("22");
+        Assertions.assertThat(MetadataContextHolder.get().getTransitiveCustomMetadata("c")).isEqualTo("33");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

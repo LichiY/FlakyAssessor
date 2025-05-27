@@ -1,0 +1,166 @@
+Test File Path: projects/3ea25de368b185e3c9f3d56e46a4cfcdb9265318/fastjson/src/test/java/com/alibaba/json/bvt/path/JSONPath_reverse_test.java
+Original Test Method:
+     public void test_reserve3() throws Exception {
+        JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+        assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.id", "player.name").toString());
+        assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c").toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    JSONObject expected = JSON.parseObject("{\"player\":{\"name\":\"ljw\",\"id\":1001}}");
+    JSONObject actual1 = JSONPath.reserveToObject(object, "player.id", "player.name");
+    JSONObject actual2 = JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c");
+    
+    assertEquals(expected.toString(), actual1.toString());
+    assertEquals(expected.toString(), actual2.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    JSONObject expected = JSON.parseObject("{\"player\":{\"name\":\"ljw\",\"id\":1001}}");
+    Object actual1 = JSONPath.reserveToObject(object, "player.id", "player.name");
+    Object actual2 = JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c");
+    
+    assertEquals(expected.toJSONString(), JSON.toJSONString(actual1));
+    assertEquals(expected.toJSONString(), JSON.toJSONString(actual2));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.83</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    JSONObject expected1 = JSON.parseObject("{\"player\":{\"name\":\"ljw\",\"id\":1001}}");
+    JSONObject expected2 = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\"}}");
+    Object actual1 = JSONPath.reserveToObject(object, "player.id", "player.name");
+    Object actual2 = JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c");
+    
+    String actual1Str = JSON.toJSONString(actual1);
+    String actual2Str = JSON.toJSONString(actual2);
+    
+    assertTrue(expected1.toJSONString().equals(actual1Str) || expected2.toJSONString().equals(actual1Str));
+    assertTrue(expected1.toJSONString().equals(actual2Str) || expected2.toJSONString().equals(actual2Str));
+}
+
+
+import:
+
+['import static org.junit.Assert.assertTrue;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    JSONObject expected1 = JSON.parseObject("{\"player\":{\"name\":\"ljw\",\"id\":1001}}");
+    JSONObject expected2 = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\"}}");
+    Object actual1 = JSONPath.reserveToObject(object, "player.id", "player.name");
+    Object actual2 = JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c");
+    
+    JSONAssert.assertEquals(expected1.toJSONString(), JSON.toJSONString(actual1), JSONCompareMode.LENIENT);
+    JSONAssert.assertEquals(expected1.toJSONString(), JSON.toJSONString(actual2), JSONCompareMode.LENIENT);
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;', 'import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    JSONObject expected1 = JSON.parseObject("{\"player\":{\"name\":\"ljw\",\"id\":1001}}");
+    JSONObject expected2 = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\"}}");
+    Object actual1 = JSONPath.reserveToObject(object, "player.id", "player.name");
+    Object actual2 = JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c");
+    
+    JSONAssert.assertEquals(expected1.toJSONString(), JSON.toJSONString(actual1), JSONCompareMode.STRICT_ORDER);
+    JSONAssert.assertEquals(expected2.toJSONString(), JSON.toJSONString(actual2), JSONCompareMode.STRICT_ORDER);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+

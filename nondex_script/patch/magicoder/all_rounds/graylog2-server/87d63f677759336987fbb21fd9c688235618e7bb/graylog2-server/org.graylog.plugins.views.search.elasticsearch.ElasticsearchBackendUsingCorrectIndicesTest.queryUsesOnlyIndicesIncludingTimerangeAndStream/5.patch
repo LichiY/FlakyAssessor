@@ -1,0 +1,313 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog/plugins/views/search/elasticsearch/ElasticsearchBackendUsingCorrectIndicesTest.java
+Original Test Method:
+     public void queryUsesOnlyIndicesIncludingTimerangeAndStream() throws Exception {
+        final String streamId = "streamId";
+        final Stream stream = mock(Stream.class, RETURNS_DEEP_STUBS);
+        when(stream.getId()).thenReturn(streamId);
+        when(streamService.load(streamId)).thenReturn(stream);
+
+        final IndexRange indexRange1 = mock(IndexRange.class);
+        when(indexRange1.indexName()).thenReturn("index1");
+        when(indexRange1.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange2 = mock(IndexRange.class);
+        when(indexRange2.indexName()).thenReturn("index2");
+        when(indexRange2.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange3 = mock(IndexRange.class);
+        when(indexRange3.indexName()).thenReturn("index3");
+        when(indexRange3.streamIds()).thenReturn(Collections.emptyList());
+
+        final SortedSet<IndexRange> indexRanges = sortedSetOf(indexRange1, indexRange2, indexRange3);
+        when(indexRangeService.find(any(DateTime.class), any(DateTime.class))).thenReturn(indexRanges);
+
+        final Query query = dummyQuery(RelativeRange.create(600))
+                .toBuilder()
+                .filter(StreamFilter.ofId(streamId))
+                .build();
+        final Search search = dummySearch(query);
+        final SearchJob job = new SearchJob("job1", search, "admin");
+        final ESGeneratedQueryContext context = backend.generate(job, query, Collections.emptySet());
+
+        backend.doRun(job, query, context, Collections.emptySet());
+
+        verify(jestClient, times(1)).execute(clientRequestCaptor.capture(), any());
+
+        final MultiSearch clientRequest = clientRequestCaptor.getValue();
+        assertThat(clientRequest).isNotNull();
+        assertThat(indicesOf(clientRequest).get(0)).isEqualTo("index1,index2");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void queryUsesOnlyIndicesIncludingTimerangeAndStream() throws Exception {
+    final String streamId = "streamId";
+    final Stream stream = mock(Stream.class, RETURNS_DEEP_STUBS);
+    when(stream.getId()).thenReturn(streamId);
+    when(streamService.load(streamId)).thenReturn(stream);
+
+    final IndexRange indexRange1 = mock(IndexRange.class);
+    when(indexRange1.indexName()).thenReturn("index1");
+    when(indexRange1.streamIds()).thenReturn(Collections.singletonList(streamId));
+    final IndexRange indexRange2 = mock(IndexRange.class);
+    when(indexRange2.indexName()).thenReturn("index2");
+    when(indexRange2.streamIds()).thenReturn(Collections.singletonList(streamId));
+    final IndexRange indexRange3 = mock(IndexRange.class);
+    when(indexRange3.indexName()).thenReturn("index3");
+    when(indexRange3.streamIds()).thenReturn(Collections.emptyList());
+
+    final SortedSet<IndexRange> indexRanges = new TreeSet<>(Comparator.comparing(IndexRange::indexName));
+    indexRanges.add(indexRange1);
+    indexRanges.add(indexRange2);
+    indexRanges.add(indexRange3);
+
+    when(indexRangeService.find(any(DateTime.class), any(DateTime.class))).thenReturn(indexRanges);
+
+    final Query query = dummyQuery(RelativeRange.create(600))
+            .toBuilder()
+            .filter(StreamFilter.ofId(streamId))
+            .build();
+    final Search search = dummySearch(query);
+    final SearchJob job = new SearchJob("job1", search, "admin");
+    final ESGeneratedQueryContext context = backend.generate(job, query, Collections.emptySet());
+
+    backend.doRun(job, query, context, Collections.emptySet());
+
+    verify(jestClient, times(1)).execute(clientRequestCaptor.capture(), any());
+
+    final MultiSearch clientRequest = clientRequestCaptor.getValue();
+    assertThat(clientRequest).isNotNull();
+    assertThat(indicesOf(clientRequest).get(0)).isEqualTo("index1,index2");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void queryUsesOnlyIndicesIncludingTimerangeAndStream() throws Exception {
+    final String streamId = "streamId";
+    final Stream stream = mock(Stream.class, RETURNS_DEEP_STUBS);
+    when(stream.getId()).thenReturn(streamId);
+    when(streamService.load(streamId)).thenReturn(stream);
+
+    final IndexRange indexRange1 = mock(IndexRange.class);
+    when(indexRange1.indexName()).thenReturn("index1");
+    when(indexRange1.streamIds()).thenReturn(Collections.singletonList(streamId));
+    final IndexRange indexRange2 = mock(IndexRange.class);
+    when(indexRange2.indexName()).thenReturn("index2");
+    when(indexRange2.streamIds()).thenReturn(Collections.singletonList(streamId));
+    final IndexRange indexRange3 = mock(IndexRange.class);
+    when(indexRange3.indexName()).thenReturn("index3");
+    when(indexRange3.streamIds()).thenReturn(Collections.emptyList());
+
+    final SortedSet<IndexRange> indexRanges = new TreeSet<>(Comparator.comparing(IndexRange::indexName));
+    indexRanges.add(indexRange1);
+    indexRanges.add(indexRange2);
+    indexRanges.add(indexRange3);
+
+    when(indexRangeService.find(any(DateTime.class), any(DateTime.class))).thenReturn(indexRanges);
+
+    final Query query = dummyQuery(RelativeRange.create(600))
+            .toBuilder()
+            .filter(StreamFilter.ofId(streamId))
+            .build();
+    final Search search = dummySearch(query);
+    final SearchJob job = new SearchJob("job1", search, "admin");
+    final ESGeneratedQueryContext context = backend.generate(job, query, Collections.emptySet());
+
+    backend.doRun(job, query, context, Collections.emptySet());
+
+    verify(jestClient, times(1)).execute(clientRequestCaptor.capture(), any());
+
+    final MultiSearch clientRequest = clientRequestCaptor.getValue();
+    assertThat(clientRequest).isNotNull();
+    assertThat(indicesOf(clientRequest).get(0)).isEqualTo("index1,index2");
+}
+
+
+import:
+
+['import org.mockito.Mockito;', 'import static org.mockito.Mockito.*;', 'import org.mockito.ArgumentMatchers;', 'import org.mockito.InjectMocks;', 'import org.mockito.junit.MockitoJUnitRunner;', 'import org.mockito.junit.jupiter.MockitoExtension;', 'import org.junit.jupiter.api.extension.ExtendWith;', 'import org.junit.runner.RunWith;', 'import org.junit.After;', 'import org.junit.Assert;', 'import org.junit.Ignore;', 'import org.junit.rules.ExpectedException;', 'import org.junit.rules.Timeout;', 'import org.hamcrest.Matchers;', 'import org.hamcrest.MatcherAssert;', 'import org.hamcrest.CoreMatchers;', 'import org.hamcrest.Description;', 'import org.hamcrest.Factory;', 'import org.hamcrest.Matcher;', 'import org.hamcrest.TypeSafeMatcher;', 'import org.hamcrest.core.IsInstanceOf;', 'import org.hamcrest.core.IsNull;', 'import org.hamcrest.core.IsSame;', 'import org.hamcrest.core.IsNotSame;', 'import org.hamcrest.core.IsEqual;', 'import org.hamcrest.core.IsNotEqual;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.1.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void queryUsesOnlyIndicesIncludingTimerangeAndStream() throws Exception {
+        final String streamId = "streamId";
+        final Stream stream = Mockito.mock(Stream.class, Mockito.RETURNS_DEEP_STUBS);
+        when(stream.getId()).thenReturn(streamId);
+        when(streamService.load(streamId)).thenReturn(stream);
+
+        final IndexRange indexRange1 = Mockito.mock(IndexRange.class);
+        when(indexRange1.indexName()).thenReturn("index1");
+        when(indexRange1.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange2 = Mockito.mock(IndexRange.class);
+        when(indexRange2.indexName()).thenReturn("index2");
+        when(indexRange2.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange3 = Mockito.mock(IndexRange.class);
+        when(indexRange3.indexName()).thenReturn("index3");
+        when(indexRange3.streamIds()).thenReturn(Collections.emptyList());
+
+        final SortedSet<IndexRange> indexRanges = new TreeSet<>(Comparator.comparing(IndexRange::indexName));
+        indexRanges.add(indexRange1);
+        indexRanges.add(indexRange2);
+        indexRanges.add(indexRange3);
+
+        when(indexRangeService.find(any(DateTime.class), any(DateTime.class))).thenReturn(indexRanges);
+
+        final Query query = dummyQuery(RelativeRange.create(600))
+                .toBuilder()
+                .filter(StreamFilter.ofId(streamId))
+                .build();
+        final Search search = dummySearch(query);
+        final SearchJob job = new SearchJob("job1", search, "admin");
+        final ESGeneratedQueryContext context = backend.generate(job, query, Collections.emptySet());
+
+        backend.doRun(job, query, context, Collections.emptySet());
+
+        verify(jestClient, times(1)).execute(clientRequestCaptor.capture(), any());
+
+        final MultiSearch clientRequest = clientRequestCaptor.getValue();
+        assertThat(clientRequest, IsNotSame.notSameInstance(null));
+        assertThat(indicesOf(clientRequest).get(0), IsNotEqual.not(null));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void queryUsesOnlyIndicesIncludingTimerangeAndStream() throws Exception {
+        final String streamId = "streamId";
+        final Stream stream = Mockito.mock(Stream.class, Mockito.RETURNS_DEEP_STUBS);
+        when(stream.getId()).thenReturn(streamId);
+        when(streamService.load(streamId)).thenReturn(stream);
+
+        final IndexRange indexRange1 = Mockito.mock(IndexRange.class);
+        when(indexRange1.indexName()).thenReturn("index1");
+        when(indexRange1.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange2 = Mockito.mock(IndexRange.class);
+        when(indexRange2.indexName()).thenReturn("index2");
+        when(indexRange2.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange3 = Mockito.mock(IndexRange.class);
+        when(indexRange3.indexName()).thenReturn("index3");
+        when(indexRange3.streamIds()).thenReturn(Collections.emptyList());
+
+        final SortedSet<IndexRange> indexRanges = new TreeSet<>(Comparator.comparing(IndexRange::indexName));
+        indexRanges.add(indexRange1);
+        indexRanges.add(indexRange2);
+        indexRanges.add(indexRange3);
+
+        when(indexRangeService.find(any(DateTime.class), any(DateTime.class))).thenReturn(indexRanges);
+
+        final Query query = dummyQuery(RelativeRange.create(600))
+                .toBuilder()
+                .filter(StreamFilter.ofId(streamId))
+                .build();
+        final Search search = dummySearch(query);
+        final SearchJob job = new SearchJob("job1", search, "admin");
+        final ESGeneratedQueryContext context = backend.generate(job, query, Collections.emptySet());
+
+        backend.doRun(job, query, context, Collections.emptySet());
+
+        verify(jestClient, times(1)).execute(clientRequestCaptor.capture(), any());
+
+        final MultiSearch clientRequest = clientRequestCaptor.getValue();
+        assertThat(clientRequest, notSameInstance(null));
+        assertThat(indicesOf(clientRequest).get(0), not(null));
+    }
+
+
+import:
+
+['import static org.hamcrest.core.IsNotSame.notSameInstance;', 'import static org.hamcrest.core.IsNotEqual.not;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void queryUsesOnlyIndicesIncludingTimerangeAndStream() throws Exception {
+        final String streamId = "streamId";
+        final Stream stream = Mockito.mock(Stream.class, Mockito.RETURNS_DEEP_STUBS);
+        when(stream.getId()).thenReturn(streamId);
+        when(streamService.load(streamId)).thenReturn(stream);
+
+        final IndexRange indexRange1 = Mockito.mock(IndexRange.class);
+        when(indexRange1.indexName()).thenReturn("index1");
+        when(indexRange1.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange2 = Mockito.mock(IndexRange.class);
+        when(indexRange2.indexName()).thenReturn("index2");
+        when(indexRange2.streamIds()).thenReturn(Collections.singletonList(streamId));
+        final IndexRange indexRange3 = Mockito.mock(IndexRange.class);
+        when(indexRange3.indexName()).thenReturn("index3");
+        when(indexRange3.streamIds()).thenReturn(Collections.emptyList());
+
+        final SortedSet<IndexRange> indexRanges = new TreeSet<>(Comparator.comparing(IndexRange::indexName));
+        indexRanges.add(indexRange1);
+        indexRanges.add(indexRange2);
+        indexRanges.add(indexRange3);
+
+        when(indexRangeService.find(any(DateTime.class), any(DateTime.class))).thenReturn(indexRanges);
+
+        final Query query = dummyQuery(RelativeRange.create(600))
+                .toBuilder()
+                .filter(StreamFilter.ofId(streamId))
+                .build();
+        final Search search = dummySearch(query);
+        final SearchJob job = new SearchJob("job1", search, "admin");
+        final ESGeneratedQueryContext context = backend.generate(job, query, Collections.emptySet());
+
+        backend.doRun(job, query, context, Collections.emptySet());
+
+        verify(jestClient, times(1)).execute(clientRequestCaptor.capture(), any());
+
+        final MultiSearch clientRequest = clientRequestCaptor.getValue();
+        assertThat(clientRequest, notSameInstance(null));
+        assertThat(indicesOf(clientRequest).get(0), not(null));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

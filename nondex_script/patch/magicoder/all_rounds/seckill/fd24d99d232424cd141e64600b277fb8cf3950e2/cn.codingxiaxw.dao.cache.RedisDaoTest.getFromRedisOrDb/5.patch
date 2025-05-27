@@ -1,0 +1,137 @@
+Test File Path: projects/fd24d99d232424cd141e64600b277fb8cf3950e2/seckill/src/test/java/cn/codingxiaxw/dao/cache/RedisDaoTest.java
+Original Test Method:
+     public void getFromRedisOrDb() {
+        Seckill seckill = redisDao.getOrPutSeckill(id, i -> seckillDao.queryById(i));
+        Assert.assertEquals(1001, seckill.getSeckillId());
+        Assert.assertNotNull(redisDao.getSeckill(id));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void getFromRedisOrDb() {
+    Seckill seckill = redisDao.getOrPutSeckill(id, i -> seckillDao.queryById(i));
+    Assert.assertEquals(1001, seckill.getSeckillId());
+    Assert.assertNotNull(redisDao.getSeckill(id));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void getFromRedisOrDb() {
+    Seckill seckill = redisDao.getOrPutSeckill(id, i -> seckillDao.queryById(i));
+    Assert.assertEquals(1001, seckill.getSeckillId());
+    Assert.assertNotNull(redisDao.getSeckill(id));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void getFromRedisOrDb(ID id) {
+    String json = redisTemplate.opsForValue().get(id.toString());
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonNode = mapper.readTree(json);
+    // Use jsonNode to assert expected values
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void getFromRedisOrDb() {
+    String json = redisTemplate.opsForValue().get(id.toString());
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonNode = mapper.readTree(json);
+    // Use jsonNode to assert expected values
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void getFromRedisOrDb() {
+    String json = redisTemplate.opsForValue().get(id.toString());
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonNode = mapper.readTree(json);
+    // Use jsonNode to assert expected values
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

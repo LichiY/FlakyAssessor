@@ -1,0 +1,364 @@
+Test File Path: projects/60c743da35913d72f37f2d79afa90ad2bf73cb89/vjtools/vjkit/src/test/java/com/vip/vjtools/vjkit/mapper/JsonMapperTest.java
+Original Test Method:
+ 	public void toJson() throws Exception {
+		// Bean
+		TestBean bean = new TestBean("A");
+		String beanString = JsonMapper.INSTANCE.toJson(bean);
+		System.out.println("Bean:" + beanString);
+		assertThat(beanString)
+				.isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+		// Map
+		Map<String, Object> map = Maps.newLinkedHashMap();
+		map.put("name", "A");
+		map.put("age", 2);
+		String mapString = JsonMapper.INSTANCE.toJson(map);
+		System.out.println("Map:" + mapString);
+		assertThat(mapString).isEqualTo("{\"name\":\"A\",\"age\":2}");
+
+		// List<String>
+		List<String> stringList = Lists.newArrayList("A", "B", "C");
+		String listString = JsonMapper.INSTANCE.toJson(stringList);
+		System.out.println("String List:" + listString);
+		assertThat(listString).isEqualTo("[\"A\",\"B\",\"C\"]");
+
+		// List<Bean>
+		List<TestBean> beanList = Lists.newArrayList(new TestBean("A"), new TestBean("B"));
+		String beanListString = JsonMapper.INSTANCE.toJson(beanList);
+		System.out.println("Bean List:" + beanListString);
+		assertThat(beanListString).isEqualTo(
+				"[{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]},{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}]");
+
+		// Bean[]
+		TestBean[] beanArray = new TestBean[] { new TestBean("A"), new TestBean("B") };
+		String beanArrayString = JsonMapper.INSTANCE.toJson(beanArray);
+		System.out.println("Array List:" + beanArrayString);
+		assertThat(beanArrayString).isEqualTo(
+				"[{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]},{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}]");
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+	public void toJson() throws Exception {
+		// Bean
+		TestBean bean = new TestBean("A");
+		String beanString = JsonMapper.INSTANCE.toJson(bean);
+		System.out.println("Bean:" + beanString);
+		assertThat(beanString).contains("\"name\":\"A\"")
+				.contains("\"defaultValue\":\"hello\"")
+				.contains("\"nullValue\":null")
+				.contains("\"emptyValue\":[]");
+
+		// Map
+		Map<String, Object> map = Maps.newLinkedHashMap();
+		map.put("name", "A");
+		map.put("age", 2);
+		String mapString = JsonMapper.INSTANCE.toJson(map);
+		System.out.println("Map:" + mapString);
+		assertThat(mapString).isEqualTo("{\"name\":\"A\",\"age\":2}");
+
+		// List<String>
+		List<String> stringList = Lists.newArrayList("A", "B", "C");
+		String listString = JsonMapper.INSTANCE.toJson(stringList);
+		System.out.println("String List:" + listString);
+		assertThat(listString).isEqualTo("[\"A\",\"B\",\"C\"]");
+
+		// List<Bean>
+		List<TestBean> beanList = Lists.newArrayList(new TestBean("A"), new TestBean("B"));
+		String beanListString = JsonMapper.INSTANCE.toJson(beanList);
+		System.out.println("Bean List:" + beanListString);
+		assertThat(beanListString).contains(
+				"{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+				.contains("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+		// Bean[]
+		TestBean[] beanArray = new TestBean[] { new TestBean("A"), new TestBean("B") };
+		String beanArrayString = JsonMapper.INSTANCE.toJson(beanArray);
+		System.out.println("Array List:" + beanArrayString);
+		assertThat(beanArrayString).contains(
+				"{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+				.contains("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+	}
+
+
+import:
+
+['import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;', 'import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+	public void toJson() throws Exception {
+		// Bean
+		TestBean bean = new TestBean("A");
+		String beanString = JsonMapper.INSTANCE.toJson(bean);
+		System.out.println("Bean:" + beanString);
+		assertThat(beanString).contains("\"name\":\"A\"")
+				.contains("\"defaultValue\":\"hello\"")
+				.contains("\"nullValue\":null")
+				.contains("\"emptyValue\":[]");
+
+		// Map
+		Map<String, Object> map = Maps.newLinkedHashMap();
+		map.put("name", "A");
+		map.put("age", 2);
+		String mapString = JsonMapper.INSTANCE.toJson(map);
+		System.out.println("Map:" + mapString);
+		assertThat(mapString).isEqualTo("{\"name\":\"A\",\"age\":2}");
+
+		// List<String>
+		List<String> stringList = Lists.newArrayList("A", "B", "C");
+		String listString = JsonMapper.INSTANCE.toJson(stringList);
+		System.out.println("String List:" + listString);
+		assertThat(listString).isEqualTo("[\"A\",\"B\",\"C\"]");
+
+		// List<Bean>
+		List<TestBean> beanList = Lists.newArrayList(new TestBean("A"), new TestBean("B"));
+		String beanListString = JsonMapper.INSTANCE.toJson(beanList);
+		System.out.println("Bean List:" + beanListString);
+		assertThatJson(beanListString).isArray()
+				.contains(
+					json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+					json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+				);
+
+		// Bean[]
+		TestBean[] beanArray = new TestBean[] { new TestBean("A"), new TestBean("B") };
+		String beanArrayString = JsonMapper.INSTANCE.toJson(beanArray);
+		System.out.println("Array List:" + beanArrayString);
+		assertThatJson(beanArrayString).isArray()
+				.contains(
+					json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+					json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+				);
+	}
+
+
+import:
+
+['import static net.javacrumbs.jsonunit.assertj.JsonAssertions.json;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void toJson() throws Exception {
+    // Bean
+    TestBean bean = new TestBean("A");
+    String beanString = JsonMapper.INSTANCE.toJson(bean);
+    System.out.println("Bean:" + beanString);
+    assertThat(beanString).contains("\"name\":\"A\"")
+            .contains("\"defaultValue\":\"hello\"")
+            .contains("\"nullValue\":null")
+            .contains("\"emptyValue\":[]");
+
+    // Map
+    Map<String, Object> map = Maps.newLinkedHashMap();
+    map.put("name", "A");
+    map.put("age", 2);
+    String mapString = JsonMapper.INSTANCE.toJson(map);
+    System.out.println("Map:" + mapString);
+    assertThat(mapString).isEqualTo("{\"name\":\"A\",\"age\":2}");
+
+    // List<String>
+    List<String> stringList = Lists.newArrayList("A", "B", "C");
+    String listString = JsonMapper.INSTANCE.toJson(stringList);
+    System.out.println("String List:" + listString);
+    assertThat(listString).isEqualTo("[\"A\",\"B\",\"C\"]");
+
+    // List<Bean>
+    List<TestBean> beanList = Lists.newArrayList(new TestBean("A"), new TestBean("B"));
+    String beanListString = JsonMapper.INSTANCE.toJson(beanList);
+    System.out.println("Bean List:" + beanListString);
+    assertThatJson(beanListString).isArray()
+            .containsExactlyInAnyOrder(
+                json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+                json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+            );
+
+    // Bean[]
+    TestBean[] beanArray = new TestBean[] { new TestBean("A"), new TestBean("B") };
+    String beanArrayString = JsonMapper.INSTANCE.toJson(beanArray);
+    System.out.println("Array List:" + beanArrayString);
+    assertThatJson(beanArrayString).isArray()
+            .containsExactlyInAnyOrder(
+                json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+                json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+            );
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void toJson() throws Exception {
+    // Bean
+    TestBean bean = new TestBean("A");
+    String beanString = JsonMapper.INSTANCE.toJson(bean);
+    System.out.println("Bean:" + beanString);
+    assertThat(beanString).contains("\"name\":\"A\"")
+            .contains("\"defaultValue\":\"hello\"")
+            .contains("\"nullValue\":null")
+            .contains("\"emptyValue\":[]");
+
+    // Map
+    Map<String, Object> map = Maps.newLinkedHashMap();
+    map.put("name", "A");
+    map.put("age", 2);
+    String mapString = JsonMapper.INSTANCE.toJson(map);
+    System.out.println("Map:" + mapString);
+    assertThat(mapString).isEqualTo("{\"name\":\"A\",\"age\":2}");
+
+    // List<String>
+    List<String> stringList = Lists.newArrayList("A", "B", "C");
+    String listString = JsonMapper.INSTANCE.toJson(stringList);
+    System.out.println("String List:" + listString);
+    assertThat(listString).isEqualTo("[\"A\",\"B\",\"C\"]");
+
+    // List<Bean>
+    List<TestBean> beanList = Lists.newArrayList(new TestBean("A"), new TestBean("B"));
+    String beanListString = JsonMapper.INSTANCE.toJson(beanList);
+    System.out.println("Bean List:" + beanListString);
+    assertThatJson(beanListString).isArray()
+            .contains(
+                json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+                json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+            );
+
+    // Bean[]
+    TestBean[] beanArray = new TestBean[] { new TestBean("A"), new TestBean("B") };
+    String beanArrayString = JsonMapper.INSTANCE.toJson(beanArray);
+    System.out.println("Array List:" + beanArrayString);
+    assertThatJson(beanArrayString).isArray()
+            .contains(
+                json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+                json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+            );
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void toJson() throws Exception {
+    // Bean
+    TestBean bean = new TestBean("A");
+    String beanString = JsonMapper.INSTANCE.toJson(bean);
+    System.out.println("Bean:" + beanString);
+    assertThat(beanString).contains("\"name\":\"A\"")
+            .contains("\"defaultValue\":\"hello\"")
+            .contains("\"nullValue\":null")
+            .contains("\"emptyValue\":[]");
+
+    // Map
+    Map<String, Object> map = Maps.newLinkedHashMap();
+    map.put("name", "A");
+    map.put("age", 2);
+    String mapString = JsonMapper.INSTANCE.toJson(map);
+    System.out.println("Map:" + mapString);
+    assertThat(mapString).isEqualTo("{\"name\":\"A\",\"age\":2}");
+
+    // List<String>
+    List<String> stringList = Lists.newArrayList("A", "B", "C");
+    String listString = JsonMapper.INSTANCE.toJson(stringList);
+    System.out.println("String List:" + listString);
+    assertThat(listString).isEqualTo("[\"A\",\"B\",\"C\"]");
+
+    // List<Bean>
+    List<TestBean> beanList = Lists.newArrayList(new TestBean("A"), new TestBean("B"));
+    String beanListString = JsonMapper.INSTANCE.toJson(beanList);
+    System.out.println("Bean List:" + beanListString);
+    assertThatJson(beanListString).isArray()
+            .containsExactlyInAnyOrder(
+                json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+                json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+            );
+
+    // Bean[]
+    TestBean[] beanArray = new TestBean[] { new TestBean("A"), new TestBean("B") };
+    String beanArrayString = JsonMapper.INSTANCE.toJson(beanArray);
+    System.out.println("Array List:" + beanArrayString);
+    assertThatJson(beanArrayString).isArray()
+            .containsExactlyInAnyOrder(
+                json("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}"),
+                json("{\"name\":\"B\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}")
+            );
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+

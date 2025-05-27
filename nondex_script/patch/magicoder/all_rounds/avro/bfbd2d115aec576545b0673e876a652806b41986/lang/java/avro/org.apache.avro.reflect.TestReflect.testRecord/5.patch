@@ -1,0 +1,126 @@
+Test File Path: projects/bfbd2d115aec576545b0673e876a652806b41986/avro/lang/java/avro/src/test/java/org/apache/avro/reflect/TestReflect.java
+Original Test Method:
+   public void testRecord() throws Exception {
+    check(R.class,
+        "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}");
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testRecord() throws Exception {
+        Class<?> type = R.class;
+        String schemaJson = "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+                + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}";
+        assertEquals(schemaJson, ReflectData.get().getSchema(type).toString());
+    }
+
+
+import:
+
+['import org.apache.avro.reflect.ReflectData;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testRecord() throws Exception {
+    Class<?> type = R.class;
+    String schemaJson = "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}";
+    assertEquals(schemaJson, ReflectData.get().getSchema(type).toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testRecord() throws Exception {
+    Class<?> type = R.class;
+    String schemaJson = "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}";
+    assertEquals(schemaJson, ReflectData.get().getSchema(type).toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro</artifactId>
+        <version>1.9.2</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testRecord() throws Exception {
+        Class<?> type = R.class;
+        String schemaJson = "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+                + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}";
+        assertEquals(schemaJson, ReflectData.get().getSchema(type).toString());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testRecord() throws Exception {
+    Class<?> type = R.class;
+    String schemaJson = "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}";
+    assertEquals(schemaJson, ReflectData.get().getSchema(type).toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro</artifactId>
+        <version>1.10.2</version>
+    </dependency>
+
+<!-- <pom.xml end> -->

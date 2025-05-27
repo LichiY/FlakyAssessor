@@ -1,0 +1,38 @@
+Test File Path: projects/618363c461843ec2849cdc15d53ee85bdbaec3f2/jmeter-maven-plugin/src/test/java/com/lazerycode/jmeter/json/TestConfigTest.java
+Original Test Method:
+     public void createConfigFromResourceFile() throws MojoExecutionException, URISyntaxException, JsonProcessingException {
+        URL configFile = this.getClass().getResource(testConfigFile);
+        File testConfigJSON = new File(configFile.toURI());
+        TestConfigurationWrapper testConfig = new TestConfigurationWrapper(testConfigJSON, "test-execution");
+        assertThat(testConfig.getFullConfig())
+                .isEqualTo("{\"executionID\":\"test-execution\",\"jmeterDirectoryPath\":null,\"runtimeJarName\":null,\"resultsOutputIsCSVFormat\":false,\"generateReports\":false,\"resultFilesLocations\":[],\"propertiesMap\":null,\"jmeterWorkingDirectoryPath\":null}");
+    }
+Patch:
+
+test_code:
+public void createConfigFromResourceFile() throws MojoExecutionException, URISyntaxException, JsonProcessingException {
+    URL configFile = this.getClass().getResource(testConfigFile);
+    File testConfigJSON = new File(configFile.toURI());
+    TestConfigurationWrapper testConfig = new TestConfigurationWrapper(testConfigJSON, "test-execution");
+    DocumentContext parsedJson = JsonPath.parse(testConfig.getFullConfig());
+    
+    assertThat(parsedJson.read("$.executionID", String.class)).isEqualTo("test-execution");
+    assertThat((Object) parsedJson.read("$.jmeterDirectoryPath")).isNull();
+    assertThat((Object) parsedJson.read("$.runtimeJarName")).isNull();
+    assertThat(parsedJson.read("$.resultsOutputIsCSVFormat", Boolean.class)).isFalse();
+    assertThat(parsedJson.read("$.generateReports", Boolean.class)).isFalse();
+    assertThat(parsedJson.read("$.resultFilesLocations", List.class)).isEmpty();
+    assertThat((Object) parsedJson.read("$.propertiesMap")).isNull();
+    assertThat((Object) parsedJson.read("$.jmeterWorkingDirectoryPath")).isNull();
+}
+
+import:
+[]
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>

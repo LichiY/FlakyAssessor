@@ -1,0 +1,146 @@
+Test File Path: projects/75f9950d5e1675dbb0617555c4502685ef4d4618/apollo/apollo-configservice/src/test/java/com/ctrip/framework/apollo/configservice/service/ReleaseMessageServiceWithCacheTest.java
+Original Test Method:
+   public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+    String someMsgContent = "msg1";
+    List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+    for (int i = 0; i < 500; i++) {
+      firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+    }
+
+    String antherMsgContent = "msg2";
+    ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+        .thenReturn(firstBatchReleaseMsg);
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+        .thenReturn(Collections.singletonList(antherMsg));
+
+    releaseMessageServiceWithCache.afterPropertiesSet();
+
+    verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+    ReleaseMessage latestReleaseMsg =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertNotNull(latestReleaseMsg);
+    assertEquals(501, latestReleaseMsg.getId());
+    assertEquals(antherMsgContent, latestReleaseMsg.getMessage());
+
+    List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertEquals(2, latestReleaseMsgGroupByMsgContent.size());
+    assertEquals(500, latestReleaseMsgGroupByMsgContent.get(1).getId());
+    assertEquals(501, latestReleaseMsgGroupByMsgContent.get(0).getId());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+    String someMsgContent = "msg1";
+    List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+    for (int i = 0; i < 500; i++) {
+      firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+    }
+
+    String antherMsgContent = "msg2";
+    ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+        .thenReturn(firstBatchReleaseMsg);
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+        .thenReturn(Collections.singletonList(antherMsg));
+
+    releaseMessageServiceWithCache.afterPropertiesSet();
+
+    verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+    ReleaseMessage latestReleaseMsg =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertNotNull(latestReleaseMsg);
+    assertEquals(501, latestReleaseMsg.getId());
+    assertEquals(antherMsgContent, latestReleaseMsg.getMessage());
+
+    List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertEquals(2, latestReleaseMsgGroupByMsgContent.size());
+    assertThat(latestReleaseMsgGroupByMsgContent.stream().map(ReleaseMessage::getId).collect(Collectors.toList()),
+        containsInAnyOrder(500, 501));
+  }
+
+
+import:
+
+['import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.containsInAnyOrder;', 'import java.util.stream.Collectors;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+    String someMsgContent = "msg1";
+    List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+    for (int i = 0; i < 500; i++) {
+      firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+    }
+
+    String antherMsgContent = "msg2";
+    ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+        .thenReturn(firstBatchReleaseMsg);
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+        .thenReturn(Collections.singletonList(antherMsg));
+
+    releaseMessageServiceWithCache.afterPropertiesSet();
+
+    verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+    ReleaseMessage latestReleaseMsg =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertNotNull(latestReleaseMsg);
+    assertEquals(501, latestReleaseMsg.getId());
+    assertEquals(antherMsgContent, latestReleaseMsg.getMessage());
+
+    List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertEquals(2, latestReleaseMsgGroupByMsgContent.size());
+    assertThat(latestReleaseMsgGroupByMsgContent.stream().map(ReleaseMessage::getId).collect(Collectors.toList()),
+        containsInAnyOrder(500L, 501L));
+  }
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+

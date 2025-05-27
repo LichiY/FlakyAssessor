@@ -1,0 +1,232 @@
+Test File Path: projects/ee226e52415b8bf43b700afac75fa5b9767993a5/titan/titan-test/src/test/java/com/thinkaurelius/titan/graphdb/attribute/GeoshapeTest.java
+Original Test Method:
+     public void testGeoJsonSerialization() throws IOException {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(new Geoshape.GeoshapeGsonSerializer());
+        final ObjectMapper om = new ObjectMapper();
+        om.registerModule(module);
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", om.writeValueAsString(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", om.writeValueAsString(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", om.writeValueAsString(Geoshape.circle(10.5, 20.5, 30.5)));
+
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() throws Exception {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(new Geoshape.GeoshapeGsonSerializer());
+        final ObjectMapper om = new ObjectMapper();
+        om.registerModule(module);
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", om.writeValueAsString(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", om.writeValueAsString(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", om.writeValueAsString(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() throws IOException {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(new Geoshape.GeoshapeGsonSerializer());
+        final ObjectMapper om = new ObjectMapper();
+        om.registerModule(module);
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", om.writeValueAsString(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", om.writeValueAsString(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", om.writeValueAsString(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Geoshape.class, new Geoshape.GeoshapeGsonSerializer());
+        Gson gson = builder.create();
+
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", gson.toJson(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+['import com.google.gson.Gson;', 'import com.google.gson.GsonBuilder;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() throws IOException {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Geoshape.class, new Geoshape.GeoshapeGsonSerializer());
+        Gson gson = builder.create();
+
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", gson.toJson(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+['import com.google.gson.Gson;', 'import com.google.gson.GsonBuilder;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGeoJsonSerialization() throws IOException {
+    GsonBuilder builder = new GsonBuilder();
+    builder.registerTypeAdapter(Geoshape.class, new Geoshape.GeoshapeGsonSerializer());
+    Gson gson = builder.create();
+
+    assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.point(10.5, 20.5)));
+    assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", gson.toJson(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+    assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.circle(10.5, 20.5, 30.5)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Geoshape.class, new Geoshape.GeoshapeGsonSerializer());
+        Gson gson = builder.create();
+
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", gson.toJson(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() throws IOException {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Geoshape.class, new Geoshape.GeoshapeGsonSerializer());
+        Gson gson = builder.create();
+
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", gson.toJson(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Geoshape.class, new Geoshape.GeoshapeGsonSerializer());
+        Gson gson = builder.create();
+
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", gson.toJson(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void testGeoJsonSerialization() throws IOException {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Geoshape.class, new Geoshape.GeoshapeGsonSerializer());
+        Gson gson = builder.create();
+
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.point(10.5, 20.5)));
+        assertEquals("{\"type\":\"Polygon\",\"coordinates\":[[20.5,10.5],[22.5,10.5],[22.5,12.5],[20.5,12.5]]}", gson.toJson(Geoshape.box(10.5, 20.5, 12.5, 22.5)));
+        assertEquals("{\"type\":\"Circle\",\"radius\":30.5,\"coordinates\":[20.5,10.5]}", gson.toJson(Geoshape.circle(10.5, 20.5, 30.5)));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

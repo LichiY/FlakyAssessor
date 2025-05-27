@@ -1,0 +1,207 @@
+Test File Path: projects/450d9fe5a39f9f911f06882a302a585b93a586fa/fastjson2/fastjson1-compatible/src/test/java/com/alibaba/fastjson/issue_2400/Issue2447.java
+Original Test Method:
+     public void test_for_issue2() {
+        VO2 vo = new VO2();
+        vo.id = 123;
+        vo.properties.put("latitude", 37);
+        vo.properties.put("longitude", 127);
+
+        Object obj = JSON.toJSON(vo);
+        String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+        assertEquals("{\"latitude\":37,\"id\":123,\"longitude\":127}", text);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue2() {
+    VO2 vo = new VO2();
+    vo.id = 123;
+    vo.properties.put("latitude", 37);
+    vo.properties.put("longitude", 127);
+
+    Object obj = JSON.toJSON(vo);
+    String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+    
+    Object document = Configuration.defaultConfiguration().jsonProvider().parse(text);
+    assertEquals(37, JsonPath.read(document, "$.latitude"));
+    assertEquals(123, JsonPath.read(document, "$.id"));
+    assertEquals(127, JsonPath.read(document, "$.longitude"));
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;', 'import com.jayway.jsonpath.Configuration;', 'import com.jayway.jsonpath.Option;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue2() {
+    VO2 vo = new VO2();
+    vo.id = 123;
+    vo.properties.put("latitude", 37);
+    vo.properties.put("longitude", 127);
+
+    Object obj = JSON.toJSON(vo);
+    String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+    
+    Configuration configuration = Configuration.builder()
+        .options(Option.DEFAULT_PATH_LEAF_TO_NULL)
+        .jsonProvider(new JacksonJsonProvider())
+        .mappingProvider(new JacksonMappingProvider())
+        .build();
+    
+    Object document = configuration.jsonProvider().parse(text);
+    assertEquals(37, JsonPath.read(document, "$.latitude"));
+    assertEquals(123, JsonPath.read(document, "$.id"));
+    assertEquals(127, JsonPath.read(document, "$.longitude"));
+}
+
+
+import:
+
+['import com.jayway.jsonpath.spi.json.JacksonJsonProvider;', 'import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.8.0</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.14.2</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue2() {
+    VO2 vo = new VO2();
+    vo.id = 123;
+    vo.properties = new LinkedHashMap<>();
+    vo.properties.put("latitude", 37);
+    vo.properties.put("longitude", 127);
+
+    Object obj = JSON.toJSON(vo);
+    String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+    
+    Configuration configuration = Configuration.builder()
+        .options(Option.DEFAULT_PATH_LEAF_TO_NULL)
+        .jsonProvider(new JacksonJsonProvider())
+        .mappingProvider(new JacksonMappingProvider())
+        .build();
+    
+    Object document = configuration.jsonProvider().parse(text);
+    assertEquals(37, JsonPath.read(document, "$.latitude"));
+    assertEquals(123, JsonPath.read(document, "$.id"));
+    assertEquals(127, JsonPath.read(document, "$.longitude"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue2() {
+    VO2 vo = new VO2();
+    vo.id = 123;
+    vo.properties = new LinkedHashMap<>();
+    vo.properties.put("latitude", 37);
+    vo.properties.put("longitude", 127);
+
+    String text = JSON.toJSONString(vo, SerializerFeature.SortField);
+    
+    Configuration configuration = Configuration.builder()
+        .options(Option.DEFAULT_PATH_LEAF_TO_NULL)
+        .jsonProvider(new JacksonJsonProvider())
+        .mappingProvider(new JacksonMappingProvider())
+        .build();
+    
+    Object document = configuration.jsonProvider().parse(text);
+    assertEquals(37, JsonPath.read(document, "$.properties.latitude"));
+    assertEquals(123, JsonPath.read(document, "$.id"));
+    assertEquals(127, JsonPath.read(document, "$.properties.longitude"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.8.0</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue2() {
+    VO2 vo = new VO2();
+    vo.id = 123;
+    vo.properties = new LinkedHashMap<>();
+    vo.properties.put("latitude", 37);
+    vo.properties.put("longitude", 127);
+
+    String text = JSON.toJSONString(vo, SerializerFeature.SortField);
+    
+    Configuration configuration = Configuration.builder()
+        .options(Option.DEFAULT_PATH_LEAF_TO_NULL)
+        .jsonProvider(new JacksonJsonProvider())
+        .mappingProvider(new JacksonMappingProvider())
+        .build();
+    
+    Object document = configuration.jsonProvider().parse(text);
+    assertEquals(37, JsonPath.read(document, "$.properties.latitude"));
+    assertEquals(123, JsonPath.read(document, "$.id"));
+    assertEquals(127, JsonPath.read(document, "$.properties.longitude"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+

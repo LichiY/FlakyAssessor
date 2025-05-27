@@ -1,0 +1,197 @@
+Test File Path: projects/505e08a76425c6e49ff5bc691f8ca7587184a2bf/pulsar/pulsar-client/src/test/java/org/apache/pulsar/client/impl/schema/JSONSchemaTest.java
+Original Test Method:
+     public void testNotAllowNullSchema() {
+        JSONSchema<Foo> jsonSchema = JSONSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+        Assert.assertEquals(jsonSchema.getSchemaInfo().getType(), SchemaType.JSON);
+        Schema.Parser parser = new Schema.Parser();
+        String schemaJson = new String(jsonSchema.getSchemaInfo().getSchema());
+        Assert.assertEquals(schemaJson, SCHEMA_JSON_NOT_ALLOW_NULL);
+        Schema schema = parser.parse(schemaJson);
+
+        for (String fieldName : FOO_FIELDS) {
+            Schema.Field field = schema.getField(fieldName);
+            Assert.assertNotNull(field);
+
+            if (field.name().equals("field4")) {
+                Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+            }
+            if (field.name().equals("fieldUnableNull")) {
+                Assert.assertNotNull(field.schema().getType());
+            }
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    JSONSchema<Foo> jsonSchema = JSONSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    Assert.assertEquals(jsonSchema.getSchemaInfo().getType(), SchemaType.JSON);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(jsonSchema.getSchemaInfo().getSchema());
+    Assert.assertEquals(schemaJson, SCHEMA_JSON_NOT_ALLOW_NULL);
+    Schema schema = parser.parse(schemaJson);
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = schema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    JSONSchema<Foo> jsonSchema = JSONSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    Assert.assertEquals(jsonSchema.getSchemaInfo().getType(), SchemaType.JSON);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(jsonSchema.getSchemaInfo().getSchema());
+    Assert.assertEquals(schemaJson, SCHEMA_JSON_NOT_ALLOW_NULL);
+    Schema schema = parser.parse(schemaJson);
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = schema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testNotAllowNullSchema() {
+        JSONSchema<Foo> jsonSchema = JSONSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+        Assert.assertEquals(jsonSchema.getSchemaInfo().getType(), Type.JSON);
+        Parser parser = new Parser();
+        String schemaJson = new String(jsonSchema.getSchemaInfo().getSchema());
+        Assert.assertEquals(schemaJson, SCHEMA_JSON_NOT_ALLOW_NULL);
+        Schema schema = parser.parse(schemaJson);
+
+        for (String fieldName : FOO_FIELDS) {
+            Schema.Field field = schema.getField(fieldName);
+            Assert.assertNotNull(field);
+
+            if (field.name().equals("field4")) {
+                Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+            }
+            if (field.name().equals("fieldUnableNull")) {
+                Assert.assertNotNull(field.schema().getType());
+            }
+        }
+    }
+
+
+import:
+
+['import org.apache.avro.Schema.Parser;', 'import org.apache.avro.Schema.Type;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    JSONSchema<Foo> jsonSchema = JSONSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    Assert.assertEquals(jsonSchema.getSchemaInfo().getType(), Type.JSON);
+    Parser parser = new Parser();
+    String schemaJson = new String(jsonSchema.getSchemaInfo().getSchema());
+    Assert.assertEquals(schemaJson, SCHEMA_JSON_NOT_ALLOW_NULL);
+    Schema schema = parser.parse(schemaJson);
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = schema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    JSONSchema<Foo> jsonSchema = JSONSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    Assert.assertEquals(jsonSchema.getSchemaInfo().getType(), Type.JSON);
+    Parser parser = new Parser();
+    String schemaJson = new String(jsonSchema.getSchemaInfo().getSchema());
+    Assert.assertEquals(schemaJson, SCHEMA_JSON_NOT_ALLOW_NULL);
+    Schema schema = parser.parse(schemaJson);
+
+    for (String fieldName : FOO_FIELDS) {
+        Schema.Field field = schema.getField(fieldName);
+        Assert.assertNotNull(field);
+
+        if (field.name().equals("field4")) {
+            Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+        }
+        if (field.name().equals("fieldUnableNull")) {
+            Assert.assertNotNull(field.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+['import org.json.JSONObject;']
+
+pom:
+
+None

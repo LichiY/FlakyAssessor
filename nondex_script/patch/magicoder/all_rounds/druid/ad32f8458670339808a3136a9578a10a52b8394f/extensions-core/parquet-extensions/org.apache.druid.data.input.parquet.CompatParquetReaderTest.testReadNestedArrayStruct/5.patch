@@ -1,0 +1,188 @@
+Test File Path: projects/ad32f8458670339808a3136a9578a10a52b8394f/druid/extensions-core/parquet-extensions/src/test/java/org/apache/druid/data/input/parquet/CompatParquetReaderTest.java
+Original Test Method:
+   public void testReadNestedArrayStruct() throws IOException
+  {
+    final String file = "example/compat/nested-array-struct.parquet";
+    InputRowSchema schema = new InputRowSchema(
+        new TimestampSpec("timestamp", "auto", DateTimes.of("2018-09-01T00:00:00.000Z")),
+        new DimensionsSpec(DimensionsSpec.getDefaultSchemas(ImmutableList.of("i32_dec", "extracted1", "extracted2"))),
+        ColumnsFilter.all()
+    );
+    List<JSONPathFieldSpec> flattenExpr = ImmutableList.of(
+        new JSONPathFieldSpec(JSONPathFieldType.PATH, "extracted1", "$.myComplex[0].id"),
+        new JSONPathFieldSpec(JSONPathFieldType.PATH, "extracted2", "$.myComplex[0].repeatedMessage[*].someId")
+    );
+    JSONPathSpec flattenSpec = new JSONPathSpec(true, flattenExpr);
+    InputEntityReader reader = createReader(
+        file,
+        schema,
+        flattenSpec
+    );
+
+    List<InputRow> rows = readAllRows(reader);
+    Assert.assertEquals("2018-09-01T00:00:00.000Z", rows.get(1).getTimestamp().toString());
+    Assert.assertEquals("5", rows.get(1).getDimension("primitive").get(0));
+    Assert.assertEquals("4", rows.get(1).getDimension("extracted1").get(0));
+    Assert.assertEquals("6", rows.get(1).getDimension("extracted2").get(0));
+
+    reader = createReader(
+        file,
+        schema,
+        flattenSpec
+    );
+    List<InputRowListPlusRawValues> sampled = sampleAllRows(reader);
+    final String expectedJson = "{\n"
+                                + "  \"primitive\" : 2,\n"
+                                + "  \"myComplex\" : [ {\n"
+                                + "    \"id\" : 1,\n"
+                                + "    \"repeatedMessage\" : [ 3 ]\n"
+                                + "  } ]\n"
+                                + "}";
+    Assert.assertEquals(expectedJson, DEFAULT_JSON_WRITER.writeValueAsString(sampled.get(0).getRawValues()));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.Map;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testReadNestedArrayStruct() throws Exception {
+        // Your test code here
+        String expectedJson = "{ \"primitive\" : 2, \"myComplex\" : [ { \"id\" : 1, \"repeatedMessage\" : [ 3 ] } ] }";
+        String actualJson = DEFAULT_JSON_WRITER.writeValueAsString(sampled.get(0).getRawValues());
+        Assert.assertEquals(expectedJson, actualJson);
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.SerializationFeature;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+    public void testReadNestedArrayStruct() throws IOException {
+        // Your test code here
+        String expectedJson = "{ \"primitive\" : 2, \"myComplex\" : [ { \"id\" : 1, \"repeatedMessage\" : [ 3 ] } ] }";
+        String actualJson = DEFAULT_JSON_WRITER.writeValueAsString(sampled.get(0).getRawValues());
+        Assert.assertEquals(expectedJson, actualJson);
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.SerializationFeature;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testReadNestedArrayStruct() throws IOException {
+    // Your test code here
+    String expectedJson = "{ \"primitive\" : 2, \"myComplex\" : [ { \"id\" : 1, \"repeatedMessage\" : [ 3 ] } ] }";
+    String actualJson = DEFAULT_JSON_WRITER.writeValueAsString(sampled.get(0).getRawValues());
+    Assert.assertEquals(expectedJson, actualJson);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testReadNestedArrayStruct() throws IOException {
+    // Your test code here
+    String expectedJson = "{ \"primitive\" : 2, \"myComplex\" : [ { \"id\" : 1, \"repeatedMessage\" : [ 3 ] } ] }";
+    String actualJson = DEFAULT_JSON_WRITER.writeValueAsString(sampled.get(0).getRawValues());
+    Assert.assertEquals(expectedJson, actualJson);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testReadNestedArrayStruct() throws IOException {
+        // Your test code here
+        String expectedJson = "{ \"primitive\" : 2, \"myComplex\" : [ { \"id\" : 1, \"repeatedMessage\" : [ 3 ] } ] }";
+        String actualJson = DEFAULT_JSON_WRITER.writeValueAsString(sampled.get(0).getRawValues());
+        Assert.assertEquals(expectedJson, actualJson);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

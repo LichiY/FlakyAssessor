@@ -1,0 +1,139 @@
+Test File Path: projects/1764748eedb2f320a0d1c43cb4f928c4ccb1f2f5/Mapper/core/src/test/java/tk/mybatis/mapper/mapperhelper/FieldHelperTest.java
+Original Test Method:
+     public void testComplex(){
+        List<EntityField> fieldList = FieldHelper.getFields(Admin.class);
+        Assert.assertEquals(2, fieldList.size());
+        Assert.assertEquals("admin", fieldList.get(0).getName());
+        Assert.assertEquals("user", fieldList.get(1).getName());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testComplex(){
+        List<EntityField> fieldList = FieldHelper.getFields(Admin.class);
+        Assert.assertEquals(2, fieldList.size());
+
+        // Sort the list to ensure the order is not dependent on the order of elements in the list
+        Collections.sort(fieldList, Comparator.comparing(EntityField::getName));
+
+        Assert.assertEquals("admin", fieldList.get(0).getName());
+        Assert.assertEquals("user", fieldList.get(1).getName());
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testComplex(){
+    List<EntityField> fieldList = FieldHelper.getFields(Admin.class);
+    Assert.assertEquals(2, fieldList.size());
+
+    // Sort the list to ensure the order is not dependent on the order of elements in the list
+    fieldList.sort(Comparator.comparing(EntityField::getName));
+
+    Assert.assertEquals("admin", fieldList.get(0).getName());
+    Assert.assertEquals("user", fieldList.get(1).getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testComplex(){
+    List<EntityField> fieldList = FieldHelper.getFields(Admin.class);
+    Assert.assertEquals(2, fieldList.size());
+
+    // Sort the list to ensure the order is not dependent on the order of elements in the list
+    fieldList.sort(Comparator.comparing(EntityField::getName));
+
+    Assert.assertEquals("admin", fieldList.get(0).getName());
+    Assert.assertEquals("user", fieldList.get(1).getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testComplex(){
+        List<EntityField> fieldList = FieldHelper.getFields(Admin.class);
+        Assert.assertEquals(2, fieldList.size());
+
+        // Sort the list to ensure the order is not dependent on the order of elements in the list
+        fieldList.sort(Comparator.comparing(EntityField::getName));
+
+        Assert.assertEquals("admin", fieldList.get(0).getName());
+        Assert.assertEquals("user", fieldList.get(1).getName());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testComplex(){
+        List<EntityField> fieldList = FieldHelper.getFields(Admin.class);
+        Assert.assertEquals(2, fieldList.size());
+
+        // Sort the list to ensure the order is not dependent on the order of elements in the list
+        fieldList.sort(Comparator.comparing(EntityField::getName));
+
+        Assert.assertEquals("admin", fieldList.get(0).getName());
+        Assert.assertEquals("user", fieldList.get(1).getName());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,149 @@
+Test File Path: projects/e6289d03c7316ccc0a5e3fba2e3b495633713589/alluxio/dora/core/server/proxy/src/test/java/alluxio/proxy/s3/S3RestServiceHandlerTest.java
+Original Test Method:
+   public void testDeleteObjectReq() throws Exception {
+    String content = "<Delete><Quiet>true</Quiet><Object><Key>new-file-001.snappy"
+        + ".parquet/_temporary/</Key></Object><Object><Key>new-file-001.snappy.parquet/</Key>"
+        + "</Object></Delete>";
+    XmlMapper mapper = new XmlMapper();
+    DeleteObjectsRequest r =
+        mapper.readerFor(DeleteObjectsRequest.class).readValue(content.getBytes());
+    String o = mapper.writerFor(DeleteObjectsRequest.class).writeValueAsString(r);
+    assertTrue(r.getQuiet());
+    assertEquals(2, r.getToDelete().size());
+    assertEquals(o, content);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteObjectReq() throws Exception {
+    String content = "<Delete><Quiet>true</Quiet><Object><Key>new-file-001.snappy.parquet/_temporary/</Key></Object><Object><Key>new-file-001.snappy.parquet/</Key></Object></Delete>";
+    XmlMapper mapper = new XmlMapper();
+    DeleteObjectsRequest r =
+        mapper.readerFor(DeleteObjectsRequest.class).readValue(content.getBytes());
+    String o = mapper.writerFor(DeleteObjectsRequest.class).writeValueAsString(r);
+    assertTrue(r.getQuiet());
+    assertEquals(2, r.getToDelete().size());
+    assertEquals(o, content);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteObjectReq() throws Exception {
+    String content = "<Delete><Quiet>true</Quiet><Object><Key>new-file-001.snappy.parquet/_temporary/</Key></Object><Object><Key>new-file-001.snappy.parquet/</Key></Object></Delete>";
+    XmlMapper mapper = new XmlMapper();
+    DeleteObjectsRequest r =
+        mapper.readerFor(DeleteObjectsRequest.class).readValue(content.getBytes());
+    String o = mapper.writerFor(DeleteObjectsRequest.class).writeValueAsString(r);
+    assertTrue(r.getQuiet());
+    assertEquals(2, r.getToDelete().size());
+    assertEquals(o, content);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteObjectReq() throws Exception {
+    String content = "<Delete><Quiet>true</Quiet><Object><Key>new-file-001.snappy.parquet/_temporary/</Key></Object><Object><Key>new-file-001.snappy.parquet/</Key></Object></Delete>";
+    XmlMapper mapper = new XmlMapper();
+    DeleteObjectsRequest r =
+        mapper.readerFor(DeleteObjectsRequest.class).readValue(content.getBytes());
+    String o = mapper.writerFor(DeleteObjectsRequest.class).writeValueAsString(r);
+    assertTrue(r.getQuiet());
+    assertEquals(2, r.getToDelete().size());
+    assertEquals(o, content);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- no dependencies needed for this test -->
+<!-- no artifacts to include in dependencies -->
+<!-- no imports needed for this test -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testDeleteObjectReq() throws Exception {
+        String content = "<Delete><Quiet>true</Quiet><Object><Key>new-file-001.snappy.parquet/_temporary/</Key></Object><Object><Key>new-file-001.snappy.parquet/</Key></Object></Delete>";
+        XmlMapper mapper = new XmlMapper();
+        DeleteObjectsRequest r =
+            mapper.readerFor(DeleteObjectsRequest.class).readValue(content.getBytes());
+        String o = mapper.writerFor(DeleteObjectsRequest.class).writeValueAsString(r);
+        assertTrue(r.getQuiet());
+        assertEquals(2, r.getToDelete().size());
+        assertEquals(o, content);
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.Arrays;', 'import java.util.List;', 'import static org.junit.Assert.*;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteObjectReq() throws Exception {
+    String content = "<Delete><Quiet>true</Quiet><Object><Key>new-file-001.snappy.parquet/_temporary/</Key></Object><Object><Key>new-file-001.snappy.parquet/</Key></Object></Delete>";
+    XmlMapper mapper = new XmlMapper();
+    DeleteObjectsRequest r =
+        mapper.readerFor(DeleteObjectsRequest.class).readValue(content.getBytes());
+    String o = mapper.writerFor(DeleteObjectsRequest.class).writeValueAsString(r);
+    assertTrue(r.getQuiet());
+    assertEquals(2, r.getToDelete().size());
+    assertEquals(o, content);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+    <version>2.12.3</version>
+</dependency>

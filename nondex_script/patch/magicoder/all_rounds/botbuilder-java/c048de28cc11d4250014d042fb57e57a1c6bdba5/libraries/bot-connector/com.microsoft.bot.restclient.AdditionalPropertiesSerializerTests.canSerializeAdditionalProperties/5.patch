@@ -1,0 +1,128 @@
+Test File Path: projects/c048de28cc11d4250014d042fb57e57a1c6bdba5/botbuilder-java/libraries/bot-connector/src/test/java/com/microsoft/bot/restclient/AdditionalPropertiesSerializerTests.java
+Original Test Method:
+     public void canSerializeAdditionalProperties() throws Exception {
+        Foo foo = new Foo();
+        foo.bar = "hello.world";
+        foo.baz = new ArrayList<>();
+        foo.baz.add("hello");
+        foo.baz.add("hello.world");
+        foo.qux = new HashMap<>();
+        foo.qux.put("hello", "world");
+        foo.qux.put("a.b", "c.d");
+        foo.qux.put("bar.a", "ttyy");
+        foo.qux.put("bar.b", "uuzz");
+        foo.additionalProperties = new HashMap<>();
+        foo.additionalProperties.put("bar", "baz");
+        foo.additionalProperties.put("a.b", "c.d");
+        foo.additionalProperties.put("properties.bar", "barbar");
+
+        String serialized = new JacksonAdapter().serialize(foo);
+        Assert.assertEquals("{\"$type\":\"foo\",\"properties\":{\"bar\":\"hello.world\",\"props\":{\"baz\":[\"hello\",\"hello.world\"],\"q\":{\"qux\":{\"hello\":\"world\",\"a.b\":\"c.d\",\"bar.b\":\"uuzz\",\"bar.a\":\"ttyy\"}}}},\"bar\":\"baz\",\"a.b\":\"c.d\",\"properties.bar\":\"barbar\"}", serialized);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.*;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.io.IOException;', 'import java.util.Map;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void canSerializeAdditionalProperties() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String serialized = mapper.writeValueAsString(new Foo());
+
+        assertEquals("{\"$type\":\"foo\",\"properties\":{\"bar\":\"hello.world\",\"props\":{\"baz\":[\"hello\",\"hello.world\"],\"q\":{\"qux\":{\"hello\":\"world\",\"a.b\":\"c.d\",\"bar.b\":\"uuzz\",\"bar.a\":\"ttyy\"}}}},\"bar\":\"baz\",\"a.b\":\"c.d\",\"properties.bar\":\"barbar\"}", serialized);
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void canSerializeAdditionalProperties() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    String serialized = mapper.writeValueAsString(new Foo());
+
+    assertEquals("{\"$type\":\"foo\",\"properties\":{\"bar\":\"hello.world\",\"props\":{\"baz\":[\"hello\",\"hello.world\"],\"q\":{\"qux\":{\"hello\":\"world\",\"a.b\":\"c.d\",\"bar.b\":\"uuzz\",\"bar.a\":\"ttyy\"}}}},\"bar\":\"baz\",\"a.b\":\"c.d\",\"properties.bar\":\"barbar\"}", serialized);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+

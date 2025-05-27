@@ -1,0 +1,267 @@
+Test File Path: projects/75ad2d415c51d7b6475f1d270a66949609b125d5/light-4j/header/src/test/java/com/networknt/header/HeaderHandlerTest.java
+Original Test Method:
+     public void testRequestHeader() throws Exception {
+        final Http2Client client = Http2Client.getInstance();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final ClientConnection connection;
+        try {
+            connection = client.connect(new URI("http://localhost:8080"), Http2Client.WORKER, Http2Client.BUFFER_POOL, OptionMap.EMPTY).get();
+        } catch (Exception e) {
+            throw new ClientException(e);
+        }
+        final AtomicReference<ClientResponse> reference = new AtomicReference<>();
+        try {
+            ClientRequest request = new ClientRequest().setPath("/get").setMethod(Methods.GET);
+            request.getRequestHeaders().put(Headers.HOST, "localhost");
+            request.getRequestHeaders().put(new HttpString("header1"), "header1");
+            request.getRequestHeaders().put(new HttpString("header2"), "header2");
+            request.getRequestHeaders().put(new HttpString("key1"), "old1");
+            request.getRequestHeaders().put(new HttpString("key2"), "old2");
+            connection.sendRequest(request, client.createClientCallback(reference, latch));
+            latch.await();
+        } catch (Exception e) {
+            logger.error("Exception: ", e);
+            throw new ClientException(e);
+        } finally {
+            IoUtils.safeClose(connection);
+        }
+        int statusCode = reference.get().getResponseCode();
+        String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+        Assert.assertEquals(200, statusCode);
+        Assert.assertEquals("{\"requestHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"responseHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"}}", body);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testRequestHeader() throws Exception {
+    final Http2Client client = Http2Client.getInstance();
+    final CountDownLatch latch = new CountDownLatch(1);
+    final ClientConnection connection;
+    try {
+        connection = client.connect(new URI("http://localhost:8080"), Http2Client.WORKER, Http2Client.BUFFER_POOL, OptionMap.EMPTY).get();
+    } catch (Exception e) {
+        throw new ClientException(e);
+    }
+    final AtomicReference<ClientResponse> reference = new AtomicReference<>();
+    try {
+        ClientRequest request = new ClientRequest().setPath("/get").setMethod(Methods.GET);
+        request.getRequestHeaders().put(Headers.HOST, "localhost");
+        request.getRequestHeaders().put(new HttpString("header1"), "header1");
+        request.getRequestHeaders().put(new HttpString("header2"), "header2");
+        request.getRequestHeaders().put(new HttpString("key1"), "value1");
+        request.getRequestHeaders().put(new HttpString("key2"), "value2");
+        connection.sendRequest(request, client.createClientCallback(reference, latch));
+        latch.await();
+    } catch (Exception e) {
+        logger.error("Exception: ", e);
+        throw new ClientException(e);
+    } finally {
+        IoUtils.safeClose(connection);
+    }
+    int statusCode = reference.get().getResponseCode();
+    String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+    Assert.assertEquals(200, statusCode);
+    Assert.assertEquals("{\"requestHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"responseHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"}}", body);
+}
+
+
+import:
+
+['import com.example.exampleClass;', 'import com.example.anotherClass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>example-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testRequestHeader() throws Exception {
+        final Http2Client client = Http2Client.getInstance();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final ClientConnection connection;
+        try {
+            connection = client.connect(new URI("http://localhost:8080"), Http2Client.WORKER, Http2Client.BUFFER_POOL, OptionMap.EMPTY).get();
+        } catch (Exception e) {
+            throw new ClientException(e);
+        }
+        final AtomicReference<ClientResponse> reference = new AtomicReference<>();
+        try {
+            ClientRequest request = new ClientRequest().setPath("/get").setMethod(Methods.GET);
+            request.getRequestHeaders().put(Headers.HOST, "localhost");
+            request.getRequestHeaders().put(new HttpString("header1"), "header1");
+            request.getRequestHeaders().put(new HttpString("header2"), "header2");
+            request.getRequestHeaders().put(new HttpString("key1"), "value1");
+            request.getRequestHeaders().put(new HttpString("key2"), "value2");
+            connection.sendRequest(request, client.createClientCallback(reference, latch));
+            latch.await();
+        } catch (Exception e) {
+            logger.error("Exception: ", e);
+            throw new ClientException(e);
+        } finally {
+            IoUtils.safeClose(connection);
+        }
+        int statusCode = reference.get().getResponseCode();
+        String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+        Assert.assertEquals(200, statusCode);
+        Assert.assertEquals("{\"requestHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"responseHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"}}", body);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testRequestHeader() throws Exception {
+    final Http2Client client = Http2Client.getInstance();
+    final CountDownLatch latch = new CountDownLatch(1);
+    final ClientConnection connection;
+    try {
+        connection = client.connect(new URI("http://localhost:8080"), Http2Client.WORKER, Http2Client.BUFFER_POOL, OptionMap.EMPTY).get();
+    } catch (Exception e) {
+        throw new ClientException(e);
+    }
+    final AtomicReference<ClientResponse> reference = new AtomicReference<>();
+    try {
+        ClientRequest request = new ClientRequest().setPath("/get").setMethod(Methods.GET);
+        request.getRequestHeaders().put(Headers.HOST, "localhost");
+        request.getRequestHeaders().put(new HttpString("header1"), "header1");
+        request.getRequestHeaders().put(new HttpString("header2"), "header2");
+        request.getRequestHeaders().put(new HttpString("key1"), "value1");
+        request.getRequestHeaders().put(new HttpString("key2"), "value2");
+        connection.sendRequest(request, client.createClientCallback(reference, latch));
+        latch.await();
+    } catch (Exception e) {
+        logger.error("Exception: ", e);
+        throw new ClientException(e);
+    } finally {
+        IoUtils.safeClose(connection);
+    }
+    int statusCode = reference.get().getResponseCode();
+    String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+    Assert.assertEquals(200, statusCode);
+    Assert.assertEquals("{\"requestHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"responseHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"}}", body);
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testRequestHeader() throws Exception {
+    final Http2Client client = Http2Client.getInstance();
+    final CountDownLatch latch = new CountDownLatch(1);
+    final ClientConnection connection;
+    try {
+        connection = client.connect(new URI("http://localhost:8080"), Http2Client.WORKER, Http2Client.BUFFER_POOL, OptionMap.EMPTY).get();
+    } catch (Exception e) {
+        throw new ClientException(e);
+    }
+    final AtomicReference<ClientResponse> reference = new AtomicReference<>();
+    try {
+        ClientRequest request = new ClientRequest().setPath("/get").setMethod(Methods.GET);
+        request.getRequestHeaders().put(Headers.HOST, "localhost");
+        request.getRequestHeaders().put(new HttpString("header1"), "header1");
+        request.getRequestHeaders().put(new HttpString("header2"), "header2");
+        request.getRequestHeaders().put(new HttpString("key1"), "value1");
+        request.getRequestHeaders().put(new HttpString("key2"), "value2");
+        connection.sendRequest(request, client.createClientCallback(reference, latch));
+        latch.await();
+    } catch (Exception e) {
+        logger.error("Exception: ", e);
+        throw new ClientException(e);
+    } finally {
+        IoUtils.safeClose(connection);
+    }
+    int statusCode = reference.get().getResponseCode();
+    String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+    Assert.assertEquals(200, statusCode);
+    Assert.assertEquals("{\"requestHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"responseHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"}}", body);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testRequestHeader() throws Exception {
+    final Http2Client client = Http2Client.getInstance();
+    final CountDownLatch latch = new CountDownLatch(1);
+    final ClientConnection connection;
+    try {
+        connection = client.connect(new URI("http://localhost:8080"), Http2Client.WORKER, Http2Client.BUFFER_POOL, OptionMap.EMPTY).get();
+    } catch (Exception e) {
+        throw new ClientException(e);
+    }
+    final AtomicReference<ClientResponse> reference = new AtomicReference<>();
+    try {
+        ClientRequest request = new ClientRequest().setPath("/get").setMethod(Methods.GET);
+        request.getRequestHeaders().put(Headers.HOST, "localhost");
+        request.getRequestHeaders().put(new HttpString("header1"), "header1");
+        request.getRequestHeaders().put(new HttpString("header2"), "header2");
+        request.getRequestHeaders().put(new HttpString("key1"), "value1");
+        request.getRequestHeaders().put(new HttpString("key2"), "value2");
+        connection.sendRequest(request, client.createClientCallback(reference, latch));
+        latch.await();
+    } catch (Exception e) {
+        logger.error("Exception: ", e);
+        throw new ClientException(e);
+    } finally {
+        IoUtils.safeClose(connection);
+    }
+    int statusCode = reference.get().getResponseCode();
+    String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+    Assert.assertEquals(200, statusCode);
+    Assert.assertEquals("{\"requestHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"},\"responseHeaders\":{\"key1\":\"value1\",\"key2\":\"value2\"}}", body);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

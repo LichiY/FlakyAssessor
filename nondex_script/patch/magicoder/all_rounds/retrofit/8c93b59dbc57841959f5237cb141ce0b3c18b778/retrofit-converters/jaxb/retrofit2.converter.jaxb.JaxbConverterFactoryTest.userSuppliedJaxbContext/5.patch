@@ -1,0 +1,189 @@
+Test File Path: projects/8c93b59dbc57841959f5237cb141ce0b3c18b778/retrofit/retrofit-converters/jaxb/src/test/java/retrofit2/converter/jaxb/JaxbConverterFactoryTest.java
+Original Test Method:
+   @Test public void userSuppliedJaxbContext() throws Exception {
+    JAXBContext context = JAXBContext.newInstance(Contact.class);
+    JaxbConverterFactory factory = JaxbConverterFactory.create(context);
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(server.url("/"))
+        .addConverterFactory(factory)
+        .build();
+    service = retrofit.create(Service.class);
+
+    server.enqueue(new MockResponse());
+
+    Call<Void> call = service.postXml(SAMPLE_CONTACT);
+    call.execute();
+
+    RecordedRequest request = server.takeRequest();
+    assertThat(request.getHeader("Content-Type")).isEqualTo("application/xml; charset=utf-8");
+    assertThat(request.getBody().readUtf8()).isEqualTo(SAMPLE_CONTACT_XML);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void userSuppliedJaxbContext() throws Exception {
+    JAXBContext context = JAXBContext.newInstance(Contact.class);
+    JaxbConverterFactory factory = JaxbConverterFactory.create(context);
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(server.url("/"))
+        .addConverterFactory(factory)
+        .build();
+    service = retrofit.create(Service.class);
+
+    server.enqueue(new MockResponse());
+
+    Call<Void> call = service.postXml(SAMPLE_CONTACT);
+    call.execute();
+
+    RecordedRequest request = server.takeRequest();
+    assertThat(request.getHeader("Content-Type")).isEqualTo("application/xml; charset=utf-8");
+    assertThat(request.getBody().readUtf8()).isEqualTo(SAMPLE_CONTACT_XML);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void userSuppliedJaxbContext() throws Exception {
+    JAXBContext context = JAXBContext.newInstance(Contact.class);
+    JaxbConverterFactory factory = JaxbConverterFactory.create(context);
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(server.url("/"))
+        .addConverterFactory(factory)
+        .build();
+    service = retrofit.create(Service.class);
+
+    server.enqueue(new MockResponse());
+
+    Call<Void> call = service.postXml(SAMPLE_CONTACT);
+    call.execute();
+
+    RecordedRequest request = server.takeRequest();
+    assertThat(request.getHeader("Content-Type")).isEqualTo("application/xml; charset=utf-8");
+    assertThat(request.getBody().readUtf8()).isEqualTo(SAMPLE_CONTACT_XML);
+}
+
+
+import:
+
+['import com.example.my.artifact.MyClass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void userSuppliedJaxbContext() throws Exception {
+        JAXBContext context = JAXBContext.newInstance(Contact.class);
+        JaxbConverterFactory factory = JaxbConverterFactory.create(context);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(server.url("/"))
+                .addConverterFactory(factory)
+                .build();
+        service = retrofit.create(Service.class);
+
+        server.enqueue(new MockResponse());
+
+        Call<Void> call = service.postXml(SAMPLE_CONTACT);
+        call.execute();
+
+        RecordedRequest request = server.takeRequest();
+        assertThat(request.getHeader("Content-Type")).isEqualTo("application/xml; charset=utf-8");
+        assertThat(request.getBody().readUtf8()).isEqualTo(SAMPLE_CONTACT_XML);
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonParser;', 'import com.fasterxml.jackson.databind.ObjectMapper;', 'import com.fasterxml.jackson.dataformat.xml.XmlMapper;', 'import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;', 'import com.google.common.collect.ImmutableSet;', 'import retrofit2.converter.jackson.JacksonConverterFactory;', 'import java.util.LinkedHashMap;', 'import java.util.LinkedHashSet;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void userSuppliedJaxbContext() throws Exception {
+    JAXBContext context = JAXBContext.newInstance(Contact.class);
+    JaxbConverterFactory factory = JaxbConverterFactory.create(context);
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(server.url("/"))
+            .addConverterFactory(factory)
+            .build();
+    service = retrofit.create(Service.class);
+
+    server.enqueue(new MockResponse());
+
+    Call<Void> call = service.postXml(SAMPLE_CONTACT);
+    call.execute();
+
+    RecordedRequest request = server.takeRequest();
+    assertThat(request.getHeader("Content-Type")).isEqualTo("application/xml; charset=utf-8");
+    assertThat(request.getBody().readUtf8()).isEqualTo(SAMPLE_CONTACT_XML);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void userSuppliedJaxbContext() throws Exception {
+        JAXBContext context = JAXBContext.newInstance(Contact.class);
+        JaxbConverterFactory factory = JaxbConverterFactory.create(context);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(server.url("/"))
+                .addConverterFactory(factory)
+                .build();
+        service = retrofit.create(Service.class);
+
+        server.enqueue(new MockResponse());
+
+        Call<Void> call = service.postXml(SAMPLE_CONTACT);
+        call.execute();
+
+        RecordedRequest request = server.takeRequest();
+        assertThat(request.getHeader("Content-Type")).isEqualTo("application/xml; charset=utf-8");
+        assertThat(request.getBody().readUtf8()).isEqualTo(SAMPLE_CONTACT_XML);
+    }
+
+
+import:
+
+['import retrofit2.converter.jaxb.JaxbConverterFactory;']
+
+pom:
+
+None

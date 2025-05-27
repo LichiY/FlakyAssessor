@@ -1,0 +1,235 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-cmmn-engine-configurator/src/test/java/org/flowable/cmmn/test/ProcessTaskTest.java
+Original Test Method:
+     public void testExitAvailableProcessTaskThroughExitSentryOnStage() {
+        CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+            .caseDefinitionKey("testExitAvailableProcessTaskThroughExitSentryOnStage")
+            .start();
+
+        PlanItemInstance planItemInstance = cmmnRuntimeService.createPlanItemInstanceQuery()
+            .planItemInstanceStateAvailable()
+            .planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK)
+            .singleResult();
+        assertEquals("theProcess", planItemInstance.getName());
+
+        assertNull(cmmnTaskService.createTaskQuery().taskName("task2").singleResult());
+
+        // When the event listener now occurs, the stage should be exited, also exiting the process task plan item
+        UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .singleResult();
+        cmmnRuntimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+        assertNotNull(cmmnTaskService.createTaskQuery().taskName("task2").singleResult());
+        assertNull(cmmnRuntimeService.createPlanItemInstanceQuery().planItemInstanceStateAvailable().planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK).singleResult());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testExitAvailableProcessTaskThroughExitSentryOnStage() {
+        // Your fixed test code goes here
+        
+
+        CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+            .caseDefinitionKey("testExitAvailableProcessTaskThroughExitSentryOnStage")
+            .start();
+
+        PlanItemInstance planItemInstance = cmmnRuntimeService.createPlanItemInstanceQuery()
+            .planItemInstanceStateAvailable()
+            .planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK)
+            .singleResult();
+        assertEquals("theProcess", planItemInstance.getName());
+
+        assertNull(cmmnTaskService.createTaskQuery().taskName("task2").singleResult());
+
+        // When the event listener now occurs, the stage should be exited, also exiting the process task plan item
+        UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .singleResult();
+        cmmnRuntimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+        assertNotNull(cmmnTaskService.createTaskQuery().taskName("task2").singleResult());
+        assertNull(cmmnRuntimeService.createPlanItemInstanceQuery().planItemInstanceStateAvailable().planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK).singleResult());
+        
+
+    }
+
+
+import:
+
+['import org.springframework.boot.test.context.SpringBootTest;', 'import org.springframework.test.context.ActiveProfiles;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <version>2.5.5</version>
+    <scope>test</scope>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testExitAvailableProcessTaskThroughExitSentryOnStage() {
+    RuntimeService runtimeService = ProcessEngine.getDefaultProcessEngine().getRuntimeService();
+    TaskService taskService = ProcessEngine.getDefaultProcessEngine().getTaskService();
+
+    CaseInstance caseInstance = runtimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testExitAvailableProcessTaskThroughExitSentryOnStage")
+        .start();
+
+    PlanItemInstance planItemInstance = runtimeService.createPlanItemInstanceQuery()
+        .planItemInstanceStateAvailable()
+        .planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK)
+        .singleResult();
+    assertEquals("theProcess", planItemInstance.getName());
+
+    assertNull(taskService.createTaskQuery().taskName("task2").singleResult());
+
+    UserEventListenerInstance userEventListenerInstance = runtimeService.createUserEventListenerInstanceQuery()
+        .caseInstanceId(caseInstance.getId())
+        .singleResult();
+    runtimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+    assertNotNull(taskService.createTaskQuery().taskName("task2").singleResult());
+    assertNull(runtimeService.createPlanItemInstanceQuery().planItemInstanceStateAvailable().planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK).singleResult());
+}
+
+
+import:
+
+['import org.camunda.bpm.engine.RuntimeService;', 'import org.camunda.bpm.engine.TaskService;']
+
+pom:
+
+
+
+    <dependency>
+        <groupId>org.camunda.bpm</groupId>
+        <artifactId>camunda-engine-core</artifactId>
+        <version>7.14.0</version>
+    </dependency>
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testExitAvailableProcessTaskThroughExitSentryOnStage() {
+    RuntimeService runtimeService = ProcessEngine.getDefaultProcessEngine().getRuntimeService();
+    TaskService taskService = ProcessEngine.getDefaultProcessEngine().getTaskService();
+
+    CaseInstance caseInstance = runtimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testExitAvailableProcessTaskThroughExitSentryOnStage")
+        .start();
+
+    PlanItemInstance planItemInstance = runtimeService.createPlanItemInstanceQuery()
+        .planItemInstanceStateAvailable()
+        .planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK)
+        .singleResult();
+    assertEquals("theProcess", planItemInstance.getName());
+
+    assertNull(taskService.createTaskQuery().taskName("task2").singleResult());
+
+    UserEventListenerInstance userEventListenerInstance = runtimeService.createUserEventListenerInstanceQuery()
+        .caseInstanceId(caseInstance.getId())
+        .singleResult();
+    runtimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+    assertNotNull(taskService.createTaskQuery().taskName("task2").singleResult());
+    assertNull(runtimeService.createPlanItemInstanceQuery().planItemInstanceStateAvailable().planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK).singleResult());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testExitAvailableProcessTaskThroughExitSentryOnStage() {
+    RuntimeService runtimeService = ProcessEngine.getDefaultProcessEngine().getRuntimeService();
+    TaskService taskService = ProcessEngine.getDefaultProcessEngine().getTaskService();
+
+    CaseInstance caseInstance = runtimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testExitAvailableProcessTaskThroughExitSentryOnStage")
+        .start();
+
+    PlanItemInstance planItemInstance = runtimeService.createPlanItemInstanceQuery()
+        .planItemInstanceStateAvailable()
+        .planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK)
+        .singleResult();
+    assertEquals("theProcess", planItemInstance.getName());
+
+    assertNull(taskService.createTaskQuery().taskName("task2").singleResult());
+
+    UserEventListenerInstance userEventListenerInstance = runtimeService.createUserEventListenerInstanceQuery()
+        .caseInstanceId(caseInstance.getId())
+        .singleResult();
+    runtimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+    assertNotNull(taskService.createTaskQuery().taskName("task2").singleResult());
+    assertNull(runtimeService.createPlanItemInstanceQuery().planItemInstanceStateAvailable().planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK).singleResult());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testExitAvailableProcessTaskThroughExitSentryOnStage() {
+    RuntimeService runtimeService = ProcessEngine.getDefaultProcessEngine().getRuntimeService();
+    TaskService taskService = ProcessEngine.getDefaultProcessEngine().getTaskService();
+
+    CaseInstance caseInstance = runtimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testExitAvailableProcessTaskThroughExitSentryOnStage")
+        .start();
+
+    PlanItemInstance planItemInstance = runtimeService.createPlanItemInstanceQuery()
+        .planItemInstanceStateAvailable()
+        .planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK)
+        .singleResult();
+    assertEquals("theProcess", planItemInstance.getName());
+
+    assertNull(taskService.createTaskQuery().taskName("task2").singleResult());
+
+    UserEventListenerInstance userEventListenerInstance = runtimeService.createUserEventListenerInstanceQuery()
+        .caseInstanceId(caseInstance.getId())
+        .singleResult();
+    runtimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+    assertNotNull(taskService.createTaskQuery().taskName("task2").singleResult());
+    assertNull(runtimeService.createPlanItemInstanceQuery().planItemInstanceStateAvailable().planItemDefinitionType(PlanItemDefinitionType.PROCESS_TASK).singleResult());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

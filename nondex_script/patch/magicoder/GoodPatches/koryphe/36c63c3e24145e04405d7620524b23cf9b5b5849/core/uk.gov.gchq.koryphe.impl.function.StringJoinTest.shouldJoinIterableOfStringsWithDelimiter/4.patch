@@ -1,0 +1,32 @@
+Test File Path: projects/36c63c3e24145e04405d7620524b23cf9b5b5849/koryphe/core/src/test/java/uk/gov/gchq/koryphe/impl/function/StringJoinTest.java
+Original Test Method:
+     public void shouldJoinIterableOfStringsWithDelimiter() {
+        // Given
+        final StringJoin<String> function = new StringJoin<>(",");
+        final Set<String> input = Sets.newHashSet("a", "b", "c");
+
+        // When
+        final String result = function.apply(input);
+
+        // Then
+        assertThat(result).isEqualTo("a,b,c");
+    }
+Patch:
+
+test_code:
+    public void shouldJoinIterableOfStringsWithDelimiter() {
+        // Given
+        final StringJoin<String> function = new StringJoin<>(",");
+        final List<String> input = new ArrayList<>(Arrays.asList("a", "b", "c"));
+
+        // When
+        final String result = function.apply(input);
+
+        // Then
+        Assertions.assertThat(result).isEqualTo("a,b,c");
+    }
+
+import:
+['import java.util.*;']
+pom:
+None

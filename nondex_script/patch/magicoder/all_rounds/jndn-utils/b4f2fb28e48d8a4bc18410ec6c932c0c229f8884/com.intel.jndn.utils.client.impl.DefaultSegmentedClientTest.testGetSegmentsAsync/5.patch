@@ -1,0 +1,180 @@
+Test File Path: projects/b4f2fb28e48d8a4bc18410ec6c932c0c229f8884/jndn-utils/src/test/java/com/intel/jndn/utils/client/impl/DefaultSegmentedClientTest.java
+Original Test Method:
+   public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    TestCounter counter = new TestCounter();
+    stream.observe((i, d) -> counter.count++);
+
+    for (Data segment : TestHelper.buildSegments(name, 0, 5)) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, counter.count);
+    assertEquals("01234", stream.assemble().getContent().toString());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    TestCounter counter = new TestCounter();
+    stream.observe((i, d) -> counter.count++);
+
+    for (Data segment : TestHelper.buildSegments(name, 0, 5)) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, counter.count);
+    assertEquals("01234", stream.assemble().getContent().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    TestCounter counter = new TestCounter();
+    stream.observe((i, d) -> counter.count++);
+
+    for (Data segment : TestHelper.buildSegments(name, 0, 5)) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, counter.count);
+    assertEquals("01234", stream.assemble().getContent().toString());
+}
+
+
+import:
+
+['import com.example.my.artifact.MyClass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    List<Data> dataList = new ArrayList<>();
+    stream.observe((i, d) -> dataList.add(d));
+
+    for (Data segment : TestHelper.buildSegments(name, 0, 5)) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, dataList.size());
+    assertEquals("01234", dataList.stream().map(Data::getContent).collect(Collectors.joining()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    List<Data> dataList = new ArrayList<>();
+    stream.observe((i, d) -> dataList.add(d));
+
+    for (Data segment : TestHelper.buildSegments(name, 0, 5)) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, dataList.size());
+    assertEquals("01234", dataList.stream().map(Data::getContent).collect(Collectors.joining()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testGetSegmentsAsync() throws Exception {
+    MockFace face = new MockFace();
+    Name name = new Name("/test/segmented/client");
+    Interest interest = new Interest(name);
+    DataStream stream = instance.getSegmentsAsync(face, interest);
+
+    List<Data> dataList = new ArrayList<>();
+    stream.observe((i, d) -> dataList.add(d));
+
+    for (Data segment : TestHelper.buildSegments(name, 0, 5)) {
+      stream.onData(interest, segment);
+    }
+
+    assertEquals(5, dataList.size());
+    assertEquals("01234", dataList.stream().map(Data::getContent).collect(Collectors.joining()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

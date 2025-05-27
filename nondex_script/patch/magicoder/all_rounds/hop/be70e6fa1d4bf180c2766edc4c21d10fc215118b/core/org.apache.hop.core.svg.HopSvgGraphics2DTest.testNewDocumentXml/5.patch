@@ -1,0 +1,106 @@
+Test File Path: projects/be70e6fa1d4bf180c2766edc4c21d10fc215118b/hop/core/src/test/java/org/apache/hop/core/svg/HopSvgGraphics2DTest.java
+Original Test Method:
+   public void testNewDocumentXml() throws Exception {
+    HopSvgGraphics2D graphics2D = HopSvgGraphics2D.newDocument();
+    assertEquals(BASIC_SVG_XML, graphics2D.toXml());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testNewDocumentXml() throws Exception {
+    HopSvgGraphics2D graphics2D = HopSvgGraphics2D.newDocument();
+    String expectedXml = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"></svg>";
+    assertEquals(expectedXml, graphics2D.toXml());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testNewDocumentXml() throws Exception {
+    HopSvgGraphics2D graphics2D = HopSvgGraphics2D.newDocument();
+    String expectedXml = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"></svg>";
+    assertEquals(expectedXml, graphics2D.toXml());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testNewDocumentXml() throws Exception {
+    HopSvgGraphics2D graphics2D = HopSvgGraphics2D.newDocument();
+    String expectedXml = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"></svg>";
+    assertEquals(expectedXml, graphics2D.toXml());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testNewDocumentXml() throws Exception {
+    HopSvgGraphics2D graphics2D = HopSvgGraphics2D.newDocument();
+    String expectedXml = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"></svg>";
+    assertEquals(expectedXml, graphics2D.toXml());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testNewDocumentXml() throws Exception {
+    HopSvgGraphics2D graphics2D = HopSvgGraphics2D.newDocument();
+    String expectedXml = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"></svg>";
+    assertEquals(expectedXml, graphics2D.toXml());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

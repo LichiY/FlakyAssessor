@@ -1,0 +1,133 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptPreparedStatementTest.java
+Original Test Method:
+     public void assertDeleteWithExecute() throws SQLException {
+        try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+            statement.setObject(1, 'a');
+            statement.setObject(2, 1);
+            statement.execute();
+        }
+        assertResultSet(1, 5, "encryptValue", "assistedEncryptValue");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertDeleteWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+        statement.setObject(1, 'a');
+        statement.setObject(2, 1);
+        statement.execute();
+    }
+    assertResultSet(1, 5, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import com.example.myartifact.MyClass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertDeleteWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+        statement.setObject(1, 'a');
+        statement.setObject(2, 1);
+        statement.execute();
+    }
+    assertResultSet(1, 5, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertDeleteWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+        statement.setObject(1, 'a');
+        statement.setObject(2, 1);
+        statement.execute();
+    }
+    assertResultSet(1, 5, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertDeleteWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+        statement.setObject(1, 'a');
+        statement.setObject(2, 1);
+        statement.execute();
+    }
+    assertResultSet(1, 5, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import java.util.List;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertDeleteWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+        statement.setObject(1, 'a');
+        statement.setObject(2, 1);
+        statement.execute();
+    }
+    assertResultSet(1, 5, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

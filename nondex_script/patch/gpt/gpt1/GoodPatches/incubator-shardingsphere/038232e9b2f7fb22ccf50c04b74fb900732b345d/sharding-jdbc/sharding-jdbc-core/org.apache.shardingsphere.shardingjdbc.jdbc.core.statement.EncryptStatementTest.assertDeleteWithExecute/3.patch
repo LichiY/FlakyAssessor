@@ -1,0 +1,29 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptStatementTest.java
+Original Test Method:
+     public void assertDeleteWithExecute() throws SQLException {
+        try (Statement statement = getEncryptConnection().createStatement()) {
+            statement.execute(DELETE_SQL);
+        }
+        assertResultSet(1, 5, "encryptValue", "b");
+    }
+Patch:
+
+test_code:
+public void assertDeleteWithExecute() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement()) {
+        statement.execute(DELETE_SQL);
+    }
+    try (Connection connection = getEncryptConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM t_encrypt")) {
+        resultSet.next();
+        int actualCount = resultSet.getInt(1);
+        assertThat(actualCount, is(1));
+    }
+}
+
+import:
+[]
+pom:
+
+<!-- No dependencies need to be added -->

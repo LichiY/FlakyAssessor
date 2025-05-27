@@ -1,0 +1,68 @@
+Test File Path: projects/b607ad690543b17a6f6d6ecd92292ca3f28afe0d/mockserver/mockserver-netty/src/test/java/org/mockserver/dashboard/DashboardWebSocketHandlerTest.java
+Original Test Method:
+     public void shouldSerialiseRecordedRequestsEventsWithoutFields() throws InterruptedException {
+        // given
+        List<LogEntry> logEntries = Arrays.asList(
+            new LogEntry()
+                .setType(RECEIVED_REQUEST)
+                .setMessageFormat("messageFormatOne"),
+            new LogEntry()
+                .setType(RECEIVED_REQUEST)
+                .setHttpRequest(request("two")),
+            new LogEntry()
+                .setType(RECEIVED_REQUEST)
+        );
+        String renderedList = "{" + NEW_LINE +
+            "  \"logMessages\" : [ {" + NEW_LINE +
+            "    \"key\" : \"" + logEntries.get(2).id() + "_log\"," + NEW_LINE +
+            "    \"value\" : {" + NEW_LINE +
+            "      \"description\" : \"" + StringUtils.substringAfter(logEntries.get(2).getTimestamp(), "-") + " RECEIVED_REQUEST   \"," + NEW_LINE +
+            "      \"style\" : {" + NEW_LINE +
+            "        \"paddingBottom\" : \"4px\"," + NEW_LINE +
+            "        \"whiteSpace\" : \"nowrap\"," + NEW_LINE +
+            "        \"overflow\" : \"auto\"," + NEW_LINE +
+            "        \"color\" : \"rgb(114,160,193)\"," + NEW_LINE +
+            "        \"paddingTop\" : \"4px\"" + NEW_LINE +
+            "      }" + NEW_LINE +
+            "    }" + NEW_LINE +
+            "  }, {" + NEW_LINE +
+            "    \"key\" : \"" + logEntries.get(1).id() + "_log\"," + NEW_LINE +
+            "    \"value\" : {" + NEW_LINE +
+            "      \"description\" : \"" + StringUtils.substringAfter(logEntries.get(1).getTimestamp(), "-") + " RECEIVED_REQUEST   \"," + NEW_LINE +
+            "      \"style\" : {" + NEW_LINE +
+            "        \"paddingBottom\" : \"4px\"," + NEW_LINE +
+            "        \"whiteSpace\" : \"nowrap\"," + NEW_LINE +
+            "        \"overflow\" : \"auto\"," + NEW_LINE +
+            "        \"color\" : \"rgb(114,160,193)\"," + NEW_LINE +
+            "        \"paddingTop\" : \"4px\"" + NEW_LINE +
+            "      }" + NEW_LINE +
+            "    }" + NEW_LINE +
+            "  }, {" + NEW_LINE +
+            "    \"key\" : \"" + logEntries.get(0).id() + "_log\"," + NEW_LINE +
+            "    \"value\" : {" + NEW_LINE +
+            "      \"description\" : \"" + StringUtils.substringAfter(logEntries.get(0).getTimestamp(), "-") + " RECEIVED_REQUEST   \"," + NEW_LINE +
+            "      \"style\" : {" + NEW_LINE +
+            "        \"paddingBottom\" : \"4px\"," + NEW_LINE +
+            "        \"whiteSpace\" : \"nowrap\"," + NEW_LINE +
+            "        \"overflow\" : \"auto\"," + NEW_LINE +
+            "        \"color\" : \"rgb(114,160,193)\"," + NEW_LINE +
+            "        \"paddingTop\" : \"4px\"" + NEW_LINE +
+            "      }," + NEW_LINE +
+            "      \"messageParts\" : [ {" + NEW_LINE +
+            "        \"key\" : \"" + logEntries.get(0).id() + "_0msg\"," + NEW_LINE +
+            "        \"value\" : \"messageFormatOne\"" + NEW_LINE +
+            "      } ]" + NEW_LINE +
+            "    }" + NEW_LINE +
+            "  } ]," + NEW_LINE +
+            "  \"recordedRequests\" : [ {" + NEW_LINE +
+            "    \"description\" : \"  two\"," + NEW_LINE +
+            "    \"value\" : {" + NEW_LINE +
+            "      \"path\" : \"two\"" + NEW_LINE +
+            "    }," + NEW_LINE +
+            "    \"key\" : \"" + logEntries.get(1).id() + "_request\"" + NEW_LINE +
+            "  } ]" + NEW_LINE +
+            "}";
+
+        // then
+        shouldRenderFilteredLogEntriesCorrectly(false, request(), logEntries, Collections.emptyList(), renderedList);
+    }

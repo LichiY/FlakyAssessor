@@ -1,0 +1,140 @@
+Test File Path: projects/bfbd2d115aec576545b0673e876a652806b41986/avro/lang/java/avro/src/test/java/org/apache/avro/reflect/TestReflect.java
+Original Test Method:
+   public void testAnnotationMultiAvroMeta() {
+    check(RAvroMultiMeta.class,
+        "{\"type\":\"record\",\"name\":\"RAvroMultiMeta\",\"namespace\":"
+            + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\",\"K\":\"V\",\"L\":\"W\"}]" + ",\"X\":\"Y\",\"A\":\"B\"}");
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testAnnotationMultiAvroMeta() {
+        Class<RAvroMultiMeta> type = RAvroMultiMeta.class;
+        String schemaJson = "{\"type\":\"record\",\"name\":\"RAvroMultiMeta\",\"namespace\":"
+                + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+                + "{\"name\":\"a\",\"type\":\"int\",\"K\":\"V\",\"L\":\"W\"}]" + ",\"X\":\"Y\",\"A\":\"B\"}";
+
+        Map<String, Object> expectedFields = new HashMap<>();
+        expectedFields.put("a", 1);
+        expectedFields.put("K", "V");
+        expectedFields.put("L", "W");
+        expectedFields.put("X", "Y");
+        expectedFields.put("A", "B");
+
+        Field[] fields = type.getDeclaredFields();
+        Arrays.sort(fields, (f1, f2) -> f1.getName().compareTo(f2.getName()));
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                assertEquals(expectedFields.get(field.getName()), field.get(null));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+import:
+
+['import org.apache.avro.reflect.ReflectData;', 'import java.util.Arrays;', 'import java.util.HashMap;', 'import java.util.Map;', 'import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testAnnotationMultiAvroMeta() {
+        Class<RAvroMultiMeta> type = RAvroMultiMeta.class;
+        String schemaJson = "{\"type\":\"record\",\"name\":\"RAvroMultiMeta\",\"namespace\":"
+                + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+                + "{\"name\":\"a\",\"type\":\"int\",\"K\":\"V\",\"L\":\"W\"}]" + ",\"X\":\"Y\",\"A\":\"B\"}";
+
+        Map<String, Object> expectedFields = new HashMap<>();
+        expectedFields.put("a", 1);
+        expectedFields.put("K", "V");
+        expectedFields.put("L", "W");
+        expectedFields.put("X", "Y");
+        expectedFields.put("A", "B");
+
+        Field[] fields = type.getDeclaredFields();
+        Arrays.sort(fields, (f1, f2) -> f1.getName().compareTo(f2.getName()));
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                assertEquals(expectedFields.get(field.getName()), field.get(null));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+import:
+
+['import org.apache.avro.Schema;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testAnnotationMultiAvroMeta() {
+        Class<RAvroMultiMeta> type = RAvroMultiMeta.class;
+        String schemaJson = "{\"type\":\"record\",\"name\":\"RAvroMultiMeta\",\"namespace\":"
+                + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+                + "{\"name\":\"a\",\"type\":\"int\",\"K\":\"V\",\"L\":\"W\"}]" + ",\"X\":\"Y\",\"A\":\"B\"}";
+
+        Map<String, Object> expectedFields = new HashMap<>();
+        expectedFields.put("a", 1);
+        expectedFields.put("K", "V");
+        expectedFields.put("L", "W");
+        expectedFields.put("X", "Y");
+        expectedFields.put("A", "B");
+
+        Field[] fields = type.getDeclaredFields();
+        Arrays.sort(fields, (f1, f2) -> f1.getName().compareTo(f2.getName()));
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                assertEquals(expectedFields.get(field.getName()), field.get(null));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro</artifactId>
+        <version>1.9.2</version>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.6.2</version>
+        <scope>test</scope>
+    </dependency>
+

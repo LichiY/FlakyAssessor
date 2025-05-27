@@ -1,0 +1,220 @@
+Test File Path: projects/bfbd2d115aec576545b0673e876a652806b41986/avro/lang/java/avro/src/test/java/org/apache/avro/reflect/TestReflect.java
+Original Test Method:
+   public void testAvroDoc() {
+    check(DocTest.class,
+        "{\"type\":\"record\",\"name\":\"DocTest\",\"namespace\":\"org.apache.avro.reflect.TestReflect\","
+            + "\"doc\":\"DocTest class docs\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"doc\":\"Some Documentation\"},"
+            + "{\"name\":\"enums\",\"type\":{\"type\":\"enum\",\"name\":\"DocTestEnum\","
+            + "\"symbols\":[\"ENUM_1\",\"ENUM_2\"]},\"doc\":\"Some other Documentation\"},"
+            + "{\"name\":\"defaultTest\",\"type\":{\"type\":\"record\",\"name\":\"DefaultTest\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"default\":1}]},\"doc\":\"And again\"}]}");
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+  public void testAvroDoc() {
+    String expected = "{\"type\":\"record\",\"name\":\"DocTest\",\"namespace\":\"org.apache.avro.reflect.TestReflect\","
+            + "\"doc\":\"DocTest class docs\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"doc\":\"Some Documentation\"},"
+            + "{\"name\":\"enums\",\"type\":{\"type\":\"enum\",\"name\":\"DocTestEnum\","
+            + "\"symbols\":[\"ENUM_1\",\"ENUM_2\"]},\"doc\":\"Some other Documentation\"},"
+            + "{\"name\":\"defaultTest\",\"type\":{\"type\":\"record\",\"name\":\"DefaultTest\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"default\":1}]},\"doc\":\"And again\"}]}";
+    
+    String actual = ReflectData.get().getSchema(DocTest.class).toString();
+    
+    Configuration config = Configuration.defaultConfiguration()
+        .addOptions(Option.SUPPRESS_EXCEPTIONS)
+        .addOptions(Option.ALWAYS_RETURN_LIST);
+    
+    assertThat(JsonPath.parse(expected, config).jsonString())
+        .isEqualTo(JsonPath.parse(actual, config).jsonString());
+  }
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;', 'import com.jayway.jsonpath.Configuration;', 'import com.jayway.jsonpath.Option;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testAvroDoc() {
+    String expected = "{\"type\":\"record\",\"name\":\"DocTest\",\"namespace\":\"org.apache.avro.reflect.TestReflect\","
+            + "\"doc\":\"DocTest class docs\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"doc\":\"Some Documentation\"},"
+            + "{\"name\":\"enums\",\"type\":{\"type\":\"enum\",\"name\":\"DocTestEnum\","
+            + "\"symbols\":[\"ENUM_1\",\"ENUM_2\"]},\"doc\":\"Some other Documentation\"},"
+            + "{\"name\":\"defaultTest\",\"type\":{\"type\":\"record\",\"name\":\"DefaultTest\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"default\":1}]},\"doc\":\"And again\"}]}";
+    
+    String actual = ReflectData.get().getSchema(DocTest.class).toString();
+    
+    Configuration config = Configuration.defaultConfiguration()
+        .addOptions(Option.SUPPRESS_EXCEPTIONS)
+        .addOptions(Option.ALWAYS_RETURN_LIST);
+    
+    Object expectedJson = JsonPath.parse(expected, config).json();
+    Object actualJson = JsonPath.parse(actual, config).json();
+    
+    assertThat(actualJson).isEqualTo(expectedJson);
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testAvroDoc() {
+    String expected = "{\"type\":\"record\",\"name\":\"DocTest\",\"namespace\":\"org.apache.avro.reflect.TestReflect\","
+            + "\"doc\":\"DocTest class docs\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"doc\":\"Some Documentation\"},"
+            + "{\"name\":\"enums\",\"type\":{\"type\":\"enum\",\"name\":\"DocTestEnum\","
+            + "\"symbols\":[\"ENUM_1\",\"ENUM_2\"]},\"doc\":\"Some other Documentation\"},"
+            + "{\"name\":\"defaultTest\",\"type\":{\"type\":\"record\",\"name\":\"DefaultTest\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"default\":1}]},\"doc\":\"And again\"}]}";
+    
+    String actual = ReflectData.get().getSchema(DocTest.class).toString();
+    
+    Configuration config = Configuration.defaultConfiguration()
+        .addOptions(Option.SUPPRESS_EXCEPTIONS)
+        .addOptions(Option.ALWAYS_RETURN_LIST);
+    
+    Object expectedJson = JsonPath.parse(expected, config).json();
+    Object actualJson = JsonPath.parse(actual, config).json();
+    
+    assertThatJson(actualJson).when(Option.IGNORING_ARRAY_ORDER).isEqualTo(expectedJson);
+}
+
+
+import:
+
+['import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testAvroDoc() {
+    String expected = "{\"type\":\"record\",\"name\":\"DocTest\",\"namespace\":\"org.apache.avro.reflect.TestReflect\","
+            + "\"doc\":\"DocTest class docs\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"doc\":\"Some Documentation\"},"
+            + "{\"name\":\"enums\",\"type\":{\"type\":\"enum\",\"name\":\"DocTestEnum\","
+            + "\"symbols\":[\"ENUM_1\",\"ENUM_2\"]},\"doc\":\"Some other Documentation\"},"
+            + "{\"name\":\"defaultTest\",\"type\":{\"type\":\"record\",\"name\":\"DefaultTest\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"default\":1}]},\"doc\":\"And again\"}]}";
+    
+    String actual = ReflectData.get().getSchema(DocTest.class).toString();
+    
+    Configuration config = Configuration.defaultConfiguration()
+        .addOptions(Option.SUPPRESS_EXCEPTIONS)
+        .addOptions(Option.ALWAYS_RETURN_LIST);
+    
+    Object expectedJson = JsonPath.parse(expected, config).json();
+    Object actualJson = JsonPath.parse(actual, config).json();
+    
+    assertThatJson(actualJson).isEqualTo(expectedJson);
+}
+
+
+import:
+
+['import net.javacrumbs.jsonunit.assertj.JsonAssertions;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.37.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testAvroDoc() {
+    String expected = "{\"type\":\"record\",\"name\":\"DocTest\",\"namespace\":\"org.apache.avro.reflect.TestReflect\","
+            + "\"doc\":\"DocTest class docs\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"doc\":\"Some Documentation\"},"
+            + "{\"name\":\"enums\",\"type\":{\"type\":\"enum\",\"name\":\"DocTestEnum\","
+            + "\"symbols\":[\"ENUM_1\",\"ENUM_2\"]},\"doc\":\"Some other Documentation\"},"
+            + "{\"name\":\"defaultTest\",\"type\":{\"type\":\"record\",\"name\":\"DefaultTest\","
+            + "\"fields\":[{\"name\":\"foo\",\"type\":\"int\",\"default\":1}]},\"doc\":\"And again\"}]}";
+    
+    String actual = ReflectData.get().getSchema(DocTest.class).toString();
+    
+    Configuration config = Configuration.defaultConfiguration()
+        .addOptions(Option.SUPPRESS_EXCEPTIONS)
+        .addOptions(Option.ALWAYS_RETURN_LIST);
+    
+    Object expectedJson = JsonPath.parse(expected, config).json();
+    Object actualJson = JsonPath.parse(actual, config).json();
+    
+    assertThatJson(actualJson).when(Option.IGNORING_ARRAY_ORDER).isEqualTo(expectedJson);
+}
+
+
+import:
+
+['import net.javacrumbs.jsonunit.JsonAssert.Config;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+

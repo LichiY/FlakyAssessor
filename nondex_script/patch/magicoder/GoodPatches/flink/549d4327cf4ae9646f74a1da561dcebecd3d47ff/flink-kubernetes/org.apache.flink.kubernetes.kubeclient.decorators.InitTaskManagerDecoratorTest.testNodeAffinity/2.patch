@@ -1,0 +1,48 @@
+Test File Path: projects/549d4327cf4ae9646f74a1da561dcebecd3d47ff/flink/flink-kubernetes/src/test/java/org/apache/flink/kubernetes/kubeclient/decorators/InitTaskManagerDecoratorTest.java
+Original Test Method:
+     void testNodeAffinity() {
+        List<NodeSelectorTerm> nodeSelectorTerms =
+                this.resultPod
+                        .getSpec()
+                        .getAffinity()
+                        .getNodeAffinity()
+                        .getRequiredDuringSchedulingIgnoredDuringExecution()
+                        .getNodeSelectorTerms();
+        assertThat(nodeSelectorTerms.size()).isEqualTo(1);
+
+        List<NodeSelectorRequirement> requirements = nodeSelectorTerms.get(0).getMatchExpressions();
+        assertThat(requirements)
+                .containsExactlyInAnyOrder(
+                        new NodeSelectorRequirement(
+                                flinkConfig.getString(
+                                        KubernetesConfigOptions.KUBERNETES_NODE_NAME_LABEL),
+                                "NotIn",
+                                new ArrayList<>(BLOCKED_NODES)));
+    }
+Patch:
+
+test_code:
+    public void testNodeAffinity() {
+        List<NodeSelectorTerm> nodeSelectorTerms =
+                this.resultPod
+                        .getSpec()
+                        .getAffinity()
+                        .getNodeAffinity()
+                        .getRequiredDuringSchedulingIgnoredDuringExecution()
+                        .getNodeSelectorTerms();
+        Assertions.assertThat(nodeSelectorTerms.size()).isEqualTo(1);
+
+        List<NodeSelectorRequirement> requirements = nodeSelectorTerms.get(0).getMatchExpressions();
+        Assertions.assertThat(requirements)
+                .containsExactlyInAnyOrder(
+                        new NodeSelectorRequirement(
+                                flinkConfig.getString(
+                                        KubernetesConfigOptions.KUBERNETES_NODE_NAME_LABEL),
+                                "NotIn",
+                                new ArrayList<>(BLOCKED_NODES)));
+    }
+
+import:
+['import org.assertj.core.api.Assertions;', 'import org.assertj.core.util.Lists;']
+pom:
+None

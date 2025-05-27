@@ -1,0 +1,184 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-orchestration/sharding-orchestration-core/src/test/java/org/apache/shardingsphere/orchestration/internal/registry/config/service/ConfigurationServiceTest.java
+Original Test Method:
+     public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+        ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+        configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+        verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+        verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+        verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+        verify(regCenter).persist("/test/config/props", PROPS_YAML);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist(eq("/test/config/authentication"), argThat(argument -> {
+        YamlAuthentication actual = new Yaml(new Constructor(YamlAuthentication.class), new Representer(), new DumperOptions(), new LoaderOptions()).loadAs(argument, YamlAuthentication.class);
+        YamlAuthentication expected = new Yaml(new Constructor(YamlAuthentication.class), new Representer(), new DumperOptions(), new LoaderOptions()).loadAs(AUTHENTICATION_YAML, YamlAuthentication.class);
+        return actual.getUsers().equals(expected.getUsers());
+    }));
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import org.yaml.snakeyaml.Yaml;', 'import org.yaml.snakeyaml.constructor.Constructor;', 'import org.yaml.snakeyaml.representer.Representer;', 'import org.yaml.snakeyaml.DumperOptions;', 'import org.yaml.snakeyaml.LoaderOptions;', 'import org.apache.shardingsphere.core.yaml.config.common.YamlAuthentication;', 'import static org.mockito.ArgumentMatchers.argThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.yaml</groupId>
+    <artifactId>snakeyaml</artifactId>
+    <version>1.33</version>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist(eq("/test/config/authentication"), argThat(new ArgumentMatcher<String>() {
+        @Override
+        public boolean matches(String argument) {
+            YamlAuthentication actual = new Yaml(new Constructor(YamlAuthentication.class), new Representer(), new DumperOptions(), new LoaderOptions()).loadAs(argument, YamlAuthentication.class);
+            YamlAuthentication expected = new Yaml(new Constructor(YamlAuthentication.class), new Representer(), new DumperOptions(), new LoaderOptions()).loadAs(AUTHENTICATION_YAML, YamlAuthentication.class);
+            return new LinkedHashSet<>(actual.getUsers().entrySet()).equals(new LinkedHashSet<>(expected.getUsers().entrySet()));
+        }
+    }));
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import org.mockito.ArgumentMatcher;', 'import java.util.LinkedHashSet;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.yaml</groupId>
+    <artifactId>snakeyaml</artifactId>
+    <version>1.33</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist(eq("/test/config/authentication"), argThat(new ArgumentMatcher<String>() {
+        @Override
+        public boolean matches(String argument) {
+            YamlAuthentication actual = new Yaml().loadAs(argument, YamlAuthentication.class);
+            YamlAuthentication expected = new Yaml().loadAs(AUTHENTICATION_YAML, YamlAuthentication.class);
+            return actual.getUsers().keySet().containsAll(expected.getUsers().keySet()) 
+                && expected.getUsers().keySet().containsAll(actual.getUsers().keySet());
+        }
+    }));
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.shardingsphere</groupId>
+    <artifactId>shardingsphere-infra-common</artifactId>
+    <version>5.3.2</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist(eq("/test/config/authentication"), argThat(new ArgumentMatcher<String>() {
+        @Override
+        public boolean matches(String argument) {
+            YamlEngine.unmarshal(argument, Authentication.class);
+            YamlEngine.unmarshal(AUTHENTICATION_YAML, Authentication.class);
+            return new HashSet<>(YamlEngine.unmarshal(argument, Authentication.class).getUsers().keySet())
+                .equals(new HashSet<>(YamlEngine.unmarshal(AUTHENTICATION_YAML, Authentication.class).getUsers().keySet()));
+        }
+    }));
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import java.util.HashSet;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.shardingsphere</groupId>
+    <artifactId>shardingsphere-infra-common</artifactId>
+    <version>5.3.2</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+    verify(regCenter).persist(eq("/test/config/authentication"), argThat(new ArgumentMatcher<String>() {
+        @Override
+        public boolean matches(String argument) {
+            Authentication actual = YamlEngine.unmarshal(argument, Authentication.class);
+            Authentication expected = YamlEngine.unmarshal(AUTHENTICATION_YAML, Authentication.class);
+            return new TreeSet<>(actual.getUsers().keySet()).equals(new TreeSet<>(expected.getUsers().keySet()));
+        }
+    }));
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import java.util.TreeSet;']
+
+pom:
+
+
+

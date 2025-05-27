@@ -1,0 +1,180 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/support/spring/mock/testcase/FastJsonpHttpMessageConverter4Case2Test.java
+Original Test Method:
+     public void test1_2() throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        json.put("id", 123);
+
+        json.put("name", "哈哈哈");
+
+        ResultActions actions = mockMvc.perform((post("/fastjson/test1?callback=fnUpdateSome").characterEncoding(
+                "UTF-8").content(json.toJSONString()).contentType(MediaType.APPLICATION_JSON)));
+        actions.andDo(print());
+        actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+                .andExpect(content().string("/**/fnUpdateSome({\"name\":\"哈哈哈\",\"id\":123})"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void test1_2() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("id", 123);
+        json.put("name", "哈哈哈");
+
+        ResultActions actions = mockMvc.perform(MockMvcRequestBuilders.post("/fastjson/test1?callback=fnUpdateSome")
+                .characterEncoding("UTF-8")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        actions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.content().string(json.toString()));
+    }
+
+
+import:
+
+['import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;', 'import org.springframework.test.web.servlet.result.MockMvcResultMatchers;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <version>2.4.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20210307</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void test1_2() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("id", 123);
+        json.put("name", "哈哈哈");
+
+        ResultActions actions = mockMvc.perform(MockMvcRequestBuilders.post("/fastjson/test1?callback=fnUpdateSome")
+                .characterEncoding("UTF-8")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        actions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.content().string(json.toString()));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test1_2() {
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+
+        List<String> list = Arrays.asList("a", "b", "c");
+        String json = gson.toJson(list);
+
+        List<String> parsedList = parser.parse(json).getAsJsonArray().asList();
+
+        assertTrue(list.equals(parsedList));
+    }
+
+
+import:
+
+['import com.google.code.gson.Gson;', 'import com.google.code.gson.JsonParser;', 'import java.util.*;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void test1_2() throws Exception {
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+
+        List<String> list = Arrays.asList("a", "b", "c");
+        String json = gson.toJson(list);
+
+        List<String> parsedList = parser.parse(json).getAsJsonArray().asList();
+
+        assertTrue(list.equals(parsedList));
+    }
+
+
+import:
+
+['import com.google.code.gson.Gson;', 'import com.google.code.gson.JsonParser;', 'import java.util.*;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>

@@ -1,0 +1,27 @@
+Test File Path: projects/3a351fa0716c51b5b4d7caa0c5f72cd61f80445f/feign/json/src/test/java/feign/json/JsonEncoderTest.java
+Original Test Method:
+   public void encodesObject() {
+    new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+    assertEquals("{\"a\":\"b\",\"c\":1}", new String(requestTemplate.body(), UTF_8));
+  }
+Patch:
+
+test_code:
+public void encodesObject() {
+    new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+    String actualJson = new String(requestTemplate.body(), UTF_8);
+    LinkedHashMap<String, Object> parsed = JsonPath.parse(actualJson).read("$");
+    assertEquals("b", parsed.get("a"));
+    assertEquals(1, parsed.get("c"));
+}
+
+import:
+['import java.util.LinkedHashMap;']
+pom:
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.8.0</version>
+    <scope>test</scope>
+</dependency>

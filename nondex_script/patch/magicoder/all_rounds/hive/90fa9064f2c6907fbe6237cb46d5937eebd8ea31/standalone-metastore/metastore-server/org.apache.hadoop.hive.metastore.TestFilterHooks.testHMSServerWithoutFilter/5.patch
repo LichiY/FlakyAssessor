@@ -1,0 +1,210 @@
+Test File Path: projects/90fa9064f2c6907fbe6237cb46d5937eebd8ea31/hive/standalone-metastore/metastore-server/src/test/java/org/apache/hadoop/hive/metastore/TestFilterHooks.java
+Original Test Method:
+   public void testHMSServerWithoutFilter() throws Exception {
+    MetastoreConf.setBoolVar(conf, ConfVars.METASTORE_CLIENT_FILTER_ENABLED, false);
+    DBNAME1 = "db_testHMSServerWithoutFilter_1";
+    DBNAME2 = "db_testHMSServerWithoutFilter_2";
+    creatEnv(conf);
+
+    assertNotNull(client.getTable(DBNAME1, TAB1));
+    assertEquals(2, client.getTables(DBNAME1, "*").size());
+    assertEquals(2, client.getAllTables(DBNAME1).size());
+    assertEquals(1, client.getTables(DBNAME1, TAB2).size());
+    assertEquals(0, client.getAllTables(DBNAME2).size());
+
+    assertNotNull(client.getDatabase(DBNAME1));
+    assertEquals(2, client.getDatabases("*testHMSServerWithoutFilter*").size());
+    assertEquals(1, client.getDatabases(DBNAME1).size());
+
+    assertNotNull(client.getPartition(DBNAME1, TAB2, "name=value1"));
+    assertEquals(1, client.getPartitionsByNames(DBNAME1, TAB2, Lists.newArrayList("name=value1")).size());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testHMSServerWithoutFilter() throws Exception {
+    MetastoreConf.setBoolVar(conf, ConfVars.METASTORE_CLIENT_FILTER_ENABLED, false);
+    DBNAME1 = "db_testHMSServerWithoutFilter_1";
+    DBNAME2 = "db_testHMSServerWithoutFilter_2";
+    creatEnv(conf);
+
+    List<String> tables = client.getTables(DBNAME1, "*");
+    Collections.sort(tables);
+    assertEquals(2, tables.size());
+
+    List<String> allTables = client.getAllTables(DBNAME1);
+    Collections.sort(allTables);
+    assertEquals(2, allTables.size());
+
+    List<String> tab2s = client.getTables(DBNAME1, TAB2);
+    Collections.sort(tab2s);
+    assertEquals(1, tab2s.size());
+
+    assertEquals(0, client.getAllTables(DBNAME2).size());
+
+    assertNotNull(client.getDatabase(DBNAME1));
+
+    List<String> databases = client.getDatabases("*testHMSServerWithoutFilter*");
+    Collections.sort(databases);
+    assertEquals(2, databases.size());
+
+    List<String> db1s = client.getDatabases(DBNAME1);
+    Collections.sort(db1s);
+    assertEquals(1, db1s.size());
+
+    assertNotNull(client.getPartition(DBNAME1, TAB2, "name=value1"));
+
+    List<String> partitions = client.getPartitionsByNames(DBNAME1, TAB2, Lists.newArrayList("name=value1"));
+    Collections.sort(partitions);
+    assertEquals(1, partitions.size());
+}
+
+
+import:
+
+['import java.util.Collections;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>29.0-jre</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testHMSServerWithoutFilter() throws Exception {
+    MetastoreConf.setBoolVar(conf, ConfVars.METASTORE_CLIENT_FILTER_ENABLED, false);
+    DBNAME1 = "db_testHMSServerWithoutFilter_1";
+    DBNAME2 = "db_testHMSServerWithoutFilter_2";
+    creatEnv(conf);
+
+    List<String> tables = client.getTables(DBNAME1, "*");
+    Collections.sort(tables);
+    assertEquals(2, tables.size());
+
+    List<String> allTables = client.getAllTables(DBNAME1);
+    Collections.sort(allTables);
+    assertEquals(2, allTables.size());
+
+    List<String> tab2s = client.getTables(DBNAME1, TAB2);
+    Collections.sort(tab2s);
+    assertEquals(1, tab2s.size());
+
+    assertEquals(0, client.getAllTables(DBNAME2).size());
+
+    assertNotNull(client.getDatabase(DBNAME1));
+
+    List<String> databases = client.getDatabases("*testHMSServerWithoutFilter*");
+    Collections.sort(databases);
+    assertEquals(2, databases.size());
+
+    List<String> db1s = client.getDatabases(DBNAME1);
+    Collections.sort(db1s);
+    assertEquals(1, db1s.size());
+
+    assertNotNull(client.getPartition(DBNAME1, TAB2, "name=value1"));
+
+    List<Partition> partitions = client.getPartitionsByNames(DBNAME1, TAB2, Lists.newArrayList("name=value1"));
+    Collections.sort(partitions, Comparator.comparing(Partition::getValues));
+    assertEquals(1, partitions.size());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testHMSServerWithoutFilter() throws Exception {
+    MetastoreConf.setBoolVar(conf, ConfVars.METASTORE_CLIENT_FILTER_ENABLED, false);
+    DBNAME1 = "db_testHMSServerWithoutFilter_1";
+    DBNAME2 = "db_testHMSServerWithoutFilter_2";
+    creatEnv(conf);
+
+    List<String> tables = client.getTables(DBNAME1, "*");
+    Collections.sort(tables);
+    assertEquals(2, tables.size());
+
+    List<String> allTables = client.getAllTables(DBNAME1);
+    Collections.sort(allTables);
+    assertEquals(2, allTables.size());
+
+    List<String> tab2s = client.getTables(DBNAME1, TAB2);
+    Collections.sort(tab2s);
+    assertEquals(1, tab2s.size());
+
+    assertEquals(0, client.getAllTables(DBNAME2).size());
+
+    assertNotNull(client.getDatabase(DBNAME1));
+
+    List<String> databases = client.getDatabases("*testHMSServerWithoutFilter*");
+    Collections.sort(databases);
+    assertEquals(2, databases.size());
+
+    List<String> db1s = client.getDatabases(DBNAME1);
+    Collections.sort(db1s);
+    assertEquals(1, db1s.size());
+
+    assertNotNull(client.getPartition(DBNAME1, TAB2, "name=value1"));
+
+    List<Partition> partitions = client.getPartitionsByNames(DBNAME1, TAB2, Lists.newArrayList("name=value1"));
+    Collections.sort(partitions, Comparator.comparing(Partition::getValues));
+    assertEquals(1, partitions.size());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.hadoop.hive.metastore.TestFilterHooks;', 'import org.apache.hadoop.hive.metastore.api.FieldSchema;', 'import org.apache.hadoop.hive.metastore.api.StorageDescriptor;', 'import org.apache.hadoop.hive.metastore.api.TableType;', 'import org.apache.hadoop.hive.metastore.api.Type;', 'import org.apache.hadoop.hive.metastore.api.TypeName;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None

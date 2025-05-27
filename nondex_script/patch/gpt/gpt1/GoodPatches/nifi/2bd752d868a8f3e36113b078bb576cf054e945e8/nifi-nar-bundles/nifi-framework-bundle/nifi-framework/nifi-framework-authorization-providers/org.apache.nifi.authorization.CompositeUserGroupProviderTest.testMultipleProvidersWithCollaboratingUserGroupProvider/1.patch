@@ -1,0 +1,67 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-framework-bundle/nifi-framework/nifi-framework-authorization-providers/src/test/java/org/apache/nifi/authorization/CompositeUserGroupProviderTest.java
+Original Test Method:
+     public void testMultipleProvidersWithCollaboratingUserGroupProvider() throws Exception {
+        final UserGroupProvider userGroupProvider = initCompositeUserGroupProvider(new CompositeUserGroupProvider(), null, null,
+                getUserGroupProviderOne(), getUserGroupProviderTwo(), getCollaboratingUserGroupProvider());
+
+        // users and groups
+        Assert.assertEquals(4, userGroupProvider.getUsers().size());
+        Assert.assertEquals(2, userGroupProvider.getGroups().size());
+
+        // unknown
+        assertNull(userGroupProvider.getUser(NOT_A_REAL_USER_IDENTIFIER));
+        assertNull(userGroupProvider.getUserByIdentity(NOT_A_REAL_USER_IDENTITY));
+
+        final UserAndGroups unknownUserAndGroups = userGroupProvider.getUserAndGroups(NOT_A_REAL_USER_IDENTITY);
+        assertNotNull(unknownUserAndGroups);
+        assertNull(unknownUserAndGroups.getUser());
+        assertNull(unknownUserAndGroups.getGroups());
+
+        // providers
+        testUserGroupProviderTwo(userGroupProvider);
+
+        final UserAndGroups user1AndGroups = userGroupProvider.getUserAndGroups(USER_1_IDENTITY);
+        assertNotNull(user1AndGroups);
+        assertNotNull(user1AndGroups.getUser());
+        Assert.assertEquals(2, user1AndGroups.getGroups().size()); // from UGP1 and CollaboratingUGP
+    }
+Patch:
+
+test_code:
+public void testMultipleProvidersWithCollaboratingUserGroupProvider() throws Exception {
+    final UserGroupProvider userGroupProvider = initCompositeUserGroupProvider(new CompositeUserGroupProvider(), null, null,
+            getUserGroupProviderOne(), getUserGroupProviderTwo(), getCollaboratingUserGroupProvider());
+
+    // users and groups
+    Assert.assertEquals(4, userGroupProvider.getUsers().size());
+    Assert.assertEquals(2, userGroupProvider.getGroups().size());
+
+    // unknown
+    assertNull(userGroupProvider.getUser(NOT_A_REAL_USER_IDENTIFIER));
+    assertNull(userGroupProvider.getUserByIdentity(NOT_A_REAL_USER_IDENTITY));
+
+    final UserAndGroups unknownUserAndGroups = userGroupProvider.getUserAndGroups(NOT_A_REAL_USER_IDENTITY);
+    assertNotNull(unknownUserAndGroups);
+    assertNull(unknownUserAndGroups.getUser());
+    assertNull(unknownUserAndGroups.getGroups());
+
+    // providers
+    Set<Group> groupsFromProviderTwo = new LinkedHashSet<>(userGroupProvider.getGroups());
+    Assert.assertEquals(2, groupsFromProviderTwo.size());
+
+    final UserAndGroups user1AndGroups = userGroupProvider.getUserAndGroups(USER_1_IDENTITY);
+    assertNotNull(user1AndGroups);
+    assertNotNull(user1AndGroups.getUser());
+    Assert.assertEquals(2, user1AndGroups.getGroups().size()); // from UGP1 and CollaboratingUGP
+}
+
+import:
+['import java.util.LinkedHashSet;', 'import java.util.Set;']
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>

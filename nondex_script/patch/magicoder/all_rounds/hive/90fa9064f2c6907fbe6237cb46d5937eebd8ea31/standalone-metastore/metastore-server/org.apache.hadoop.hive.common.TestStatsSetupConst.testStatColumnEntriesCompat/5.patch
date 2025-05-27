@@ -1,0 +1,128 @@
+Test File Path: projects/90fa9064f2c6907fbe6237cb46d5937eebd8ea31/hive/standalone-metastore/metastore-server/src/test/java/org/apache/hadoop/hive/common/TestStatsSetupConst.java
+Original Test Method:
+   public void testStatColumnEntriesCompat() {
+    Map<String, String> params0=new HashMap<>();
+    StatsSetupConst.setBasicStatsState(params0, String.valueOf(true));
+    StatsSetupConst.setColumnStatsState(params0, Lists.newArrayList("Foo"));
+
+    assertEquals("{\"BASIC_STATS\":\"true\",\"COLUMN_STATS\":{\"Foo\":\"true\"}}",params0.get(StatsSetupConst.COLUMN_STATS_ACCURATE));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testStatColumnEntriesCompat() {
+        Map<String, String> params0 = new LinkedHashMap<>();
+        StatsSetupConst.setBasicStatsState(params0, String.valueOf(true));
+        StatsSetupConst.setColumnStatsState(params0, Arrays.asList("Foo"));
+
+        assertEquals("{\"BASIC_STATS\":\"true\",\"COLUMN_STATS\":{\"Foo\":\"true\"}}", params0.get(StatsSetupConst.COLUMN_STATS_ACCURATE));
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testStatColumnEntriesCompat() {
+        Map<String, String> params0 = new LinkedHashMap<>();
+        StatsSetupConst.setBasicStatsState(params0, String.valueOf(true));
+        StatsSetupConst.setColumnStatsState(params0, Arrays.asList("Foo"));
+
+        assertEquals("{\"BASIC_STATS\":\"true\",\"COLUMN_STATS\":{\"Foo\":\"true\"}}", params0.get(StatsSetupConst.COLUMN_STATS_ACCURATE));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testStatColumnEntriesCompat() {
+    Map<String, String> params0 = new LinkedHashMap<>();
+    StatsSetupConst.setBasicStatsState(params0, String.valueOf(true));
+    StatsSetupConst.setColumnStatsState(params0, Arrays.asList("Foo"));
+
+    String expected = "{\"BASIC_STATS\":\"true\",\"COLUMN_STATS\":{\"Foo\":\"true\"}}";
+    String actual = params0.get(StatsSetupConst.COLUMN_STATS_ACCURATE);
+
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testStatColumnEntriesCompat() {
+        Map<String, String> params0 = new LinkedHashMap<>();
+        StatsSetupConst.setBasicStatsState(params0, String.valueOf(true));
+        StatsSetupConst.setColumnStatsState(params0, Arrays.asList("Foo"));
+
+        String expected = "{\"BASIC_STATS\":\"true\",\"COLUMN_STATS\":{\"Foo\":\"true\"}}";
+        String actual = params0.get(StatsSetupConst.COLUMN_STATS_ACCURATE);
+
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testStatColumnEntriesCompat() {
+        Map<String, String> params0 = new LinkedHashMap<>();
+        StatsSetupConst.setBasicStatsState(params0, String.valueOf(true));
+        StatsSetupConst.setColumnStatsState(params0, Arrays.asList("Foo"));
+
+        String expected = "{\"BASIC_STATS\":\"true\",\"COLUMN_STATS\":{\"Foo\":\"true\"}}";
+        String actual = params0.get(StatsSetupConst.COLUMN_STATS_ACCURATE);
+
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

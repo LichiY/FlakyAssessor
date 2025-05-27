@@ -1,0 +1,171 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-cmmn-engine/src/test/java/org/flowable/cmmn/test/runtime/ExitCriteriaTest.java
+Original Test Method:
+     public void testExitPlanModelWithExpression() {
+        CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("minimalCase").start();
+        Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).singleResult();
+
+        // Completing the task should satisfy the exit criteria with the expression
+        cmmnTaskService.complete(task.getId());
+        assertCaseInstanceEnded(caseInstance);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testExitPlanModelWithExpression() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("minimalCase").start();
+    Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+
+    // Completing the task should satisfy the exit criteria with the expression
+    cmmnTaskService.complete(task.getId());
+    assertCaseInstanceEnded(caseInstance);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testExitPlanModelWithExpression() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("minimalCase")
+        .startWithFormVariables(Collections.singletonMap("var1", "value1"))
+        .start();
+    Task task = cmmnTaskService.createTaskQuery()
+        .caseInstanceId(caseInstance.getId())
+        .orderByTaskCreateTime()
+        .asc()
+        .singleResult();
+
+    cmmnTaskService.complete(task.getId());
+    assertCaseInstanceEnded(caseInstance);
+}
+
+
+import:
+
+['import java.util.Collections;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.camunda.bpm</groupId>
+    <artifactId>camunda-engine</artifactId>
+    <version>7.17.0</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testExitPlanModelWithExpression() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("minimalCase")
+        .variables(Collections.singletonMap("var1", "value1"))
+        .start();
+    Task task = cmmnTaskService.createTaskQuery()
+        .caseInstanceId(caseInstance.getId())
+        .orderByTaskCreateTime()
+        .asc()
+        .singleResult();
+
+    cmmnTaskService.complete(task.getId());
+    assertCaseInstanceEnded(caseInstance);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testExitPlanModelWithExpression() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("minimalCase")
+        .variables(new LinkedHashMap<>(Collections.singletonMap("var1", "value1")))
+        .start();
+    Task task = cmmnTaskService.createTaskQuery()
+        .caseInstanceId(caseInstance.getId())
+        .orderByTaskCreateTime()
+        .asc()
+        .singleResult();
+
+    cmmnTaskService.complete(task.getId());
+    assertCaseInstanceEnded(caseInstance);
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.0</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testExitPlanModelWithExpression() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("minimalCase")
+        .variables(new LinkedHashMap<>(Collections.singletonMap("var1", "value1")))
+        .start();
+    Task task = cmmnTaskService.createTaskQuery()
+        .caseInstanceId(caseInstance.getId())
+        .orderByTaskCreateTime()
+        .asc()
+        .singleResult();
+
+    cmmnTaskService.complete(task.getId());
+    assertCaseInstanceEnded(caseInstance);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.14.2</version>
+</dependency>
+

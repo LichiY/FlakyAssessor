@@ -1,0 +1,40 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-orchestration/sharding-orchestration-core/src/test/java/org/apache/shardingsphere/orchestration/internal/registry/config/service/ConfigurationServiceTest.java
+Original Test Method:
+     public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsOverwrite() {
+        ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+        configurationService.persistConfiguration("sharding_db",
+                createDataSourceConfigurations(), createMasterSlaveRuleConfiguration(), createAuthentication(), createProperties(), true);
+        verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+        verify(regCenter).persist("/test/config/schema/sharding_db/rule", MASTER_SLAVE_RULE_YAML);
+        verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+        verify(regCenter).persist("/test/config/props", PROPS_YAML);
+    }
+Patch:
+
+test_code:
+public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsOverwrite() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db",
+            createDataSourceConfigurations(), createMasterSlaveRuleConfiguration(), createAuthentication(), createProperties(), true);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", MASTER_SLAVE_RULE_YAML);
+    verify(regCenter).persist(eq("/test/config/authentication"), ArgumentMatchers.argThat(new ArgumentMatcher<String>() {
+        @Override
+        public boolean matches(String argument) {
+            String normalizedArgument = argument.replaceAll("\\s+", " ").trim();
+            return normalizedArgument.contains("users:") 
+                && normalizedArgument.contains("root1:") 
+                && normalizedArgument.contains("authorizedSchemas: sharding_db") 
+                && normalizedArgument.contains("password: root1") 
+                && normalizedArgument.contains("root2:") 
+                && normalizedArgument.contains("authorizedSchemas: sharding_db,ms_db") 
+                && normalizedArgument.contains("password: root2");
+        }
+    }));
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+import:
+[]
+pom:
+None

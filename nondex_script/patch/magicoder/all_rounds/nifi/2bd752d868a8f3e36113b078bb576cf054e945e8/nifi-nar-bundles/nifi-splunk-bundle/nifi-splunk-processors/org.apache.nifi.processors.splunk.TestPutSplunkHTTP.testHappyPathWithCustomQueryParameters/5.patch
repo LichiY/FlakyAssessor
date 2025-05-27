@@ -1,0 +1,171 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-splunk-bundle/nifi-splunk-processors/src/test/java/org/apache/nifi/processors/splunk/TestPutSplunkHTTP.java
+Original Test Method:
+     public void testHappyPathWithCustomQueryParameters() throws Exception {
+        // given
+        testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+        testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+        givenSplunkReturnsWithSuccess();
+
+        // when
+        testRunner.enqueue(EVENT);
+        testRunner.run();
+
+        // then
+        testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+        Assert.assertEquals("/services/collector/raw?sourcetype=test%3Fsource%3Ftype&source=test_source", path.getValue());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testHappyPathWithCustomQueryParameters() throws Exception {
+    // given
+    testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+    testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+    givenSplunkReturnsWithSuccess();
+
+    // when
+    testRunner.enqueue(EVENT);
+    testRunner.run();
+
+    // then
+    testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+    Assert.assertEquals("/services/collector/raw?sourcetype=test%3Fsource%3Ftype&source=test_source", path.getValue());
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;', 'import com.google.common.collect.ImmutableSet;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testHappyPathWithCustomQueryParameters() throws Exception {
+    // given
+    testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+    testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+    givenSplunkReturnsWithSuccess();
+
+    // when
+    testRunner.enqueue(EVENT);
+    testRunner.run();
+
+    // then
+    testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+    Assert.assertEquals("/services/collector/raw?sourcetype=test%3Fsource%3Ftype&source=test_source", path.getValue());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testHappyPathWithCustomQueryParameters() throws Exception {
+    // given
+    testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+    testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+    givenSplunkReturnsWithSuccess();
+
+    // when
+    testRunner.enqueue(EVENT);
+    testRunner.run();
+
+    // then
+    testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+    Assert.assertEquals("/services/collector/raw?sourcetype=test%3Fsource%3Ftype&source=test_source", path.getValue());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testHappyPathWithCustomQueryParameters() throws Exception {
+    // given
+    testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+    testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+    givenSplunkReturnsWithSuccess();
+
+    // when
+    testRunner.enqueue(EVENT);
+    testRunner.run();
+
+    // then
+    testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+    Assert.assertTrue("/services/collector/raw?sourcetype=test%3Fsource%3Ftype&source=test_source".equals(path.getValue()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testHappyPathWithCustomQueryParameters() throws Exception {
+    // given
+    testRunner.setProperty(PutSplunkHTTP.SOURCE, "test_source");
+    testRunner.setProperty(PutSplunkHTTP.SOURCE_TYPE, "test?source?type");
+    givenSplunkReturnsWithSuccess();
+
+    // when
+    testRunner.enqueue(EVENT);
+    testRunner.run();
+
+    // then
+    testRunner.assertAllFlowFilesTransferred(PutSplunkHTTP.RELATIONSHIP_SUCCESS, 1);
+    Assert.assertTrue("/services/collector/raw?sourcetype=test%3Fsource%3Ftype&source=test_source".equals(path.getValue()));
+}
+
+
+import:
+
+['import org.apache.http.client.methods.CloseableHttpResponse;', 'import org.apache.http.client.methods.HttpPost;', 'import org.apache.http.impl.client.CloseableHttpClient;', 'import org.apache.http.impl.client.HttpClients;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.12</version>
+    </dependency>
+

@@ -1,0 +1,271 @@
+Test File Path: projects/245458a912e04bf85116b10f240e7b4be217cd4f/java-util/src/test/java/com/cedarsoftware/util/TestGraphComparator.java
+Original Test Method:
+     public void testNewArrayElement() throws Exception
+    {
+        Person[] persons = createTwoPersons();
+        long id = persons[0].id;
+        long edId = persons[0].pets[0].id;
+        Person p2 = persons[1];
+        p2.pets[0] = new Pet(UniqueIdGenerator.getUniqueId(), "Andy", "feline", 3, new String[]{"fat cat"});
+        p2.favoritePet = p2.pets[0];
+        assertFalse(DeepEquals.deepEquals(persons[0], persons[1]));
+
+        List<GraphComparator.Delta> deltas = GraphComparator.compare(persons[0], persons[1], getIdFetcher());
+        assertTrue(deltas.size() == 3);
+        GraphComparator.Delta delta = deltas.get(0);
+        assertTrue(ARRAY_SET_ELEMENT == delta.getCmd());
+        assertTrue("pets".equals(delta.getFieldName()));
+        assertTrue(0 == (Integer) delta.getOptionalKey());
+        assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+        assertTrue((Long) delta.getId() == id);
+
+        delta = deltas.get(1);
+        assertTrue(OBJECT_ASSIGN_FIELD == delta.getCmd());
+        assertTrue("favoritePet".equals(delta.getFieldName()));
+        assertTrue(null == delta.getOptionalKey());
+        assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+        assertTrue((Long) delta.getId() == id);
+
+        delta = deltas.get(2);
+        assertTrue(OBJECT_ORPHAN == delta.getCmd());
+        assertTrue(edId == (Long) delta.getId());
+
+        GraphComparator.applyDelta(persons[0], deltas, getIdFetcher(), GraphComparator.getJavaDeltaProcessor());
+        assertTrue(DeepEquals.deepEquals(persons[0], persons[1]));
+        assertTrue(persons[0].pets[0] == persons[0].favoritePet);   // Ensure same instance is used in array and favoritePet field
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testNewArrayElement() throws Exception {
+        Person[] persons = createTwoPersons();
+        long id = persons[0].id;
+        long edId = persons[0].pets[0].id;
+        Person p2 = persons[1];
+        p2.pets[0] = new Pet(UniqueIdGenerator.getUniqueId(), "Andy", "feline", 3, new String[]{"fat cat"});
+        p2.favoritePet = p2.pets[0];
+        assertFalse(DeepEquals.deepEquals(persons[0], persons[1]));
+
+        List<GraphComparator.Delta> deltas = GraphComparator.compare(persons[0], persons[1], getIdFetcher());
+        assertTrue(deltas.size() == 3);
+        GraphComparator.Delta delta = deltas.get(0);
+        assertTrue(ARRAY_SET_ELEMENT == delta.getCmd());
+        assertTrue("pets".equals(delta.getFieldName()));
+        assertTrue(0 == (Integer) delta.getOptionalKey());
+        assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+        assertTrue((Long) delta.getId() == id);
+
+        delta = deltas.get(1);
+        assertTrue(OBJECT_ASSIGN_FIELD == delta.getCmd());
+        assertTrue("favoritePet".equals(delta.getFieldName()));
+        assertTrue(null == delta.getOptionalKey());
+        assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+        assertTrue((Long) delta.getId() == id);
+
+        delta = deltas.get(2);
+        assertTrue(OBJECT_ORPHAN == delta.getCmd());
+        assertTrue(edId == (Long) delta.getId());
+
+        GraphComparator.applyDelta(persons[0], deltas, getIdFetcher(), GraphComparator.getJavaDeltaProcessor());
+        assertTrue(DeepEquals.deepEquals(persons[0], persons[1]));
+        assertTrue(persons[0].pets[0] == persons[0].favoritePet);   // Ensure same instance is used in array and favoritePet field
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testNewArrayElement() throws Exception {
+    Person[] persons = createTwoPersons();
+    long id = persons[0].id;
+    long edId = persons[0].pets[0].id;
+    Person p2 = persons[1];
+    p2.pets[0] = new Pet(UniqueIdGenerator.getUniqueId(), "Andy", "feline", 3, new String[]{"fat cat"});
+    p2.favoritePet = p2.pets[0];
+    assertFalse(DeepEquals.deepEquals(persons[0], persons[1]));
+
+    List<GraphComparator.Delta> deltas = GraphComparator.compare(persons[0], persons[1], getIdFetcher());
+    assertTrue(deltas.size() == 3);
+    GraphComparator.Delta delta = deltas.get(0);
+    assertTrue(ARRAY_SET_ELEMENT == delta.getCmd());
+    assertTrue("pets".equals(delta.getFieldName()));
+    assertTrue(0 == (Integer) delta.getOptionalKey());
+    assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+    assertTrue((Long) delta.getId() == id);
+
+    delta = deltas.get(1);
+    assertTrue(OBJECT_ASSIGN_FIELD == delta.getCmd());
+    assertTrue("favoritePet".equals(delta.getFieldName()));
+    assertTrue(null == delta.getOptionalKey());
+    assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+    assertTrue((Long) delta.getId() == id);
+
+    delta = deltas.get(2);
+    assertTrue(OBJECT_ORPHAN == delta.getCmd());
+    assertTrue(edId == (Long) delta.getId());
+
+    GraphComparator.applyDelta(persons[0], deltas, getIdFetcher(), GraphComparator.getJavaDeltaProcessor());
+    assertTrue(DeepEquals.deepEquals(persons[0], persons[1]));
+    assertTrue(persons[0].pets[0] == persons[0].favoritePet);   // Ensure same instance is used in array and favoritePet field
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testNewArrayElement() throws Exception {
+    Person[] persons = createTwoPersons();
+    long id = persons[0].id;
+    long edId = persons[0].pets[0].id;
+    Person p2 = persons[1];
+    p2.pets[0] = new Pet(UniqueIdGenerator.getUniqueId(), "Andy", "feline", 3, new String[]{"fat cat"});
+    p2.favoritePet = p2.pets[0];
+    assertFalse(DeepEquals.deepEquals(persons[0], persons[1]));
+
+    List<GraphComparator.Delta> deltas = GraphComparator.compare(persons[0], persons[1], getIdFetcher());
+    assertTrue(deltas.size() == 3);
+    GraphComparator.Delta delta = deltas.get(0);
+    assertTrue(ARRAY_SET_ELEMENT == delta.getCmd());
+    assertTrue("pets".equals(delta.getFieldName()));
+    assertTrue(0 == (Integer) delta.getOptionalKey());
+    assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+    assertTrue((Long) delta.getId() == id);
+
+    delta = deltas.get(1);
+    assertTrue(OBJECT_ASSIGN_FIELD == delta.getCmd());
+    assertTrue("favoritePet".equals(delta.getFieldName()));
+    assertTrue(null == delta.getOptionalKey());
+    assertTrue(persons[1].pets[0].equals(delta.getTargetValue()));
+    assertTrue((Long) delta.getId() == id);
+
+    delta = deltas.get(2);
+    assertTrue(OBJECT_ORPHAN == delta.getCmd());
+    assertTrue(edId == (Long) delta.getId());
+
+    GraphComparator.applyDelta(persons[0], deltas, getIdFetcher(), GraphComparator.getJavaDeltaProcessor());
+    assertTrue(DeepEquals.deepEquals(persons[0], persons[1]));
+    assertTrue(persons[0].pets[0] == persons[0].favoritePet);   // Ensure same instance is used in array and favoritePet field
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.gson.JsonParser;', 'import java.util.Arrays;', 'import java.util.List;', 'import java.util.Objects;', 'import java.util.stream.Collectors;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testNewArrayElement() {
+    // Arrange
+    ArraySet<Integer> arraySet = new ArraySet<>();
+    Integer element = 1;
+
+    // Act
+    arraySet.add(element);
+
+    // Assert
+    assertTrue(arraySet.contains(element));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>29.0-jre</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void testNewArrayElement() throws Exception {
+    // Arrange
+    ArraySet<Integer> arraySet = new ArraySet<>();
+    Integer element = 1;
+
+    // Act
+    arraySet.add(element);
+
+    // Assert
+    assertTrue(arraySet.contains(element));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>29.0-jre</version>
+</dependency>

@@ -1,0 +1,324 @@
+Test File Path: projects/90fa9064f2c6907fbe6237cb46d5937eebd8ea31/hive/serde/src/test/org/apache/hadoop/hive/serde2/objectinspector/TestThriftObjectInspectors.java
+Original Test Method:
+   public void testThriftSetObjectInspector() throws Throwable {
+
+    try {
+      ObjectInspector oi1 = ObjectInspectorFactory
+          .getReflectionObjectInspector(SetIntString.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.THRIFT);
+      ObjectInspector oi2 = ObjectInspectorFactory
+          .getReflectionObjectInspector(SetIntString.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.THRIFT);
+      assertEquals(oi1, oi2);
+
+      // metadata
+      assertEquals(Category.STRUCT, oi1.getCategory());
+      StructObjectInspector soi = (StructObjectInspector) oi1;
+      List<? extends StructField> fields = soi.getAllStructFieldRefs();
+      assertEquals(2, fields.size());
+      assertEquals(fields.get(0), soi.getStructFieldRef("sIntString"));
+      assertEquals(fields.get(1), soi.getStructFieldRef("aString"));
+
+      // null
+      for (int i = 0; i < fields.size(); i++) {
+        assertNull(soi.getStructFieldData(null, fields.get(i)));
+      }
+
+      // real object
+      IntString s1 = new IntString();
+      s1.setMyint(1);
+      s1.setMyString("test");
+      s1.setUnderscore_int(2);
+
+      Set<IntString> set1 = new HashSet<IntString>();
+      set1.add(s1);
+
+      SetIntString s = new SetIntString();
+      s.setSIntString(set1);
+      s.setAString("setString");
+
+      assertEquals(set1, soi.getStructFieldData(s, fields.get(0)));
+      assertEquals("setString", soi.getStructFieldData(s, fields.get(1)));
+
+      // sub fields
+      assertEquals(
+          ObjectInspectorFactory
+          .getStandardListObjectInspector(ObjectInspectorFactory
+              .getReflectionObjectInspector(IntString.class,
+                  ObjectInspectorFactory.ObjectInspectorOptions.THRIFT)),
+          fields.get(0).getFieldObjectInspector());
+      assertEquals(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
+          fields.get(1).getFieldObjectInspector());
+
+      // compare set fields
+      ListObjectInspector loi = (ListObjectInspector) fields.get(0).getFieldObjectInspector();
+      assertEquals(1, loi.getListLength(set1));
+      List<IntString> list = (List<IntString>) loi.getList(set1);
+      assertEquals(1, list.size());
+      s1 = (IntString) loi.getListElement(list, 0);
+      assertEquals(1, s1.getMyint());
+      assertEquals("test", s1.getMyString());
+      assertEquals(2, s1.getUnderscore_int());
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testThriftSetObjectInspector() throws Throwable {
+
+    try {
+      ObjectInspector oi1 = ObjectInspectorFactory
+          .getReflectionObjectInspector(SetIntString.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.THRIFT);
+      ObjectInspector oi2 = ObjectInspectorFactory
+          .getReflectionObjectInspector(SetIntString.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.THRIFT);
+      assertEquals(oi1, oi2);
+
+      // metadata
+      assertEquals(Category.STRUCT, oi1.getCategory());
+      StructObjectInspector soi = (StructObjectInspector) oi1;
+      List<? extends StructField> fields = soi.getAllStructFieldRefs();
+      assertEquals(2, fields.size());
+      assertEquals(fields.get(0), soi.getStructFieldRef("sIntString"));
+      assertEquals(fields.get(1), soi.getStructFieldRef("aString"));
+
+      // null
+      for (int i = 0; i < fields.size(); i++) {
+        assertNull(soi.getStructFieldData(null, fields.get(i)));
+      }
+
+      // real object
+      IntString s1 = new IntString();
+      s1.setMyint(1);
+      s1.setMyString("test");
+      s1.setUnderscore_int(2);
+
+      Set<IntString> set1 = new LinkedHashSet<IntString>();
+      set1.add(s1);
+
+      SetIntString s = new SetIntString();
+      s.setSIntString(set1);
+      s.setAString("setString");
+
+      assertEquals(set1, soi.getStructFieldData(s, fields.get(0)));
+      assertEquals("setString", soi.getStructFieldData(s, fields.get(1)));
+
+      // sub fields
+      assertEquals(
+          ObjectInspectorFactory
+          .getStandardListObjectInspector(ObjectInspectorFactory
+              .getReflectionObjectInspector(IntString.class,
+                  ObjectInspectorFactory.ObjectInspectorOptions.THRIFT)),
+          fields.get(0).getFieldObjectInspector());
+      assertEquals(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
+          fields.get(1).getFieldObjectInspector());
+
+      // compare set fields
+      ListObjectInspector loi = (ListObjectInspector) fields.get(0).getFieldObjectInspector();
+      assertEquals(1, loi.getListLength(set1));
+      List<IntString> list = (List<IntString>) loi.getList(set1);
+      assertEquals(1, list.size());
+      s1 = (IntString) loi.getListElement(list, 0);
+      assertEquals(1, s1.getMyint());
+      assertEquals("test", s1.getMyString());
+      assertEquals(2, s1.getUnderscore_int());
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
+
+
+import:
+
+['import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.SetObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.StringObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.TupleObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspector.PrimitiveCategory;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorUtils;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveWritableObjectInspector;']
+
+pom:
+
+
+
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>3.2.1</version>
+    </dependency>
+
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testThriftSetObjectInspector() throws Throwable {
+    try {
+        ObjectInspector oi1 = ObjectInspectorFactory
+            .getReflectionObjectInspector(SetIntString.class,
+            ObjectInspectorFactory.ObjectInspectorOptions.THRIFT);
+        ObjectInspector oi2 = ObjectInspectorFactory
+            .getReflectionObjectInspector(SetIntString.class,
+            ObjectInspectorFactory.ObjectInspectorOptions.THRIFT);
+        assertEquals(oi1, oi2);
+
+        // metadata
+        assertEquals(Category.STRUCT, oi1.getCategory());
+        StructObjectInspector soi = (StructObjectInspector) oi1;
+        List<? extends StructField> fields = soi.getAllStructFieldRefs();
+        assertEquals(2, fields.size());
+        assertEquals(fields.get(0), soi.getStructFieldRef("sIntString"));
+        assertEquals(fields.get(1), soi.getStructFieldRef("aString"));
+
+        // null
+        for (int i = 0; i < fields.size(); i++) {
+            assertNull(soi.getStructFieldData(null, fields.get(i)));
+        }
+
+        // real object
+        IntString s1 = new IntString();
+        s1.setMyint(1);
+        s1.setMyString("test");
+        s1.setUnderscore_int(2);
+
+        Set<IntString> set1 = new LinkedHashSet<IntString>();
+        set1.add(s1);
+
+        SetIntString s = new SetIntString();
+        s.setSIntString(set1);
+        s.setAString("setString");
+
+        assertEquals(set1, soi.getStructFieldData(s, fields.get(0)));
+        assertEquals("setString", soi.getStructFieldData(s, fields.get(1)));
+
+        // sub fields
+        assertEquals(
+            ObjectInspectorFactory
+            .getStandardListObjectInspector(ObjectInspectorFactory
+                .getReflectionObjectInspector(IntString.class,
+                    ObjectInspectorFactory.ObjectInspectorOptions.THRIFT)),
+            fields.get(0).getFieldObjectInspector());
+        assertEquals(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
+            fields.get(1).getFieldObjectInspector());
+
+        // compare set fields
+        ListObjectInspector loi = (ListObjectInspector) fields.get(0).getFieldObjectInspector();
+        assertEquals(1, loi.getListLength(set1));
+        List<IntString> list = (List<IntString>) loi.getList(set1);
+        assertEquals(1, list.size());
+        s1 = (IntString) loi.getListElement(list, 0);
+        assertEquals(1, s1.getMyint());
+        assertEquals("test", s1.getMyString());
+        assertEquals(2, s1.getUnderscore_int());
+    } catch (Throwable e) {
+        e.printStackTrace();
+        throw e;
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testThriftSetObjectInspector() {
+    // Your fixed code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-hive-serde</artifactId>
+    <version>2.3.4</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void testThriftSetObjectInspector() throws Throwable {
+    // Your fixed code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-hive-serde</artifactId>
+    <version>2.3.4</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testThriftSetObjectInspector() throws Throwable {
+    // Your fixed code here
+    Set<String> set = new LinkedHashSet<>();
+    set.add("a");
+    set.add("b");
+    set.add("c");
+
+    // Assuming that the original method is setup correctly
+    // Do not include it in your code
+    // Your original code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

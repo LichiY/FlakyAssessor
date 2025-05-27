@@ -1,0 +1,214 @@
+Test File Path: projects/0eeb08cfd07a9d23bc22090e17a67da57baf436e/jackson-dataformats-binary/cbor/src/test/java/com/fasterxml/jackson/dataformat/cbor/seq/SequenceWriterTest.java
+Original Test Method:
+     public void testSimpleSeqWrite() throws Exception
+    {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try (SequenceWriter seq = MAPPER.writer()
+                .writeValues(bytes)) {
+            seq.write(new IdValue(1, 15))
+                .write(new IdValue(2, 16))
+                .write(new IdValue(3, -999));
+        }
+
+        try (MappingIterator<JsonNode> it = MAPPER.readerFor(JsonNode.class)
+                .readValues(bytes.toByteArray())) {
+            assertTrue(it.hasNext());
+            assertEquals(a2q("{'id':1,'value':15}"), it.nextValue().toString());
+            assertTrue(it.hasNext());
+            assertEquals(a2q("{'id':2,'value':16}"), it.nextValue().toString());
+            assertTrue(it.hasNext());
+            assertEquals(a2q("{'id':3,'value':-999}"), it.nextValue().toString());
+            assertFalse(it.hasNext());
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleSeqWrite() throws Exception {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    try (SequenceWriter seq = MAPPER.writer()
+            .writeValues(bytes)) {
+        seq.write(new IdValue(1, 15))
+                .write(new IdValue(2, 16))
+                .write(new IdValue(3, -999));
+    }
+
+    try (MappingIterator<JsonNode> it = MAPPER.readerFor(JsonNode.class)
+            .readValues(bytes.toByteArray())) {
+        List<JsonNode> list = new ArrayList<>();
+        while (it.hasNext()) {
+            list.add(it.nextValue());
+        }
+        assertThat(list).containsExactly(
+                a2q("{'id':1,'value':15}"),
+                a2q("{'id':2,'value':16}"),
+                a2q("{'id':3,'value':-999}")
+        );
+    }
+}
+
+
+import:
+
+['import java.util.ArrayList;', 'import java.util.List;', 'import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testSimpleSeqWrite() throws Exception {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try (SequenceWriter seq = MAPPER.writer()
+                .writeValues(bytes)) {
+            seq.write(new IdValue(1, 15))
+                    .write(new IdValue(2, 16))
+                    .write(new IdValue(3, -999));
+        }
+
+        List<JsonNode> list = new ArrayList<>();
+        MAPPER.readerFor(JsonNode.class)
+                .readValues(bytes.toByteArray())
+                .forEachRemaining(list::add);
+
+        Assertions.assertThat(list).containsExactly(
+                a2q("{'id':1,'value':15}"),
+                a2q("{'id':2,'value':16}"),
+                a2q("{'id':3,'value':-999}")
+        );
+    }
+
+
+import:
+
+['import org.assertj.core.api.Assertions;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleSeqWrite() throws Exception {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    try (SequenceWriter seq = MAPPER.writer()
+            .writeValues(bytes)) {
+        seq.write(new IdValue(1, 15))
+                .write(new IdValue(2, 16))
+                .write(new IdValue(3, -999));
+    }
+
+    List<JsonNode> list = new ArrayList<>();
+    MAPPER.readerFor(JsonNode.class)
+            .readValues(bytes.toByteArray())
+            .forEachRemaining(list::add);
+
+    assertThat(list).containsExactly(
+            a2q("{'id':1,'value':15}"),
+            a2q("{'id':2,'value':16}"),
+            a2q("{'id':3,'value':-999}")
+    );
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testSimpleSeqWrite() throws Exception {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try (SequenceWriter seq = MAPPER.writer()
+                .writeValues(bytes)) {
+            seq.write(new IdValue(1, 15))
+                    .write(new IdValue(2, 16))
+                    .write(new IdValue(3, -999));
+        }
+
+        List<JsonNode> list = new ArrayList<>();
+        MAPPER.readerFor(JsonNode.class)
+                .readValues(bytes.toByteArray())
+                .forEachRemaining(list::add);
+
+        assertThat(list).containsExactly(
+                a2q("{'id':1,'value':15}"),
+                a2q("{'id':2,'value':16}"),
+                a2q("{'id':3,'value':-999}")
+        );
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testSimpleSeqWrite() throws Exception {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try (SequenceWriter seq = MAPPER.writer()
+                .writeValues(bytes)) {
+            seq.write(new IdValue(1, 15))
+                    .write(new IdValue(2, 16))
+                    .write(new IdValue(3, -999));
+        }
+
+        List<JsonNode> list = new ArrayList<>();
+        MAPPER.readerFor(JsonNode.class)
+                .readValues(bytes.toByteArray())
+                .forEachRemaining(list::add);
+
+        assertThat(list).containsExactly(
+                a2q("{'id':1,'value':15}"),
+                a2q("{'id':2,'value':16}"),
+                a2q("{'id':3,'value':-999}")
+        );
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.dataformat.csv.CsvMapper;', 'import com.fasterxml.jackson.dataformat.csv.CsvSchema;', 'import org.junit.Test;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.2</version>
+</dependency>

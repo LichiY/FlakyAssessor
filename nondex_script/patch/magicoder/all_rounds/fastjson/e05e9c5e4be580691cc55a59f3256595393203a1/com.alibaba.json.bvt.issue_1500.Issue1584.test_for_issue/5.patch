@@ -1,0 +1,251 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/issue_1500/Issue1584.java
+Original Test Method:
+     public void test_for_issue() throws Exception {
+        ParserConfig config = new ParserConfig();
+
+        String json = "{\"k\":1,\"v\":\"A\"}";
+
+        {
+            Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+            assertEquals("v", entry.getKey());
+            assertEquals("A", entry.getValue());
+        }
+
+        config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+            public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+                JSONObject object = parser.parseObject();
+                Object k = object.get("k");
+                Object v = object.get("v");
+
+                return (T) Collections.singletonMap(k, v).entrySet().iterator().next();
+            }
+
+            public int getFastMatchToken() {
+                return 0;
+            }
+        });
+
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        assertEquals(1, entry.getKey());
+        assertEquals("A", entry.getValue());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue() throws Exception {
+    ParserConfig config = new ParserConfig();
+
+    String json = "{\"k\":1,\"v\":\"A\"}";
+
+    {
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        assertEquals("v", entry.getKey());
+        assertEquals("A", entry.getValue());
+    }
+
+    config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+        public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+            JSONObject object = parser.parseObject();
+            Object k = object.get("k");
+            Object v = object.get("v");
+
+            return (T) Collections.singletonMap(k, v).entrySet().iterator().next();
+        }
+
+        public int getFastMatchToken() {
+            return 0;
+        }
+    });
+
+    Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+    assertEquals(1, entry.getKey());
+    assertEquals("A", entry.getValue());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue() throws Exception {
+    ParserConfig config = new ParserConfig();
+
+    String json = "{\"k\":1,\"v\":\"A\"}";
+
+    {
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        assertEquals("v", entry.getKey());
+        assertEquals("A", entry.getValue());
+    }
+
+    config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+        public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+            JSONObject object = parser.parseObject();
+            Object k = object.get("k");
+            Object v = object.get("v");
+
+            return (T) Collections.singletonMap(k, v).entrySet().iterator().next();
+        }
+
+        public int getFastMatchToken() {
+            return 0;
+        }
+    });
+
+    Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+    assertEquals("k", entry.getKey());
+    assertEquals(1, entry.getValue());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue() throws Exception {
+    ParserConfig config = new ParserConfig();
+
+    String json = "{\"k\":1,\"v\":\"A\"}";
+
+    {
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        assertEquals("k", entry.getKey());
+        assertEquals(1, entry.getValue());
+    }
+
+    config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+        public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+            JSONObject object = parser.parseObject();
+            Object k = object.get("k");
+            Object v = object.get("v");
+
+            return (T) Collections.singletonMap(k, v).entrySet().iterator().next();
+        }
+
+        public int getFastMatchToken() {
+            return 0;
+        }
+    });
+
+    Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+    assertEquals("v", entry.getKey());
+    assertEquals("A", entry.getValue());
+}
+
+
+import:
+
+['import org.junit.Test;', 'import java.util.Map.Entry;', 'import org.junit.Assert;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue() throws Exception {
+    ParserConfig config = new ParserConfig();
+
+    String json = "{\"k\":1,\"v\":\"A\"}";
+
+    {
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        assertEquals("k", entry.getKey());
+        assertEquals(1, entry.getValue());
+    }
+
+    config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+        public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+            JSONObject object = parser.parseObject();
+            Object k = object.get("k");
+            Object v = object.get("v");
+
+            return (T) Collections.singletonMap(k, v).entrySet().iterator().next();
+        }
+
+        public int getFastMatchToken() {
+            return 0;
+        }
+    });
+
+    Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+    assertEquals("k", entry.getKey());
+    assertEquals(1, entry.getValue());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue() throws Exception {
+    ParserConfig config = new ParserConfig();
+
+    String json = "{\"k\":1,\"v\":\"A\"}";
+
+    {
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        assertEquals("k", entry.getKey());
+        assertEquals(1, entry.getValue());
+    }
+
+    config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+        public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+            JSONObject object = parser.parseObject();
+            Object k = object.get("k");
+            Object v = object.get("v");
+
+            return (T) Collections.singletonMap(k, v).entrySet().iterator().next();
+        }
+
+        public int getFastMatchToken() {
+            return 0;
+        }
+    });
+
+    Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+    assertEquals("k", entry.getKey());
+    assertEquals(1, entry.getValue());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

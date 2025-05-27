@@ -1,0 +1,116 @@
+Test File Path: projects/e77a0bbe0d39a852a52a8d81c20f3fab4f98773d/nacos/api/src/test/java/com/alibaba/nacos/api/config/ability/ServerRemoteAbilityTest.java
+Original Test Method:
+     public void testSerialize() throws JsonProcessingException {
+        serverAbilities = new ServerRemoteAbility();
+        String json = mapper.writeValueAsString(serverAbilities);
+        assertEquals("{\"supportRemoteConnection\":false,\"grpcReportEnabled\":true}", json);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testSerialize() throws JsonProcessingException {
+        serverAbilities = new ServerRemoteAbility();
+        String json = mapper.writeValueAsString(serverAbilities);
+        assertEquals("{\"supportRemoteConnection\":false,\"grpcReportEnabled\":true}", json);
+    }
+
+
+import:
+
+['import org.junit.jupiter.api.BeforeEach;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testSerialize() throws JsonProcessingException {
+        serverAbilities = new ServerRemoteAbility();
+        String json = mapper.writeValueAsString(serverAbilities);
+        assertEquals("{\"supportRemoteConnection\":false,\"grpcReportEnabled\":true}", json);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSerialize() throws JsonProcessingException {
+    ServerAbilities serverAbilities = new ServerAbilities();
+    String json = mapper.writeValueAsString(serverAbilities);
+    assertEquals("{\"supportRemoteConnection\":false,\"grpcReportEnabled\":true}", json);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testSerialize() throws JsonProcessingException {
+        ServerAbilities serverAbilities = new ServerAbilities();
+        String json = mapper.writeValueAsString(serverAbilities);
+        assertEquals("{\"supportRemoteConnection\":false,\"grpcReportEnabled\":true}", json);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testSerialize() throws JsonProcessingException {
+        ServerAbilities serverAbilities = new ServerAbilities();
+        String json = mapper.writeValueAsString(serverAbilities);
+        assertEquals("{\"supportRemoteConnection\":false,\"grpcReportEnabled\":true}", json);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.7.0</version>
+    <scope>test</scope>
+</dependency>

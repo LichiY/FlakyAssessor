@@ -1,0 +1,118 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/ToStringBuilderTest.java
+Original Test Method:
+     public void testInheritedReflectionStatics() {
+        final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890]",
+            ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+            ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+            this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+            this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testInheritedReflectionStatics() {
+    final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+    String result1 = ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class);
+    assertTrue(result1.contains("staticString2=staticString2"));
+    assertTrue(result1.contains("staticInt2=67890"));
+    assertEquals(2, result1.split(",").length);
+
+    String result2 = ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class);
+    assertTrue(result2.contains("staticString2=staticString2"));
+    assertTrue(result2.contains("staticInt2=67890"));
+    assertTrue(result2.contains("staticString=staticString"));
+    assertTrue(result2.contains("staticInt=12345"));
+    assertEquals(4, result2.split(",").length);
+
+    String result3 = this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class);
+    assertTrue(result3.contains("staticString2=staticString2"));
+    assertTrue(result3.contains("staticInt2=67890"));
+    assertTrue(result3.contains("staticString=staticString"));
+    assertTrue(result3.contains("staticInt=12345"));
+    assertEquals(4, result3.split(",").length);
+
+    String result4 = this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class);
+    assertTrue(result4.contains("staticString2=staticString2"));
+    assertTrue(result4.contains("staticInt2=67890"));
+    assertTrue(result4.contains("staticString=staticString"));
+    assertTrue(result4.contains("staticInt=12345"));
+    assertEquals(4, result4.split(",").length);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testInheritedReflectionStatics() {
+    final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+    String result1 = ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class);
+    assertThat(result1, allOf(
+        containsString("staticString2=staticString2"),
+        containsString("staticInt2=67890")
+    ));
+    assertEquals(2, result1.split(",").length);
+
+    String result2 = ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class);
+    assertThat(result2, allOf(
+        containsString("staticString2=staticString2"),
+        containsString("staticInt2=67890"),
+        containsString("staticString=staticString"),
+        containsString("staticInt=12345")
+    ));
+    assertEquals(4, result2.split(",").length);
+
+    String result3 = this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class);
+    assertThat(result3, allOf(
+        containsString("staticString2=staticString2"),
+        containsString("staticInt2=67890"),
+        containsString("staticString=staticString"),
+        containsString("staticInt=12345")
+    ));
+    assertEquals(4, result3.split(",").length);
+
+    String result4 = this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class);
+    assertThat(result4, allOf(
+        containsString("staticString2=staticString2"),
+        containsString("staticInt2=67890"),
+        containsString("staticString=staticString"),
+        containsString("staticInt=12345")
+    ));
+    assertEquals(4, result4.split(",").length);
+}
+
+
+import:
+
+['import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.allOf;', 'import static org.hamcrest.Matchers.containsString;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+

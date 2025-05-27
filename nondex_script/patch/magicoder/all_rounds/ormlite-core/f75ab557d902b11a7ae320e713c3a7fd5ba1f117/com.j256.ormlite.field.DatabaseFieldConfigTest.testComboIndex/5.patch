@@ -1,0 +1,160 @@
+Test File Path: projects/f75ab557d902b11a7ae320e713c3a7fd5ba1f117/ormlite-core/src/test/java/com/j256/ormlite/field/DatabaseFieldConfigTest.java
+Original Test Method:
+ 	public void testComboIndex() throws Exception {
+		Field[] fields = ComboIndex.class.getDeclaredFields();
+		assertTrue(fields.length >= 2);
+		DatabaseFieldConfig fieldConfig = DatabaseFieldConfig.fromField(databaseType, "foo", fields[0]);
+		String tableName = "foo";
+		assertEquals(ComboIndex.INDEX_NAME, fieldConfig.getIndexName(tableName));
+		fieldConfig = DatabaseFieldConfig.fromField(databaseType, tableName, fields[1]);
+		assertEquals(ComboIndex.INDEX_NAME, fieldConfig.getIndexName(tableName));
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testComboIndex() throws Exception {
+        Field[] fields = ComboIndex.class.getDeclaredFields();
+        assertTrue(fields.length >= 2);
+
+        List<Field> sortedFields = Arrays.stream(fields)
+                .sorted((f1, f2) -> f1.getName().compareTo(f2.getName()))
+                .collect(Collectors.toList());
+
+        sortedFields.forEach(field -> {
+            DatabaseFieldConfig fieldConfig = DatabaseFieldConfig.fromField(databaseType, "foo", field);
+            String tableName = "foo";
+            assertEquals(ComboIndex.INDEX_NAME, fieldConfig.getIndexName(tableName));
+        });
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.*;', 'import java.util.Arrays;', 'import java.util.List;', 'import java.util.stream.Collectors;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testComboIndex() throws Exception {
+    Field[] fields = ComboIndex.class.getDeclaredFields();
+    assertTrue(fields.length >= 2);
+
+    List<Field> sortedFields = Arrays.stream(fields)
+            .sorted(Comparator.comparing(Field::getName))
+            .collect(Collectors.toList());
+
+    sortedFields.forEach(field -> {
+        DatabaseFieldConfig fieldConfig = DatabaseFieldConfig.fromField(databaseType, "foo", field);
+        String tableName = "foo";
+        assertEquals(ComboIndex.INDEX_NAME, fieldConfig.getIndexName(tableName));
+    });
+}
+
+
+import:
+
+['import java.util.Comparator;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testComboIndex() throws Exception {
+        Field[] fields = ComboIndex.class.getDeclaredFields();
+        assertTrue(fields.length >= 2);
+
+        List<Field> sortedFields = Arrays.stream(fields)
+                .sorted(Comparator.comparing(Field::getName))
+                .collect(Collectors.toList());
+
+        sortedFields.forEach(field -> {
+            DatabaseFieldConfig fieldConfig = DatabaseFieldConfig.fromField(databaseType, "foo", field);
+            String tableName = "foo";
+            assertEquals(ComboIndex.INDEX_NAME, fieldConfig.getIndexName(tableName));
+        });
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testComboIndex() throws Exception {
+    Field[] fields = ComboIndex.class.getDeclaredFields();
+    assertTrue(fields.length >= 2);
+
+    List<Field> sortedFields = Arrays.stream(fields)
+            .sorted(Comparator.comparing(Field::getName))
+            .collect(Collectors.toList());
+
+    sortedFields.forEach(field -> {
+        DatabaseFieldConfig fieldConfig = DatabaseFieldConfig.fromField(databaseType, "foo", field);
+        String tableName = "foo";
+        assertEquals(ComboIndex.INDEX_NAME, fieldConfig.getIndexName(tableName));
+    });
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testComboIndex() throws Exception {
+        Field[] fields = ComboIndex.class.getDeclaredFields();
+        assertEquals(2, fields.length);
+
+        List<Field> sortedFields = Arrays.stream(fields)
+                .sorted(Comparator.comparing(Field::getName))
+                .collect(Collectors.toList());
+
+        sortedFields.forEach(field -> {
+            DatabaseFieldConfig fieldConfig = DatabaseFieldConfig.fromField(databaseType, "foo", field);
+            String tableName = "foo";
+            assertEquals(ComboIndex.INDEX_NAME, fieldConfig.getIndexName(tableName));
+        });
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

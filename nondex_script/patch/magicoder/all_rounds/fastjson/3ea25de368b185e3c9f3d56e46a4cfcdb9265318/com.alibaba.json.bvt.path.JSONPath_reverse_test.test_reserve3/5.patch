@@ -1,0 +1,113 @@
+Test File Path: projects/3ea25de368b185e3c9f3d56e46a4cfcdb9265318/fastjson/src/test/java/com/alibaba/json/bvt/path/JSONPath_reverse_test.java
+Original Test Method:
+     public void test_reserve3() throws Exception {
+        JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+        assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.id", "player.name").toString());
+        assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c").toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.id", "player.name").toString());
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.name", "player.id", "ab.c").toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.name", "player.id").toString());
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.id", "player.name").toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void test_reserve3() throws Exception {
+        JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+        assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.name", "player.id").toString());
+        assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.id", "player.name").toString());
+    }
+
+
+import:
+
+['import org.junit.Test;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.name", "player.id").toString());
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.id", "player.name").toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve3() throws Exception {
+    JSONObject object = JSON.parseObject("{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}");
+
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.name", "player.id").toString());
+    assertEquals("{\"player\":{\"name\":\"ljw\",\"id\":1001}}", JSONPath.reserveToObject(object, "player.id", "player.name").toString());
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;']
+
+pom:
+
+<!-- Add your dependencies here -->

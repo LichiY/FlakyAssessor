@@ -1,0 +1,304 @@
+Test File Path: projects/23c9b5ac50d04d28a34a87c78eb2d3331c06b74b/flink/flink-table/flink-table-runtime-blink/src/test/java/org/apache/flink/table/runtime/operators/join/RowTimeBoundedStreamJoinTest.java
+Original Test Method:
+ 	public void testRowTimeLeftOuterJoin() throws Exception {
+		RowTimeBoundedStreamJoin joinProcessFunc = new RowTimeBoundedStreamJoin(
+				FlinkJoinType.LEFT, -5, 9, 0, rowType, rowType, generatedFunction, 0, 0);
+
+		KeyedTwoInputStreamOperatorTestHarness<BaseRow, BaseRow, BaseRow, BaseRow> testHarness = createTestHarness(
+				joinProcessFunc);
+
+		testHarness.open();
+
+		testHarness.processElement1(record(1L, "k1"));
+		testHarness.processElement2(record(1L, "k2"));
+		assertEquals(2, testHarness.numEventTimeTimers());
+		assertEquals(4, testHarness.numKeyedStateEntries());
+
+		// The left row with timestamp = 1 will be padded and removed (14=1+5+1+((5+9)/2)).
+		testHarness.processWatermark1(new Watermark(14));
+		testHarness.processWatermark2(new Watermark(14));
+		assertEquals(1, testHarness.numEventTimeTimers());
+		assertEquals(2, testHarness.numKeyedStateEntries());
+
+		// The right row with timestamp = 1 will be removed (18=1+9+1+((5+9)/2)).
+		testHarness.processWatermark1(new Watermark(18));
+		testHarness.processWatermark2(new Watermark(18));
+		assertEquals(0, testHarness.numEventTimeTimers());
+		assertEquals(0, testHarness.numKeyedStateEntries());
+
+		testHarness.processElement1(record(2L, "k1"));
+		testHarness.processElement2(record(2L, "k2"));
+		// The late rows with timestamp = 2 will not be cached, but a null padding result for the left
+		// row will be emitted.
+		assertEquals(0, testHarness.numKeyedStateEntries());
+		assertEquals(0, testHarness.numEventTimeTimers());
+
+		// Make sure the common (inner) join can be performed.
+		testHarness.processElement1(record(19L, "k1"));
+		testHarness.processElement1(record(20L, "k1"));
+		testHarness.processElement2(record(26L, "k1"));
+		testHarness.processElement2(record(25L, "k1"));
+		testHarness.processElement1(record(21L, "k1"));
+		testHarness.processElement2(record(39L, "k2"));
+		testHarness.processElement2(record(40L, "k2"));
+		testHarness.processElement1(record(50L, "k2"));
+		testHarness.processElement1(record(49L, "k2"));
+		testHarness.processElement2(record(41L, "k2"));
+		testHarness.processWatermark1(new Watermark(100));
+		testHarness.processWatermark2(new Watermark(100));
+
+		List<Object> expectedOutput = new ArrayList<>();
+		// The timestamp 14 is set with the triggered timer.
+		expectedOutput.add(record(1L, "k1", null, null));
+		expectedOutput.add(new Watermark(5));
+		expectedOutput.add(new Watermark(9));
+		expectedOutput.add(record(2L, "k1", null, null));
+		expectedOutput.add(record(20L, "k1", 25L, "k1"));
+		expectedOutput.add(record(21L, "k1", 25L, "k1"));
+		expectedOutput.add(record(21L, "k1", 26L, "k1"));
+		expectedOutput.add(record(49L, "k2", 40L, "k2"));
+		expectedOutput.add(record(49L, "k2", 41L, "k2"));
+		expectedOutput.add(record(50L, "k2", 41L, "k2"));
+		// The timestamp 32 is set with the triggered timer.
+		expectedOutput.add(record(19L, "k1", null, null));
+		expectedOutput.add(new Watermark(91));
+
+		assertor.assertOutputEquals("output wrong.", expectedOutput, testHarness.getOutput());
+		testHarness.close();
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.flink.api.common.functions.MapFunction;', 'import org.apache.flink.api.java.tuple.Tuple2;', 'import org.apache.flink.streaming.api.datastream.DataStream;', 'import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;', 'import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;', 'import org.apache.flink.streaming.api.windowing.time.Time;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java_2.11</artifactId>
+    <version>1.11.2</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testRowTimeLeftOuterJoin() {
+        env.fromElements(1, 2, 3, 4, 5)
+                .keyBy(value -> value)
+                .leftOuterJoin(env.fromElements(1, 2, 3, 4, 5))
+                .where(value -> value)
+                .equalTo(value -> value)
+                .window(TumblingEventTimeWindows.of(Time.seconds(1)))
+                .apply(new CoFlatMapFunction<Integer, Integer, String>() {
+                    @Override
+                    public void flatMap1(Integer value, Collector<String> out) throws Exception {
+                        out.collect("Value from first stream: " + value);
+                    }
+
+                    @Override
+                    public void flatMap2(Integer value, Collector<String> out) throws Exception {
+                        out.collect("Value from second stream: " + value);
+                    }
+                });
+    }
+
+
+import:
+
+['import org.apache.flink.streaming.api.functions.co.CoFlatMapFunction;', 'import org.apache.flink.util.Collector;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java</artifactId>
+    <version>1.12.0</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void testRowTimeLeftOuterJoin() throws Exception {
+        env.fromElements(1, 2, 3, 4, 5)
+                .keyBy(value -> value)
+                .leftOuterJoin(env.fromElements(1, 2, 3, 4, 5))
+                .where(value -> value)
+                .equalTo(value -> value)
+                .window(TumblingEventTimeWindows.of(Time.seconds(1)))
+                .apply(new CoFlatMapFunction<Integer, Integer, String>() {
+                    @Override
+                    public void flatMap1(Integer value, Collector<String> out) throws Exception {
+                        out.collect("Value from first stream: " + value);
+                    }
+
+                    @Override
+                    public void flatMap2(Integer value, Collector<String> out) throws Exception {
+                        out.collect("Value from second stream: " + value);
+                    }
+                });
+    }
+
+
+import:
+
+['import org.apache.flink.streaming.api.functions.co.CoFlatMapFunction;', 'import org.apache.flink.util.Collector;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java</artifactId>
+    <version>1.12.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testRowTimeLeftOuterJoin() {
+    // Assuming that the test data is in a List<Row> named "rows"
+    List<Row> rows = Arrays.asList(
+            new Row(1, "one", 10),
+            new Row(2, "two", 20),
+            new Row(3, "three", 30)
+    );
+
+    // Assuming that the expected result is in a List<Row> named "expected"
+    List<Row> expected = Arrays.asList(
+            new Row(1, "one", 10),
+            new Row(2, "two", 20),
+            new Row(3, "three", 30)
+    );
+
+    // Assuming that the actual result is in a List<Row> named "actual"
+    List<Row> actual = rows.stream()
+            .filter(row -> row.getTime() > 15)
+            .collect(Collectors.toList());
+
+    // Assuming that the assertion is done using a library like AssertJ
+    assertThat(actual).isEqualTo(expected);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.18.1</version>
+    </dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+public void testRowTimeLeftOuterJoin() throws Exception {
+    // Assuming that the test data is in a List<Row> named "rows"
+    List<Row> rows = Arrays.asList(
+            new Row(1, "one", 10),
+            new Row(2, "two", 20),
+            new Row(3, "three", 30)
+    );
+
+    // Assuming that the expected result is in a List<Row> named "expected"
+    List<Row> expected = Arrays.asList(
+            new Row(1, "one", 10),
+            new Row(2, "two", 20),
+            new Row(3, "three", 30)
+    );
+
+    // Assuming that the actual result is in a List<Row> named "actual"
+    List<Row> actual = rows.stream()
+            .filter(row -> row.getTime() > 15)
+            .collect(Collectors.toList());
+
+    // Assuming that the assertion is done using a library like AssertJ
+    assertThat(actual).isEqualTo(expected);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.18.1</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testRowTimeLeftOuterJoin() throws Exception {
+    // Assuming that the test data is in a List<Row> named "rows"
+    List<Row> rows = Arrays.asList(
+            new Row(1, "one", 10),
+            new Row(2, "two", 20),
+            new Row(3, "three", 30)
+    );
+
+    // Assuming that the expected result is in a List<Row> named "expected"
+    List<Row> expected = Arrays.asList(
+            new Row(1, "one", 10),
+            new Row(2, "two", 20),
+            new Row(3, "three", 30)
+    );
+
+    // Assuming that the actual result is in a List<Row> named "actual"
+    List<Row> actual = rows.stream()
+            .filter(row -> row.getTime() > 15)
+            .collect(Collectors.toList());
+
+    // Assuming that the assertion is done using a library like AssertJ
+    assertThat(actual).isEqualTo(expected);
+}
+
+
+import:
+
+['import java.util.*;', 'import java.util.stream.*;', 'import org.assertj.core.api.*;']
+
+pom:
+
+<!-- <pom.xml end> -->

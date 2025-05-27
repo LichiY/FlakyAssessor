@@ -1,0 +1,217 @@
+Test File Path: projects/3ea25de368b185e3c9f3d56e46a4cfcdb9265318/fastjson/src/test/java/com/alibaba/json/bvt/path/JSONPath_reverse_test.java
+Original Test Method:
+     public void test_reserve() throws Exception {
+        JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+        assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+        assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+        assertEquals("[\"ljw\",[\"ljw\",1001,50]]", JSONPath.reserveToArray(object, "name", "*").toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve() throws Exception {
+    JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+    assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+    assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+    
+    JSONArray result = JSONPath.reserveToArray(object, "name", "*");
+    JSONArray innerArray = result.getJSONArray(1);
+    assertTrue(innerArray.contains("ljw"));
+    assertTrue(innerArray.contains(1001));
+    assertTrue(innerArray.contains(50));
+    assertEquals(3, innerArray.size());
+}
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import static org.junit.jupiter.api.Assertions.*;', 'import com.alibaba.fastjson.JSONArray;']
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve() throws Exception {
+    JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+    Set<Object> expected1 = new LinkedHashSet<>();
+    expected1.add(1001);
+    expected1.add("ljw");
+    Set<Object> actual1 = new LinkedHashSet<>(JSONPath.reserveToArray(object, "id", "name"));
+    assertEquals(expected1, actual1);
+
+    Set<Object> expected2 = new LinkedHashSet<>();
+    expected2.add("ljw");
+    expected2.add(1001);
+    Set<Object> actual2 = new LinkedHashSet<>(JSONPath.reserveToArray(object, "name", "id"));
+    assertEquals(expected2, actual2);
+    
+    JSONArray result = JSONPath.reserveToArray(object, "name", "*");
+    JSONArray innerArray = result.getJSONArray(1);
+    Set<Object> innerSet = new LinkedHashSet<>(innerArray);
+    assertTrue(innerSet.contains("ljw"));
+    assertTrue(innerSet.contains(1001));
+    assertTrue(innerSet.contains(50));
+    assertEquals(3, innerSet.size());
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.Set;']
+
+pom:
+
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve() throws Exception {
+    JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+    Set<Object> expected1 = new LinkedHashSet<Object>();
+    expected1.add(1001);
+    expected1.add("ljw");
+    Set<Object> actual1 = new LinkedHashSet<Object>(JSONPath.reserveToArray(object, "id", "name"));
+    assertEquals(expected1, actual1);
+
+    Set<Object> expected2 = new LinkedHashSet<Object>();
+    expected2.add("ljw");
+    expected2.add(1001);
+    Set<Object> actual2 = new LinkedHashSet<Object>(JSONPath.reserveToArray(object, "name", "id"));
+    assertEquals(expected2, actual2);
+    
+    JSONArray result = JSONPath.reserveToArray(object, "name", "*");
+    JSONArray innerArray = result.getJSONArray(1);
+    Set<Object> innerSet = new LinkedHashSet<Object>(innerArray);
+    assertTrue(innerSet.contains("ljw"));
+    assertTrue(innerSet.contains(1001));
+    assertTrue(innerSet.contains(50));
+    assertEquals(3, innerSet.size());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+</properties>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve() throws Exception {
+    JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+    Set<Object> expected1 = new LinkedHashSet<Object>();
+    expected1.add(1001);
+    expected1.add("ljw");
+    Set<Object> actual1 = new LinkedHashSet<Object>(JSONPath.reserveToArray(object, "id", "name"));
+    assertEquals(expected1, actual1);
+
+    Set<Object> expected2 = new LinkedHashSet<Object>();
+    expected2.add("ljw");
+    expected2.add(1001);
+    Set<Object> actual2 = new LinkedHashSet<Object>(JSONPath.reserveToArray(object, "name", "id"));
+    assertEquals(expected2, actual2);
+    
+    JSONArray result = JSONPath.reserveToArray(object, "name", "*");
+    JSONArray innerArray = result.getJSONArray(1);
+    Set<Object> innerSet = new LinkedHashSet<Object>(innerArray);
+    assertTrue(innerSet.contains("ljw"));
+    assertTrue(innerSet.contains(1001));
+    assertTrue(innerSet.contains(50));
+    assertEquals(3, innerSet.size());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve() throws Exception {
+    JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+    Set<Object> expected1 = new LinkedHashSet<Object>();
+    expected1.add(1001);
+    expected1.add("ljw");
+    Set<Object> actual1 = new LinkedHashSet<Object>(JSONPath.reserveToArray(object, "id", "name"));
+    assertEquals(expected1, actual1);
+
+    Set<Object> expected2 = new LinkedHashSet<Object>();
+    expected2.add("ljw");
+    expected2.add(1001);
+    Set<Object> actual2 = new LinkedHashSet<Object>(JSONPath.reserveToArray(object, "name", "id"));
+    assertEquals(expected2, actual2);
+    
+    JSONArray result = JSONPath.reserveToArray(object, "name", "*");
+    JSONArray innerArray = result.getJSONArray(1);
+    Set<Object> innerSet = new LinkedHashSet<Object>(innerArray);
+    assertEquals(3, innerSet.size());
+    assertTrue(innerSet.contains("ljw"));
+    assertTrue(innerSet.contains(1001));
+    assertTrue(innerSet.contains(50));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+

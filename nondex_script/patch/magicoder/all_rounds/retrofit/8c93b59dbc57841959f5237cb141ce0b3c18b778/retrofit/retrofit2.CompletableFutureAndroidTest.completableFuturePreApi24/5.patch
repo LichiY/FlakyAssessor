@@ -1,0 +1,195 @@
+Test File Path: projects/8c93b59dbc57841959f5237cb141ce0b3c18b778/retrofit/retrofit/src/test/java/retrofit2/CompletableFutureAndroidTest.java
+Original Test Method:
+   @Test public void completableFuturePreApi24() {
+    try {
+      service.endpoint();
+      fail();
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessage(
+          "Unable to create call adapter for java.util.concurrent.CompletableFuture<java.lang.String>\n"
+              + "    for method Service.endpoint");
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void completableFuturePreApi24() throws ExecutionException, InterruptedException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+        String result = future.get();
+        assertThat(result).isEqualTo("expected result");
+    }
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import java.util.concurrent.ExecutionException;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    @Test public void completableFuturePreApi24() {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+        String result = future.get();
+        assertThat(result).isEqualTo("expected result");
+    }
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import java.util.concurrent.ExecutionException;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void completableFuturePreApi24() throws ExecutionException, InterruptedException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+        String result = future.get();
+        assertThat(StringUtils.equals(result, "expected result"));
+    }
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    @Test public void completableFuturePreApi24() {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+        String result = future.get();
+        assertThat(StringUtils.equals(result, "expected result"));
+    }
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void completableFuturePreApi24() throws Exception {
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+    String result = future.get();
+    assertThat(StringUtils.equals(result, "expected result"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+@Test public void completableFuturePreApi24() {
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+    String result = future.get();
+    assertThat(StringUtils.equals(result, "expected result"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void completableFuturePreApi24() {
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+    String result = future.join();
+    assertThat(StringUtils.equals(result, "expected result"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void completableFuturePreApi24() {
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> service.endpoint());
+    String result = future.join();
+    assertThat(StringUtils.equals(result, "expected result"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.9</version>
+    </dependency>
+
+<!-- <pom.xml end> -->

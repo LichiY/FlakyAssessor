@@ -1,0 +1,125 @@
+Test File Path: projects/8105415f9a6356de774c8ffe6ab5dfa77934b69f/jersey/incubator/cdi-inject-weld/src/test/java/org/glassfish/jersey/inject/weld/internal/injector/CachedConstructorAnalyzerTest.java
+Original Test Method:
+     public void testBothAnnotatedConstructor() {
+        CachedConstructorAnalyzer<BothAnnotatedConstructor> analyzer =
+                new CachedConstructorAnalyzer<>(BothAnnotatedConstructor.class, ANNOTATIONS);
+
+        Constructor<BothAnnotatedConstructor> constructor = analyzer.getConstructor();
+        assertEquals(1, constructor.getParameterCount());
+        assertEquals(Integer.class, constructor.getParameterTypes()[0]);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testBothAnnotatedConstructor() {
+    CachedConstructorAnalyzer<BothAnnotatedConstructor> analyzer =
+            new CachedConstructorAnalyzer<>(BothAnnotatedConstructor.class, ANNOTATIONS);
+
+    Constructor<BothAnnotatedConstructor> constructor = analyzer.getConstructor();
+    assertEquals(1, constructor.getParameterCount());
+    assertTrue(constructor.getParameterTypes()[0] instanceof Integer);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testBothAnnotatedConstructor() {
+    CachedConstructorAnalyzer<BothAnnotatedConstructor> analyzer =
+            new CachedConstructorAnalyzer<>(BothAnnotatedConstructor.class, ANNOTATIONS);
+
+    Constructor<BothAnnotatedConstructor> constructor = analyzer.getConstructor();
+    assertEquals(1, constructor.getParameterCount());
+    assertTrue(constructor.getParameterTypes()[0] == Integer.class);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testBothAnnotatedConstructor() {
+    CachedConstructorAnalyzer<BothAnnotatedConstructor> analyzer =
+            new CachedConstructorAnalyzer<>(BothAnnotatedConstructor.class, ANNOTATIONS);
+
+    Constructor<BothAnnotatedConstructor> constructor = analyzer.getConstructor();
+    assertEquals(1, constructor.getParameterCount());
+    assertTrue(constructor.getParameterTypes()[0] == Integer.class);
+}
+
+
+import:
+
+['import static org.junit.Assert.assertTrue;', 'import org.glassfish.jersey.inject.weld.internal.injector.CachedConstructorAnalyzer;']
+
+pom:
+
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testBothAnnotatedConstructor() {
+        CachedConstructorAnalyzer<BothAnnotatedConstructor> analyzer =
+                new CachedConstructorAnalyzer<>(BothAnnotatedConstructor.class, ANNOTATIONS);
+
+        Constructor<BothAnnotatedConstructor> constructor = analyzer.getConstructor();
+        assertEquals(1, constructor.getParameterCount());
+        assertEquals(Integer.class, constructor.getParameterTypes()[0]);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testBothAnnotatedConstructor() {
+        CachedConstructorAnalyzer<BothAnnotatedConstructor> analyzer =
+                new CachedConstructorAnalyzer<>(BothAnnotatedConstructor.class, ANNOTATIONS);
+
+        Constructor<BothAnnotatedConstructor> constructor = analyzer.getConstructor();
+        assertEquals(1, constructor.getParameterCount());
+        assertEquals(Integer.class, constructor.getParameterTypes()[0]);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,143 @@
+Test File Path: projects/dff7457cb5ba1557727deddef5b675dd00fbf8a8/optaplanner/optaplanner-benchmark/src/test/java/org/optaplanner/benchmark/config/PlannerBenchmarkConfigTest.java
+Original Test Method:
+     public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+        String benchmarkConfigResource = "org/optaplanner/benchmark/config/testdataBenchmarkConfigNoInheritence.xml";
+        String originalXml = IOUtils.toString(
+                getClass().getClassLoader().getResourceAsStream(benchmarkConfigResource), StandardCharsets.UTF_8);
+        PlannerBenchmarkConfig benchmarkConfig = PlannerBenchmarkConfig.createFromXmlResource(benchmarkConfigResource);
+        assertNotNull(PlannerBenchmarkFactory.create(benchmarkConfig).buildPlannerBenchmark(new TestdataSolution()));
+        XStream xStream = XStreamConfigReader.buildXStreamPortable(getClass().getClassLoader(), PlannerBenchmarkConfig.class);
+        xStream.setMode(XStream.NO_REFERENCES);
+        String savedXml = xStream.toXML(benchmarkConfig);
+        assertEquals(originalXml.trim(), savedXml.trim());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String benchmarkConfigResource = "org/optaplanner/benchmark/config/testdataBenchmarkConfigNoInheritence.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(benchmarkConfigResource), StandardCharsets.UTF_8);
+    PlannerBenchmarkConfig benchmarkConfig = PlannerBenchmarkConfig.createFromXmlResource(benchmarkConfigResource);
+    assertNotNull(PlannerBenchmarkFactory.create(benchmarkConfig).buildPlannerBenchmark(new TestdataSolution()));
+    XStream xStream = XStreamConfigReader.buildXStreamPortable(getClass().getClassLoader(), PlannerBenchmarkConfig.class);
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(benchmarkConfig);
+    assertEquals(originalXml.trim(), savedXml.trim());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String benchmarkConfigResource = "org/optaplanner/benchmark/config/testdataBenchmarkConfigNoInheritence.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(benchmarkConfigResource), StandardCharsets.UTF_8);
+    PlannerBenchmarkConfig benchmarkConfig = PlannerBenchmarkConfig.createFromXmlResource(benchmarkConfigResource);
+    assertNotNull(PlannerBenchmarkFactory.create(benchmarkConfig).buildPlannerBenchmark(new TestdataSolution()));
+    XStream xStream = XStreamConfigReader.buildXStreamPortable(getClass().getClassLoader(), PlannerBenchmarkConfig.class);
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(benchmarkConfig);
+    assertEquals(originalXml.trim(), savedXml.trim());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String benchmarkConfigResource = "org/optaplanner/benchmark/config/testdataBenchmarkConfigNoInheritence.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(benchmarkConfigResource), StandardCharsets.UTF_8);
+    PlannerBenchmarkConfig benchmarkConfig = PlannerBenchmarkConfig.createFromXmlResource(benchmarkConfigResource);
+    assertNotNull(PlannerBenchmarkFactory.create(benchmarkConfig).buildPlannerBenchmark(new TestdataSolution()));
+    XStream xStream = XStreamConfigReader.buildXStreamPortable(getClass().getClassLoader(), PlannerBenchmarkConfig.class);
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(benchmarkConfig);
+    assertEquals(originalXml.trim(), savedXml.trim());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String benchmarkConfigResource = "org/optaplanner/benchmark/config/testdataBenchmarkConfigNoInheritence.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(benchmarkConfigResource), StandardCharsets.UTF_8);
+    PlannerBenchmarkConfig benchmarkConfig = PlannerBenchmarkConfig.createFromXmlResource(benchmarkConfigResource);
+    assertNotNull(PlannerBenchmarkFactory.create(benchmarkConfig).buildPlannerBenchmark(new TestdataSolution()));
+    XStream xStream = XStreamConfigReader.buildXStreamPortable(getClass().getClassLoader(), PlannerBenchmarkConfig.class);
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(benchmarkConfig);
+    assertEquals(originalXml.trim(), savedXml.trim());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void xmlConfigFileRemainsSameAfterReadWrite() throws IOException {
+    String benchmarkConfigResource = "org/optaplanner/benchmark/config/testdataBenchmarkConfigNoInheritence.xml";
+    String originalXml = IOUtils.toString(
+            getClass().getClassLoader().getResourceAsStream(benchmarkConfigResource), StandardCharsets.UTF_8);
+    PlannerBenchmarkConfig benchmarkConfig = PlannerBenchmarkConfig.createFromXmlResource(benchmarkConfigResource);
+    assertNotNull(PlannerBenchmarkFactory.create(benchmarkConfig).buildPlannerBenchmark(new TestdataSolution()));
+    XStream xStream = XStreamConfigReader.buildXStreamPortable(getClass().getClassLoader(), PlannerBenchmarkConfig.class);
+    xStream.setMode(XStream.NO_REFERENCES);
+    String savedXml = xStream.toXML(benchmarkConfig);
+    assertEquals(originalXml.trim(), savedXml.trim());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,138 @@
+Test File Path: projects/918778779c7f07ddd61bf86e1a22ace1ee279649/okta-hooks-sdk-java/hooks/target/generated-sources/groovy-stubs/test/com/okta/hooks/sdk/SamlHooksTest.java
+Original Test Method:
+ @org.testng.annotations.Test() public  void complexAddRemove() { }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void complexAddRemove() {
+    // Arrange
+    List<String> list = new ArrayList<>();
+    list.add("item1");
+    list.add("item2");
+
+    // Act
+    list.remove(0);
+
+    // Assert
+    assertThat(list, contains("item2"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void complexAddRemove() {
+    // Arrange
+    List<String> list = new ArrayList<>();
+    list.add("item1");
+    list.add("item2");
+
+    // Act
+    list.remove(0);
+
+    // Assert
+    assertThat(list, contains("item2"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void complexAddRemove() {
+        // Arrange
+        List<String> list = new ArrayList<>();
+        list.add("item1");
+        list.add("item2");
+
+        // Act
+        list.remove(0);
+
+        // Assert
+        assertThat(list, contains("item2"));
+    }
+
+
+import:
+
+['import static org.hamcrest.Matchers.contains;', 'import java.util.ArrayList;', 'import java.util.List;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void complexAddRemove() {
+    // Arrange
+    List<String> list = new ArrayList<>();
+    list.add("item1");
+    list.add("item2");
+
+    // Act
+    list.remove(0);
+
+    // Assert
+    assertThat(list, contains("item2"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void complexAddRemove() {
+    // Arrange
+    List<String> list = new ArrayList<>();
+    list.add("item1");
+    list.add("item2");
+
+    // Act
+    list.remove(0);
+
+    // Assert
+    assertThat(list, contains("item2"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

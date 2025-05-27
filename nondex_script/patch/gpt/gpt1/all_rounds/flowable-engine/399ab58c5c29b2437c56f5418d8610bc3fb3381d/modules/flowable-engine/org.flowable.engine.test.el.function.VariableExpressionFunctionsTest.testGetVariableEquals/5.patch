@@ -1,0 +1,218 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-engine/src/test/java/org/flowable/engine/test/el/function/VariableExpressionFunctionsTest.java
+Original Test Method:
+     public void testGetVariableEquals() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+        assertEquals("B", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+        
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 12)
+                .start();
+        assertEquals("B", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+        
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 123)
+                .start();
+        assertEquals("A", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testGetVariableEquals() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+    Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 12)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 123)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(task);
+    assertEquals("A", task.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetVariableEquals() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+    org.flowable.task.api.Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 12)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 123)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertNotNull(task);
+    assertEquals("A", task.getName());
+}
+
+
+import:
+
+['import org.flowable.task.api.Task;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetVariableEquals() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+    org.flowable.task.api.Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 12)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 123)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("A", task.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.flowable</groupId>
+    <artifactId>flowable-engine</artifactId>
+    <version>6.7.2</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetVariableEquals() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+    org.flowable.task.api.Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 12)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 123)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("A", task.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testGetVariableEquals() {
+    ProcessInstance processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 1)
+            .start();
+    org.flowable.task.api.Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 12)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 123)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).orderByTaskCreateTime().asc().singleResult();
+    assertNotNull(task);
+    assertEquals("A", task.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

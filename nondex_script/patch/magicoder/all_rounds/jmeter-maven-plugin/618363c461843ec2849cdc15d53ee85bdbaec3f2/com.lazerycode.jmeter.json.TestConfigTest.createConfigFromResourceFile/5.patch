@@ -1,0 +1,129 @@
+Test File Path: projects/618363c461843ec2849cdc15d53ee85bdbaec3f2/jmeter-maven-plugin/src/test/java/com/lazerycode/jmeter/json/TestConfigTest.java
+Original Test Method:
+     public void createConfigFromResourceFile() throws MojoExecutionException, URISyntaxException, JsonProcessingException {
+        URL configFile = this.getClass().getResource(testConfigFile);
+        File testConfigJSON = new File(configFile.toURI());
+        TestConfigurationWrapper testConfig = new TestConfigurationWrapper(testConfigJSON, "test-execution");
+        assertThat(testConfig.getFullConfig())
+                .isEqualTo("{\"executionID\":\"test-execution\",\"jmeterDirectoryPath\":null,\"runtimeJarName\":null,\"resultsOutputIsCSVFormat\":false,\"generateReports\":false,\"resultFilesLocations\":[],\"propertiesMap\":null,\"jmeterWorkingDirectoryPath\":null}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void createConfigFromResourceFile() throws MojoExecutionException, URISyntaxException, JsonProcessingException {
+    URL configFile = this.getClass().getResource(testConfigFile);
+    File testConfigJSON = new File(configFile.toURI());
+    TestConfigurationWrapper testConfig = new TestConfigurationWrapper(testConfigJSON, "test-execution");
+    assertThat(testConfig.getFullConfig())
+            .isEqualTo("{\"executionID\":\"test-execution\",\"jmeterDirectoryPath\":null,\"runtimeJarName\":null,\"resultsOutputIsCSVFormat\":false,\"generateReports\":false,\"resultFilesLocations\":[],\"propertiesMap\":null,\"jmeterWorkingDirectoryPath\":null}");
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- Add the dependency here -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void createConfigFromResourceFile() throws MojoExecutionException, URISyntaxException, JsonProcessingException {
+    URL configFile = this.getClass().getResource(testConfigFile);
+    File testConfigJSON = new File(configFile.toURI());
+    TestConfigurationWrapper testConfig = new TestConfigurationWrapper(testConfigJSON, "test-execution");
+    assertThat(testConfig.getFullConfig())
+            .isEqualTo("{\"executionID\":\"test-execution\",\"jmeterDirectoryPath\":null,\"runtimeJarName\":null,\"resultsOutputIsCSVFormat\":false,\"generateReports\":false,\"resultFilesLocations\":[],\"propertiesMap\":null,\"jmeterWorkingDirectoryPath\":null}");
+}
+
+
+import:
+
+['import org.junit.jupiter.api.Assertions;', 'import org.junit.jupiter.api.function.Executable;']
+
+pom:
+
+<!-- Add your dependencies here -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void createConfigFromResourceFile() throws MojoExecutionException, URISyntaxException, JsonProcessingException {
+    URL configFile = this.getClass().getResource(testConfigFile);
+    File testConfigJSON = new File(configFile.toURI());
+    TestConfigurationWrapper testConfig = new TestConfigurationWrapper(testConfigJSON, "test-execution");
+    Assertions.assertEquals("{\"executionID\":\"test-execution\",\"jmeterDirectoryPath\":null,\"runtimeJarName\":null,\"resultsOutputIsCSVFormat\":false,\"generateReports\":false,\"resultFilesLocations\":[],\"propertiesMap\":null,\"jmeterWorkingDirectoryPath\":null}", testConfig.getFullConfig());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.7.0</version>
+        <scope>test</scope>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void createConfigFromResourceFile() throws MojoExecutionException, URISyntaxException, JsonProcessingException {
+        URL configFile = this.getClass().getResource(testConfigFile);
+        File testConfigJSON = new File(configFile.toURI());
+        TestConfigurationWrapper testConfig = new TestConfigurationWrapper(testConfigJSON, "test-execution");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String expectedJson = mapper.writeValueAsString(new TestConfigurationWrapper(testConfigJSON, "test-execution"));
+
+        Assertions.assertEquals(expectedJson, testConfig.getFullConfig());
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.1</version>
+</dependency>

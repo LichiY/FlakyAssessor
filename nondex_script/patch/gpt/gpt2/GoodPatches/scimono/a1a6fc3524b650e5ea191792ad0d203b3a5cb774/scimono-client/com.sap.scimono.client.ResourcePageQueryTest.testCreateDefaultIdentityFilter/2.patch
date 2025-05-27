@@ -1,0 +1,33 @@
+Test File Path: projects/a1a6fc3524b650e5ea191792ad0d203b3a5cb774/scimono/scimono-client/src/test/java/com/sap/scimono/client/ResourcePageQueryTest.java
+Original Test Method:
+   public void testCreateDefaultIdentityFilter() {
+    String resultRequestPath = ResourcePageQuery.identityPageQuery().apply(webTarget).getUri().toString();
+    assertEquals(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100", resultRequestPath);
+  }
+Patch:
+
+test_code:
+public void testCreateDefaultIdentityFilter() {
+    String resultRequestPath = ResourcePageQuery.identityPageQuery().apply(webTarget).getUri().toString();
+    assertThat(resultRequestPath).contains(DEFAULT_URL);
+    
+    Map<String, String> queryParams = new LinkedHashMap<>();
+    Arrays.stream(resultRequestPath.split("\\?")[1].split("&"))
+          .map(param -> param.split("="))
+          .forEach(pair -> queryParams.put(pair[0], pair[1]));
+    
+    assertThat(queryParams)
+        .containsEntry("startId", "00000000-0000-1000-9000-000000000000")
+        .containsEntry("count", "100");
+}
+
+import:
+['import static org.assertj.core.api.Assertions.assertThat;', 'import java.util.Arrays;', 'import java.util.LinkedHashMap;', 'import java.util.Map;']
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>

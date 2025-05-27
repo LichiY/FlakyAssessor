@@ -1,0 +1,165 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-registry/nifi-registry-core/nifi-registry-framework/src/test/java/org/apache/nifi/registry/security/ldap/tenants/LdapUserGroupProviderTest.java
+Original Test Method:
+     public void testSearchUsersWithFilter() throws Exception {
+        final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+        when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid"));
+        when(configurationContext.getProperty(PROP_USER_SEARCH_FILTER)).thenReturn(new StandardPropertyValue("(uid=user1)"));
+        ldapUserGroupProvider.onConfigured(configurationContext);
+
+        assertEquals(1, ldapUserGroupProvider.getUsers().size());
+        assertNotNull(ldapUserGroupProvider.getUserByIdentity("user1"));
+        assertTrue(ldapUserGroupProvider.getGroups().isEmpty());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSearchUsersWithFilter() throws Exception {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid"));
+    when(configurationContext.getProperty(PROP_USER_SEARCH_FILTER)).thenReturn(new StandardPropertyValue("(uid=user1)"));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    assertEquals(1, ldapUserGroupProvider.getUsers().size());
+    assertNotNull(ldapUserGroupProvider.getUserByIdentity("user1"));
+    assertTrue(ldapUserGroupProvider.getGroups().isEmpty());
+}
+
+
+import:
+
+['import com.example.myclass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSearchUsersWithFilter() throws Exception {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid"));
+    when(configurationContext.getProperty(PROP_USER_SEARCH_FILTER)).thenReturn(new StandardPropertyValue("(uid=user1)"));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    List<User> users = new ArrayList<>(ldapUserGroupProvider.getUsers());
+    Collections.sort(users, Comparator.comparing(User::getIdentity));
+
+    List<User> expectedUsers = new ArrayList<>();
+    expectedUsers.add(new User("user1"));
+
+    assertEquals(expectedUsers, users);
+    assertNotNull(ldapUserGroupProvider.getUserByIdentity("user1"));
+    assertTrue(ldapUserGroupProvider.getGroups().isEmpty());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSearchUsersWithFilter() throws Exception {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid"));
+    when(configurationContext.getProperty(PROP_USER_SEARCH_FILTER)).thenReturn(new StandardPropertyValue("(uid=user1)"));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    List<User> users = new ArrayList<>(ldapUserGroupProvider.getUsers());
+    Collections.sort(users, Comparator.comparing(User::getIdentity));
+
+    List<User> expectedUsers = new ArrayList<>();
+    expectedUsers.add(new User("user1"));
+
+    assertEquals(expectedUsers, users);
+    assertNotNull(ldapUserGroupProvider.getUserByIdentity("user1"));
+    assertTrue(ldapUserGroupProvider.getGroups().isEmpty());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSearchUsersWithFilter() throws Exception {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid"));
+    when(configurationContext.getProperty(PROP_USER_SEARCH_FILTER)).thenReturn(new StandardPropertyValue("(uid=user1)"));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    List<User> users = new ArrayList<>(ldapUserGroupProvider.getUsers());
+    Collections.sort(users, Comparator.comparing(User::getIdentity));
+
+    List<User> expectedUsers = new ArrayList<>();
+    expectedUsers.add(new User("user1"));
+
+    assertEquals(expectedUsers, users);
+    assertNotNull(ldapUserGroupProvider.getUserByIdentity("user1"));
+    assertTrue(ldapUserGroupProvider.getGroups().isEmpty());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testSearchUsersWithFilter() throws Exception {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid"));
+    when(configurationContext.getProperty(PROP_USER_SEARCH_FILTER)).thenReturn(new StandardPropertyValue("(uid=user1)"));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    List<User> users = new ArrayList<>(ldapUserGroupProvider.getUsers());
+    Collections.sort(users, Comparator.comparing(User::getIdentity));
+
+    List<User> expectedUsers = new ArrayList<>();
+    expectedUsers.add(new User("user1"));
+
+    assertEquals(expectedUsers, users);
+    assertNotNull(ldapUserGroupProvider.getUserByIdentity("user1"));
+    assertTrue(ldapUserGroupProvider.getGroups().isEmpty());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

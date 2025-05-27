@@ -1,0 +1,282 @@
+Test File Path: projects/b607ad690543b17a6f6d6ecd92292ca3f28afe0d/mockserver/mockserver-core/src/test/java/org/mockserver/templates/engine/mustache/MustacheTemplateEngineTest.java
+Original Test Method:
+     public void shouldHandleHttpRequestsWithMustacheResponseTemplateWithLoopOverValuesUsingThis() throws JsonProcessingException {
+        // given
+        String template = "{" + NEW_LINE +
+            "    'statusCode': 200," + NEW_LINE +
+            "    'body': \"{'headers': [{{#request.headers.values}}{{^-first}}, {{/-first}}'{{ this.0 }}'{{/request.headers.values}}]}\"" + NEW_LINE +
+            "}";
+        HttpRequest request = request()
+            .withPath("/somePath")
+            .withMethod("POST")
+            .withHeader(HOST.toString(), "mock-server.com")
+            .withHeader(CONTENT_TYPE.toString(), "plain/text")
+            .withBody("some_body");
+
+        // when
+        HttpResponse actualHttpResponse = new MustacheTemplateEngine(mockServerLogger, configuration).executeTemplate(template, request, HttpResponseDTO.class);
+
+        // then
+        assertThat(actualHttpResponse, is(
+            response()
+                .withStatusCode(200)
+                .withBody("{'headers': ['mock-server.com', 'plain/text']}")
+        ));
+        verify(mockServerLogger).logEvent(
+            new LogEntry()
+                .setType(TEMPLATE_GENERATED)
+                .setLogLevel(INFO)
+                .setHttpRequest(request)
+                .setMessageFormat("generated output:{}from template:{}for request:{}")
+                .setArguments(
+                    OBJECT_MAPPER.readTree("" +
+                                               "{" + NEW_LINE +
+                                               "    'statusCode': 200," + NEW_LINE +
+                                               "    'body': \"{'headers': ['mock-server.com', 'plain/text']}\"" + NEW_LINE +
+                                               "}" + NEW_LINE),
+                    template,
+                    request
+                )
+        );
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldHandleHttpRequestsWithMustacheResponseTemplateWithLoopOverValuesUsingThis() throws JsonProcessingException {
+        // given
+        String template = "{" + NEW_LINE +
+            "    'statusCode': 200," + NEW_LINE +
+            "    'body': \"{'headers': [{{#request.headers.values}}{{^-first}}, {{/-first}}'{{ this.0 }}'{{/request.headers.values}}]}\"" + NEW_LINE +
+            "}";
+        HttpRequest request = request()
+            .withPath("/somePath")
+            .withMethod("POST")
+            .withHeader(HOST.toString(), "mock-server.com")
+            .withHeader(CONTENT_TYPE.toString(), "plain/text")
+            .withBody("some_body");
+
+        // when
+        HttpResponse actualHttpResponse = new MustacheTemplateEngine(mockServerLogger, configuration).executeTemplate(template, request, HttpResponseDTO.class);
+
+        // then
+        assertThat(actualHttpResponse, is(
+            response()
+                .withStatusCode(200)
+                .withBody("{'headers': ['mock-server.com', 'plain/text']}")
+        ));
+        verify(mockServerLogger).logEvent(
+            new LogEntry()
+                .setType(TEMPLATE_GENERATED)
+                .setLogLevel(INFO)
+                .setHttpRequest(request)
+                .setMessageFormat("generated output:{}from template:{}for request:{}")
+                .setArguments(
+                    OBJECT_MAPPER.readTree("" +
+                                               "{" + NEW_LINE +
+                                               "    'statusCode': 200," + NEW_LINE +
+                                               "    'body': \"{'headers': ['mock-server.com', 'plain/text']}\"" + NEW_LINE +
+                                               "}" + NEW_LINE),
+                    template,
+                    request
+                )
+        );
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.databind.node.ObjectNode;', 'import org.junit.Test;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void shouldHandleHttpRequestsWithMustacheResponseTemplateWithLoopOverValuesUsingThis() throws JsonProcessingException {
+    // given
+    String template = "{" + NEW_LINE +
+        "    'statusCode': 200," + NEW_LINE +
+        "    'body': \"{'headers': [{{#request.headers.values}}{{^-first}}, {{/-first}}'{{ this.0 }}'{{/request.headers.values}}]}\"" + NEW_LINE +
+        "}";
+    HttpRequest request = request()
+        .withPath("/somePath")
+        .withMethod("POST")
+        .withHeader(HOST.toString(), "mock-server.com")
+        .withHeader(CONTENT_TYPE.toString(), "plain/text")
+        .withBody("some_body");
+
+    // when
+    HttpResponse actualHttpResponse = new MustacheTemplateEngine(mockServerLogger, configuration).executeTemplate(template, request, HttpResponseDTO.class);
+
+    // then
+    assertThat(actualHttpResponse, is(
+        response()
+            .withStatusCode(200)
+            .withBody("{'headers': ['mock-server.com', 'plain/text']}")
+    ));
+    verify(mockServerLogger).logEvent(
+        new LogEntry()
+            .setType(TEMPLATE_GENERATED)
+            .setLogLevel(INFO)
+            .setHttpRequest(request)
+            .setMessageFormat("generated output:{}from template:{}for request:{}")
+            .setArguments(
+                OBJECT_MAPPER.readTree("" +
+                                           "{" + NEW_LINE +
+                                           "    'statusCode': 200," + NEW_LINE +
+                                           "    'body': \"{'headers': ['mock-server.com', 'plain/text']}\"" + NEW_LINE +
+                                           "}" + NEW_LINE),
+                template,
+                request
+            )
+    );
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void shouldHandleHttpRequestsWithMustacheResponseTemplateWithLoopOverValuesUsingThis() throws JsonProcessingException {
+    // given
+    String template = "{" + NEW_LINE +
+        "    'statusCode': 200," + NEW_LINE +
+        "    'body': \"{'headers': [{{#request.headers.values}}{{^-first}}, {{/-first}}'{{ this.0 }}'{{/request.headers.values}}]}\"" + NEW_LINE +
+        "}";
+    HttpRequest request = request()
+        .withPath("/somePath")
+        .withMethod("POST")
+        .withHeader(HOST.toString(), "mock-server.com")
+        .withHeader(CONTENT_TYPE.toString(), "plain/text")
+        .withBody("some_body");
+
+    // when
+    HttpResponse actualHttpResponse = new MustacheTemplateEngine(mockServerLogger, configuration).executeTemplate(template, request, HttpResponseDTO.class);
+
+    // then
+    assertThat(actualHttpResponse, is(
+        response()
+            .withStatusCode(200)
+            .withBody("{'headers': ['mock-server.com', 'plain/text']}")
+    ));
+    verify(mockServerLogger).logEvent(
+        new LogEntry()
+            .setType(TEMPLATE_GENERATED)
+            .setLogLevel(INFO)
+            .setHttpRequest(request)
+            .setMessageFormat("generated output:{}from template:{}for request:{}")
+            .setArguments(
+                OBJECT_MAPPER.readTree("" +
+                                           "{" + NEW_LINE +
+                                           "    'statusCode': 200," + NEW_LINE +
+                                           "    'body': \"{'headers': ['mock-server.com', 'plain/text']}\"" + NEW_LINE +
+                                           "}" + NEW_LINE),
+                template,
+                request
+            )
+    );
+}
+
+
+import:
+
+['import org.junit.Assert;', 'import org.junit.Rule;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void shouldHandleHttpRequestsWithMustacheResponseTemplateWithLoopOverValuesUsingThis() throws JsonProcessingException {
+    // given
+    String template = "{" + NEW_LINE +
+        "    'statusCode': 200," + NEW_LINE +
+        "    'body': \"{'headers': [{{#request.headers.values}}{{^-first}}, {{/-first}}'{{ this.0 }}'{{/request.headers.values}}]}\"" + NEW_LINE +
+        "}";
+    HttpRequest request = request()
+        .withPath("/somePath")
+        .withMethod("POST")
+        .withHeader(HOST.toString(), "mock-server.com")
+        .withHeader(CONTENT_TYPE.toString(), "plain/text")
+        .withBody("some_body");
+
+    // when
+    HttpResponse actualHttpResponse = new MustacheTemplateEngine(mockServerLogger, configuration).executeTemplate(template, request, HttpResponseDTO.class);
+
+    // then
+    assertThat(actualHttpResponse, is(
+        response()
+            .withStatusCode(200)
+            .withBody("{'headers': ['mock-server.com', 'plain/text']}")
+    ));
+    verify(mockServerLogger).logEvent(
+        new LogEntry()
+            .setType(TEMPLATE_GENERATED)
+            .setLogLevel(INFO)
+            .setHttpRequest(request)
+            .setMessageFormat("generated output:{}from template:{}for request:{}")
+            .setArguments(
+                OBJECT_MAPPER.readTree("" +
+                                           "{" + NEW_LINE +
+                                           "    'statusCode': 200," + NEW_LINE +
+                                           "    'body': \"{'headers': ['mock-server.com', 'plain/text']}\"" + NEW_LINE +
+                                           "}" + NEW_LINE),
+                template,
+                request
+            )
+    );
+}
+
+
+import:
+
+['import com.example.my.artifact.MyClass;', 'import com.example.my.artifact.AnotherClass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import static org.mockito.Mockito.mock;', 'import static org.mockito.Mockito.when;', 'import static org.mockito.ArgumentMatchers.any;', 'import static org.mockito.ArgumentMatchers.eq;', 'import static org.mockito.Mockito.times;', 'import static org.mockito.Mockito.verifyNoMoreInteractions;', 'import static org.mockito.Mockito.verifyZeroInteractions;', 'import static org.mockito.Mockito.never;', 'import static org.mockito.Mockito.atLeastOnce;', 'import static org.mockito.Mockito.atLeast;', 'import static org.mockito.Mockito.atMost;', 'import static org.mockito.Mockito.atMostOnce;', 'import static org.mockito.Mockito.timeout;', 'import static org.mockito.Mockito.timeoutAny;', 'import static org.mockito.Mockito.timeoutAtLeast;', 'import static org.mockito.Mockito.timeoutAtMost;', 'import static org.mockito.Mockito.timeoutNever;', 'import static org.mockito.Mockito.timeoutAtMostOnce;', 'import static org.mockito.Mockito.timeoutAtLeastOnce;', 'import static org.mockito.Mockito.timeoutNeverOnce;']
+
+pom:
+
+None

@@ -1,0 +1,155 @@
+Test File Path: projects/91f1a89a0b515328109a659e445b1008d9db8769/graphhopper/core/src/test/java/com/graphhopper/routing/ch/CHProfileSelectorTest.java
+Original Test Method:
+     public void onlyNodeBasedPresent() {
+        List<CHProfile> chProfiles = Collections.singletonList(
+                CHProfile.nodeBased(fastestWeighting)
+        );
+        assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, null);
+        assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, 20);
+        assertProfileFound(chProfiles.get(0), chProfiles, false, null);
+        assertProfileFound(chProfiles.get(0), chProfiles, false, 20);
+        assertProfileFound(chProfiles.get(0), chProfiles, null, null);
+        assertProfileFound(chProfiles.get(0), chProfiles, null, 30);
+        assertCHProfileSelectionError("Cannot find CH profile for weighting map", chProfiles, "foot", "fastest", false, null);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void onlyNodeBasedPresent() {
+        List<CHProfile> chProfiles = Collections.singletonList(
+                CHProfile.nodeBased(fastestWeighting)
+        );
+        assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, null);
+        assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, 20);
+        assertProfileFound(chProfiles.get(0), chProfiles, false, null);
+        assertProfileFound(chProfiles.get(0), chProfiles, false, 20);
+        assertProfileFound(chProfiles.get(0), chProfiles, null, null);
+        assertProfileFound(chProfiles.get(0), chProfiles, null, 30);
+        assertCHProfileSelectionError("Cannot find CH profile for weighting map", chProfiles, "foot", "fastest", false, null);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void onlyNodeBasedPresent() {
+    List<CHProfile> chProfiles = Collections.singletonList(
+            CHProfile.nodeBased(fastestWeighting)
+    );
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, null);
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, 30);
+    assertCHProfileSelectionError("Cannot find CH profile for weighting map", chProfiles, "foot", "fastest", false, null);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void onlyNodeBasedPresent() {
+    List<CHProfile> chProfiles = Collections.singletonList(
+            CHProfile.nodeBased(fastestWeighting)
+    );
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, null);
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, 30);
+    assertCHProfileSelectionError("Cannot find CH profile for weighting map", chProfiles, "foot", "fastest", false, null);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void onlyNodeBasedPresent() {
+    List<CHProfile> chProfiles = Collections.singletonList(
+            CHProfile.nodeBased(fastestWeighting)
+    );
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, null);
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, 30);
+    assertCHProfileSelectionError("Cannot find CH profile for weighting map", chProfiles, "foot", "fastest", false, null);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- put your dependencies here -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void onlyNodeBasedPresent() {
+    List<CHProfile> chProfiles = Collections.singletonList(
+            CHProfile.nodeBased(fastestWeighting)
+    );
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, null);
+    assertCHProfileSelectionError("Found a node-based CH profile for weighting map {weighting=fastest, vehicle=car}, but requested edge-based CH", chProfiles, true, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, false, 20);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, null);
+    assertProfileFound(chProfiles.get(0), chProfiles, null, 30);
+    assertCHProfileSelectionError("Cannot find CH profile for weighting map", chProfiles, "foot", "fastest", false, null);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,260 @@
+Test File Path: projects/75f9950d5e1675dbb0617555c4502685ef4d4618/apollo/apollo-configservice/src/test/java/com/ctrip/framework/apollo/configservice/service/ReleaseMessageServiceWithCacheTest.java
+Original Test Method:
+   public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+    String someMsgContent = "msg1";
+    List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+    for (int i = 0; i < 500; i++) {
+      firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+    }
+
+    String antherMsgContent = "msg2";
+    ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+        .thenReturn(firstBatchReleaseMsg);
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+        .thenReturn(Collections.singletonList(antherMsg));
+
+    releaseMessageServiceWithCache.afterPropertiesSet();
+
+    verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+    ReleaseMessage latestReleaseMsg =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertNotNull(latestReleaseMsg);
+    assertEquals(501, latestReleaseMsg.getId());
+    assertEquals(antherMsgContent, latestReleaseMsg.getMessage());
+
+    List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertEquals(2, latestReleaseMsgGroupByMsgContent.size());
+    assertEquals(500, latestReleaseMsgGroupByMsgContent.get(1).getId());
+    assertEquals(501, latestReleaseMsgGroupByMsgContent.get(0).getId());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+    String someMsgContent = "msg1";
+    List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+    for (int i = 0; i < 500; i++) {
+      firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+    }
+
+    String antherMsgContent = "msg2";
+    ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+        .thenReturn(firstBatchReleaseMsg);
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+        .thenReturn(Collections.singletonList(antherMsg));
+
+    releaseMessageServiceWithCache.afterPropertiesSet();
+
+    verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+    ReleaseMessage latestReleaseMsg =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertNotNull(latestReleaseMsg);
+    assertEquals(501, latestReleaseMsg.getId());
+    assertEquals(antherMsgContent, latestReleaseMsg.getMessage());
+
+    List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertEquals(2, latestReleaseMsgGroupByMsgContent.size());
+    assertEquals(500, latestReleaseMsgGroupByMsgContent.get(0).getId());
+    assertEquals(501, latestReleaseMsgGroupByMsgContent.get(1).getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+    String someMsgContent = "msg1";
+    List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+    for (int i = 0; i < 500; i++) {
+      firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+    }
+
+    String antherMsgContent = "msg2";
+    ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+        .thenReturn(firstBatchReleaseMsg);
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+        .thenReturn(Collections.singletonList(antherMsg));
+
+    releaseMessageServiceWithCache.afterPropertiesSet();
+
+    verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+    ReleaseMessage latestReleaseMsg =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertNotNull(latestReleaseMsg);
+    assertEquals(501, latestReleaseMsg.getId());
+    assertEquals(antherMsgContent, latestReleaseMsg.getMessage());
+
+    List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+        releaseMessageServiceWithCache
+            .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    assertEquals(2, latestReleaseMsgGroupByMsgContent.size());
+    assertEquals(500, latestReleaseMsgGroupByMsgContent.get(0).getId());
+    assertEquals(501, latestReleaseMsgGroupByMsgContent.get(1).getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+        String someMsgContent = "msg1";
+        List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+        for (int i = 0; i < 500; i++) {
+            firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+        }
+
+        String antherMsgContent = "msg2";
+        ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+        when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+                .thenReturn(firstBatchReleaseMsg);
+        when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+                .thenReturn(Collections.singletonList(antherMsg));
+
+        releaseMessageServiceWithCache.afterPropertiesSet();
+
+        verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+        ReleaseMessage latestReleaseMsg =
+                releaseMessageServiceWithCache
+                        .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+        Assertions.assertThat(latestReleaseMsg).isNotNull();
+        Assertions.assertThat(latestReleaseMsg.getId()).isEqualTo(501);
+        Assertions.assertThat(latestReleaseMsg.getMessage()).isEqualTo(antherMsgContent);
+
+        List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+                releaseMessageServiceWithCache
+                        .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+        Assertions.assertThat(latestReleaseMsgGroupByMsgContent.size()).isEqualTo(2);
+        Assertions.assertThat(latestReleaseMsgGroupByMsgContent.get(0).getId()).isEqualTo(500);
+        Assertions.assertThat(latestReleaseMsgGroupByMsgContent.get(1).getId()).isEqualTo(501);
+    }
+
+
+import:
+
+['import org.assertj.core.api.Assertions;']
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testWhenReleaseMsgSizeBiggerThan500() throws Exception {
+    String someMsgContent = "msg1";
+    List<ReleaseMessage> firstBatchReleaseMsg = new ArrayList<>(500);
+    for (int i = 0; i < 500; i++) {
+        firstBatchReleaseMsg.add(assembleReleaseMsg(i + 1, someMsgContent));
+    }
+
+    String antherMsgContent = "msg2";
+    ReleaseMessage antherMsg = assembleReleaseMsg(501, antherMsgContent);
+
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(0L))
+            .thenReturn(firstBatchReleaseMsg);
+    when(releaseMessageRepository.findFirst500ByIdGreaterThanOrderByIdAsc(500L))
+            .thenReturn(Collections.singletonList(antherMsg));
+
+    releaseMessageServiceWithCache.afterPropertiesSet();
+
+    verify(releaseMessageRepository, times(1)).findFirst500ByIdGreaterThanOrderByIdAsc(500L);
+
+    ReleaseMessage latestReleaseMsg =
+            releaseMessageServiceWithCache
+                    .findLatestReleaseMessageForMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    Assertions.assertThat(latestReleaseMsg).isNotNull();
+    Assertions.assertThat(latestReleaseMsg.getId()).isEqualTo(501);
+    Assertions.assertThat(latestReleaseMsg.getMessage()).isEqualTo(antherMsgContent);
+
+    List<ReleaseMessage> latestReleaseMsgGroupByMsgContent =
+            releaseMessageServiceWithCache
+                    .findLatestReleaseMessagesGroupByMessages(Sets.newHashSet(someMsgContent, antherMsgContent));
+
+    Assertions.assertThat(latestReleaseMsgGroupByMsgContent.size()).isEqualTo(2);
+    Assertions.assertThat(latestReleaseMsgGroupByMsgContent.get(0).getId()).isEqualTo(500);
+    Assertions.assertThat(latestReleaseMsgGroupByMsgContent.get(1).getId()).isEqualTo(501);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.mockito.Mockito;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+</dependency>

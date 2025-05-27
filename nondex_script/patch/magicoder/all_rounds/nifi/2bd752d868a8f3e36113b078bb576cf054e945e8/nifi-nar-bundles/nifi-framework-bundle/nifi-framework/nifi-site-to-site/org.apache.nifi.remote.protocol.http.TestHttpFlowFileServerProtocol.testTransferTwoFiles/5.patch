@@ -1,0 +1,298 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-framework-bundle/nifi-framework/nifi-site-to-site/src/test/java/org/apache/nifi/remote/protocol/http/TestHttpFlowFileServerProtocol.java
+Original Test Method:
+     public void testTransferTwoFiles() throws Exception {
+        final String transactionId = "testTransferTwoFiles";
+        final Peer peer = getDefaultPeer(transactionId);
+        final String endpointUri = "https://remote-host:8443/nifi-api/output-ports/port-id/transactions/"
+                + transactionId + "/flow-files";
+        final HttpFlowFileServerProtocol serverProtocol = getDefaultHttpFlowFileServerProtocol();
+        final HttpServerCommunicationsSession commsSession = (HttpServerCommunicationsSession) peer.getCommunicationsSession();
+        commsSession.putHandshakeParam(HandshakeProperty.BATCH_COUNT, "2");
+        commsSession.setUserDn("unit-test");
+        commsSession.setDataTransferUrl(endpointUri);
+
+        transferFlowFiles(serverProtocol, transactionId, peer, processSession ->
+            IntStream.of(1, 2).mapToObj(i -> {
+                final MockFlowFile flowFile = processSession.createFlowFile(("Server content " + i).getBytes());
+                final HashMap<String, String> attributes = new HashMap<>();
+                attributes.put("uuid", "server-uuid-" + i);
+                attributes.put("filename", "server-filename-" + i);
+                attributes.put("server-attr-" + i + "-1", "server-attr-" + i + "-1-value");
+                attributes.put("server-attr-" + i + "-2", "server-attr-" + i + "-2-value");
+                flowFile.putAttributes(attributes);
+                return flowFile;
+            }).collect(Collectors.toList())
+        );
+
+        // Commit transaction
+        final int flowFileSent = serverProtocol.commitTransferTransaction(peer, "3058746557");
+        assertEquals(2, flowFileSent);
+
+        // Assert provenance (SEND and DROP)
+        final List<ProvenanceEventRecord> provenanceEvents = sessionState.getProvenanceEvents();
+        assertEquals(4, provenanceEvents.size());
+        for (int i = 0; i < provenanceEvents.size(); i += 2) {
+            ProvenanceEventRecord provenanceEvent = provenanceEvents.get(i);
+            assertEquals(ProvenanceEventType.SEND, provenanceEvent.getEventType());
+            assertEquals(endpointUri, provenanceEvent.getTransitUri());
+            assertEquals("Remote Host=peer-host, Remote DN=unit-test", provenanceEvent.getDetails());
+            provenanceEvent = provenanceEvents.get(i + 1);
+            assertEquals(ProvenanceEventType.DROP, provenanceEvent.getEventType());
+        }
+
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testTransferTwoFiles() throws Exception {
+    final String transactionId = "testTransferTwoFiles";
+    final Peer peer = getDefaultPeer(transactionId);
+    final String endpointUri = "https://remote-host:8443/nifi-api/output-ports/port-id/transactions/"
+            + transactionId + "/flow-files";
+    final HttpFlowFileServerProtocol serverProtocol = getDefaultHttpFlowFileServerProtocol();
+    final HttpServerCommunicationsSession commsSession = (HttpServerCommunicationsSession) peer.getCommunicationsSession();
+    commsSession.putHandshakeParam(HandshakeProperty.BATCH_COUNT, "2");
+    commsSession.setUserDn("unit-test");
+    commsSession.setDataTransferUrl(endpointUri);
+
+    transferFlowFiles(serverProtocol, transactionId, peer, processSession ->
+        IntStream.of(1, 2).mapToObj(i -> {
+            final MockFlowFile flowFile = processSession.createFlowFile(("Server content " + i).getBytes());
+            final HashMap<String, String> attributes = new HashMap<>();
+            attributes.put("uuid", "server-uuid-" + i);
+            attributes.put("filename", "server-filename-" + i);
+            attributes.put("server-attr-" + i + "-1", "server-attr-" + i + "-1-value");
+            attributes.put("server-attr-" + i + "-2", "server-attr-" + i + "-2-value");
+            flowFile.putAttributes(attributes);
+            return flowFile;
+        }).collect(Collectors.toList())
+    );
+
+    // Commit transaction
+    final int flowFileSent = serverProtocol.commitTransferTransaction(peer, "3058746557");
+    assertEquals(2, flowFileSent);
+
+    // Assert provenance (SEND and DROP)
+    final List<ProvenanceEventRecord> provenanceEvents = sessionState.getProvenanceEvents();
+    assertEquals(4, provenanceEvents.size());
+    for (int i = 0; i < provenanceEvents.size(); i += 2) {
+        ProvenanceEventRecord provenanceEvent = provenanceEvents.get(i);
+        assertEquals(ProvenanceEventType.SEND, provenanceEvent.getEventType());
+        assertEquals(endpointUri, provenanceEvent.getTransitUri());
+        assertEquals("Remote Host=peer-host, Remote DN=unit-test", provenanceEvent.getDetails());
+        provenanceEvent = provenanceEvents.get(i + 1);
+        assertEquals(ProvenanceEventType.DROP, provenanceEvent.getEventType());
+    }
+
+}
+
+
+import:
+
+['import java.util.*;', 'import java.util.stream.*;', 'import org.apache.nifi.remote.io.*;', 'import org.apache.nifi.remote.protocol.*;', 'import org.apache.nifi.remote.protocol.impl.*;', 'import org.apache.nifi.remote.protocol.impl.handshake.*;', 'import org.apache.nifi.remote.protocol.impl.session.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.request.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.request.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.request.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.request.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.request.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.*;', 'import org.apache.nifi.remote.protocol.impl.session.impl.handshake.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.message.impl.response.impl.*;']
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>myartifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testTransferTwoFiles() throws Exception {
+    final String transactionId = "testTransferTwoFiles";
+    final Peer peer = getDefaultPeer(transactionId);
+    final String endpointUri = "https://remote-host:8443/nifi-api/output-ports/port-id/transactions/"
+            + transactionId + "/flow-files";
+    final HttpFlowFileServerProtocol serverProtocol = getDefaultHttpFlowFileServerProtocol();
+    final HttpServerCommunicationsSession commsSession = (HttpServerCommunicationsSession) peer.getCommunicationsSession();
+    commsSession.putHandshakeParam(HandshakeProperty.BATCH_COUNT, "2");
+    commsSession.setUserDn("unit-test");
+    commsSession.setDataTransferUrl(endpointUri);
+
+    transferFlowFiles(serverProtocol, transactionId, peer, processSession ->
+        IntStream.of(1, 2).mapToObj(i -> {
+            final MockFlowFile flowFile = processSession.createFlowFile(("Server content " + i).getBytes());
+            final LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
+            attributes.put("uuid", "server-uuid-" + i);
+            attributes.put("filename", "server-filename-" + i);
+            attributes.put("server-attr-" + i + "-1", "server-attr-" + i + "-1-value");
+            attributes.put("server-attr-" + i + "-2", "server-attr-" + i + "-2-value");
+            flowFile.putAttributes(attributes);
+            return flowFile;
+        }).collect(Collectors.toList())
+    );
+
+    // Commit transaction
+    final int flowFileSent = serverProtocol.commitTransferTransaction(peer, "3058746557");
+    assertEquals(2, flowFileSent);
+
+    // Assert provenance (SEND and DROP)
+    final List<ProvenanceEventRecord> provenanceEvents = sessionState.getProvenanceEvents();
+    assertEquals(4, provenanceEvents.size());
+    for (int i = 0; i < provenanceEvents.size(); i += 2) {
+        ProvenanceEventRecord provenanceEvent = provenanceEvents.get(i);
+        assertEquals(ProvenanceEventType.SEND, provenanceEvent.getEventType());
+        assertEquals(endpointUri, provenanceEvent.getTransitUri());
+        assertEquals("Remote Host=peer-host, Remote DN=unit-test", provenanceEvent.getDetails());
+        provenanceEvent = provenanceEvents.get(i + 1);
+        assertEquals(ProvenanceEventType.DROP, provenanceEvent.getEventType());
+    }
+
+}
+
+
+import:
+
+['import org.apache.http.client.methods.HttpPost;', 'import org.apache.http.impl.client.CloseableHttpClient;', 'import org.apache.http.impl.client.HttpClients;', 'import java.util.LinkedHashMap;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.12</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testTransferTwoFiles() throws Exception {
+    final String transactionId = "testTransferTwoFiles";
+    final Peer peer = getDefaultPeer(transactionId);
+    final String endpointUri = "https://remote-host:8443/nifi-api/output-ports/port-id/transactions/"
+            + transactionId + "/flow-files";
+    final HttpFlowFileServerProtocol serverProtocol = getDefaultHttpFlowFileServerProtocol();
+    final HttpServerCommunicationsSession commsSession = (HttpServerCommunicationsSession) peer.getCommunicationsSession();
+    commsSession.putHandshakeParam(HandshakeProperty.BATCH_COUNT, "2");
+    commsSession.setUserDn("unit-test");
+    commsSession.setDataTransferUrl(endpointUri);
+
+    transferFlowFiles(serverProtocol, transactionId, peer, processSession ->
+        IntStream.of(1, 2).mapToObj(i -> {
+            final MockFlowFile flowFile = processSession.createFlowFile(("Server content " + i).getBytes());
+            final LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
+            attributes.put("uuid", "server-uuid-" + i);
+            attributes.put("filename", "server-filename-" + i);
+            attributes.put("server-attr-" + i + "-1", "server-attr-" + i + "-1-value");
+            attributes.put("server-attr-" + i + "-2", "server-attr-" + i + "-2-value");
+            flowFile.putAttributes(attributes);
+            return flowFile;
+        }).collect(Collectors.toList())
+    );
+
+    // Commit transaction
+    final int flowFileSent = serverProtocol.commitTransferTransaction(peer, "3058746557");
+    assertEquals(2, flowFileSent);
+
+    // Assert provenance (SEND and DROP)
+    final List<ProvenanceEventRecord> provenanceEvents = sessionState.getProvenanceEvents();
+    assertEquals(4, provenanceEvents.size());
+    for (int i = 0; i < provenanceEvents.size(); i += 2) {
+        ProvenanceEventRecord provenanceEvent = provenanceEvents.get(i);
+        assertEquals(ProvenanceEventType.SEND, provenanceEvent.getEventType());
+        assertEquals(endpointUri, provenanceEvent.getTransitUri());
+        assertEquals("Remote Host=peer-host, Remote DN=unit-test", provenanceEvent.getDetails());
+        provenanceEvent = provenanceEvents.get(i + 1);
+        assertEquals(ProvenanceEventType.DROP, provenanceEvent.getEventType());
+    }
+
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testTransferTwoFiles() throws Exception {
+    final String transactionId = "testTransferTwoFiles";
+    final Peer peer = getDefaultPeer(transactionId);
+    final String endpointUri = "https://remote-host:8443/nifi-api/output-ports/port-id/transactions/"
+            + transactionId + "/flow-files";
+    final HttpFlowFileServerProtocol serverProtocol = getDefaultHttpFlowFileServerProtocol();
+    final HttpServerCommunicationsSession commsSession = (HttpServerCommunicationsSession) peer.getCommunicationsSession();
+    commsSession.putHandshakeParam(HandshakeProperty.BATCH_COUNT, "2");
+    commsSession.setUserDn("unit-test");
+    commsSession.setDataTransferUrl(endpointUri);
+
+    transferFlowFiles(serverProtocol, transactionId, peer, processSession ->
+        IntStream.of(1, 2).mapToObj(i -> {
+            final MockFlowFile flowFile = processSession.createFlowFile(("Server content " + i).getBytes());
+            final LinkedHashMap<String, String> attributes = new LinkedHashMap<>();
+            attributes.put("uuid", "server-uuid-" + i);
+            attributes.put("filename", "server-filename-" + i);
+            attributes.put("server-attr-" + i + "-1", "server-attr-" + i + "-1-value");
+            attributes.put("server-attr-" + i + "-2", "server-attr-" + i + "-2-value");
+            flowFile.putAttributes(attributes);
+            return flowFile;
+        }).collect(Collectors.toList())
+    );
+
+    // Commit transaction
+    final int flowFileSent = serverProtocol.commitTransferTransaction(peer, "3058746557");
+    assertEquals(2, flowFileSent);
+
+    // Assert provenance (SEND and DROP)
+    final List<ProvenanceEventRecord> provenanceEvents = sessionState.getProvenanceEvents();
+    assertEquals(4, provenanceEvents.size());
+    for (int i = 0; i < provenanceEvents.size(); i += 2) {
+        ProvenanceEventRecord provenanceEvent = provenanceEvents.get(i);
+        assertEquals(ProvenanceEventType.SEND, provenanceEvent.getEventType());
+        assertEquals(endpointUri, provenanceEvent.getTransitUri());
+        assertEquals("Remote Host=peer-host, Remote DN=unit-test", provenanceEvent.getDetails());
+        provenanceEvent = provenanceEvents.get(i + 1);
+        assertEquals(ProvenanceEventType.DROP, provenanceEvent.getEventType());
+    }
+
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>

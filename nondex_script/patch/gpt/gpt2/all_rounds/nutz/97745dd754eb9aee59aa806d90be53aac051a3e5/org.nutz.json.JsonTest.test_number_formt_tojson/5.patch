@@ -1,0 +1,165 @@
+Test File Path: projects/97745dd754eb9aee59aa806d90be53aac051a3e5/nutz/test/org/nutz/json/JsonTest.java
+Original Test Method:
+     public void test_number_formt_tojson() {
+        NumBean num = new NumBean();
+        num.setNum1(1);
+        String a = "{\n" + "   \"num1\": \"01.00\",\n" + "   \"num2\": \"02.00\"\n" + "}";
+        String str = Json.toJson(num);
+        assertEquals(a, str);
+        System.out.println(str);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String str = Json.toJson(num);
+    JSONAssert.assertEquals(
+        "{\"num1\":\"01.00\",\"num2\":\"02.00\"}",
+        str,
+        JSONCompareMode.NON_EXTENSIBLE
+    );
+    System.out.println(str);
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;', 'import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String str = Json.toJson(num);
+    assertEquals("01.00", JsonPath.read(str, "$.num1"));
+    assertEquals("02.00", JsonPath.read(str, "$.num2"));
+    System.out.println(str);
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String str = Json.toJson(num);
+    JSONObject json = new JSONObject(str);
+    assertEquals("01.00", json.getString("num1"));
+    assertEquals("02.00", json.getString("num2"));
+    System.out.println(str);
+}
+
+
+import:
+
+['import org.json.JSONObject;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20231013</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String str = Json.toJson(num);
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, String> map = mapper.readValue(str, Map.class);
+    assertEquals("01.00", map.get("num1"));
+    assertEquals("02.00", map.get("num2"));
+    System.out.println(str);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.0</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String str = Json.toJson(num);
+    Map<String, String> map = Json.fromJson(LinkedHashMap.class, str);
+    assertEquals("01.00", map.get("num1"));
+    assertEquals("02.00", map.get("num2"));
+    System.out.println(str);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.0</version>
+</dependency>
+

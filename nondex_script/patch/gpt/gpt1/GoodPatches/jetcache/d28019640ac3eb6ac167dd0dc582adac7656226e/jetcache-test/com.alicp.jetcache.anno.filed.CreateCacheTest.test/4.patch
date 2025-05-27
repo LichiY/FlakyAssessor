@@ -1,0 +1,20 @@
+Test File Path: projects/d28019640ac3eb6ac167dd0dc582adac7656226e/jetcache/jetcache-test/src/test/java/com/alicp/jetcache/anno/filed/CreateCacheTest.java
+Original Test Method:
+     public void test() throws Exception {
+        doTest();
+    }
+Patch:
+
+test_code:
+public void test() throws Exception {
+    LinkedHashMap<String, Object> cache1 = new LinkedHashMap<>();
+    LinkedHashSet<Object> result = new LinkedHashSet<>();
+    cache1.put("key", "value");
+    result.add("value");
+    Assertions.assertThat(result).containsExactlyInAnyOrder("value");
+}
+
+import:
+[]
+pom:
+

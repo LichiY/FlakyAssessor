@@ -1,0 +1,522 @@
+Test File Path: projects/90fa9064f2c6907fbe6237cb46d5937eebd8ea31/hive/standalone-metastore/metastore-server/src/test/java/org/apache/hadoop/hive/metastore/utils/TestMetaStoreServerUtils.java
+Original Test Method:
+   public void testGetPartitionspecsGroupedBySDonePartitionCombined() throws MetaException {
+    // Create database and table
+    String sharedInputFormat = "foo1";
+
+    Table tbl = new TableBuilder()
+        .setDbName(DB_NAME)
+        .setTableName(TABLE_NAME)
+        .addCol("id", "int")
+        .setLocation("/foo")
+        .build(null);
+    Partition p1 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName(TABLE_NAME)
+        .setLocation("/foo/bar")
+        .addCol("a1", "int")
+        .addValue("val1")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    Partition p2 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName(TABLE_NAME)
+        .setLocation("/a/b")
+        .addCol("a2", "int")
+        .addValue("val2")
+        .setInputFormat("foo2")
+        .build(null);
+    Partition p3 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName(TABLE_NAME)
+        .addCol("a3", "int")
+        .addValue("val3")
+        .setInputFormat("foo3")
+        .build(null);
+    Partition p4 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/baz")
+        .addCol("a1", "int")
+        .addValue("val4")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    p3.unsetSd();
+    List<PartitionSpec> result =
+        MetaStoreServerUtils.getPartitionspecsGroupedByStorageDescriptor(tbl,
+            Arrays.asList(p1, p2, p3, p4));
+    assertThat(result.size(), is(3));
+    PartitionSpec ps1 = result.get(0);
+    assertThat(ps1.getRootPath(), is((String)null));
+    assertThat(ps1.getPartitionList(), is((List<Partition>)null));
+    PartitionSpecWithSharedSD partSpec = ps1.getSharedSDPartitionSpec();
+    List<PartitionWithoutSD> partitions1 = partSpec.getPartitions();
+    assertThat(partitions1.size(), is(1));
+    PartitionWithoutSD partition1 = partitions1.get(0);
+    assertThat(partition1.getRelativePath(), is((String)null));
+    assertThat(partition1.getValues(), is(Collections.singletonList("val3")));
+
+    PartitionSpec ps2 = result.get(1);
+    assertThat(ps2.getRootPath(), is(tbl.getSd().getLocation()));
+    assertThat(ps2.getPartitionList(), is((List<Partition>)null));
+    List<PartitionWithoutSD> partitions2 = ps2.getSharedSDPartitionSpec().getPartitions();
+    assertThat(partitions2.size(), is(2));
+    PartitionWithoutSD partition2_1 = partitions2.get(0);
+    PartitionWithoutSD partition2_2 = partitions2.get(1);
+    if (partition2_1.getRelativePath().equals("baz")) {
+      // Swap p2_1 and p2_2
+      PartitionWithoutSD tmp = partition2_1;
+      partition2_1 = partition2_2;
+      partition2_2 = tmp;
+    }
+    assertThat(partition2_1.getRelativePath(), is("/bar"));
+    assertThat(partition2_1.getValues(), is(Collections.singletonList("val1")));
+    assertThat(partition2_2.getRelativePath(), is("/baz"));
+    assertThat(partition2_2.getValues(), is(Collections.singletonList("val4")));
+
+    PartitionSpec ps4 = result.get(2);
+    assertThat(ps4.getRootPath(), is((String)null));
+    assertThat(ps4.getSharedSDPartitionSpec(), is((PartitionSpecWithSharedSD)null));
+    List<Partition>partitions = ps4.getPartitionList().getPartitions();
+    assertThat(partitions.size(), is(1));
+    Partition partition = partitions.get(0);
+    assertThat(partition.getSd().getLocation(), is("/a/b"));
+    assertThat(partition.getValues(), is(Collections.singletonList("val2")));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPartitionspecsGroupedBySDonePartitionCombined() throws MetaException {
+    // Create database and table
+    String sharedInputFormat = "foo1";
+
+    Table tbl = new TableBuilder()
+        .setDbName(DB_NAME)
+        .setTableName(TABLE_NAME)
+        .addCol("id", "int")
+        .setLocation("/foo")
+        .build(null);
+    Partition p1 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName(TABLE_NAME)
+        .setLocation("/foo/bar")
+        .addCol("a1", "int")
+        .addValue("val1")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    Partition p2 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName(TABLE_NAME)
+        .setLocation("/a/b")
+        .addCol("a2", "int")
+        .addValue("val2")
+        .setInputFormat("foo2")
+        .build(null);
+    Partition p3 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName(TABLE_NAME)
+        .addCol("a3", "int")
+        .addValue("val3")
+        .setInputFormat("foo3")
+        .build(null);
+    Partition p4 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/baz")
+        .addCol("a1", "int")
+        .addValue("val4")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    p3.unsetSd();
+    List<PartitionSpec> result =
+        MetaStoreServerUtils.getPartitionspecsGroupedByStorageDescriptor(tbl,
+            Arrays.asList(p1, p2, p3, p4));
+    assertThat(result.size(), is(3));
+    PartitionSpec ps1 = result.get(0);
+    assertThat(ps1.getRootPath(), is((String)null));
+    assertThat(ps1.getPartitionList(), is((List<Partition>)null));
+    PartitionSpecWithSharedSD partSpec = ps1.getSharedSDPartitionSpec();
+    List<PartitionWithoutSD> partitions1 = partSpec.getPartitions();
+    assertThat(partitions1.size(), is(1));
+    PartitionWithoutSD partition1 = partitions1.get(0);
+    assertThat(partition1.getRelativePath(), is((String)null));
+    assertThat(partition1.getValues(), is(Collections.singletonList("val3")));
+
+    PartitionSpec ps2 = result.get(1);
+    assertThat(ps2.getRootPath(), is(tbl.getSd().getLocation()));
+    assertThat(ps2.getPartitionList(), is((List<Partition>)null));
+    List<PartitionWithoutSD> partitions2 = ps2.getSharedSDPartitionSpec().getPartitions();
+    assertThat(partitions2.size(), is(2));
+    PartitionWithoutSD partition2_1 = partitions2.get(0);
+    PartitionWithoutSD partition2_2 = partitions2.get(1);
+    if (partition2_1.getRelativePath().equals("baz")) {
+      // Swap p2_1 and p2_2
+      PartitionWithoutSD tmp = partition2_1;
+      partition2_1 = partition2_2;
+      partition2_2 = tmp;
+    }
+    assertThat(partition2_1.getRelativePath(), is("/bar"));
+    assertThat(partition2_1.getValues(), is(Collections.singletonList("val1")));
+    assertThat(partition2_2.getRelativePath(), is("/baz"));
+    assertThat(partition2_2.getValues(), is(Collections.singletonList("val4")));
+
+    PartitionSpec ps4 = result.get(2);
+    assertThat(ps4.getRootPath(), is((String)null));
+    assertThat(ps4.getSharedSDPartitionSpec(), is((PartitionSpecWithSharedSD)null));
+    List<Partition>partitions = ps4.getPartitionList().getPartitions();
+    assertThat(partitions.size(), is(1));
+    Partition partition = partitions.get(0);
+    assertThat(partition.getSd().getLocation(), is("/a/b"));
+    assertThat(partition.getValues(), is(Collections.singletonList("val2")));
+}
+
+
+import:
+
+['import org.apache.hadoop.hive.metastore.api.MetaStoreServerUtils;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-client</artifactId>
+        <version>3.2.2</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPartitionspecsGroupedBySDonePartitionCombined() throws MetaException {
+    // Create database and table
+    String sharedInputFormat = "foo1";
+
+    Table tbl = new TableBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .addCol("id", "int")
+        .setLocation("/foo")
+        .build(null);
+    Partition p1 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/bar")
+        .addCol("a1", "int")
+        .addValue("val1")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    Partition p2 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/a/b")
+        .addCol("a2", "int")
+        .addValue("val2")
+        .setInputFormat("foo2")
+        .build(null);
+    Partition p3 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .addCol("a3", "int")
+        .addValue("val3")
+        .setInputFormat("foo3")
+        .build(null);
+    Partition p4 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/baz")
+        .addCol("a1", "int")
+        .addValue("val4")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    p3.unsetSd();
+    List<PartitionSpec> result =
+        MetaStoreServerUtils.getPartitionspecsGroupedByStorageDescriptor(tbl,
+            Arrays.asList(p1, p2, p3, p4));
+    assertThat(result.size(), is(3));
+    PartitionSpec ps1 = result.get(0);
+    assertThat(ps1.getRootPath(), is((String)null));
+    assertThat(ps1.getPartitionList(), is((List<Partition>)null));
+    PartitionSpecWithSharedSD partSpec = ps1.getSharedSDPartitionSpec();
+    List<PartitionWithoutSD> partitions1 = partSpec.getPartitions();
+    assertThat(partitions1.size(), is(1));
+    PartitionWithoutSD partition1 = partitions1.get(0);
+    assertThat(partition1.getRelativePath(), is((String)null));
+    assertThat(partition1.getValues(), is(Collections.singletonList("val3")));
+
+    PartitionSpec ps2 = result.get(1);
+    assertThat(ps2.getRootPath(), is(tbl.getSd().getLocation()));
+    assertThat(ps2.getPartitionList(), is((List<Partition>)null));
+    List<PartitionWithoutSD> partitions2 = ps2.getSharedSDPartitionSpec().getPartitions();
+    assertThat(partitions2.size(), is(2));
+    PartitionWithoutSD partition2_1 = partitions2.get(0);
+    PartitionWithoutSD partition2_2 = partitions2.get(1);
+    if (partition2_1.getRelativePath().equals("baz")) {
+      // Swap p2_1 and p2_2
+      PartitionWithoutSD tmp = partition2_1;
+      partition2_1 = partition2_2;
+      partition2_2 = tmp;
+    }
+    assertThat(partition2_1.getRelativePath(), is("/bar"));
+    assertThat(partition2_1.getValues(), is(Collections.singletonList("val1")));
+    assertThat(partition2_2.getRelativePath(), is("/baz"));
+    assertThat(partition2_2.getValues(), is(Collections.singletonList("val4")));
+
+    PartitionSpec ps4 = result.get(2);
+    assertThat(ps4.getRootPath(), is((String)null));
+    assertThat(ps4.getSharedSDPartitionSpec(), is((PartitionSpecWithSharedSD)null));
+    List<Partition>partitions = ps4.getPartitionList().getPartitions();
+    assertThat(partitions.size(), is(1));
+    Partition partition = partitions.get(0);
+    assertThat(partition.getSd().getLocation(), is("/a/b"));
+    assertThat(partition.getValues(), is(Collections.singletonList("val2")));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPartitionspecsGroupedBySDonePartitionCombined() throws MetaException {
+    // Create database and table
+    String sharedInputFormat = "foo1";
+
+    Table tbl = new TableBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .addCol("id", "int")
+        .setLocation("/foo")
+        .build(null);
+    Partition p1 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/bar")
+        .addCol("a1", "int")
+        .addValue("val1")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    Partition p2 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/a/b")
+        .addCol("a2", "int")
+        .addValue("val2")
+        .setInputFormat("foo2")
+        .build(null);
+    Partition p3 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .addCol("a3", "int")
+        .addValue("val3")
+        .setInputFormat("foo3")
+        .build(null);
+    Partition p4 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/baz")
+        .addCol("a1", "int")
+        .addValue("val4")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    p3.unsetSd();
+    List<PartitionSpec> result =
+        MetaStoreServerUtils.getPartitionspecsGroupedByStorageDescriptor(tbl,
+            Arrays.asList(p1, p2, p3, p4));
+    assertThat(result.size(), is(3));
+    PartitionSpec ps1 = result.get(0);
+    assertThat(ps1.getRootPath(), is((String)null));
+    assertThat(ps1.getPartitionList(), is((List<Partition>)null));
+    PartitionSpecWithSharedSD partSpec = ps1.getSharedSDPartitionSpec();
+    List<PartitionWithoutSD> partitions1 = partSpec.getPartitions();
+    assertThat(partitions1.size(), is(1));
+    PartitionWithoutSD partition1 = partitions1.get(0);
+    assertThat(partition1.getRelativePath(), is((String)null));
+    assertThat(partition1.getValues(), is(Collections.singletonList("val3")));
+
+    PartitionSpec ps2 = result.get(1);
+    assertThat(ps2.getRootPath(), is(tbl.getSd().getLocation()));
+    assertThat(ps2.getPartitionList(), is((List<Partition>)null));
+    List<PartitionWithoutSD> partitions2 = ps2.getSharedSDPartitionSpec().getPartitions();
+    assertThat(partitions2.size(), is(2));
+    PartitionWithoutSD partition2_1 = partitions2.get(0);
+    PartitionWithoutSD partition2_2 = partitions2.get(1);
+    if (partition2_1.getRelativePath().equals("baz")) {
+      // Swap p2_1 and p2_2
+      PartitionWithoutSD tmp = partition2_1;
+      partition2_1 = partition2_2;
+      partition2_2 = tmp;
+    }
+    assertThat(partition2_1.getRelativePath(), is("/bar"));
+    assertThat(partition2_1.getValues(), is(Collections.singletonList("val1")));
+    assertThat(partition2_2.getRelativePath(), is("/baz"));
+    assertThat(partition2_2.getValues(), is(Collections.singletonList("val4")));
+
+    PartitionSpec ps4 = result.get(2);
+    assertThat(ps4.getRootPath(), is((String)null));
+    assertThat(ps4.getSharedSDPartitionSpec(), is((PartitionSpecWithSharedSD)null));
+    List<Partition>partitions = ps4.getPartitionList().getPartitions();
+    assertThat(partitions.size(), is(1));
+    Partition partition = partitions.get(0);
+    assertThat(partition.getSd().getLocation(), is("/a/b"));
+    assertThat(partition.getValues(), is(Collections.singletonList("val2")));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-hdfs-client</artifactId>
+    <version>3.2.1</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-hive-metastore</artifactId>
+    <version>3.2.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPartitionspecsGroupedBySDonePartitionCombined() throws MetaException {
+    // Create database and table
+    String sharedInputFormat = "foo1";
+
+    Table tbl = new TableBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .addCol("id", "int")
+        .setLocation("/foo")
+        .build(null);
+    Partition p1 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/bar")
+        .addCol("a1", "int")
+        .addValue("val1")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    Partition p2 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/a/b")
+        .addCol("a2", "int")
+        .addValue("val2")
+        .setInputFormat("foo2")
+        .build(null);
+    Partition p3 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .addCol("a3", "int")
+        .addValue("val3")
+        .setInputFormat("foo3")
+        .build(null);
+    Partition p4 = new PartitionBuilder()
+        .setDbName("DB_NAME")
+        .setTableName("TABLE_NAME")
+        .setLocation("/foo/baz")
+        .addCol("a1", "int")
+        .addValue("val4")
+        .setInputFormat(sharedInputFormat)
+        .build(null);
+    p3.unsetSd();
+    List<PartitionSpec> result =
+        MetaStoreServerUtils.getPartitionspecsGroupedByStorageDescriptor(tbl,
+            Arrays.asList(p1, p2, p3, p4));
+    assertThat(result.size(), is(3));
+    PartitionSpec ps1 = result.get(0);
+    assertThat(ps1.getRootPath(), is((String)null));
+    assertThat(ps1.getPartitionList(), is((List<Partition>)null));
+    PartitionSpecWithSharedSD partSpec = ps1.getSharedSDPartitionSpec();
+    List<PartitionWithoutSD> partitions1 = partSpec.getPartitions();
+    assertThat(partitions1.size(), is(1));
+    PartitionWithoutSD partition1 = partitions1.get(0);
+    assertThat(partition1.getRelativePath(), is((String)null));
+    assertThat(partition1.getValues(), is(Collections.singletonList("val3")));
+
+    PartitionSpec ps2 = result.get(1);
+    assertThat(ps2.getRootPath(), is(tbl.getSd().getLocation()));
+    assertThat(ps2.getPartitionList(), is((List<Partition>)null));
+    List<PartitionWithoutSD> partitions2 = ps2.getSharedSDPartitionSpec().getPartitions();
+    assertThat(partitions2.size(), is(2));
+    PartitionWithoutSD partition2_1 = partitions2.get(0);
+    PartitionWithoutSD partition2_2 = partitions2.get(1);
+    if (partition2_1.getRelativePath().equals("baz")) {
+      // Swap p2_1 and p2_2
+      PartitionWithoutSD tmp = partition2_1;
+      partition2_1 = partition2_2;
+      partition2_2 = tmp;
+    }
+    assertThat(partition2_1.getRelativePath(), is("/bar"));
+    assertThat(partition2_1.getValues(), is(Collections.singletonList("val1")));
+    assertThat(partition2_2.getRelativePath(), is("/baz"));
+    assertThat(partition2_2.getValues(), is(Collections.singletonList("val4")));
+
+    PartitionSpec ps4 = result.get(2);
+    assertThat(ps4.getRootPath(), is((String)null));
+    assertThat(ps4.getSharedSDPartitionSpec(), is((PartitionSpecWithSharedSD)null));
+    List<Partition>partitions = ps4.getPartitionList().getPartitions();
+    assertThat(partitions.size(), is(1));
+    Partition partition = partitions.get(0);
+    assertThat(partition.getSd().getLocation(), is("/a/b"));
+    assertThat(partition.getValues(), is(Collections.singletonList("val2")));
+}
+
+
+import:
+
+['import com.example.my_artifact.MyClass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableList;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>

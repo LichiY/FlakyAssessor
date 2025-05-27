@@ -1,0 +1,256 @@
+Test File Path: projects/f11dbd900273f3928372955266731f8623681f89/Gaffer/core/operation/src/test/java/uk/gov/gchq/gaffer/jobtracker/JobTest.java
+Original Test Method:
+     public void shouldJsonSerialiseAndDeserialise() throws SerialisationException {
+        // Given
+        final String json = "{" +
+                "\"repeat\":{" +
+                "\"initialDelay\":20," +
+                "\"repeatPeriod\":30," +
+                "\"timeUnit\":\"SECONDS\"" +
+                "}," +
+                "\"operation\":{" +
+                "\"class\":\"uk.gov.gchq.gaffer.operation.impl.get.GetAllElements\"" +
+                "}" +
+                "}";
+
+        // When
+        final Job deserialised = JSONSerialiser.deserialise(json, Job.class);
+
+        // Then
+        Job expected = new Job(new Repeat(20L, 30L, TimeUnit.SECONDS), new GetAllElements());
+        assertEquals(expected, deserialised);
+
+        // When
+        final String serialised = new String(JSONSerialiser.serialise(deserialised));
+
+        // Then
+        assertEquals(json, serialised);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void shouldJsonSerialiseAndDeserialise() throws SerialisationException {
+    // Given
+    final String json = "{" +
+            "\"repeat\":{" +
+            "\"initialDelay\":20," +
+            "\"repeatPeriod\":30," +
+            "\"timeUnit\":\"SECONDS\"" +
+            "}," +
+            "\"operation\":{" +
+            "\"class\":\"uk.gov.gchq.gaffer.operation.impl.get.GetAllElements\"" +
+            "}" +
+            "}";
+
+    // When
+    final Job deserialised = JSONSerialiser.deserialise(json, Job.class);
+
+    // Then
+    Job expected = new Job(new Repeat(20L, 30L, TimeUnit.SECONDS), new GetAllElements());
+    assertEquals(expected, deserialised);
+
+    // When
+    final String serialised = new String(JSONSerialiser.serialise(deserialised));
+
+    // Then
+    assertEquals(json, serialised);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void shouldJsonSerialiseAndDeserialise() throws SerialisationException {
+    // Given
+    final String json = "{" +
+            "\"repeat\":{" +
+            "\"initialDelay\":20," +
+            "\"repeatPeriod\":30," +
+            "\"timeUnit\":\"SECONDS\"" +
+            "}," +
+            "\"operation\":{" +
+            "\"class\":\"uk.gov.gchq.gaffer.operation.impl.get.GetAllElements\"" +
+            "}" +
+            "}";
+
+    // When
+    final Job deserialised = JSONSerialiser.deserialise(json, Job.class);
+
+    // Then
+    Job expected = new Job(new Repeat(20L, 30L, TimeUnit.SECONDS), new GetAllElements());
+    assertEquals(expected, deserialised);
+
+    // When
+    final String serialised = new String(JSONSerialiser.serialise(deserialised));
+
+    // Then
+    assertEquals(json, serialised);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void shouldJsonSerialiseAndDeserialise() throws SerialisationException {
+    // Given
+    final String json = "{" +
+            "\"repeat\":{" +
+            "\"initialDelay\":20," +
+            "\"repeatPeriod\":30," +
+            "\"timeUnit\":\"SECONDS\"" +
+            "}," +
+            "\"operation\":{" +
+            "\"class\":\"uk.gov.gchq.gaffer.operation.impl.get.GetAllElements\"" +
+            "}" +
+            "}";
+
+    // When
+    final Job deserialised = JSONSerialiser.deserialise(json, Job.class);
+
+    // Then
+    Job expected = new Job(new Repeat(20L, 30L, TimeUnit.SECONDS), new GetAllElements());
+    assertEquals(expected, deserialised);
+
+    // When
+    final String serialised = new String(JSONSerialiser.serialise(deserialised));
+
+    // Then
+    assertEquals(json, serialised);
+}
+
+
+import:
+
+['import uk.gov.gchq.gaffer.job.Job;', 'import uk.gov.gchq.gaffer.job.Repeat;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void shouldJsonSerialiseAndDeserialise() throws SerialisationException {
+    // Given
+    final String json = "{" +
+            "\"repeat\":{" +
+            "\"initialDelay\":20," +
+            "\"repeatPeriod\":30," +
+            "\"timeUnit\":\"SECONDS\"" +
+            "}," +
+            "\"operation\":{" +
+            "\"class\":\"uk.gov.gchq.gaffer.operation.impl.get.GetAllElements\"" +
+            "}" +
+            "}";
+
+    // When
+    final Job deserialised = JSONSerialiser.deserialise(json, Job.class);
+
+    // Then
+    Job expected = new Job(new Repeat(20L, 30L, TimeUnit.SECONDS), new GetAllElements());
+    assertEquals(expected, deserialised);
+
+    // When
+    final String serialised = new String(JSONSerialiser.serialise(deserialised));
+
+    // Then
+    assertEquals(json, serialised);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+    <dependency>
+        <groupId>uk.gov.gchq.gaffer</groupId>
+        <artifactId>gaffer-job</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+    <dependency>
+        <groupId>uk.gov.gchq.gaffer</groupId>
+        <artifactId>gaffer-operation</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+    <dependency>
+        <groupId>uk.gov.gchq.gaffer</groupId>
+        <artifactId>gaffer-serialisation</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void shouldJsonSerialiseAndDeserialise() throws SerialisationException {
+    // Given
+    final String json = "{" +
+            "\"repeat\":{" +
+            "\"initialDelay\":20," +
+            "\"repeatPeriod\":30," +
+            "\"timeUnit\":\"SECONDS\"" +
+            "}," +
+            "\"operation\":{" +
+            "\"class\":\"uk.gov.gchq.gaffer.operation.impl.get.GetAllElements\"" +
+            "}" +
+            "}";
+
+    // When
+    final Job deserialised = JSONSerialiser.deserialise(json, Job.class);
+
+    // Then
+    Job expected = new Job(new Repeat(20L, 30L, TimeUnit.SECONDS), new GetAllElements());
+    assertEquals(expected, deserialised);
+
+    // When
+    final String serialised = new String(JSONSerialiser.serialise(deserialised));
+
+    // Then
+    assertEquals(json, serialised);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.7.0</version>
+    <scope>test</scope>
+</dependency>

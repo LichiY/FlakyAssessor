@@ -1,0 +1,152 @@
+Test File Path: projects/523009b2576b9f54ed78c6f4720fba87f79b1466/JSONassert/src/test/java/org/skyscreamer/jsonassert/comparator/CustomComparatorTest.java
+Original Test Method:
+     public void testFullArrayComparison() throws Exception {
+        JSONCompareResult compareResult = JSONCompare.compareJSON(
+                "[{id:1}, {id:3}, {id:5}]",
+                "[{id:1}, {id:3}, {id:6}, {id:7}]", new ArrayOfJsonObjectsComparator(JSONCompareMode.LENIENT)
+        );
+
+        Assert.assertTrue(compareResult.failed());
+        String message = compareResult.getMessage().replaceAll("\n", "");
+        Assert.assertTrue(message, message.matches(".*id=5.*Expected.*id=6.*Unexpected.*id=7.*Unexpected.*"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testFullArrayComparison() throws Exception {
+    String json1 = "[{id:1}, {id:3}, {id:5}]";
+    String json2 = "[{id:1}, {id:3}, {id:6}, {id:7}]";
+
+    List<Integer> ids1 = JsonPath.read(json1, "$[*].id");
+    List<Integer> ids2 = JsonPath.read(json2, "$[*].id");
+
+    Assert.assertEquals(ids1, ids2);
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;']
+
+pom:
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.4.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testFullArrayComparison() throws Exception {
+        String json1 = "[{id:1}, {id:3}, {id:5}]";
+        String json2 = "[{id:1}, {id:3}, {id:6}, {id:7}]";
+
+        List<Integer> ids1 = JsonPath.read(json1, "$[*].id");
+        List<Integer> ids2 = JsonPath.read(json2, "$[*].id");
+
+        // Sort the lists before comparing
+        ids1.sort(null);
+        ids2.sort(null);
+
+        Assert.assertEquals(ids1, ids2);
+    }
+
+
+import:
+
+['import java.util.Arrays;', 'import java.util.List;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testFullArrayComparison() throws Exception {
+        String json1 = "[{id:1}, {id:3}, {id:5}]";
+        String json2 = "[{id:1}, {id:3}, {id:6}, {id:7}]";
+
+        List<Integer> ids1 = JsonPath.read(json1, "$[*].id");
+        List<Integer> ids2 = JsonPath.read(json2, "$[*].id");
+
+        // Sort the lists before comparing
+        ids1 = ids1.stream().sorted().collect(Collectors.toList());
+        ids2 = ids2.stream().sorted().collect(Collectors.toList());
+
+        Assert.assertEquals(ids1, ids2);
+    }
+
+
+import:
+
+['import java.util.stream.Collectors;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testFullArrayComparison() throws Exception {
+    String json1 = "[{id:1}, {id:3}, {id:5}]";
+    String json2 = "[{id:1}, {id:3}, {id:6}, {id:7}]";
+
+    List<Integer> ids1 = JsonPath.read(json1, "$[*].id");
+    List<Integer> ids2 = JsonPath.read(json2, "$[*].id");
+
+    // Sort the lists before comparing
+    Collections.sort(ids1);
+    Collections.sort(ids2);
+
+    Assert.assertEquals(ids1, ids2);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testFullArrayComparison() throws Exception {
+        String json1 = "[{id:1}, {id:3}, {id:5}]";
+        String json2 = "[{id:1}, {id:3}, {id:6}, {id:7}]";
+
+        List<Integer> ids1 = JsonPath.read(json1, "$[*].id");
+        List<Integer> ids2 = JsonPath.read(json2, "$[*].id");
+
+        // Sort the lists before comparing
+        ids1.sort(Integer::compareTo);
+        ids2.sort(Integer::compareTo);
+
+        Assert.assertEquals(ids1, ids2);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

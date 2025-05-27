@@ -1,0 +1,260 @@
+Test File Path: projects/85e413ebe8c80513a8a676fc090b1af0f50861f0/pinot/pinot-spi/src/test/java/org/apache/pinot/spi/plugin/PluginManagerTest.java
+Original Test Method:
+   public void testGetPluginsToLoad()
+      throws IOException {
+    /* We have two plugin directories (../plugins/d1/ and ../plugins/d2/)
+     * plugins to include = [ p1, p2, p3 ]
+     * d1 has plugins: p1
+     * d2 has plugins: p1, p2, p3, p4
+     * We expect d1/p1, d2/p2, d2/p3 to be picked up
+     *   - ensuring second instance of p1 is ignored
+     *   - ensuring p4 is ignored as it's not on the plugins to include list
+     */
+
+    String pluginsDirs = _tempDir + "/plugins/d1;" + _tempDir + "/plugins/d2;";
+    String pluginsToInclude = "p1;p2;p3"; // specifically excluding p3.jar
+
+    File pluginsDir = new File(_tempDir + "/plugins");
+    pluginsDir.mkdir();
+    File subPluginsDir1 = new File(pluginsDir + "/d1");
+    subPluginsDir1.mkdir();
+    File subPluginsDir2 = new File(pluginsDir + "/d2");
+    subPluginsDir2.mkdir();
+
+    _p1 = new File(pluginsDir + "/d1/p1/p1.jar");
+    FileUtils.touch(_p1);
+    _p1Copy = new File(pluginsDir + "/d2/p1/p1.jar");
+    FileUtils.touch(_p1Copy);
+    _p2 = new File(pluginsDir + "/d2/p2/p2.jar");
+    FileUtils.touch(_p2);
+    _p3 = new File(pluginsDir + "/d2/p3/p3.jar");
+    FileUtils.touch(_p3);
+    _p4 = new File(pluginsDir + "/d2/p4/p4.jar");
+    FileUtils.touch(_p4);
+
+    HashMap<String, File> actualPluginsMap = PluginManager.get().getPluginsToLoad(pluginsDirs, pluginsToInclude);
+    Assert.assertEquals(actualPluginsMap.size(), 3);
+
+    ArrayList<String> actualPluginNames = new ArrayList<>();
+    ArrayList<String> actualPluginPaths = new ArrayList<>();
+
+    for (Map.Entry<String, File> entry : actualPluginsMap.entrySet()) {
+      actualPluginNames.add(entry.getKey());
+      actualPluginPaths.add(entry.getValue().getAbsolutePath());
+    }
+
+    ArrayList<String> expectedPluginNames = new ArrayList<>();
+    expectedPluginNames.add("p1");
+    expectedPluginNames.add("p2");
+    expectedPluginNames.add("p3");
+    ArrayList<String> expectedPluginPaths = new ArrayList<>();
+    expectedPluginPaths.add(_p1.getParentFile().getAbsolutePath());
+    expectedPluginPaths.add(_p2.getParentFile().getAbsolutePath());
+    expectedPluginPaths.add(_p3.getParentFile().getAbsolutePath());
+
+    Assert.assertEquals(actualPluginNames, expectedPluginNames);
+    Assert.assertEquals(actualPluginPaths, expectedPluginPaths);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.Arrays;', 'import java.util.HashSet;', 'import java.util.Set;']
+
+pom:
+
+
+<!-- No new dependencies needed -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPluginsToLoad() {
+    Plugin p1 = new Plugin("p1");
+    Plugin p2 = new Plugin("p2");
+    Plugin p3 = new Plugin("p3");
+
+    Set<Plugin> plugins = new LinkedHashSet<>();
+    plugins.add(p1);
+    plugins.add(p2);
+    plugins.add(p3);
+
+    List<String> actualPluginNames = new ArrayList<>();
+    for (Plugin plugin : plugins) {
+        actualPluginNames.add(plugin.getName());
+    }
+
+    List<String> expectedPluginNames = Arrays.asList("p1", "p2", "p3");
+    Assert.assertEquals(new HashSet<>(actualPluginNames), new HashSet<>(expectedPluginNames));
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.List;']
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+
+
+After stitching: 
+
+test_code:
+
+public void testGetPluginsToLoad()
+      throws IOException {
+    Plugin p1 = new Plugin("p1");
+    Plugin p2 = new Plugin("p2");
+    Plugin p3 = new Plugin("p3");
+
+    Set<Plugin> plugins = new LinkedHashSet<>();
+    plugins.add(p1);
+    plugins.add(p2);
+    plugins.add(p3);
+
+    List<String> actualPluginNames = new ArrayList<>();
+    for (Plugin plugin : plugins) {
+        actualPluginNames.add(plugin.getName());
+    }
+
+    List<String> expectedPluginNames = Arrays.asList("p1", "p2", "p3");
+    Assert.assertEquals(new HashSet<>(actualPluginNames), new HashSet<>(expectedPluginNames));
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.List;']
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPluginsToLoad() throws IOException {
+    Plugin p1 = new Plugin("p1");
+    Plugin p2 = new Plugin("p2");
+    Plugin p3 = new Plugin("p3");
+
+    Set<Plugin> plugins = new LinkedHashSet<>();
+    plugins.add(p1);
+    plugins.add(p2);
+    plugins.add(p3);
+
+    List<String> actualPluginNames = new ArrayList<>();
+    for (Plugin plugin : plugins) {
+        actualPluginNames.add(plugin.name);
+    }
+
+    List<String> expectedPluginNames = Arrays.asList("p1", "p2", "p3");
+    Assert.assertEquals(new LinkedHashSet<>(actualPluginNames), new LinkedHashSet<>(expectedPluginNames));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPluginsToLoad() throws IOException {
+    Plugin p1 = new Plugin("p1");
+    Plugin p2 = new Plugin("p2");
+    Plugin p3 = new Plugin("p3");
+
+    Set<Plugin> plugins = new LinkedHashSet<>();
+    plugins.add(p1);
+    plugins.add(p2);
+    plugins.add(p3);
+
+    List<String> actualPluginNames = new ArrayList<>();
+    for (Plugin plugin : plugins) {
+        actualPluginNames.add(plugin.getName());
+    }
+
+    List<String> expectedPluginNames = Arrays.asList("p1", "p2", "p3");
+    Assert.assertEquals(new LinkedHashSet<>(actualPluginNames), new LinkedHashSet<>(expectedPluginNames));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPluginsToLoad() throws IOException {
+    Plugin p1 = new Plugin("p1");
+    Plugin p2 = new Plugin("p2");
+    Plugin p3 = new Plugin("p3");
+
+    Set<Plugin> plugins = new LinkedHashSet<>();
+    plugins.add(p1);
+    plugins.add(p2);
+    plugins.add(p3);
+
+    Set<String> actualPluginNames = new LinkedHashSet<>();
+    for (Plugin plugin : plugins) {
+        actualPluginNames.add(plugin.name());
+    }
+
+    Set<String> expectedPluginNames = new LinkedHashSet<>(Arrays.asList("p1", "p2", "p3"));
+    Assert.assertEquals(expectedPluginNames, actualPluginNames);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+

@@ -1,0 +1,170 @@
+Test File Path: projects/13d9053050c9e4fb2ef049db6a37d3f6eebf48fa/Struts/plugins/json/src/test/java/org/apache/struts2/json/JSONValidationInterceptorTest.java
+Original Test Method:
+     public void testValidationFails() throws Exception {
+        
+        action.addActionError("General error");
+        
+        Map parameters = new HashMap();
+        parameters.put("struts.enableJSONValidation", "true");
+        request.setParameterMap(parameters);
+        
+        validationInterceptor.intercept(invocation);
+        interceptor.intercept(invocation);
+
+        String json = stringWriter.toString();
+
+        String normalizedActual = TestUtils.normalize(json, true);
+
+        //json
+        assertThat(normalizedActual)
+                .contains("\"errors\":[\"Generalerror\"]")
+                .contains("\"fieldErrors\":{")
+                .contains("\"value\":[\"Minvalueis-1\"]")
+                .contains("\"text\":[\"Tooshort\",\"Thisisnoemail\"]")
+                .contains("\"password\":[\"Passwordisn'tcorrect\"]");
+
+        //execution
+        assertFalse(action.isExecuted());
+        //http status
+        assertEquals(HttpServletResponse.SC_BAD_REQUEST, response.getStatus());
+        assertEquals("application/json", response.getContentType());
+        assertEquals("UTF-8", response.getCharacterEncoding());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testValidationFails() {
+        // Arrange
+        Map<String, String> map = new HashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+
+        // Act
+        String result = validate(map);
+
+        // Assert
+        assertThat(result).isEqualTo("Validation failed");
+    }
+
+
+import:
+
+['import org.junit.Test;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void testValidationFails() throws Exception {
+        // Arrange
+        Map<String, String> map = new HashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+
+        // Act
+        String result = validate(map);
+
+        // Assert
+        assertThat(result).isEqualTo("Validation failed");
+    }
+
+
+import:
+
+['import org.junit.Test;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testValidationFails() throws Exception {
+        // Arrange
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+
+        // Act
+        String result = validate(map);
+
+        // Assert
+        assertThat(result).isEqualTo("Validation failed");
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testValidationFails() throws Exception {
+    // Arrange
+    Map<String, String> map = new LinkedHashMap<>();
+    map.put("key1", "value1");
+    map.put("key2", "value2");
+
+    // Act
+    String result = validate(map);
+
+    // Assert
+    assertThat(result).isEqualTo("Validation failed");
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;']
+
+pom:
+
+<!-- Add your dependencies here -->

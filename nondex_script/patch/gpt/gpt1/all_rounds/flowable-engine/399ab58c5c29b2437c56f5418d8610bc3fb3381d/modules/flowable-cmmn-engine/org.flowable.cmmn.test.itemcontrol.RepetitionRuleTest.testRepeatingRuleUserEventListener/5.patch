@@ -1,0 +1,220 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-cmmn-engine/src/test/java/org/flowable/cmmn/test/itemcontrol/RepetitionRuleTest.java
+Original Test Method:
+     public void testRepeatingRuleUserEventListener() {
+        CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+            .caseDefinitionKey("testRepeatingUserEventListener")
+            .variable("keepGoing", true)
+            .start();
+        assertEquals(0L, cmmnTaskService.createTaskQuery().count());
+
+        for (int i = 0; i < 3; i++) {
+            UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+                .caseInstanceId(caseInstance.getId()).singleResult();
+            assertEquals(PlanItemInstanceState.AVAILABLE, userEventListenerInstance.getState());
+
+            if (i == 2) {
+                cmmnRuntimeService.setVariable(caseInstance.getId(), "keepGoing", false);
+            }
+            cmmnRuntimeService.completeGenericEventListenerInstance(userEventListenerInstance.getId());
+        }
+
+        assertEquals(3, cmmnTaskService.createTaskQuery().count());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testRepeatingRuleUserEventListener() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testRepeatingUserEventListener")
+        .variable("keepGoing", true)
+        .start();
+    assertEquals(0L, cmmnTaskService.createTaskQuery().count());
+
+    int taskCount = 0;
+    for (int i = 0; i < 3; i++) {
+        UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId()).singleResult();
+        assertEquals(PlanItemInstanceState.AVAILABLE, userEventListenerInstance.getState());
+
+        if (i == 2) {
+            cmmnRuntimeService.setVariable(caseInstance.getId(), "keepGoing", false);
+        }
+        cmmnRuntimeService.completeGenericEventListenerInstance(userEventListenerInstance.getId());
+        taskCount = cmmnTaskService.createTaskQuery().count();
+    }
+
+    assertEquals(3, taskCount);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testRepeatingRuleUserEventListener() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testRepeatingUserEventListener")
+        .variable("keepGoing", true)
+        .start();
+    assertEquals(0L, cmmnTaskService.createTaskQuery().count());
+
+    long taskCount = 0L;
+    for (int i = 0; i < 3; i++) {
+        UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId()).singleResult();
+        assertEquals(PlanItemInstanceState.AVAILABLE, userEventListenerInstance.getState());
+
+        if (i == 2) {
+            cmmnRuntimeService.setVariable(caseInstance.getId(), "keepGoing", false);
+        }
+        cmmnRuntimeService.completeGenericEventListenerInstance(userEventListenerInstance.getId());
+        taskCount = cmmnTaskService.createTaskQuery().count();
+    }
+
+    assertEquals(3L, taskCount);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testRepeatingRuleUserEventListener() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testRepeatingUserEventListener")
+        .variable("keepGoing", true)
+        .start();
+    assertEquals(0L, cmmnTaskService.createTaskQuery().count());
+
+    long taskCount = 0L;
+    for (int i = 0; i < 3; i++) {
+        UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .orderByCreateTime().asc()
+            .singleResult();
+        assertEquals(PlanItemInstanceState.AVAILABLE, userEventListenerInstance.getState());
+
+        if (i == 2) {
+            cmmnRuntimeService.setVariable(caseInstance.getId(), "keepGoing", false);
+        }
+        cmmnRuntimeService.completeGenericEventListenerInstance(userEventListenerInstance.getId());
+        taskCount = cmmnTaskService.createTaskQuery().count();
+    }
+
+    assertEquals(3L, taskCount);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testRepeatingRuleUserEventListener() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testRepeatingUserEventListener")
+        .variable("keepGoing", true)
+        .start();
+    assertEquals(0L, cmmnTaskService.createTaskQuery().count());
+
+    long taskCount = 0L;
+    for (int i = 0; i < 3; i++) {
+        List<UserEventListenerInstance> userEventListenerInstances = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .list();
+        assertEquals(1, userEventListenerInstances.size());
+        UserEventListenerInstance userEventListenerInstance = userEventListenerInstances.get(0);
+        assertEquals(PlanItemInstanceState.AVAILABLE, userEventListenerInstance.getState());
+
+        if (i == 2) {
+            cmmnRuntimeService.setVariable(caseInstance.getId(), "keepGoing", false);
+        }
+        cmmnRuntimeService.completeGenericEventListenerInstance(userEventListenerInstance.getId());
+        taskCount = cmmnTaskService.createTaskQuery().count();
+    }
+
+    assertEquals(3L, taskCount);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testRepeatingRuleUserEventListener() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder()
+        .caseDefinitionKey("testRepeatingUserEventListener")
+        .variable("keepGoing", true)
+        .start();
+    assertEquals(0L, cmmnTaskService.createTaskQuery().count());
+
+    long taskCount = 0L;
+    for (int i = 0; i < 3; i++) {
+        List<UserEventListenerInstance> userEventListenerInstances = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .orderByCreatedOn().asc()
+            .list();
+        assertEquals(1, userEventListenerInstances.size());
+        UserEventListenerInstance userEventListenerInstance = userEventListenerInstances.get(0);
+        assertEquals(PlanItemInstanceState.AVAILABLE, userEventListenerInstance.getState());
+
+        if (i == 2) {
+            cmmnRuntimeService.setVariable(caseInstance.getId(), "keepGoing", false);
+        }
+        cmmnRuntimeService.completeGenericEventListenerInstance(userEventListenerInstance.getId());
+        taskCount = cmmnTaskService.createTaskQuery().count();
+    }
+
+    assertEquals(3L, taskCount);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+

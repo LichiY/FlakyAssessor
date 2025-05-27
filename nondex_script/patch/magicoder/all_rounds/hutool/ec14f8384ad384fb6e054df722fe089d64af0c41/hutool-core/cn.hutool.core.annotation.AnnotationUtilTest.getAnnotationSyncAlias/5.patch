@@ -1,0 +1,131 @@
+Test File Path: projects/ec14f8384ad384fb6e054df722fe089d64af0c41/hutool/hutool-core/src/test/java/cn/hutool/core/annotation/AnnotationUtilTest.java
+Original Test Method:
+ 	public void getAnnotationSyncAlias() {
+		// 直接获取
+		Assert.assertEquals("", ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class).retry());
+
+		// 加别名适配
+		final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+		Assert.assertEquals("测试", annotation.retry());
+		Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    Assert.assertEquals("", ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class).retry());
+
+    // 加别名适配
+    final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+    Assert.assertEquals("测试", annotation.retry());
+    Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    Assert.assertEquals("", ClassWithAnnotation.class.getAnnotation(AnnotationForTest.class).retry());
+
+    // 加别名适配
+    final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+    Assert.assertEquals("测试", annotation.retry());
+    Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    Assert.assertEquals("", ClassWithAnnotation.class.getDeclaredAnnotation(AnnotationForTest.class).retry());
+
+    // 加别名适配
+    final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+    Assert.assertEquals("测试", annotation.retry());
+    Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    Assert.assertEquals("", ClassWithAnnotation.class.getDeclaredAnnotation(AnnotationForTest.class).retry());
+
+    // 加别名适配
+    final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+    Assert.assertEquals("测试", annotation.retry());
+    Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void getAnnotationSyncAlias() {
+    // 直接获取
+    Assert.assertEquals("", ClassWithAnnotation.class.getDeclaredAnnotation(AnnotationForTest.class).retry());
+
+    // 加别名适配
+    final AnnotationForTest annotation = AnnotationUtil.getAnnotationAlias(ClassWithAnnotation.class, AnnotationForTest.class);
+    Assert.assertEquals("测试", annotation.retry());
+    Assert.assertTrue(AnnotationUtil.isSynthesizedAnnotation(annotation));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

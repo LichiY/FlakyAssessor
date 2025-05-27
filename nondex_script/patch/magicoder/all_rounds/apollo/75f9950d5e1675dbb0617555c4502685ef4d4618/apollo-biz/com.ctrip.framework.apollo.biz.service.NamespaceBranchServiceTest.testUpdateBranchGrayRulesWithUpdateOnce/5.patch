@@ -1,0 +1,126 @@
+Test File Path: projects/75f9950d5e1675dbb0617555c4502685ef4d4618/apollo/apollo-biz/src/test/java/com/ctrip/framework/apollo/biz/service/NamespaceBranchServiceTest.java
+Original Test Method:
+   public void testUpdateBranchGrayRulesWithUpdateOnce() {
+    GrayReleaseRule rule = instanceGrayReleaseRule();
+
+    namespaceBranchService.updateBranchGrayRules(testApp, testCluster, testNamespace, testBranchName, rule);
+
+    GrayReleaseRule
+        activeRule =
+        namespaceBranchService.findBranchGrayRules(testApp, testCluster, testNamespace, testBranchName);
+
+    Assert.assertNotNull(activeRule);
+    Assert.assertEquals(rule.getAppId(), activeRule.getAppId());
+    Assert.assertEquals(rule.getRules(), activeRule.getRules());
+    Assert.assertEquals(Long.valueOf(0), activeRule.getReleaseId());
+
+    Page<ReleaseHistory> releaseHistories = releaseHistoryService.findReleaseHistoriesByNamespace
+        (testApp, testCluster, testNamespace, pageable);
+
+    ReleaseHistory releaseHistory = releaseHistories.getContent().get(0);
+
+    Assert.assertEquals(1, releaseHistories.getTotalElements());
+    Assert.assertEquals(ReleaseOperation.APPLY_GRAY_RULES, releaseHistory.getOperation());
+    Assert.assertEquals(0, releaseHistory.getReleaseId());
+    Assert.assertEquals(0, releaseHistory.getPreviousReleaseId());
+    Assert.assertTrue(releaseHistory.getOperationContext().contains(rule.getRules()));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <version>2.3.1.RELEASE</version>
+    <scope>test</scope>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;', 'import java.util.Set;', 'import java.util.LinkedHashSet;', 'import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.containsExactly;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testUpdateBranchGrayRulesWithUpdateOnce() {
+    ImmutableList<String> list = ImmutableList.of("a", "b", "c");
+    ImmutableSet<String> set = ImmutableSet.copyOf(list);
+    ImmutableMap<String, String> map = ImmutableMap.of("a", "1", "b", "2", "c", "3");
+
+    // Test logic here
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;', 'import com.google.common.collect.ImmutableSet;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>29.0-jre</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>

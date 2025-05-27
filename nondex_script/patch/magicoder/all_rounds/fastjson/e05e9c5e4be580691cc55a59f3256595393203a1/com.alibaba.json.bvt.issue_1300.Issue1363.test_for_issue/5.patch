@@ -1,0 +1,166 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/issue_1300/Issue1363.java
+Original Test Method:
+     public void test_for_issue() throws Exception {
+        DataSimpleVO a = new DataSimpleVO("a", 1);
+        DataSimpleVO b = new DataSimpleVO("b", 2);
+        b.value = a;
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(a.name, a);
+        b.value1 = map;
+
+        String jsonStr = JSON.toJSONString(b);
+        System.out.println(jsonStr);
+        DataSimpleVO obj = JSON.parseObject(jsonStr, DataSimpleVO.class);
+        assertEquals(jsonStr, JSON.toJSONString(obj));
+
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        DataSimpleVO a = new DataSimpleVO("a", 1);
+        DataSimpleVO b = new DataSimpleVO("b", 2);
+        b.value = a;
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(a.name, a);
+        b.value1 = map;
+
+        String jsonStr = JSON.toJSONString(b);
+        System.out.println(jsonStr);
+        DataSimpleVO obj = JSON.parseObject(jsonStr, DataSimpleVO.class);
+        assertEquals(jsonStr, JSON.toJSONString(obj));
+    }
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import java.util.*;', 'import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>2.0.13</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        DataSimpleVO a = new DataSimpleVO("a", 1);
+        DataSimpleVO b = new DataSimpleVO("b", 2);
+        b.value = a;
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(a.name, a);
+        b.value1 = map;
+
+        String jsonStr = JSON.toJSONString(b);
+        System.out.println(jsonStr);
+        DataSimpleVO obj = JSON.parseObject(jsonStr, DataSimpleVO.class);
+        assertEquals(jsonStr, JSON.toJSONString(obj));
+    }
+
+
+import:
+
+['import java.util.LinkedHashMap;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        DataSimpleVO a = new DataSimpleVO("a", 1);
+        DataSimpleVO b = new DataSimpleVO("b", 2);
+        b.value = a;
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(a.name, a);
+        b.value1 = map;
+
+        String jsonStr = JSON.toJSONString(b);
+        System.out.println(jsonStr);
+        DataSimpleVO obj = JSON.parseObject(jsonStr, DataSimpleVO.class);
+        assertEquals(jsonStr, JSON.toJSONString(obj));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        DataSimpleVO a = new DataSimpleVO("a", 1);
+        DataSimpleVO b = new DataSimpleVO("b", 2);
+        b.value = a;
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(a.name, a);
+        b.value1 = map;
+
+        String jsonStr = JSON.toJSONString(b);
+        System.out.println(jsonStr);
+        DataSimpleVO obj = JSON.parseObject(jsonStr, DataSimpleVO.class);
+        assertEquals(jsonStr, JSON.toJSONString(obj));
+    }
+
+
+import:
+
+['import com.alibaba.fastjson.JSONObject;']
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.73</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue() throws Exception {
+        DataSimpleVO a = new DataSimpleVO("a", 1);
+        DataSimpleVO b = new DataSimpleVO("b", 2);
+        b.value = a;
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(a.name, a);
+        b.value1 = map;
+
+        String jsonStr = JSON.toJSONString(b);
+        System.out.println(jsonStr);
+        DataSimpleVO obj = JSON.parseObject(jsonStr, DataSimpleVO.class);
+        assertEquals(jsonStr, JSON.toJSONString(obj));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

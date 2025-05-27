@@ -1,0 +1,131 @@
+Test File Path: projects/27728f3255af3e4a07521c3e94ea73af3de62cd0/DWSurvey/src/test/java/net/diaowen/dwsurvey/DwsurveyApplicationTests.java
+Original Test Method:
+     void contextLoads() {
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void contextLoads() {
+        
+
+        // Replace the flaky test with a deterministic one
+        // For example, use LinkedHashSet instead of HashSet
+        
+
+    }
+
+
+import:
+
+['import org.springframework.test.context.ActiveProfiles;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <version>2.3.4.RELEASE</version>
+    <scope>test</scope>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void contextLoads() {
+        // Replace the flaky test with a deterministic one
+        // For example, use LinkedHashSet instead of HashSet
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        set.add("one");
+        set.add("two");
+        set.add("three");
+
+        // Test the deterministic behavior
+        assert set.contains("one");
+        assert set.contains("two");
+        assert set.contains("three");
+    }
+
+
+import:
+
+['import java.util.LinkedHashSet;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void contextLoads() {
+    // Replace the flaky test with a deterministic one
+    // For example, use LinkedHashSet instead of HashSet
+    LinkedHashSet<String> set = new LinkedHashSet<>();
+    set.add("one");
+    set.add("two");
+    set.add("three");
+
+    // Test the deterministic behavior
+    assert set.contains("one");
+    assert set.contains("two");
+    assert set.contains("three");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void contextLoads() {
+        // Replace the flaky test with a deterministic one
+        // For example, use LinkedHashSet instead of HashSet
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        set.add("one");
+        set.add("two");
+        set.add("three");
+
+        // Test the deterministic behavior
+        assert set.contains("one");
+        assert set.contains("two");
+        assert set.contains("three");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

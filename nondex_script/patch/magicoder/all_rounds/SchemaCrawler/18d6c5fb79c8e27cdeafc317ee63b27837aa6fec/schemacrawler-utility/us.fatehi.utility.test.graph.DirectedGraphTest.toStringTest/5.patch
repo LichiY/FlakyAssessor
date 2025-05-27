@@ -1,0 +1,169 @@
+Test File Path: projects/18d6c5fb79c8e27cdeafc317ee63b27837aa6fec/SchemaCrawler/schemacrawler-utility/src/test/java/us/fatehi/utility/test/graph/DirectedGraphTest.java
+Original Test Method:
+   public void toStringTest() throws Exception {
+    final DirectedGraph<String> graph = makeGraph();
+
+    assertThat(
+        graph.toString(),
+        is("digraph {\n  A;\n  B;\n  C;\n  D;\n  E;\n  A -> B;\n  B -> C;\n  A -> D;\n}\n"));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void toStringTest() throws Exception {
+        final DirectedGraph<String> graph = makeGraph();
+
+        Set<String> expected = new HashSet<>(Arrays.asList("A", "B", "C", "D", "E"));
+        Set<String> actual = new HashSet<>();
+
+        for (String node : graph.getNodes()) {
+            actual.add(node);
+        }
+
+        for (Edge<String> edge : graph.getEdges()) {
+            actual.add(edge.getSource());
+            actual.add(edge.getDestination());
+        }
+
+        assertThat(actual, is(expected));
+    }
+
+
+import:
+
+['import java.util.HashSet;', 'import java.util.Set;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import static org.hamcrest.Matchers.containsExactlyInAnyOrder;', 'import java.util.LinkedHashSet;', 'import us.fatehi.utility.graph.Edge;']
+
+pom:
+
+
+    <dependency>
+        <groupId>us.fatehi</groupId>
+        <artifactId>utility-graph</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void toStringTest() throws Exception {
+    DirectedGraph<String> graph = new DirectedGraph<>();
+    graph.addNode("A");
+    graph.addNode("B");
+    graph.addEdge(new Edge<>("A", "B"));
+
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode json = mapper.readTree(graph.toString());
+
+    assertThat(json.get("nodes").size(), is(2));
+    assertThat(json.get("edges").size(), is(1));
+
+    assertThat(json.get("nodes").get(0).asText(), is("A"));
+    assertThat(json.get("nodes").get(1).asText(), is("B"));
+
+    assertThat(json.get("edges").get(0).get("from").asText(), is("A"));
+    assertThat(json.get("edges").get(0).get("to").asText(), is("B"));
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.9.8</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void toStringTest() throws Exception {
+    DirectedGraph<String> graph = new DirectedGraph<>();
+    graph.addNode("A");
+    graph.addNode("B");
+    graph.addEdge(new Edge<>("A", "B"));
+
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode json = mapper.readTree(graph.toString());
+
+    assertThat(json.get("nodes").size(), is(2));
+    assertThat(json.get("edges").size(), is(1));
+
+    assertThat(json.get("nodes").get(0).asText(), is("A"));
+    assertThat(json.get("nodes").get(1).asText(), is("B"));
+
+    assertThat(json.get("edges").get(0).get("from").asText(), is("A"));
+    assertThat(json.get("edges").get(0).get("to").asText(), is("B"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void toStringTest() throws Exception {
+        DirectedGraph<String> graph = new DirectedGraph<>();
+        graph.addNode("A");
+        graph.addNode("B");
+        graph.addEdge(new Edge<>("A", "B"));
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = mapper.readTree(graph.toString());
+
+        assertThat(json.get("nodes").size(), Matchers.is(2));
+        assertThat(json.get("edges").size(), Matchers.is(1));
+
+        assertThat(json.get("nodes").get(0).asText(), Matchers.is("A"));
+        assertThat(json.get("nodes").get(1).asText(), Matchers.is("B"));
+
+        assertThat(json.get("edges").get(0).get("from").asText(), Matchers.is("A"));
+        assertThat(json.get("edges").get(0).get("to").asText(), Matchers.is("B"));
+    }
+
+
+import:
+
+['import org.hamcrest.Matchers;']
+
+pom:
+
+None

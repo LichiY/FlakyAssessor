@@ -1,0 +1,175 @@
+Test File Path: projects/b84ba5c14dd40ca9f8556ba7b4bae6e868b3668e/jsonToOrmMapper/src/test/java/com/p2sdev/jsonToOrmMapper/AppTest.java
+Original Test Method:
+     public void testValidJSONObject() {
+    	String expected = "from django.db import modelsclass" +
+                " Person(models.Model):" +
+                "person_id = models.AutoField(primary_key=True)" +
+                "f_name = models.CharField(max_length=100)" +
+                "p_id = models.IntegerField()" +
+                "l_name = models.CharField(max_length=100)";
+    	
+    	expected = expected.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+    	
+    	String actual = new JSONToConverter("{'person': {'f_name':'John', 'l_name':'Doe', 'p_id':1} }").getORMModel(ORMModel.DJANGO_MODEL);
+    	actual = actual.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+    	
+    	assertEquals(expected, actual);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testValidJSONObject() {
+    String expected = "from django.db import modelsclass" +
+            " Person(models.Model):" +
+            "person_id = models.AutoField(primary_key=True)" +
+            "f_name = models.CharField(max_length=100)" +
+            "p_id = models.IntegerField()" +
+            "l_name = models.CharField(max_length=100)";
+
+    expected = expected.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    String actual = new JSONToConverter("{'person': {'f_name':'John', 'l_name':'Doe', 'p_id':1} }").getORMModel(ORMModel.DJANGO_MODEL);
+    actual = actual.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+<!-- no dependencies needed for this test -->
+<!-- no dependencies added -->
+<!-- no artifacts included -->
+<!-- no dependencies added -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testValidJSONObject() {
+    String expected = "from django.db import models\n" +
+            "class Person(models.Model):\n" +
+            "    person_id = models.AutoField(primary_key=True)\n" +
+            "    f_name = models.CharField(max_length=100)\n" +
+            "    p_id = models.IntegerField()\n" +
+            "    l_name = models.CharField(max_length=100)";
+
+    expected = expected.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    String actual = new JSONToConverter("{'person': {'f_name':'John', 'l_name':'Doe', 'p_id':1} }").getORMModel(ORMModel.DJANGO_MODEL);
+    actual = actual.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testValidJSONObject() {
+    String expected = "from django.db import models\n" +
+            "class Person(models.Model):\n" +
+            "    person_id = models.AutoField(primary_key=True)\n" +
+            "    f_name = models.CharField(max_length=100)\n" +
+            "    p_id = models.IntegerField()\n" +
+            "    l_name = models.CharField(max_length=100)";
+
+    expected = expected.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    String actual = new JSONToConverter("{'person': {'f_name':'John', 'l_name':'Doe', 'p_id':1} }").getORMModel(ORMModel.DJANGO_MODEL);
+    actual = actual.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testValidJSONObject() {
+    String expected = "from django.db import models\n" +
+            "class Person(models.Model):\n" +
+            "    person_id = models.AutoField(primary_key=True)\n" +
+            "    f_name = models.CharField(max_length=100)\n" +
+            "    p_id = models.IntegerField()\n" +
+            "    l_name = models.CharField(max_length=100)";
+
+    expected = expected.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    String actual = new JSONToConverter("{'person': {'f_name':'John', 'l_name':'Doe', 'p_id':1} }").getORMModel(ORMModel.DJANGO_MODEL);
+    actual = actual.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.1</version>
+    <scope>test</scope>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testValidJSONObject() {
+    String expected = "from django.db import models\n" +
+            "class Person(models.Model):\n" +
+            "    person_id = models.AutoField(primary_key=True)\n" +
+            "    f_name = models.CharField(max_length=100)\n" +
+            "    p_id = models.IntegerField()\n" +
+            "    l_name = models.CharField(max_length=100)";
+
+    expected = expected.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    String actual = new JSONToConverter("{'person': {'f_name':'John', 'l_name':'Doe', 'p_id':1} }").getORMModel(ORMModel.DJANGO_MODEL);
+    actual = actual.replaceAll("\\n|\\r\\n|\\r|\\t", "");
+
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

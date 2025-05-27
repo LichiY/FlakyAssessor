@@ -1,0 +1,186 @@
+Test File Path: projects/4a594bb9f6ab89eabda5db654a9d215633340c66/druid/server/src/test/java/org/apache/druid/indexing/overlord/supervisor/SupervisorStatusTest.java
+Original Test Method:
+   public void testJsonAttr() throws IOException
+  {
+    String json = "{"
+                  + "\"id\":\"wikipedia\","
+                  + "\"state\":\"UNHEALTHY_SUPERVISOR\","
+                  + "\"detailedState\":\"UNHEALTHY_SUPERVISOR\","
+                  + "\"healthy\":false,"
+                  + "\"type\":\"kafka\","
+                  + "\"source\":\"wikipedia\","
+                  + "\"suspended\":false"
+                  + "}";
+    final ObjectMapper mapper = new ObjectMapper();
+    final SupervisorStatus deserialized = mapper.readValue(json, SupervisorStatus.class);
+    Assert.assertNotNull(deserialized);
+    Assert.assertEquals("wikipedia", deserialized.getId());
+    final String serialized = mapper.writeValueAsString(deserialized);
+    Assert.assertTrue(serialized.contains("\"source\""));
+    Assert.assertEquals(json, serialized);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testJsonAttr() throws IOException {
+        String json = "{"
+                + "\"id\":\"wikipedia\","
+                + "\"state\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"detailedState\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"healthy\":false,"
+                + "\"type\":\"kafka\","
+                + "\"source\":\"wikipedia\","
+                + "\"suspended\":false"
+                + "}";
+        final ObjectMapper mapper = new ObjectMapper();
+        final SupervisorStatus deserialized = mapper.readValue(json, SupervisorStatus.class);
+        Assert.assertNotNull(deserialized);
+        Assert.assertEquals("wikipedia", deserialized.getId());
+        final String serialized = mapper.writeValueAsString(deserialized);
+        Assert.assertTrue(serialized.contains("\"source\""));
+        Assert.assertEquals(json, serialized);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testJsonAttr() throws IOException {
+        String json = "{"
+                + "\"id\":\"wikipedia\","
+                + "\"state\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"detailedState\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"healthy\":false,"
+                + "\"type\":\"kafka\","
+                + "\"source\":\"wikipedia\","
+                + "\"suspended\":false"
+                + "}";
+        final ObjectMapper mapper = new ObjectMapper();
+        final SupervisorStatus deserialized = mapper.readValue(json, SupervisorStatus.class);
+        Assert.assertNotNull(deserialized);
+        Assert.assertEquals("wikipedia", deserialized.getId());
+        final String serialized = mapper.writeValueAsString(deserialized);
+        Assert.assertTrue(serialized.contains("\"source\""));
+        Assert.assertEquals(json, serialized);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testJsonAttr() throws IOException {
+    String json = "{"
+            + "\"id\":\"wikipedia\","
+            + "\"state\":\"UNHEALTHY_SUPERVISOR\","
+            + "\"detailedState\":\"UNHEALTHY_SUPERVISOR\","
+            + "\"healthy\":false,"
+            + "\"type\":\"kafka\","
+            + "\"source\":\"wikipedia\","
+            + "\"suspended\":false"
+            + "}";
+    final ObjectMapper mapper = new ObjectMapper();
+    final SupervisorStatus deserialized = mapper.readValue(json, SupervisorStatus.class);
+    Assert.assertNotNull(deserialized);
+    Assert.assertEquals("wikipedia", deserialized.getId());
+    final String serialized = mapper.writeValueAsString(deserialized);
+    Assert.assertTrue(serialized.contains("\"source\""));
+    Assert.assertEquals(json, serialized);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testJsonAttr() throws IOException {
+        String json = "{"
+                + "\"id\":\"wikipedia\","
+                + "\"state\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"detailedState\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"healthy\":false,"
+                + "\"type\":\"kafka\","
+                + "\"source\":\"wikipedia\","
+                + "\"suspended\":false"
+                + "}";
+        final ObjectMapper mapper = new ObjectMapper();
+        final SupervisorStatus deserialized = mapper.readValue(json, SupervisorStatus.class);
+        Assert.assertNotNull(deserialized);
+        Assert.assertEquals("wikipedia", deserialized.getId());
+        final String serialized = mapper.writeValueAsString(deserialized);
+        Assert.assertTrue(serialized.contains("\"source\""));
+        Assert.assertEquals(json, serialized);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testJsonAttr() throws IOException {
+        String json = "{"
+                + "\"id\":\"wikipedia\","
+                + "\"state\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"detailedState\":\"UNHEALTHY_SUPERVISOR\","
+                + "\"healthy\":false,"
+                + "\"type\":\"kafka\","
+                + "\"source\":\"wikipedia\","
+                + "\"suspended\":false"
+                + "}";
+        final ObjectMapper mapper = new ObjectMapper();
+        final SupervisorStatus deserialized = mapper.readValue(json, SupervisorStatus.class);
+        Assert.assertNotNull(deserialized);
+        Assert.assertEquals("wikipedia", deserialized.getId());
+        final String serialized = mapper.writeValueAsString(deserialized);
+        Assert.assertTrue(serialized.contains("\"source\""));
+        Assert.assertEquals(json, serialized);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

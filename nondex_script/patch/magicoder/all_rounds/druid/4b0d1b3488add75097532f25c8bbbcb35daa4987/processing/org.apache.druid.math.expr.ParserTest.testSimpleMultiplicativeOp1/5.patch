@@ -1,0 +1,116 @@
+Test File Path: projects/4b0d1b3488add75097532f25c8bbbcb35daa4987/druid/processing/src/test/java/org/apache/druid/math/expr/ParserTest.java
+Original Test Method:
+   public void testSimpleMultiplicativeOp1()
+  {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    validateParser("x%y", "(% x y)", ImmutableList.of("x", "y"));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    validateParser("x%y", "(% x y)", ImmutableList.of("x", "y"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    validateParser("x%y", "(% x y)", ImmutableList.of("x", "y"));
+}
+
+
+import:
+
+['import java.util.HashSet;', 'import java.util.LinkedHashSet;']
+
+pom:
+
+<!-- ... -->
+
+    <!-- ... -->
+
+<!-- ... -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    validateParser("x%y", "(% x y)", ImmutableList.of("x", "y"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- put your pom.xml code here -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    validateParser("x%y", "(% x y)", ImmutableList.of("x", "y"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testSimpleMultiplicativeOp1() {
+        validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+        validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+        validateParser("x%y", "(% x y)", ImmutableList.of("x", "y"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

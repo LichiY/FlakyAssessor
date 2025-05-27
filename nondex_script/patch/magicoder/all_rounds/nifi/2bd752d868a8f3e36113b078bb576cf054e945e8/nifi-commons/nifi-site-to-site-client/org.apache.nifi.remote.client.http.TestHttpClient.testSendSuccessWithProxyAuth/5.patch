@@ -1,0 +1,140 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-commons/nifi-site-to-site-client/src/test/java/org/apache/nifi/remote/client/http/TestHttpClient.java
+Original Test Method:
+     public void testSendSuccessWithProxyAuth() throws Exception {
+
+        try (
+                final SiteToSiteClient client = getDefaultBuilder()
+                        .portName("input-running")
+                        .httpProxy(new HttpProxy("localhost", proxyServerWithAuth.getListenAddress().getPort(), PROXY_USER, PROXY_PASSWORD))
+                        .build()
+        ) {
+            testSend(client);
+        }
+
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSendSuccessWithProxyAuth() {
+    Client client = new Client();
+    client.setProxyAuth(new ProxyAuth("username", "password"));
+
+    client.send();
+
+    assertTrue(client.isSuccess());
+}
+
+
+import:
+
+['import com.example.client.Client;', 'import com.example.client.ProxyAuth;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>client</artifactId>
+    <version>1.0.0</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void testSendSuccessWithProxyAuth() throws Exception {
+    Client client = new Client();
+    client.setProxyAuth(new ProxyAuth("username", "password"));
+
+    client.send();
+
+    assertTrue(client.isSuccess());
+}
+
+
+import:
+
+['import com.example.client.Client;', 'import com.example.client.ProxyAuth;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>client</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSendSuccessWithProxyAuth() throws Exception {
+    Client client = new Client();
+    client.setProxyAuth(new ProxyAuth("username", "password"));
+
+    client.send();
+
+    assertTrue(client.isSuccess());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.http.client.methods.CloseableHttpResponse;', 'import org.apache.http.client.methods.HttpGet;', 'import org.apache.http.impl.client.CloseableHttpClient;', 'import org.apache.http.impl.client.HttpClients;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.12</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None

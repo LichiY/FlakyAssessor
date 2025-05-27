@@ -1,0 +1,147 @@
+Test File Path: projects/73d1a8763c49c5cf4643d43e2dbfedb647630c46/katharsis-framework/katharsis-core/src/test/java/io/katharsis/resource/paging/PagedLinksInformationQuerySpecTest.java
+Original Test Method:
+ 	public void testPagingFirst() throws InstantiationException, IllegalAccessException {
+		QuerySpecAdapter querySpec = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry);
+		querySpec.setOffset(0L);
+		querySpec.setLimit(3L);
+
+		PagedLinksInformation linksInformation = (PagedLinksInformation) adapter.findAll(querySpec).getLinksInformation();
+		Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3", linksInformation.getFirst());
+		Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getLast());
+		Assert.assertNull(linksInformation.getPrev());
+		Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getNext());
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testPagingFirst() throws InstantiationException, IllegalAccessException {
+    QuerySpecAdapter querySpec = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry);
+    querySpec.setOffset(0L);
+    querySpec.setLimit(3L);
+
+    PagedLinksInformation linksInformation = (PagedLinksInformation) adapter.findAll(querySpec).getLinksInformation();
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getFirst());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getLast());
+    Assert.assertNull(linksInformation.getPrev());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getNext());
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testPagingFirst() throws InstantiationException, IllegalAccessException {
+    QuerySpecAdapter querySpec = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry);
+    querySpec.setOffset(0L);
+    querySpec.setLimit(3L);
+
+    PagedLinksInformation linksInformation = (PagedLinksInformation) adapter.findAll(querySpec).getLinksInformation();
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getFirst());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getLast());
+    Assert.assertNull(linksInformation.getPrev());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getNext());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testPagingFirst() throws InstantiationException, IllegalAccessException {
+    QuerySpecAdapter querySpec = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry);
+    querySpec.setOffset(0L);
+    querySpec.setLimit(3L);
+
+    PagedLinksInformation linksInformation = (PagedLinksInformation) adapter.findAll(querySpec).getLinksInformation();
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getFirst());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getLast());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getPrev());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getNext());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testPagingFirst() throws InstantiationException, IllegalAccessException {
+    QuerySpecAdapter querySpec = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry);
+    querySpec.setOffset(0L);
+    querySpec.setLimit(3L);
+
+    PagedLinksInformation linksInformation = (PagedLinksInformation) adapter.findAll(querySpec).getLinksInformation();
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getFirst());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getLast());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getPrev());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getNext());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testPagingFirst() throws InstantiationException, IllegalAccessException {
+    QuerySpecAdapter querySpec = new QuerySpecAdapter(new QuerySpec(Task.class), resourceRegistry);
+    querySpec.setOffset(0L);
+    querySpec.setLimit(3L);
+
+    PagedLinksInformation linksInformation = (PagedLinksInformation) adapter.findAll(querySpec).getLinksInformation();
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getFirst());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getLast());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=0", linksInformation.getPrev());
+    Assert.assertEquals("http://127.0.0.1/tasks/?page[limit]=3&page[offset]=3", linksInformation.getNext());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

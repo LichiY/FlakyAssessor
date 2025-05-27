@@ -1,0 +1,149 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/contentpacks/model/entities/references/ValueReferenceTest.java
+Original Test Method:
+     public void serializeEnum() throws IOException {
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.A))).isEqualTo("{\"@type\":\"string\",\"@value\":\"A\"}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.B))).isEqualTo("{\"@type\":\"string\",\"@value\":\"B\"}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void serializeEnum() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.A))).isEqualTo("{\"@type\":\"string\",\"@value\":\"A\"}");
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.B))).isEqualTo("{\"@type\":\"string\",\"@value\":\"B\"}");
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void serializeEnum() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.A))).isEqualTo("{\"@type\":\"string\",\"@value\":\"A\"}");
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.B))).isEqualTo("{\"@type\":\"string\",\"@value\":\"B\"}");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void serializeEnum() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Assertions.assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.A))).isEqualTo("{\"@type\":\"string\",\"@value\":\"A\"}");
+        Assertions.assertThat(objectMapper.writeValueAsString(ValueReference.of(TestEnum.B))).isEqualTo("{\"@type\":\"string\",\"@value\":\"B\"}");
+    }
+
+
+import:
+
+['import org.assertj.core.api.Assertions;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void serializeEnum() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    String expected = "{\"@type\":\"string\",\"@value\":\"A\"}";
+    String actual = objectMapper.writeValueAsString(ValueReference.of(TestEnum.A));
+    Assertions.assertEquals(expected, actual);
+
+    expected = "{\"@type\":\"string\",\"@value\":\"B\"}";
+    actual = objectMapper.writeValueAsString(ValueReference.of(TestEnum.B));
+    Assertions.assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void serializeEnum() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String expected = "{\"@type\":\"string\",\"@value\":\"A\"}";
+        String actual = objectMapper.writeValueAsString(ValueReference.of(TestEnum.A));
+        assertEquals(expected, actual);
+
+        expected = "{\"@type\":\"string\",\"@value\":\"B\"}";
+        actual = objectMapper.writeValueAsString(ValueReference.of(TestEnum.B));
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void serializeEnum() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String expected = "{\"@type\":\"string\",\"@value\":\"A\"}";
+        String actual = objectMapper.writeValueAsString(ValueReference.of(TestEnum.A));
+        assertEquals(expected, actual);
+
+        expected = "{\"@type\":\"string\",\"@value\":\"B\"}";
+        actual = objectMapper.writeValueAsString(ValueReference.of(TestEnum.B));
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None

@@ -1,0 +1,130 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/ReflectionToStringBuilderSummaryTest.java
+Original Test Method:
+     public void testSummary() {
+        assertEquals("[stringField=string,summaryString=<String>]",
+                new ReflectionToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE).build());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSummary() {
+    String actual = new ReflectionToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE).build();
+    assertTrue(actual.contains("stringField=string") && actual.contains("summaryString=<String>"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies needed for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSummary() {
+    String actual = new ReflectionToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE).build();
+    assertThat(actual, allOf(
+        containsString("stringField=string"),
+        containsString("summaryString=<String>")
+    ));
+}
+
+
+import:
+
+['import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.allOf;', 'import static org.hamcrest.Matchers.containsString;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-all</artifactId>
+    <version>1.3</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSummary() {
+    String actual = new ReflectionToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE).build();
+    assertThat(actual, allOf(
+        containsString("stringField=string"),
+        containsString("summaryString=<String>")
+    ));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSummary() {
+    String actual = new ReflectionToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE).build();
+    assertThat(actual, allOf(
+        containsString("stringField=string"),
+        containsString("summaryString=<String>")
+    ));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.ReflectionToStringBuilder;', 'import org.apache.commons.lang3.builder.ToStringStyle;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testSummary() {
+    String actual = new ReflectionToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE).build();
+    assertThat(actual, allOf(
+        containsString("stringField=string"),
+        containsString("summaryString=<String>")
+    ));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+

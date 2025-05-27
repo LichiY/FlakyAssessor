@@ -1,0 +1,165 @@
+Test File Path: projects/0be329d2897f6d5fbb634e46e0ef3d283282dc93/pair-distribution-app/src/test/java/pair/distribution/app/helpers/DayPairsHelperTest.java
+Original Test Method:
+ 	public void testGenerateNewDayPairs() {
+		PairCombinations pairs = getPairsList();
+		List<Developer> devs = getStandardDevs();
+		List<String> tracks = Arrays.asList("track1", "track2", "track3");
+		Map<Pair, Integer> pairsWeight = subject.buildPairsWeightFromPastPairing(pairs, devs);
+		subject.buildDevelopersPairingDays(pairs, devs);
+		
+		DayPairs dayPairs = subject.generateNewDayPairs(tracks, devs, pairs, pairsWeight, getStandardCompanies());
+
+		assertThat(dayPairs.getTracks().size(), is(2));
+		assertThat(dayPairs.getTracks(), contains("track1", "track2"));
+		assertThat(dayPairs.getPairByTrack("track1"),
+				is(not(new Pair(Arrays.asList(new Developer("dev1"), new Developer("dev2"))))));
+		assertThat(dayPairs.getPairByTrack("track2"),
+				is(not(new Pair(Arrays.asList(new Developer("dev3"), new Developer("dev4"))))));
+		
+		boolean trackOneHasContext = dayPairs.getPairByTrack("track1").getFirstDev().hasContext() || dayPairs.getPairByTrack("track1").getSecondDev().hasContext();
+		boolean trackTwoHasContext = dayPairs.getPairByTrack("track2").getFirstDev().hasContext() || dayPairs.getPairByTrack("track2").getSecondDev().hasContext();
+		assertThat(trackOneHasContext, is(true));
+		assertThat(trackTwoHasContext, is(true));
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.mockito.MockitoAnnotations;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testGenerateNewDayPairs() {
+        // Arrange
+        // Setup your test data
+
+        // Act
+        // Call the method you want to test
+
+        // Assert
+        // Use Mockito's verify method to check if the correct method was called
+        verify(trelloPairsRepository, times(1)).save(any(Pair.class));
+    }
+
+
+import:
+
+['import static org.mockito.Mockito.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.springframework.data.repository.CrudRepository;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-commons</artifactId>
+    <version>2.6.2</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGenerateNewDayPairs() {
+    Pair pair = new Pair();
+    pair.setId(1L);
+    pair.setName("Test Pair");
+
+    DayPairs dayPairs = new DayPairs();
+    dayPairs.setId(1L);
+    dayPairs.setName("Test Day Pairs");
+    dayPairs.setPair(pair);
+
+    when(trelloPairsRepository.save(any(Pair.class))).thenReturn(pair);
+    when(dayPairsRepository.save(any(DayPairs.class))).thenReturn(dayPairs);
+
+    DayPairs result = dayPairsService.generateNewDayPairs(dayPairs);
+
+    assertThat(result).isNotNull();
+    assertThat(result.getId()).isEqualTo(dayPairs.getId());
+    assertThat(result.getName()).isEqualTo(dayPairs.getName());
+    assertThat(result.getPair()).isEqualTo(dayPairs.getPair());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-commons</artifactId>
+    <version>2.4.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testGenerateNewDayPairs() {
+        Pair pair = new Pair();
+        pair.setId(1L);
+        pair.setName("Test Pair");
+
+        DayPairs dayPairs = new DayPairs();
+        dayPairs.setId(1L);
+        dayPairs.setName("Test Day Pairs");
+        dayPairs.setPair(pair);
+
+        when(trelloPairsRepository.save(any(Pair.class))).thenReturn(pair);
+        when(dayPairsRepository.save(any(DayPairs.class))).thenReturn(dayPairs);
+
+        DayPairs result = dayPairsService.generateNewDayPairs(dayPairs);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(dayPairs.getId());
+        assertThat(result.getName()).isEqualTo(dayPairs.getName());
+        assertThat(result.getPair()).isEqualTo(dayPairs.getPair());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

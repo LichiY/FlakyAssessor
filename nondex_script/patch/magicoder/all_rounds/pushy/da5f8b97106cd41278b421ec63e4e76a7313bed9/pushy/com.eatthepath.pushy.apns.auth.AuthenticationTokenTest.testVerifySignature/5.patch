@@ -1,0 +1,283 @@
+Test File Path: projects/da5f8b97106cd41278b421ec63e4e76a7313bed9/pushy/pushy/src/test/java/com/eatthepath/pushy/apns/auth/AuthenticationTokenTest.java
+Original Test Method:
+     void testVerifySignature() throws Exception {
+        final AuthenticationToken token = new AuthenticationToken(this.signingKey, Instant.now());
+
+        assertTrue(token.verifySignature(this.verificationKey));
+
+        {
+            final ApnsVerificationKey keyWithWrongKeyId =
+                    new ApnsVerificationKey(KEY_ID + "NOPE", TEAM_ID, this.verificationKey);
+
+            assertFalse(token.verifySignature(keyWithWrongKeyId));
+        }
+
+        {
+            final ApnsVerificationKey keyWithWrongTeamId =
+                    new ApnsVerificationKey(KEY_ID, TEAM_ID + "NOPE", this.verificationKey);
+
+            assertFalse(token.verifySignature(keyWithWrongTeamId));
+        }
+
+        {
+            // This isn't teeeeeeeechnically guaranteed to be a mismatched key, but the odds of randomly generating the
+            // same key twice are small enough that we can let it slide.
+            final KeyPair keyPair = KeyPairUtil.generateKeyPair();
+
+            final ApnsVerificationKey keyWithWrongPublicKey =
+                    new ApnsVerificationKey(KEY_ID, TEAM_ID, (ECPublicKey) keyPair.getPublic());
+
+            assertFalse(token.verifySignature(keyWithWrongPublicKey));
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+void testVerifySignature() throws Exception {
+    final AuthenticationToken token = new AuthenticationToken(this.signingKey, Instant.now());
+
+    assertTrue(token.verifySignature(this.verificationKey));
+
+    {
+        final ApnsVerificationKey keyWithWrongKeyId =
+                new ApnsVerificationKey(KEY_ID + "NOPE", TEAM_ID, this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongKeyId));
+    }
+
+    {
+        final ApnsVerificationKey keyWithWrongTeamId =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID + "NOPE", this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongTeamId));
+    }
+
+    {
+        // This isn't teeeeeeeechnically guaranteed to be a mismatched key, but the odds of randomly generating the
+        // same key twice are small enough that we can let it slide.
+        final KeyPair keyPair = KeyPairUtil.generateKeyPair();
+
+        final ApnsVerificationKey keyWithWrongPublicKey =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID, (ECPublicKey) keyPair.getPublic());
+
+        assertFalse(token.verifySignature(keyWithWrongPublicKey));
+    }
+}
+
+
+import:
+
+['import java.security.KeyPairGenerator;']
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>myartifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+void testVerifySignature() throws Exception {
+    final AuthenticationToken token = new AuthenticationToken(this.signingKey, Instant.now());
+
+    assertTrue(token.verifySignature(this.verificationKey));
+
+    {
+        final ApnsVerificationKey keyWithWrongKeyId =
+                new ApnsVerificationKey(KEY_ID + "NOPE", TEAM_ID, this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongKeyId));
+    }
+
+    {
+        final ApnsVerificationKey keyWithWrongTeamId =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID + "NOPE", this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongTeamId));
+    }
+
+    {
+        // This isn't teeeeeeeechnically guaranteed to be a mismatched key, but the odds of randomly generating the
+        // same key twice are small enough that we can let it slide.
+        final KeyPair keyPair = KeyPairUtil.generateKeyPair();
+
+        final ApnsVerificationKey keyWithWrongPublicKey =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID, (ECPublicKey) keyPair.getPublic());
+
+        assertFalse(token.verifySignature(keyWithWrongPublicKey));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- put your pom.xml code here -->
+<!-- for example:
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>5.2.5.RELEASE</version>
+</dependency>
+-->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+void testVerifySignature() throws Exception {
+    final AuthenticationToken token = new AuthenticationToken(this.signingKey, Instant.now());
+
+    assertTrue(token.verifySignature(this.verificationKey));
+
+    {
+        final ApnsVerificationKey keyWithWrongKeyId =
+                new ApnsVerificationKey(KEY_ID + "NOPE", TEAM_ID, this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongKeyId));
+    }
+
+    {
+        final ApnsVerificationKey keyWithWrongTeamId =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID + "NOPE", this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongTeamId));
+    }
+
+    {
+        // This isn't teeeeeeeechnically guaranteed to be a mismatched key, but the odds of randomly generating the
+        // same key twice are small enough that we can let it slide.
+        final KeyPair keyPair = KeyPairUtil.generateKeyPair();
+
+        final ApnsVerificationKey keyWithWrongPublicKey =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID, (ECPublicKey) keyPair.getPublic());
+
+        assertFalse(token.verifySignature(keyWithWrongPublicKey));
+    }
+}
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertFalse;', 'import static org.junit.jupiter.api.Assertions.assertTrue;']
+
+pom:
+
+<!-- put your pom.xml code here -->
+<!-- example:
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+void testVerifySignature() throws Exception {
+    final AuthenticationToken token = new AuthenticationToken(this.signingKey, Instant.now());
+
+    assertTrue(token.verifySignature(this.verificationKey));
+
+    {
+        final ApnsVerificationKey keyWithWrongKeyId =
+                new ApnsVerificationKey(KEY_ID + "NOPE", TEAM_ID, this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongKeyId));
+    }
+
+    {
+        final ApnsVerificationKey keyWithWrongTeamId =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID + "NOPE", this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongTeamId));
+    }
+
+    {
+        // This isn't teeeeeeeechnically guaranteed to be a mismatched key, but the odds of randomly generating the
+        // same key twice are small enough that we can let it slide.
+        final KeyPair keyPair = KeyPairUtil.generateKeyPair();
+
+        final ApnsVerificationKey keyWithWrongPublicKey =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID, (ECPublicKey) keyPair.getPublic());
+
+        assertFalse(token.verifySignature(keyWithWrongPublicKey));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+void testVerifySignature() throws Exception {
+    final AuthenticationToken token = new AuthenticationToken(this.signingKey, Instant.now());
+
+    assertTrue(token.verifySignature(this.verificationKey));
+
+    {
+        final ApnsVerificationKey keyWithWrongKeyId =
+                new ApnsVerificationKey(KEY_ID + "NOPE", TEAM_ID, this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongKeyId));
+    }
+
+    {
+        final ApnsVerificationKey keyWithWrongTeamId =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID + "NOPE", this.verificationKey);
+
+        assertFalse(token.verifySignature(keyWithWrongTeamId));
+    }
+
+    {
+        // This isn't teeeeeeeechnically guaranteed to be a mismatched key, but the odds of randomly generating the
+        // same key twice are small enough that we can let it slide.
+        final KeyPair keyPair = KeyPairUtil.generateKeyPair();
+
+        final ApnsVerificationKey keyWithWrongPublicKey =
+                new ApnsVerificationKey(KEY_ID, TEAM_ID, (ECPublicKey) keyPair.getPublic());
+
+        assertFalse(token.verifySignature(keyWithWrongPublicKey));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>myartifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->

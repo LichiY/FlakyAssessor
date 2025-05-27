@@ -1,0 +1,122 @@
+Test File Path: projects/39547d3c2568eba11cab02c18827a68478d7cb47/groupmeal-java-sdk/src/test/java/JsonTest.java
+Original Test Method:
+     public void payCallBackParam() {
+        PayCallbackParam param = new PayCallbackParam();
+        param.setStatus(1);
+        param.setMessage("fail");
+        param.setNotifyTime(System.currentTimeMillis() / 1000 + "");
+        param.setPaymentId("20210343");
+        param.setTotalAmount("2590");
+        param.setTradeNo("2340343433");
+
+        String json = JsonUtil.encode2UnderScore(param);
+        System.out.println(json);
+
+        PayCallbackParam param1 = JsonUtil.decode2Camel(json, PayCallbackParam.class);
+        String json1 = JsonUtil.encode2UnderScore(param1);
+        System.out.println(json1);
+        Assert.assertTrue(json.equals(json1));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void payCallBackParam() throws JsonProcessingException {
+        PayCallbackParam param = new PayCallbackParam();
+        param.setStatus(1);
+        param.setMessage("fail");
+        param.setNotifyTime(System.currentTimeMillis() / 1000 + "");
+        param.setPaymentId("20210343");
+        param.setTotalAmount("2590");
+        param.setTradeNo("2340343433");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(param);
+        System.out.println(json);
+
+        PayCallbackParam param1 = mapper.readValue(json, PayCallbackParam.class);
+        String json1 = mapper.writeValueAsString(param1);
+        System.out.println(json1);
+        Assert.assertTrue(json.equals(json1));
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void payCallBackParam() {
+        PayCallbackParam param = new PayCallbackParam();
+        param.setStatus(1);
+        param.setMessage("fail");
+        param.setNotifyTime(System.currentTimeMillis() / 1000 + "");
+        param.setPaymentId("20210343");
+        param.setTotalAmount("2590");
+        param.setTradeNo("2340343433");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(param);
+        System.out.println(json);
+
+        PayCallbackParam param1 = mapper.readValue(json, PayCallbackParam.class);
+        String json1 = mapper.writeValueAsString(param1);
+        System.out.println(json1);
+        Assert.assertTrue(json.equals(json1));
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void payCallBackParam() throws Exception {
+    PayCallbackParam param = new PayCallbackParam();
+    param.setStatus(1);
+    param.setMessage("fail");
+    param.setNotifyTime(System.currentTimeMillis() / 1000 + "");
+    param.setPaymentId("20210343");
+    param.setTotalAmount("2590");
+    param.setTradeNo("2340343433");
+
+    ObjectMapper mapper = new ObjectMapper();
+    String json = mapper.writeValueAsString(param);
+    System.out.println(json);
+
+    PayCallbackParam param1 = mapper.readValue(json, PayCallbackParam.class);
+    String json1 = mapper.writeValueAsString(param1);
+    System.out.println(json1);
+    Assert.assertTrue(json.equals(json1));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>

@@ -1,0 +1,331 @@
+Test File Path: projects/23c9b5ac50d04d28a34a87c78eb2d3331c06b74b/flink/flink-table/flink-table-runtime-blink/src/test/java/org/apache/flink/table/runtime/operators/bundle/MapBundleOperatorTest.java
+Original Test Method:
+ 	public void testSimple() throws Exception {
+		@SuppressWarnings("unchecked")
+		TestMapBundleFunction func = new TestMapBundleFunction();
+		CountBundleTrigger<Tuple2<String, String>> trigger = new CountBundleTrigger<>(3);
+		KeySelector<Tuple2<String, String>, String> keySelector =
+				(KeySelector<Tuple2<String, String>, String>) value -> value.f0;
+
+		OneInputStreamOperatorTestHarness<Tuple2<String, String>, String> op =
+				new OneInputStreamOperatorTestHarness<>(
+						new MapBundleOperator<>(func, trigger, keySelector));
+		op.open();
+		synchronized (op.getCheckpointLock()) {
+			StreamRecord<Tuple2<String, String>> input = new StreamRecord<>(null);
+
+			input.replace(new Tuple2<>("k1", "v1"));
+			op.processElement(input);
+
+			input.replace(new Tuple2<>("k1", "v2"));
+			op.processElement(input);
+
+			assertEquals(0, func.getFinishCount());
+
+			input.replace(new Tuple2<>("k2", "v3"));
+			op.processElement(input);
+
+			assertEquals(1, func.getFinishCount());
+			assertThat(Arrays.asList("k1=v1,v2", "k2=v3"), is(func.getOutputs()));
+
+			input.replace(new Tuple2<>("k3", "v4"));
+			op.processElement(input);
+
+			input.replace(new Tuple2<>("k4", "v5"));
+			op.processElement(input);
+
+			assertEquals(1, func.getFinishCount());
+
+			op.close();
+			assertEquals(2, func.getFinishCount());
+			assertThat(Arrays.asList("k3=v4", "k4=v5"), is(func.getOutputs()));
+		}
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSimple() throws Exception {
+    @SuppressWarnings("unchecked")
+    TestMapBundleFunction func = new TestMapBundleFunction();
+    CountBundleTrigger<Tuple2<String, String>> trigger = new CountBundleTrigger<>(3);
+    KeySelector<Tuple2<String, String>, String> keySelector =
+            (KeySelector<Tuple2<String, String>, String>) value -> value.f0;
+
+    OneInputStreamOperatorTestHarness<Tuple2<String, String>, String> op =
+            new OneInputStreamOperatorTestHarness<>(
+                    new MapBundleOperator<>(func, trigger, keySelector));
+    op.open();
+    synchronized (op.getCheckpointLock()) {
+        StreamRecord<Tuple2<String, String>> input = new StreamRecord<>(null);
+
+        input.replace(new Tuple2<>("k1", "v1"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k1", "v2"));
+        op.processElement(input);
+
+        assertEquals(0, func.getFinishCount());
+
+        input.replace(new Tuple2<>("k2", "v3"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+        assertThat(Arrays.asList("k1=v1,v2", "k2=v3"), is(func.getOutputs()));
+
+        input.replace(new Tuple2<>("k3", "v4"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k4", "v5"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+
+        op.close();
+        assertEquals(2, func.getFinishCount());
+        assertThat(Arrays.asList("k3=v4", "k4=v5"), is(func.getOutputs()));
+    }
+}
+
+
+import:
+
+['import java.util.*;', 'import org.apache.flink.api.java.tuple.*;', 'import org.apache.flink.streaming.api.functions.co.CoProcessFunction;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSimple() throws Exception {
+    TestMapBundleFunction func = new TestMapBundleFunction();
+    CountBundleTrigger<Tuple2<String, String>> trigger = new CountBundleTrigger<>(3);
+    KeySelector<Tuple2<String, String>, String> keySelector =
+            (KeySelector<Tuple2<String, String>, String>) value -> value.f0;
+
+    OneInputStreamOperatorTestHarness<Tuple2<String, String>, String> op =
+            new OneInputStreamOperatorTestHarness<>(
+                    new MapBundleOperator<>(func, trigger, keySelector));
+    op.open();
+    synchronized (op.getCheckpointLock()) {
+        StreamRecord<Tuple2<String, String>> input = new StreamRecord<>(null);
+
+        input.replace(new Tuple2<>("k1", "v1"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k1", "v2"));
+        op.processElement(input);
+
+        assertEquals(0, func.getFinishCount());
+
+        input.replace(new Tuple2<>("k2", "v3"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+        assertThat(Arrays.asList("k1=v1,v2", "k2=v3"), is(func.getOutputs()));
+
+        input.replace(new Tuple2<>("k3", "v4"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k4", "v5"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+
+        op.close();
+        assertEquals(2, func.getFinishCount());
+        assertThat(Arrays.asList("k3=v4", "k4=v5"), is(func.getOutputs()));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSimple() throws Exception {
+    TestMapBundleFunction func = new TestMapBundleFunction();
+    CountBundleTrigger<Tuple2<String, String>> trigger = new CountBundleTrigger<>(3);
+    KeySelector<Tuple2<String, String>, String> keySelector =
+            (KeySelector<Tuple2<String, String>, String>) value -> value.f0;
+
+    OneInputStreamOperatorTestHarness<Tuple2<String, String>, String> op =
+            new OneInputStreamOperatorTestHarness<>(
+                    new MapBundleOperator<>(func, trigger, keySelector));
+    op.open();
+    synchronized (op.getCheckpointLock()) {
+        StreamRecord<Tuple2<String, String>> input = new StreamRecord<>(null);
+
+        input.replace(new Tuple2<>("k1", "v1"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k1", "v2"));
+        op.processElement(input);
+
+        assertEquals(0, func.getFinishCount());
+
+        input.replace(new Tuple2<>("k2", "v3"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+        assertThat(Arrays.asList("k1=v1,v2", "k2=v3"), is(func.getOutputs()));
+
+        input.replace(new Tuple2<>("k3", "v4"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k4", "v5"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+
+        op.close();
+        assertEquals(2, func.getFinishCount());
+        assertThat(Arrays.asList("k3=v4", "k4=v5"), is(func.getOutputs()));
+    }
+}
+
+
+import:
+
+['import com.example.my.artifact.MyClass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSimple() throws Exception {
+    TestMapBundleFunction func = new TestMapBundleFunction();
+    CountBundleTrigger<Tuple2<String, String>> trigger = new CountBundleTrigger<>(3);
+    KeySelector<Tuple2<String, String>, String> keySelector =
+            (KeySelector<Tuple2<String, String>, String>) value -> value.f0;
+
+    OneInputStreamOperatorTestHarness<Tuple2<String, String>, String> op =
+            new OneInputStreamOperatorTestHarness<>(
+                    new MapBundleOperator<>(func, trigger, keySelector));
+    op.open();
+    synchronized (op.getCheckpointLock()) {
+        StreamRecord<Tuple2<String, String>> input = new StreamRecord<>(null);
+
+        input.replace(new Tuple2<>("k1", "v1"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k1", "v2"));
+        op.processElement(input);
+
+        assertEquals(0, func.getFinishCount());
+
+        input.replace(new Tuple2<>("k2", "v3"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+        assertThat(Arrays.asList("k1=v1,v2", "k2=v3"), is(func.getOutputs()));
+
+        input.replace(new Tuple2<>("k3", "v4"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k4", "v5"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+
+        op.close();
+        assertEquals(2, func.getFinishCount());
+        assertThat(Arrays.asList("k3=v4", "k4=v5"), is(func.getOutputs()));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testSimple() throws Exception {
+    TestMapBundleFunction func = new TestMapBundleFunction();
+    CountBundleTrigger<Tuple2<String, String>> trigger = new CountBundleTrigger<>(3);
+    KeySelector<Tuple2<String, String>, String> keySelector =
+            (KeySelector<Tuple2<String, String>, String>) value -> value.f0;
+
+    OneInputStreamOperatorTestHarness<Tuple2<String, String>, String> op =
+            new OneInputStreamOperatorTestHarness<>(
+                    new MapBundleOperator<>(func, trigger, keySelector));
+    op.open();
+    synchronized (op.getCheckpointLock()) {
+        StreamRecord<Tuple2<String, String>> input = new StreamRecord<>(null);
+
+        input.replace(new Tuple2<>("k1", "v1"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k1", "v2"));
+        op.processElement(input);
+
+        assertEquals(0, func.getFinishCount());
+
+        input.replace(new Tuple2<>("k2", "v3"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+        assertThat(Arrays.asList("k1=v1,v2", "k2=v3"), is(func.getOutputs()));
+
+        input.replace(new Tuple2<>("k3", "v4"));
+        op.processElement(input);
+
+        input.replace(new Tuple2<>("k4", "v5"));
+        op.processElement(input);
+
+        assertEquals(1, func.getFinishCount());
+
+        op.close();
+        assertEquals(2, func.getFinishCount());
+        assertThat(Arrays.asList("k3=v4", "k4=v5"), is(func.getOutputs()));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

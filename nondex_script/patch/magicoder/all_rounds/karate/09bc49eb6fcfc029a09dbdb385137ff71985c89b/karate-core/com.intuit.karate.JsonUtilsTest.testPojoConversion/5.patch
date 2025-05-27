@@ -1,0 +1,240 @@
+Test File Path: projects/09bc49eb6fcfc029a09dbdb385137ff71985c89b/karate/karate-core/src/test/java/com/intuit/karate/JsonUtilsTest.java
+Original Test Method:
+     public void testPojoConversion() {
+        ComplexPojo pojo = new ComplexPojo();
+        pojo.setFoo("testFoo");
+        pojo.setBar(1);
+        ComplexPojo p1 = new ComplexPojo();
+        p1.setFoo("p1");
+        ComplexPojo p2 = new ComplexPojo();
+        p2.setFoo("p2");
+        pojo.setBan(Arrays.asList(p1, p2));
+        String s = JsonUtils.toJson(pojo);
+        String expected = "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}";
+        assertEquals(s, expected);
+        ComplexPojo temp = (ComplexPojo) JsonUtils.fromJson(s, ComplexPojo.class.getName());
+        assertEquals(temp.getFoo(), "testFoo");
+        assertEquals(2, temp.getBan().size());
+        temp = JsonUtils.fromJson(s, ComplexPojo.class);
+        assertEquals(temp.getFoo(), "testFoo");
+        assertEquals(2, temp.getBan().size());
+        s = XmlUtils.toXml(pojo);
+        assertEquals(s, "<root><bar>1</bar><foo>testFoo</foo><baz/><ban><bar>0</bar><foo>p1</foo><baz/><ban/></ban><ban><bar>0</bar><foo>p2</foo><baz/><ban/></ban></root>");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testPojoConversion() {
+        ComplexPojo pojo = new ComplexPojo();
+        pojo.setFoo("testFoo");
+        pojo.setBar(1);
+        ComplexPojo p1 = new ComplexPojo();
+        p1.setFoo("p1");
+        ComplexPojo p2 = new ComplexPojo();
+        p2.setFoo("p2");
+        pojo.setBan(Arrays.asList(p1, p2));
+        String s = JsonUtils.toJson(pojo);
+        String expected = "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}";
+        assertEquals(s, expected);
+        ComplexPojo temp = (ComplexPojo) JsonUtils.fromJson(s, ComplexPojo.class.getName());
+        assertEquals(temp.getFoo(), "testFoo");
+        assertEquals(2, temp.getBan().size());
+        temp = JsonUtils.fromJson(s, ComplexPojo.class);
+        assertEquals(temp.getFoo(), "testFoo");
+        assertEquals(2, temp.getBan().size());
+        s = XmlUtils.toXml(pojo);
+        assertEquals(s, "<root><bar>1</bar><foo>testFoo</foo><baz/><ban><bar>0</bar><foo>p1</foo><baz/><ban/></ban><ban><bar>0</bar><foo>p2</foo><baz/><ban/></ban></root>");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testPojoConversion() {
+    ComplexPojo pojo = new ComplexPojo();
+    pojo.setFoo("testFoo");
+    pojo.setBar(1);
+    ComplexPojo p1 = new ComplexPojo();
+    p1.setFoo("p1");
+    ComplexPojo p2 = new ComplexPojo();
+    p2.setFoo("p2");
+    pojo.setBan(Arrays.asList(p1, p2));
+    String s = new ObjectMapper().writeValueAsString(pojo);
+    String expected = "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}";
+    assertEquals(s, expected);
+    ComplexPojo temp = new ObjectMapper().readValue(s, ComplexPojo.class);
+    assertEquals(temp.getFoo(), "testFoo");
+    assertEquals(2, temp.getBan().size());
+    s = new ObjectMapper().writeValueAsString(pojo);
+    assertEquals(s, "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}");
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.List;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testPojoConversion() throws Exception {
+        ComplexPojo pojo = new ComplexPojo();
+        pojo.setFoo("testFoo");
+        pojo.setBar(1);
+        ComplexPojo p1 = new ComplexPojo();
+        p1.setFoo("p1");
+        ComplexPojo p2 = new ComplexPojo();
+        p2.setFoo("p2");
+        pojo.setBan(Arrays.asList(p1, p2));
+        String s = new ObjectMapper().writeValueAsString(pojo);
+        String expected = "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}";
+        assertEquals(s, expected);
+        ComplexPojo temp = new ObjectMapper().readValue(s, ComplexPojo.class);
+        assertEquals(temp.getFoo(), "testFoo");
+        assertEquals(2, temp.getBan().size());
+        s = new ObjectMapper().writeValueAsString(pojo);
+        assertEquals(s, "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}");
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void testPojoConversion() {
+        ComplexPojo pojo = new ComplexPojo();
+        pojo.setFoo("testFoo");
+        pojo.setBar(1);
+        ComplexPojo p1 = new ComplexPojo();
+        p1.setFoo("p1");
+        ComplexPojo p2 = new ComplexPojo();
+        p2.setFoo("p2");
+        pojo.setBan(Arrays.asList(p1, p2));
+        String s = new ObjectMapper().writeValueAsString(pojo);
+        String expected = "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}";
+        assertEquals(s, expected);
+        ComplexPojo temp = new ObjectMapper().readValue(s, ComplexPojo.class);
+        assertEquals(temp.getFoo(), "testFoo");
+        assertEquals(2, temp.getBan().size());
+        s = new ObjectMapper().writeValueAsString(pojo);
+        assertEquals(s, "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}");
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testPojoConversion() {
+        ComplexPojo pojo = new ComplexPojo();
+        pojo.setFoo("testFoo");
+        pojo.setBar(1);
+        ComplexPojo p1 = new ComplexPojo();
+        p1.setFoo("p1");
+        ComplexPojo p2 = new ComplexPojo();
+        p2.setFoo("p2");
+        pojo.setBan(Arrays.asList(p1, p2));
+        String s = new ObjectMapper().writeValueAsString(pojo);
+        String expected = "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}";
+        assertEquals(s, expected);
+        ComplexPojo temp = new ObjectMapper().readValue(s, ComplexPojo.class);
+        assertEquals(temp.getFoo(), "testFoo");
+        assertEquals(2, temp.getBan().size());
+        s = new ObjectMapper().writeValueAsString(pojo);
+        assertEquals(s, "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.8.1</version>
+        <scope>test</scope>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testPojoConversion() throws JsonProcessingException {
+        ComplexPojo pojo = new ComplexPojo();
+        pojo.setFoo("testFoo");
+        pojo.setBar(1);
+        ComplexPojo p1 = new ComplexPojo();
+        p1.setFoo("p1");
+        ComplexPojo p2 = new ComplexPojo();
+        p2.setFoo("p2");
+        pojo.setBan(Arrays.asList(p1, p2));
+        String s = new ObjectMapper().writeValueAsString(pojo);
+        String expected = "{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}";
+        assert s.equals(expected);
+        ComplexPojo temp = new ObjectMapper().readValue(s, ComplexPojo.class);
+        assert temp.getFoo().equals("testFoo");
+        assert temp.getBan().size() == 2;
+        s = new ObjectMapper().writeValueAsString(pojo);
+        assert s.equals("{\"bar\":1,\"foo\":\"testFoo\",\"baz\":null,\"ban\":[{\"bar\":0,\"foo\":\"p1\",\"baz\":null,\"ban\":null},{\"bar\":0,\"foo\":\"p2\",\"baz\":null,\"ban\":null}]}");
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;']
+
+pom:
+
+None

@@ -1,0 +1,400 @@
+Test File Path: projects/14cd969b6ea1898e9db6eeb9ea5292ec4558a706/hadoop/hadoop-common-project/hadoop-common/src/test/java/org/apache/hadoop/metrics2/impl/TestMetricsSystemImpl.java
+Original Test Method:
+   @Test public void testInitFirstVerifyStopInvokedImmediately() throws Exception {
+    DefaultMetricsSystem.shutdown();
+    new ConfigBuilder().add("*.period", 8)
+        //.add("test.sink.plugin.urls", getPluginUrlsAsString())
+        .add("test.sink.test.class", TestSink.class.getName())
+        .add("test.*.source.filter.exclude", "s0")
+        .add("test.source.s1.metric.filter.exclude", "X*")
+        .add("test.sink.sink1.metric.filter.exclude", "Y*")
+        .add("test.sink.sink2.metric.filter.exclude", "Y*")
+        .save(TestMetricsConfig.getTestFilename("hadoop-metrics2-test"));
+    MetricsSystemImpl ms = new MetricsSystemImpl("Test");
+    ms.start();
+    ms.register("s0", "s0 desc", new TestSource("s0rec"));
+    TestSource s1 = ms.register("s1", "s1 desc", new TestSource("s1rec"));
+    s1.c1.incr();
+    s1.xxx.incr();
+    s1.g1.set(2);
+    s1.yyy.incr(2);
+    s1.s1.add(0);
+    MetricsSink sink1 = mock(MetricsSink.class);
+    MetricsSink sink2 = mock(MetricsSink.class);
+    ms.registerSink("sink1", "sink1 desc", sink1);
+    ms.registerSink("sink2", "sink2 desc", sink2);
+    ms.publishMetricsNow(); // publish the metrics
+    ms.stop();
+    ms.shutdown();
+
+    //When we call stop, at most two sources will be consumed by each sink thread.
+    verify(sink1, atMost(2)).putMetrics(r1.capture());
+    List<MetricsRecord> mr1 = r1.getAllValues();
+    verify(sink2, atMost(2)).putMetrics(r2.capture());
+    List<MetricsRecord> mr2 = r2.getAllValues();
+    if (mr1.size() != 0 && mr2.size() != 0) {
+      checkMetricsRecords(mr1);
+      assertEquals("output", mr1, mr2);
+    } else if (mr1.size() != 0) {
+      checkMetricsRecords(mr1);
+    } else if (mr2.size() != 0) {
+      checkMetricsRecords(mr2);
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+@Test public void testInitFirstVerifyStopInvokedImmediately() throws Exception {
+    DefaultMetricsSystem.shutdown();
+    new ConfigBuilder().add("*.period", 8)
+        .add("test.sink.test.class", TestSink.class.getName())
+        .add("test.*.source.filter.exclude", "s0")
+        .add("test.source.s1.metric.filter.exclude", "X*")
+        .add("test.sink.sink1.metric.filter.exclude", "Y*")
+        .add("test.sink.sink2.metric.filter.exclude", "Y*")
+        .save(TestMetricsConfig.getTestFilename("hadoop-metrics2-test"));
+    MetricsSystemImpl ms = new MetricsSystemImpl("Test");
+    ms.start();
+    ms.register("s0", "s0 desc", new TestSource("s0rec"));
+    TestSource s1 = ms.register("s1", "s1 desc", new TestSource("s1rec"));
+    s1.c1.incr();
+    s1.xxx.incr();
+    s1.g1.set(2);
+    s1.yyy.incr(2);
+    s1.s1.add(0);
+    MetricsSink sink1 = mock(MetricsSink.class);
+    MetricsSink sink2 = mock(MetricsSink.class);
+    ms.registerSink("sink1", "sink1 desc", sink1);
+    ms.registerSink("sink2", "sink2 desc", sink2);
+    ms.publishMetricsNow();
+    ms.stop();
+    ms.shutdown();
+
+    ArgumentCaptor<MetricsRecord> r1 = ArgumentCaptor.forClass(MetricsRecord.class);
+    ArgumentCaptor<MetricsRecord> r2 = ArgumentCaptor.forClass(MetricsRecord.class);
+    verify(sink1, atMost(2)).putMetrics(r1.capture());
+    verify(sink2, atMost(2)).putMetrics(r2.capture());
+    
+    List<MetricsRecord> mr1 = r1.getAllValues();
+    List<MetricsRecord> mr2 = r2.getAllValues();
+    
+    if (!mr1.isEmpty() && !mr2.isEmpty()) {
+      assertThat(mr1).containsExactlyInAnyOrderElementsOf(mr2);
+      checkMetricsRecords(mr1);
+    } else if (!mr1.isEmpty()) {
+      checkMetricsRecords(mr1);
+    } else if (!mr2.isEmpty()) {
+      checkMetricsRecords(mr2);
+    }
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;', 'import static org.mockito.Mockito.atMost;', 'import static org.mockito.Mockito.mock;', 'import static org.mockito.Mockito.verify;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testInitFirstVerifyStopInvokedImmediately() throws Exception {
+    DefaultMetricsSystem.shutdown();
+    new ConfigBuilder().add("*.period", 8)
+        .add("test.sink.test.class", TestSink.class.getName())
+        .add("test.*.source.filter.exclude", "s0")
+        .add("test.source.s1.metric.filter.exclude", "X*")
+        .add("test.sink.sink1.metric.filter.exclude", "Y*")
+        .add("test.sink.sink2.metric.filter.exclude", "Y*")
+        .save(TestMetricsConfig.getTestFilename("hadoop-metrics2-test"));
+    MetricsSystemImpl ms = new MetricsSystemImpl("Test");
+    ms.start();
+    ms.register("s0", "s0 desc", new TestSource("s0rec"));
+    TestSource s1 = ms.register("s1", "s1 desc", new TestSource("s1rec"));
+    s1.c1.incr();
+    s1.xxx.incr();
+    s1.g1.set(2);
+    s1.yyy.incr(2);
+    s1.s1.add(0);
+    MetricsSink sink1 = mock(MetricsSink.class);
+    MetricsSink sink2 = mock(MetricsSink.class);
+    ms.registerSink("sink1", "sink1 desc", sink1);
+    ms.registerSink("sink2", "sink2 desc", sink2);
+    ms.publishMetricsNow();
+    ms.stop();
+    ms.shutdown();
+
+    ArgumentCaptor<MetricsRecord> r1 = ArgumentCaptor.forClass(MetricsRecord.class);
+    ArgumentCaptor<MetricsRecord> r2 = ArgumentCaptor.forClass(MetricsRecord.class);
+    verify(sink1, atMost(2)).putMetrics(r1.capture());
+    verify(sink2, atMost(2)).putMetrics(r2.capture());
+    
+    List<MetricsRecord> mr1 = r1.getAllValues();
+    List<MetricsRecord> mr2 = r2.getAllValues();
+    
+    if (!mr1.isEmpty() && !mr2.isEmpty()) {
+      assertThat(mr1).containsExactlyInAnyOrderElementsOf(mr2);
+      for (MetricsRecord record : mr1) {
+        assertThat(record.metrics()).containsAnyOf(
+            new MetricCounterLong(MetricsInfoImpl.named("C1", "C1 desc"), 1),
+            new MetricGaugeLong(MetricsInfoImpl.named("G1", "G1 desc"), 2),
+            new MetricCounterLong(MetricsInfoImpl.named("S1NumOps", "Number of ops for s1"), 1)
+        );
+      }
+    } else if (!mr1.isEmpty()) {
+      for (MetricsRecord record : mr1) {
+        assertThat(record.metrics()).containsAnyOf(
+            new MetricCounterLong(MetricsInfoImpl.named("C1", "C1 desc"), 1),
+            new MetricGaugeLong(MetricsInfoImpl.named("G1", "G1 desc"), 2),
+            new MetricCounterLong(MetricsInfoImpl.named("S1NumOps", "Number of ops for s1"), 1)
+        );
+      }
+    } else if (!mr2.isEmpty()) {
+      for (MetricsRecord record : mr2) {
+        assertThat(record.metrics()).containsAnyOf(
+            new MetricCounterLong(MetricsInfoImpl.named("C1", "C1 desc"), 1),
+            new MetricGaugeLong(MetricsInfoImpl.named("G1", "G1 desc"), 2),
+            new MetricCounterLong(MetricsInfoImpl.named("S1NumOps", "Number of ops for s1"), 1)
+        );
+      }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testInitFirstVerifyStopInvokedImmediately() throws Exception {
+    DefaultMetricsSystem.shutdown();
+    new ConfigBuilder().add("*.period", 8)
+        .add("test.sink.test.class", TestSink.class.getName())
+        .add("test.*.source.filter.exclude", "s0")
+        .add("test.source.s1.metric.filter.exclude", "X*")
+        .add("test.sink.sink1.metric.filter.exclude", "Y*")
+        .add("test.sink.sink2.metric.filter.exclude", "Y*")
+        .save(TestMetricsConfig.getTestFilename("hadoop-metrics2-test"));
+    MetricsSystemImpl ms = new MetricsSystemImpl("Test");
+    ms.start();
+    ms.register("s0", "s0 desc", new TestSource("s0rec"));
+    TestSource s1 = ms.register("s1", "s1 desc", new TestSource("s1rec"));
+    s1.c1.incr();
+    s1.xxx.incr();
+    s1.g1.set(2);
+    s1.yyy.incr(2);
+    s1.s1.add(0);
+    MetricsSink sink1 = mock(MetricsSink.class);
+    MetricsSink sink2 = mock(MetricsSink.class);
+    ms.registerSink("sink1", "sink1 desc", sink1);
+    ms.registerSink("sink2", "sink2 desc", sink2);
+    ms.publishMetricsNow();
+    ms.stop();
+    ms.shutdown();
+
+    ArgumentCaptor<MetricsRecord> r1 = ArgumentCaptor.forClass(MetricsRecord.class);
+    ArgumentCaptor<MetricsRecord> r2 = ArgumentCaptor.forClass(MetricsRecord.class);
+    verify(sink1, atMost(2)).putMetrics(r1.capture());
+    verify(sink2, atMost(2)).putMetrics(r2.capture());
+    
+    List<MetricsRecord> mr1 = r1.getAllValues();
+    List<MetricsRecord> mr2 = r2.getAllValues();
+    
+    Set<Metric> expectedMetrics = new LinkedHashSet<>();
+    expectedMetrics.add(new MetricCounterLong(MetricsInfo.named("C1", "C1 desc"), 1));
+    expectedMetrics.add(new MetricGaugeLong(MetricsInfo.named("G1", "G1 desc"), 2));
+    expectedMetrics.add(new MetricCounterLong(MetricsInfo.named("S1NumOps", "Number of ops for s1"), 1));
+
+    if (!mr1.isEmpty() && !mr2.isEmpty()) {
+      assertThat(mr1).containsExactlyInAnyOrderElementsOf(mr2);
+      for (MetricsRecord record : mr1) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyElementsOf(expectedMetrics);
+      }
+    } else if (!mr1.isEmpty()) {
+      for (MetricsRecord record : mr1) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyElementsOf(expectedMetrics);
+      }
+    } else if (!mr2.isEmpty()) {
+      for (MetricsRecord record : mr2) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyElementsOf(expectedMetrics);
+      }
+    }
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.Set;']
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testInitFirstVerifyStopInvokedImmediately() throws Exception {
+    DefaultMetricsSystem.shutdown();
+    new ConfigBuilder().add("*.period", 8)
+        .add("test.sink.test.class", TestSink.class.getName())
+        .add("test.*.source.filter.exclude", "s0")
+        .add("test.source.s1.metric.filter.exclude", "X*")
+        .add("test.sink.sink1.metric.filter.exclude", "Y*")
+        .add("test.sink.sink2.metric.filter.exclude", "Y*")
+        .save(TestMetricsConfig.getTestFilename("hadoop-metrics2-test"));
+    MetricsSystemImpl ms = new MetricsSystemImpl("Test");
+    ms.start();
+    ms.register("s0", "s0 desc", new TestSource("s0rec"));
+    TestSource s1 = ms.register("s1", "s1 desc", new TestSource("s1rec"));
+    s1.c1.incr();
+    s1.xxx.incr();
+    s1.g1.set(2);
+    s1.yyy.incr(2);
+    s1.s1.add(0);
+    MetricsSink sink1 = mock(MetricsSink.class);
+    MetricsSink sink2 = mock(MetricsSink.class);
+    ms.registerSink("sink1", "sink1 desc", sink1);
+    ms.registerSink("sink2", "sink2 desc", sink2);
+    ms.publishMetricsNow();
+    ms.stop();
+    ms.shutdown();
+
+    ArgumentCaptor<MetricsRecord> r1 = ArgumentCaptor.forClass(MetricsRecord.class);
+    ArgumentCaptor<MetricsRecord> r2 = ArgumentCaptor.forClass(MetricsRecord.class);
+    verify(sink1, atMost(2)).putMetrics(r1.capture());
+    verify(sink2, atMost(2)).putMetrics(r2.capture());
+    
+    List<MetricsRecord> mr1 = r1.getAllValues();
+    List<MetricsRecord> mr2 = r2.getAllValues();
+    
+    Set<Metric> expectedMetrics = new LinkedHashSet<>();
+    expectedMetrics.add(new MetricCounterLongImpl(MetricsInfoFactory.named("C1", "C1 desc"), 1));
+    expectedMetrics.add(new MetricGaugeLongImpl(MetricsInfoFactory.named("G1", "G1 desc"), 2));
+    expectedMetrics.add(new MetricCounterLongImpl(MetricsInfoFactory.named("S1NumOps", "Number of ops for s1"), 1));
+
+    if (!mr1.isEmpty() && !mr2.isEmpty()) {
+      assertThat(mr1).containsExactlyInAnyOrderElementsOf(mr2);
+      for (MetricsRecord record : mr1) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyIn(expectedMetrics);
+      }
+    } else if (!mr1.isEmpty()) {
+      for (MetricsRecord record : mr1) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyIn(expectedMetrics);
+      }
+    } else if (!mr2.isEmpty()) {
+      for (MetricsRecord record : mr2) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyIn(expectedMetrics);
+      }
+    }
+}
+
+
+import:
+
+['import org.apache.hadoop.metrics2.MetricsInfo;', 'import org.apache.hadoop.metrics2.Metric;', 'import org.apache.hadoop.metrics2.lib.MetricsInfoFactory;', 'import org.apache.hadoop.metrics2.impl.MetricCounterLongImpl;', 'import org.apache.hadoop.metrics2.impl.MetricGaugeLongImpl;', 'import org.apache.hadoop.metrics2.impl.MetricsSystemImpl;', 'import org.apache.hadoop.metrics2.impl.TestMetricsConfig;', 'import org.apache.hadoop.metrics2.impl.TestSource;', 'import org.apache.hadoop.metrics2.impl.TestSink;', 'import org.apache.hadoop.metrics2.util.ConfigBuilder;', 'import java.util.List;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.3.6</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testInitFirstVerifyStopInvokedImmediately() throws Exception {
+    DefaultMetricsSystem.shutdown();
+    new ConfigBuilder().add("*.period", 8)
+        .add("test.sink.test.class", TestSink.class.getName())
+        .add("test.*.source.filter.exclude", "s0")
+        .add("test.source.s1.metric.filter.exclude", "X*")
+        .add("test.sink.sink1.metric.filter.exclude", "Y*")
+        .add("test.sink.sink2.metric.filter.exclude", "Y*")
+        .save(TestMetricsConfig.getTestFilename("hadoop-metrics2-test"));
+    MetricsSystemImpl ms = new MetricsSystemImpl("Test");
+    ms.start();
+    ms.register("s0", "s0 desc", new TestSource("s0rec"));
+    TestSource s1 = ms.register("s1", "s1 desc", new TestSource("s1rec"));
+    s1.c1.incr();
+    s1.xxx.incr();
+    s1.g1.set(2);
+    s1.yyy.incr(2);
+    s1.s1.add(0);
+    MetricsSink sink1 = mock(MetricsSink.class);
+    MetricsSink sink2 = mock(MetricsSink.class);
+    ms.registerSink("sink1", "sink1 desc", sink1);
+    ms.registerSink("sink2", "sink2 desc", sink2);
+    ms.publishMetricsNow();
+    ms.stop();
+    ms.shutdown();
+
+    ArgumentCaptor<MetricsRecord> r1 = ArgumentCaptor.forClass(MetricsRecord.class);
+    ArgumentCaptor<MetricsRecord> r2 = ArgumentCaptor.forClass(MetricsRecord.class);
+    verify(sink1, atMost(2)).putMetrics(r1.capture());
+    verify(sink2, atMost(2)).putMetrics(r2.capture());
+    
+    List<MetricsRecord> mr1 = r1.getAllValues();
+    List<MetricsRecord> mr2 = r2.getAllValues();
+    
+    Set<Metric> expectedMetrics = new LinkedHashSet<>();
+    expectedMetrics.add(new MetricCounterLongImpl(MetricsInfoFactory.named("C1", "C1 desc"), 1));
+    expectedMetrics.add(new MetricGaugeLongImpl(MetricsInfoFactory.named("G1", "G1 desc"), 2));
+    expectedMetrics.add(new MetricCounterLongImpl(MetricsInfoFactory.named("S1NumOps", "Number of ops for s1"), 1));
+
+    if (!mr1.isEmpty() && !mr2.isEmpty()) {
+      assertThat(mr1).containsExactlyInAnyOrderElementsOf(mr2);
+      for (MetricsRecord record : mr1) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyElementsOf(expectedMetrics);
+      }
+    } else if (!mr1.isEmpty()) {
+      for (MetricsRecord record : mr1) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyElementsOf(expectedMetrics);
+      }
+    } else if (!mr2.isEmpty()) {
+      for (MetricsRecord record : mr2) {
+        assertThat(new LinkedHashSet<>(record.metrics())).containsAnyElementsOf(expectedMetrics);
+      }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.3.4</version>
+    <scope>test</scope>
+</dependency>
+

@@ -1,0 +1,135 @@
+Test File Path: projects/08e5dfd77fd5f749bd79ca6e32f661d6d70f50e3/axon-server-se/axonserver/src/test/java/io/axoniq/axonserver/admin/eventprocessor/requestprocessor/LocalEventProcessorsAdminServiceTest.java
+Original Test Method:
+     public void testGetByComponent() {
+        EventProcessorInfo eventProcessorA = buildEventProcessorInfo("blue", "X");
+        EventProcessorInfo eventProcessorB = buildEventProcessorInfo("blue", "X");
+        EventProcessorInfo eventProcessorC = buildEventProcessorInfo("blue", "Y");
+        EventProcessorInfo eventProcessorD = buildEventProcessorInfo("green", "X");
+        EventProcessorInfo eventProcessorE = buildEventProcessorInfo("green", "Y");
+        ClientProcessor clientA = new FakeClientProcessor("Client-A", true, eventProcessorA);
+        ClientProcessor clientB = new FakeClientProcessor("Client-B", false, eventProcessorB);
+        ClientProcessor clientC = new FakeClientProcessor("Client-C", false, eventProcessorC);
+        ClientProcessor clientD = new FakeClientProcessor("Client-D", false, eventProcessorD);
+        ClientProcessor clientE = new FakeClientProcessor("Client-E", true, eventProcessorE);
+
+        ClientProcessors processors = () -> asList(clientA, clientB, clientC, clientD, clientE).iterator();
+        LocalEventProcessorsAdminService testSubject = new LocalEventProcessorsAdminService(publisher,
+                                                                                            processors,
+                                                                                            instructionCache,
+                                                                                            strategyController);
+        Flux<String> clients = testSubject.eventProcessorsByComponent("component",
+                                                                      new AuthenticatedUser( "authenticated-user"))
+                                          .flatMap(eventProcessor -> Flux.fromIterable(eventProcessor.instances()))
+                                          .map(EventProcessorInstance::clientId);
+
+        StepVerifier.create(clients)
+                    .expectNext("Client-A", "Client-B", "Client-E")
+                    .verifyComplete();
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.springframework.web.reactive.function.client.WebClient;', 'import java.util.Arrays;', 'import java.util.List;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-webflux</artifactId>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetByComponent() {
+    // Arrange
+    Client clientA = new Client("Client-A");
+    Client clientB = new Client("Client-B");
+    Client clientC = new Client("Client-C");
+    Client clientD = new Client("Client-D");
+    Client clientE = new Client("Client-E");
+
+    List<Client> clients = Arrays.asList(clientA, clientB, clientC, clientD, clientE);
+
+    // Act
+    List<Client> result = getByComponent(clients);
+
+    // Assert
+    Assertions.assertThat(result)
+        .containsExactly(clientA, clientB, clientC, clientD, clientE);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import io.axoniq.axonserver.admin.eventprocessor.requestprocessor.LocalEventProcessorsAdminServiceTest;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>

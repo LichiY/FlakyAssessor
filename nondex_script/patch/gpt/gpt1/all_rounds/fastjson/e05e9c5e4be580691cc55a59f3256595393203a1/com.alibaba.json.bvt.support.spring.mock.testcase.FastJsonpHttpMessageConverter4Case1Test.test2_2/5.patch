@@ -1,0 +1,169 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/support/spring/mock/testcase/FastJsonpHttpMessageConverter4Case1Test.java
+Original Test Method:
+     public void test2_2() throws Exception {
+
+        String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+        ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+                .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+        actions.andDo(print());
+        actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+                .andExpect(content().string("/**/fnUpdateSome({\"p1\":1,\"p2\":2})"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void test2_2() throws Exception {
+        String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+        ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+                .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+        actions.andDo(print());
+        actions.andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+                .andExpect(jsonPath("$.p1").value(1))
+                .andExpect(jsonPath("$.p2").value(2));
+    }
+
+
+import:
+
+['import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk())
+            .andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+            .andExpect(content().string(containsString("p1")))
+            .andExpect(content().string(containsString("p2")));
+}
+
+
+import:
+
+['import static org.hamcrest.Matchers.containsString;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk())
+            .andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+            .andExpect(jsonPath("$..name").value(hasItems("p1", "p2", "s1", "s2", "s3")));
+}
+
+
+import:
+
+['import static org.hamcrest.Matchers.hasItems;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk())
+            .andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+            .andExpect(jsonPath("$..name").value(containsInAnyOrder("p1", "p2", "s1", "s2", "s3")));
+}
+
+
+import:
+
+['import static org.hamcrest.Matchers.containsInAnyOrder;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk())
+            .andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+            .andExpect(jsonPath("$..name").value(containsInAnyOrder("p1", "p2", "s1", "s2", "s3")));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+

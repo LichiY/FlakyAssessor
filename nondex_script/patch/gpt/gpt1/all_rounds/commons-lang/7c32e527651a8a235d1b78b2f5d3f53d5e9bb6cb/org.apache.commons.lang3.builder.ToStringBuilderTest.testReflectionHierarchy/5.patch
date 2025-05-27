@@ -1,0 +1,254 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/ToStringBuilderTest.java
+Original Test Method:
+     public void testReflectionHierarchy() {
+        final ReflectionTestFixtureA baseA = new ReflectionTestFixtureA();
+        String baseString = this.toBaseString(baseA);
+        assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA));
+        assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null));
+        assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false));
+        assertEquals(baseString + "[a=a,transientA=t]", ToStringBuilder.reflectionToString(baseA, null, true));
+        assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, null));
+        assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, Object.class));
+        assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, ReflectionTestFixtureA.class));
+
+        final ReflectionTestFixtureB baseB = new ReflectionTestFixtureB();
+        baseString = this.toBaseString(baseB);
+        assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+        assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+        assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null));
+        assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false));
+        assertEquals(baseString + "[b=b,transientB=t,a=a,transientA=t]", ToStringBuilder.reflectionToString(baseB, null, true));
+        assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, null));
+        assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, Object.class));
+        assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureA.class));
+        assertEquals(baseString + "[b=b]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureB.class));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchy() {
+    final ReflectionTestFixtureA baseA = new ReflectionTestFixtureA();
+    String baseString = this.toBaseString(baseA);
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false));
+    assertTrue(ToStringBuilder.reflectionToString(baseA, null, true).matches(baseString + "\\[(transientA=t,a=a|a=a,transientA=t)\\]"));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, Object.class));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, ReflectionTestFixtureA.class));
+
+    final ReflectionTestFixtureB baseB = new ReflectionTestFixtureB();
+    baseString = this.toBaseString(baseB);
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false));
+    assertTrue(ToStringBuilder.reflectionToString(baseB, null, true).matches(baseString + "\\[(transientB=t,a=a,transientA=t,b=b|b=b,transientB=t,a=a,transientA=t|b=b,a=a,transientB=t,transientA=t|transientB=t,b=b,a=a,transientA=t|transientB=t,b=b,transientA=t,a=a|b=b,transientB=t,transientA=t,a=a)\\]"));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, Object.class));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureA.class));
+    assertEquals(baseString + "[b=b]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureB.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchy() {
+    final ReflectionTestFixtureA baseA = new ReflectionTestFixtureA();
+    String baseString = this.toBaseString(baseA);
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false));
+    String reflectionStringA = ToStringBuilder.reflectionToString(baseA, null, true);
+    assertTrue(reflectionStringA.contains("a=a") && reflectionStringA.contains("transientA=t") && reflectionStringA.startsWith(baseString + "[") && reflectionStringA.endsWith("]"));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, Object.class));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, ReflectionTestFixtureA.class));
+
+    final ReflectionTestFixtureB baseB = new ReflectionTestFixtureB();
+    baseString = this.toBaseString(baseB);
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false));
+    String reflectionStringB = ToStringBuilder.reflectionToString(baseB, null, true);
+    assertTrue(reflectionStringB.contains("a=a") && reflectionStringB.contains("b=b") && reflectionStringB.contains("transientA=t") && reflectionStringB.contains("transientB=t") && reflectionStringB.startsWith(baseString + "[") && reflectionStringB.endsWith("]"));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, Object.class));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureA.class));
+    assertEquals(baseString + "[b=b]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureB.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchy() {
+    final ReflectionTestFixtureA baseA = new ReflectionTestFixtureA();
+    String baseString = this.toBaseString(baseA);
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false));
+    String reflectionStringA = ToStringBuilder.reflectionToString(baseA, null, true);
+    assertTrue("String should contain a=a", reflectionStringA.contains("a=a"));
+    assertTrue("String should contain transientA=t", reflectionStringA.contains("transientA=t"));
+    assertTrue("String should start with " + baseString + "[", reflectionStringA.startsWith(baseString + "["));
+    assertTrue("String should end with ]", reflectionStringA.endsWith("]"));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, Object.class));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, ReflectionTestFixtureA.class));
+
+    final ReflectionTestFixtureB baseB = new ReflectionTestFixtureB();
+    baseString = this.toBaseString(baseB);
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false));
+    String reflectionStringB = ToStringBuilder.reflectionToString(baseB, null, true);
+    assertTrue("String should contain a=a", reflectionStringB.contains("a=a"));
+    assertTrue("String should contain b=b", reflectionStringB.contains("b=b"));
+    assertTrue("String should contain transientA=t", reflectionStringB.contains("transientA=t"));
+    assertTrue("String should contain transientB=t", reflectionStringB.contains("transientB=t"));
+    assertTrue("String should start with " + baseString + "[", reflectionStringB.startsWith(baseString + "["));
+    assertTrue("String should end with ]", reflectionStringB.endsWith("]"));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, Object.class));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureA.class));
+    assertEquals(baseString + "[b=b]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureB.class));
+}
+
+
+import:
+
+['import static org.junit.Assert.assertTrue;']
+
+pom:
+
+
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchy() {
+    final ReflectionTestFixtureA baseA = new ReflectionTestFixtureA();
+    String baseString = this.toBaseString(baseA);
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false));
+    String reflectionStringA = ToStringBuilder.reflectionToString(baseA, null, true);
+    assertThat(reflectionStringA).contains("a=a", "transientA=t");
+    assertThat(reflectionStringA).startsWith(baseString + "[");
+    assertThat(reflectionStringA).endsWith("]");
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, Object.class));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, ReflectionTestFixtureA.class));
+
+    final ReflectionTestFixtureB baseB = new ReflectionTestFixtureB();
+    baseString = this.toBaseString(baseB);
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false));
+    String reflectionStringB = ToStringBuilder.reflectionToString(baseB, null, true);
+    assertThat(reflectionStringB).contains("a=a", "b=b", "transientA=t", "transientB=t");
+    assertThat(reflectionStringB).startsWith(baseString + "[");
+    assertThat(reflectionStringB).endsWith("]");
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, Object.class));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureA.class));
+    assertEquals(baseString + "[b=b]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureB.class));
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchy() {
+    final ReflectionTestFixtureA baseA = new ReflectionTestFixtureA();
+    String baseString = this.toBaseString(baseA);
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false));
+    String reflectionStringA = ToStringBuilder.reflectionToString(baseA, null, true);
+    assertThat(reflectionStringA).contains("a=a", "transientA=t");
+    assertThat(reflectionStringA).startsWith(baseString + "[");
+    assertThat(reflectionStringA).endsWith("]");
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, null));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, Object.class));
+    assertEquals(baseString + "[a=a]", ToStringBuilder.reflectionToString(baseA, null, false, ReflectionTestFixtureA.class));
+
+    final ReflectionTestFixtureB baseB = new ReflectionTestFixtureB();
+    baseString = this.toBaseString(baseB);
+    String expectedB = baseString + "[";
+    String reflectionStringB = ToStringBuilder.reflectionToString(baseB, null, true);
+    assertThat(reflectionStringB).contains("a=a", "b=b", "transientA=t", "transientB=t");
+    assertThat(reflectionStringB).startsWith(baseString + "[");
+    assertThat(reflectionStringB).endsWith("]");
+    
+    String standardB = ToStringBuilder.reflectionToString(baseB, null, false);
+    assertThat(standardB).contains("a=a", "b=b");
+    assertThat(standardB).startsWith(baseString + "[");
+    assertThat(standardB).endsWith("]");
+    
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, null));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, Object.class));
+    assertEquals(baseString + "[b=b,a=a]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureA.class));
+    assertEquals(baseString + "[b=b]", ToStringBuilder.reflectionToString(baseB, null, false, ReflectionTestFixtureB.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+

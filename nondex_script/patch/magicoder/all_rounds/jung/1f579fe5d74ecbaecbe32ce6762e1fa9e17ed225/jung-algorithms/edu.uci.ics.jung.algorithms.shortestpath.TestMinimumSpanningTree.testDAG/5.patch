@@ -1,0 +1,143 @@
+Test File Path: projects/1f579fe5d74ecbaecbe32ce6762e1fa9e17ed225/jung/jung-algorithms/src/test/java/edu/uci/ics/jung/algorithms/shortestpath/TestMinimumSpanningTree.java
+Original Test Method:
+   public void testDAG() {
+    MutableNetwork<String, Integer> graph = NetworkBuilder.directed().build();
+    graph.addNode("B0");
+    graph.addEdge("A", "B0", 0);
+    graph.addEdge("A", "B1", 1);
+
+    Network<String, Integer> mst = MinimumSpanningTree.extractFrom(graph, e -> 1.0);
+
+    assertEquals(graph.nodes(), mst.nodes());
+    assertEquals(graph.edges(), mst.edges());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testDAG() {
+    MutableNetwork<String, Integer> graph = NetworkBuilder.directed().build();
+    graph.addNode("B0");
+    graph.addEdge("A", "B0", 0);
+    graph.addEdge("A", "B1", 1);
+
+    Network<String, Integer> mst = MinimumSpanningTree.extractFrom(graph, e -> 1.0);
+
+    assertEquals(graph.nodes().stream().sorted().collect(Collectors.toList()), mst.nodes().stream().sorted().collect(Collectors.toList()));
+    assertEquals(graph.edges().stream().sorted().collect(Collectors.toList()), mst.edges().stream().sorted().collect(Collectors.toList()));
+  }
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import org.junit.jupiter.api.Assertions.*;', 'import org.jgrapht.graph.DefaultEdge;', 'import org.jgrapht.graph.SimpleDirectedGraph;', 'import org.jgrapht.graph.SimpleGraph;', 'import org.jgrapht.alg.MinimumSpanningTree;', 'import java.util.stream.Collectors;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testDAG() {
+        SimpleDirectedGraph<String, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        graph.addVertex("B0");
+        graph.addEdge("A", "B0");
+        graph.addEdge("A", "B1");
+
+        SimpleGraph<String, DefaultEdge> mst = MinimumSpanningTree.getSpanningTree(graph);
+
+        Assertions.assertEquals(graph.vertexSet(), mst.vertexSet());
+        Assertions.assertEquals(graph.edgeSet(), mst.edgeSet());
+    }
+
+
+import:
+
+['import org.junit.jupiter.api.Assertions;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testDAG() {
+        SimpleDirectedGraph<String, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        graph.addVertex("B0");
+        graph.addEdge("A", "B0");
+        graph.addEdge("A", "B1");
+
+        SimpleGraph<String, DefaultEdge> mst = MinimumSpanningTree.getSpanningTree(graph);
+
+        Assertions.assertEquals(graph.vertexSet(), mst.vertexSet());
+        Assertions.assertEquals(graph.edgeSet(), mst.edgeSet());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testDAG() {
+        SimpleDirectedGraph<String, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        graph.addVertex("B0");
+        graph.addEdge("A", "B0");
+        graph.addEdge("A", "B1");
+
+        SimpleGraph<String, DefaultEdge> mst = MinimumSpanningTree.getSpanningTree(graph);
+
+        Assertions.assertEquals(graph.vertexSet(), mst.vertexSet());
+        Assertions.assertEquals(graph.edgeSet(), mst.edgeSet());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testDAG() {
+        SimpleDirectedGraph<String, DefaultEdge> graph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        graph.addVertex("B0");
+        graph.addEdge("A", "B0");
+        graph.addEdge("A", "B1");
+
+        SimpleGraph<String, DefaultEdge> mst = MinimumSpanningTree.getSpanningTree(graph);
+
+        Assertions.assertEquals(graph.vertexSet(), mst.vertexSet());
+        Assertions.assertEquals(graph.edgeSet(), mst.edgeSet());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

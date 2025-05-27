@@ -1,0 +1,101 @@
+Test File Path: projects/60c743da35913d72f37f2d79afa90ad2bf73cb89/vjtools/vjkit/src/test/java/com/vip/vjtools/vjkit/mapper/JsonMapperTest.java
+Original Test Method:
+ 	public void jsonp() {
+		TestBean bean = new TestBean("A");
+		String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+		assertThat(jsonp).isEqualTo("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})");
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void jsonp() {
+    TestBean bean = new TestBean("A");
+    String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+    assertThat(jsonp).isEqualTo("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})");
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import org.assertj.core.api.Assertions;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.8</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void jsonp() {
+    TestBean bean = new TestBean("A");
+    String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+    assertThat(jsonp).isEqualTo("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void jsonp() {
+    TestBean bean = new TestBean("A");
+    String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+    assertThat(jsonp).isEqualTo("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})");
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void jsonp() {
+    TestBean bean = new TestBean("A");
+    String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+    assertThat(jsonp).isEqualTo("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})");
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.1</version>
+</dependency>

@@ -1,0 +1,161 @@
+Test File Path: projects/1764748eedb2f320a0d1c43cb4f928c4ccb1f2f5/Mapper/core/src/test/java/tk/mybatis/mapper/mapperhelper/SqlHelperTest.java
+Original Test Method:
+     public void testLogicDeleteSql() {
+        String wherePKColumns = SqlHelper.wherePKColumns(User.class);
+        Assert.assertEquals("<where> AND id = #{id} AND is_valid = 1</where>", wherePKColumns);
+
+        String whereAllIfColumns = SqlHelper.whereAllIfColumns(User.class, false);
+        Assert.assertEquals("<where><if test=\"id != null\"> AND id = #{id}</if><if test=\"username != null\"> AND username = #{username}</if> AND is_valid = 1</where>", whereAllIfColumns);
+
+        String isLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, true);
+        Assert.assertEquals(" AND is_valid = 0", isLogicDeletedColumn);
+
+        String notLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, false);
+        Assert.assertEquals(" AND is_valid = 1", notLogicDeletedColumn);
+
+        String updateSetColumns = SqlHelper.updateSetColumns(User.class, null, false, false);
+        Assert.assertEquals("<set>username = #{username},is_valid = 1,</set>", updateSetColumns);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testLogicDeleteSql() {
+    String wherePKColumns = SqlHelper.wherePKColumns(User.class);
+    Assert.assertEquals("<where> AND id = #{id} AND is_valid = 1</where>", wherePKColumns);
+
+    String whereAllIfColumns = SqlHelper.whereAllIfColumns(User.class, false);
+    Assert.assertEquals("<where><if test=\"id != null\"> AND id = #{id}</if><if test=\"username != null\"> AND username = #{username}</if> AND is_valid = 1</where>", whereAllIfColumns);
+
+    String isLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, true);
+    Assert.assertEquals(" AND is_valid = 0", isLogicDeletedColumn);
+
+    String notLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, false);
+    Assert.assertEquals(" AND is_valid = 1", notLogicDeletedColumn);
+
+    String updateSetColumns = SqlHelper.updateSetColumns(User.class, null, false, false);
+    Assert.assertEquals("<set>username = #{username},is_valid = 1,</set>", updateSetColumns);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testLogicDeleteSql() {
+    String wherePKColumns = SqlHelper.wherePKColumns(User.class);
+    Assert.assertEquals("<where> AND id = #{id} AND is_valid = 1</where>", wherePKColumns);
+
+    String whereAllIfColumns = SqlHelper.whereAllIfColumns(User.class, false);
+    Assert.assertEquals("<where><if test=\"id != null\"> AND id = #{id}</if><if test=\"username != null\"> AND username = #{username}</if> AND is_valid = 1</where>", whereAllIfColumns);
+
+    String isLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, true);
+    Assert.assertEquals(" AND is_valid = 0", isLogicDeletedColumn);
+
+    String notLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, false);
+    Assert.assertEquals(" AND is_valid = 1", notLogicDeletedColumn);
+
+    String updateSetColumns = SqlHelper.updateSetColumns(User.class, null, false, false);
+    Assert.assertEquals("<set>username = #{username},is_valid = 1,</set>", updateSetColumns);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testLogicDeleteSql() {
+    String wherePKColumns = SqlHelper.wherePKColumns(User.class);
+    Assert.assertEquals("<where> AND id = #{id} AND is_valid = 1</where>", wherePKColumns);
+
+    String whereAllIfColumns = SqlHelper.whereAllIfColumns(User.class, false);
+    Assert.assertEquals("<where><if test=\"id != null\"> AND id = #{id}</if><if test=\"username != null\"> AND username = #{username}</if> AND is_valid = 1</where>", whereAllIfColumns);
+
+    String isLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, true);
+    Assert.assertEquals(" AND is_valid = 0", isLogicDeletedColumn);
+
+    String notLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, false);
+    Assert.assertEquals(" AND is_valid = 1", notLogicDeletedColumn);
+
+    String updateSetColumns = SqlHelper.updateSetColumns(User.class, null, false, false);
+    Assert.assertEquals("<set>username = #{username},is_valid = 1,</set>", updateSetColumns);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testLogicDeleteSql() {
+    String wherePKColumns = SqlHelper.wherePKColumns(User.class);
+    Assert.assertEquals("<where> AND id = #{id} AND is_valid = 1</where>", wherePKColumns);
+
+    String whereAllIfColumns = SqlHelper.whereAllIfColumns(User.class, false);
+    Assert.assertEquals("<where><if test=\"id != null\"> AND id = #{id}</if><if test=\"username != null\"> AND username = #{username}</if> AND is_valid = 1</where>", whereAllIfColumns);
+
+    String isLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, true);
+    Assert.assertEquals(" AND is_valid = 0", isLogicDeletedColumn);
+
+    String notLogicDeletedColumn = SqlHelper.whereLogicDelete(User.class, false);
+    Assert.assertEquals(" AND is_valid = 1", notLogicDeletedColumn);
+
+    String updateSetColumns = SqlHelper.updateSetColumns(User.class, null, false, false);
+    Assert.assertEquals("<set>username = #{username},is_valid = 1,</set>", updateSetColumns);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.gson.JsonParser;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>

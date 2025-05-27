@@ -1,0 +1,77 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/issue_1500/Issue1584.java
+Original Test Method:
+     public void test_for_issue() throws Exception {
+        ParserConfig config = new ParserConfig();
+
+        String json = "{\"k\":1,\"v\":\"A\"}";
+
+        {
+            Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+            assertEquals("v", entry.getKey());
+            assertEquals("A", entry.getValue());
+        }
+
+        config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+            public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+                JSONObject object = parser.parseObject();
+                Object k = object.get("k");
+                Object v = object.get("v");
+
+                return (T) Collections.singletonMap(k, v).entrySet().iterator().next();
+            }
+
+            public int getFastMatchToken() {
+                return 0;
+            }
+        });
+
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        assertEquals(1, entry.getKey());
+        assertEquals("A", entry.getValue());
+    }
+Patch:
+
+test_code:
+public void test_for_issue() throws Exception {
+    ParserConfig config = new ParserConfig();
+
+    String json = "{\"k\":1,\"v\":\"A\"}";
+
+    {
+        Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+        // Check both possible key-value pairs
+        if (entry.getKey().equals("k")) {
+            assertEquals(1, entry.getValue());
+        } else if (entry.getKey().equals("v")) {
+            assertEquals("A", entry.getValue());
+        } else {
+            fail("Unexpected key in entry");
+        }
+    }
+
+    config.putDeserializer(Map.Entry.class, new ObjectDeserializer() {
+        public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+            JSONObject object = parser.parseObject();
+            Object k = object.get("k");
+            Object v = object.get("v");
+
+            LinkedHashMap<Object, Object> map = new LinkedHashMap<Object, Object>();
+            map.put(k, v);
+            return (T) map.entrySet().iterator().next();
+        }
+
+        public int getFastMatchToken() {
+            return 0;
+        }
+    });
+
+    Map.Entry entry = JSON.parseObject(json, Map.Entry.class, config);
+    assertEquals(1, entry.getKey());
+    assertEquals("A", entry.getValue());
+}
+
+import:
+[]
+pom:
+
+<!-- No new dependencies needed -->

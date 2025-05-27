@@ -1,0 +1,180 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-engine/src/test/java/org/flowable/engine/test/api/runtime/changestate/ChangeStateTest.java
+Original Test Method:
+     public void testSetCurrentExecutionForSubProcessWithVariables() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("startSimpleSubProcess");
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        taskService.complete(task.getId());
+
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("subTask", task.getTaskDefinitionKey());
+
+        changeStateEventListener.clear();
+
+        runtimeService.createChangeActivityStateBuilder()
+            .moveExecutionToActivityId(task.getExecutionId(), "taskBefore")
+            .processVariable("processVar1", "test")
+            .processVariable("processVar2", 10)
+            .localVariable("taskBefore", "localVar1", "test2")
+            .localVariable("taskBefore", "localVar2", 20)
+            .changeState();
+
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("taskBefore", task.getTaskDefinitionKey());
+
+        List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).list();
+        assertEquals(2, executions.size());
+
+        Map<String, Object> processVariables = runtimeService.getVariables(processInstance.getId());
+        assertEquals("test", processVariables.get("processVar1"));
+        assertEquals(10, processVariables.get("processVar2"));
+        assertNull(processVariables.get("localVar1"));
+        assertNull(processVariables.get("localVar2"));
+
+        Execution execution = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).activityId("taskBefore").singleResult();
+        Map<String, Object> localVariables = runtimeService.getVariablesLocal(execution.getId());
+        assertEquals("test2", localVariables.get("localVar1"));
+        assertEquals(20, localVariables.get("localVar2"));
+
+        // Verify events
+        Iterator<FlowableEvent> iterator = changeStateEventListener.iterator();
+
+        assertTrue(iterator.hasNext());
+        FlowableEvent event = iterator.next();
+        assertEquals(FlowableEngineEventType.VARIABLE_CREATED, event.getType());
+        assertEquals("processVar2", ((FlowableVariableEvent) event).getVariableName());
+        assertEquals(10, ((FlowableVariableEvent) event).getVariableValue());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.VARIABLE_CREATED, event.getType());
+        assertEquals("processVar1", ((FlowableVariableEvent) event).getVariableName());
+        assertEquals("test", ((FlowableVariableEvent) event).getVariableValue());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_CANCELLED, event.getType());
+        assertEquals("subTask", ((FlowableActivityEvent) event).getActivityId());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_CANCELLED, event.getType());
+        assertEquals("subProcess", ((FlowableActivityEvent) event).getActivityId());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.VARIABLE_CREATED, event.getType());
+        assertEquals("localVar2", ((FlowableVariableEvent) event).getVariableName());
+        assertEquals(20, ((FlowableVariableEvent) event).getVariableValue());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.VARIABLE_CREATED, event.getType());
+        assertEquals("localVar1", ((FlowableVariableEvent) event).getVariableName());
+        assertEquals("test2", ((FlowableVariableEvent) event).getVariableValue());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
+        assertEquals("taskBefore", ((FlowableActivityEvent) event).getActivityId());
+
+        assertTrue(!iterator.hasNext());
+
+        taskService.complete(task.getId());
+
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("subTask", task.getTaskDefinitionKey());
+        taskService.complete(task.getId());
+
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("taskAfter", task.getTaskDefinitionKey());
+        taskService.complete(task.getId());
+
+        assertProcessEnded(processInstance.getId());
+    }
+Patch:
+
+test_code:
+public void testSetCurrentExecutionForSubProcessWithVariables() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("startSimpleSubProcess");
+    Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    taskService.complete(task.getId());
+
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals("subTask", task.getTaskDefinitionKey());
+
+    changeStateEventListener.clear();
+
+    runtimeService.createChangeActivityStateBuilder()
+        .moveExecutionToActivityId(task.getExecutionId(), "taskBefore")
+        .processVariable("processVar1", "test")
+        .processVariable("processVar2", 10)
+        .localVariable("taskBefore", "localVar1", "test2")
+        .localVariable("taskBefore", "localVar2", 20)
+        .changeState();
+
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals("taskBefore", task.getTaskDefinitionKey());
+
+    List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).list();
+    assertEquals(2, executions.size());
+
+    Map<String, Object> processVariables = runtimeService.getVariables(processInstance.getId());
+    assertEquals("test", processVariables.get("processVar1"));
+    assertEquals(10, processVariables.get("processVar2"));
+    assertNull(processVariables.get("localVar1"));
+    assertNull(processVariables.get("localVar2"));
+
+    Execution execution = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).activityId("taskBefore").singleResult();
+    Map<String, Object> localVariables = runtimeService.getVariablesLocal(execution.getId());
+    assertEquals("test2", localVariables.get("localVar1"));
+    assertEquals(20, localVariables.get("localVar2"));
+
+    // Verify events - collect all variable creation events first
+    List<FlowableVariableEvent> variableEvents = new ArrayList<>();
+    List<FlowableActivityEvent> activityEvents = new ArrayList<>();
+    
+    for (FlowableEvent event : changeStateEventListener.getEvents()) {
+        if (event.getType() == FlowableEngineEventType.VARIABLE_CREATED) {
+            variableEvents.add((FlowableVariableEvent) event);
+        } else if (event.getType() == FlowableEngineEventType.ACTIVITY_CANCELLED || 
+                   event.getType() == FlowableEngineEventType.ACTIVITY_STARTED) {
+            activityEvents.add((FlowableActivityEvent) event);
+        }
+    }
+
+    // Verify variable events using AssertJ
+    assertThat(variableEvents).extracting("variableName").containsExactlyInAnyOrder("processVar1", "processVar2", "localVar1", "localVar2");
+    assertThat(variableEvents).extracting("variableValue").containsExactlyInAnyOrder("test", 10, "test2", 20);
+
+    // Verify activity events
+    assertEquals(3, activityEvents.size());
+    assertThat(activityEvents).extracting("type", "activityId")
+        .containsExactlyInAnyOrder(
+            tuple(FlowableEngineEventType.ACTIVITY_CANCELLED, "subTask"),
+            tuple(FlowableEngineEventType.ACTIVITY_CANCELLED, "subProcess"),
+            tuple(FlowableEngineEventType.ACTIVITY_STARTED, "taskBefore")
+        );
+
+    taskService.complete(task.getId());
+
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals("subTask", task.getTaskDefinitionKey());
+    taskService.complete(task.getId());
+
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals("taskAfter", task.getTaskDefinitionKey());
+    taskService.complete(task.getId());
+
+    assertProcessEnded(processInstance.getId());
+}
+
+import:
+['import static org.assertj.core.api.Assertions.tuple;']
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>

@@ -1,0 +1,95 @@
+Test File Path: projects/9cede68b355515e1cf8802fd1fcf67aa7547aad1/jetty.project/jetty-server/src/test/java/org/eclipse/jetty/server/ssl/SniSslConnectionFactoryTest.java
+Original Test Method:
+     public void testSNIConnectNoWild() throws Exception
+    {
+        start("src/test/resources/keystore_sni_nowild.p12");
+
+        String response = getResponse("www.acme.org", null);
+        assertThat(response, Matchers.containsString("X-HOST: www.acme.org"));
+        assertThat(response, Matchers.containsString("X-Cert: OU=default"));
+
+        response = getResponse("www.example.com", null);
+        assertThat(response, Matchers.containsString("X-HOST: www.example.com"));
+        assertThat(response, Matchers.containsString("X-Cert: OU=example"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.regex.Pattern;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+
+

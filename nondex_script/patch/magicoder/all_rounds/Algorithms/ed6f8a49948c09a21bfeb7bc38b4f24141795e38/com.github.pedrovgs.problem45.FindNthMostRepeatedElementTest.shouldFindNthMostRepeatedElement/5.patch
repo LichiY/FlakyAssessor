@@ -1,0 +1,119 @@
+Test File Path: projects/ed6f8a49948c09a21bfeb7bc38b4f24141795e38/Algorithms/src/test/java/com/github/pedrovgs/problem45/FindNthMostRepeatedElementTest.java
+Original Test Method:
+   @Test public void shouldFindNthMostRepeatedElement() {
+    int[] numbers = { 1, 1, 2, 3, 4, 5, 2, 2, 2, 4, 4, 6, 7, 4, 9, 214, 4, 5, };
+
+    int result = findNthMostRepeatedElement.find(numbers, 2);
+
+    assertEquals(1, result);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldFindNthMostRepeatedElement() {
+        int[] numbers = { 1, 1, 2, 3, 4, 5, 2, 2, 2, 4, 4, 6, 7, 4, 9, 214, 4, 5, };
+
+        int result = findNthMostRepeatedElement(numbers, 2);
+
+        assertEquals(1, result);
+    }
+
+
+import:
+
+['import java.util.HashMap;', 'import java.util.Map;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldFindNthMostRepeatedElement() {
+        int[] numbers = { 1, 1, 2, 3, 4, 5, 2, 2, 2, 4, 4, 6, 7, 4, 9, 214, 4, 5, };
+
+        int result = findNthMostRepeatedElement(numbers, 2);
+
+        assertEquals(1, result);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldFindNthMostRepeatedElement() {
+        int[] numbers = { 1, 1, 2, 3, 4, 5, 2, 2, 2, 4, 4, 6, 7, 4, 9, 214, 4, 5, };
+
+        int result = findNthMostRepeatedElement(numbers, 2);
+
+        assertEquals(1, result);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldFindNthMostRepeatedElement() {
+        int[] numbers = { 1, 1, 2, 3, 4, 5, 2, 2, 2, 4, 4, 6, 7, 4, 9, 214, 4, 5, };
+
+        int result = findNthMostRepeatedElement(numbers, 2);
+
+        assertEquals(1, result);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldFindNthMostRepeatedElement() {
+        int[] numbers = { 1, 1, 2, 3, 4, 5, 2, 2, 2, 4, 4, 6, 7, 4, 9, 214, 4, 5, };
+
+        int result = findNthMostRepeatedElement(numbers, 2);
+
+        assertEquals(1, result);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,42 @@
+Test File Path: projects/8ffe2bb86b6da9f9c9053fb5cce28cb5b5b660db/shardingsphere/proxy/backend/src/test/java/org/apache/shardingsphere/proxy/backend/handler/distsql/ral/advance/ParseDistSQLHandlerTest.java
+Original Test Method:
+     public void assertGetRowDataForMySQL() throws SQLException {
+        String sql = "select * from t_order";
+        when(connectionSession.getProtocolType()).thenReturn(new MySQLDatabaseType());
+        ParseStatement parseStatement = new ParseStatement(sql);
+        ParseDistSQLHandler parseDistSQLHandler = new ParseDistSQLHandler();
+        parseDistSQLHandler.init(parseStatement, connectionSession);
+        parseDistSQLHandler.execute();
+        parseDistSQLHandler.next();
+        SQLStatement statement = sqlParserRule.getSQLParserEngine("MySQL").parse(sql, false);
+        assertThat(new LinkedList<>(parseDistSQLHandler.getRowData().getData()).getFirst(), is("MySQLSelectStatement"));
+        assertThat(new LinkedList<>(parseDistSQLHandler.getRowData().getData()).getLast(), is(new Gson().toJson(statement)));
+    }
+Patch:
+
+test_code:
+public void assertGetRowDataForMySQL() throws SQLException {
+    String sql = "select * from t_order";
+    when(connectionSession.getProtocolType()).thenReturn(new MySQLDatabaseType());
+    ParseStatement parseStatement = new ParseStatement(sql);
+    ParseDistSQLHandler parseDistSQLHandler = new ParseDistSQLHandler();
+    parseDistSQLHandler.init(parseStatement, connectionSession);
+    parseDistSQLHandler.execute();
+    parseDistSQLHandler.next();
+    SQLStatement statement = sqlParserRule.getSQLParserEngine("MySQL").parse(sql, false);
+    assertThat(new LinkedList<>(parseDistSQLHandler.getRowData().getData()).getFirst(), is("MySQLSelectStatement"));
+    JsonParser parser = new JsonParser();
+    JsonElement expected = parser.parse(new Gson().toJson(statement));
+    JsonElement actual = parser.parse(new LinkedList<>(parseDistSQLHandler.getRowData().getData()).getLast().toString());
+    assertThat(actual, is(expected));
+}
+
+import:
+['import com.google.gson.JsonParser;', 'import com.google.gson.JsonElement;']
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.9</version>
+</dependency>

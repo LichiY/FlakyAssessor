@@ -1,0 +1,324 @@
+Test File Path: projects/7f0b301addd9ec6237c2c947cdb629b12831fd43/utils/utils-serialize/src/test/java/test/utils/serialize/JSONSerializeUtilsTest.java
+Original Test Method:
+ 	public void testJSONString() {
+		Car car = new Car();
+		car.setCost(10);
+		car.setWeight(1000);
+
+		String carJSON = JSONSerializeUtils.serializeToJSON(car);
+		JSONString jsonString = new JSONString(carJSON);
+		System.out.println("1:--\r\n" + carJSON);
+
+		String newJSONString = JSONSerializeUtils.serializeToJSON(jsonString);
+		assertEquals(carJSON, newJSONString);
+		System.out.println("2:--\r\n" + newJSONString);
+
+		JSONString newJSONString2 = JSONSerializeUtils.deserializeAs(newJSONString, JSONString.class);
+		assertEquals(carJSON, newJSONString2.toString());
+
+		String address = UUID.randomUUID().toString();
+		JSONString jsonAddress = new JSONString(JSONSerializeUtils.serializeToJSON(address));
+		String desAddress = JSONSerializeUtils.deserializeAs(jsonAddress, String.class);
+		assertEquals(address, desAddress);
+
+		String emptyStr = "";
+		JSONString emptyJsonStr = new JSONString(JSONSerializeUtils.serializeToJSON(emptyStr));
+		String desEmptyStr = JSONSerializeUtils.deserializeAs(emptyJsonStr, String.class);
+		assertEquals(emptyStr, desEmptyStr);
+
+		String nullStr = null;
+		String nullJson = JSONSerializeUtils.serializeToJSON(nullStr);
+		assertNull(nullJson);
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testJSONString() {
+    Car car = new Car();
+    car.setCost(10);
+    car.setWeight(1000);
+
+    String carJSON = JSONSerializeUtils.serializeToJSON(car);
+    JSONString jsonString = new JSONString(carJSON);
+    System.out.println("1:--\r\n" + carJSON);
+
+    String newJSONString = JSONSerializeUtils.serializeToJSON(jsonString);
+    assertEquals(carJSON, newJSONString);
+    System.out.println("2:--\r\n" + newJSONString);
+
+    JSONString newJSONString2 = JSONSerializeUtils.deserializeAs(newJSONString, JSONString.class);
+    assertEquals(carJSON, newJSONString2.toString());
+
+    String address = UUID.randomUUID().toString();
+    JSONString jsonAddress = new JSONString(JSONSerializeUtils.serializeToJSON(address));
+    String desAddress = JSONSerializeUtils.deserializeAs(jsonAddress, String.class);
+    assertEquals(address, desAddress);
+
+    String emptyStr = "";
+    JSONString emptyJsonStr = new JSONString(JSONSerializeUtils.serializeToJSON(emptyStr));
+    String desEmptyStr = JSONSerializeUtils.deserializeAs(emptyJsonStr, String.class);
+    assertEquals(emptyStr, desEmptyStr);
+
+    String nullStr = null;
+    String nullJson = JSONSerializeUtils.serializeToJSON(nullStr);
+    assertNull(nullJson);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testJSONString() {
+        Car car = new Car();
+        car.setCost(10);
+        car.setWeight(1000);
+
+        String carJSON = JSONSerializeUtils.serializeToJSON(car);
+        JSONString jsonString = new JSONString(carJSON);
+        System.out.println("1:--\r\n" + carJSON);
+
+        String newJSONString = JSONSerializeUtils.serializeToJSON(jsonString);
+        assertEquals(carJSON, newJSONString);
+        System.out.println("2:--\r\n" + newJSONString);
+
+        JSONString newJSONString2 = JSONSerializeUtils.deserializeAs(newJSONString, JSONString.class);
+        assertEquals(carJSON, newJSONString2.toString());
+
+        String address = UUID.randomUUID().toString();
+        JSONString jsonAddress = new JSONString(JSONSerializeUtils.serializeToJSON(address));
+        String desAddress = JSONSerializeUtils.deserializeAs(jsonAddress, String.class);
+        assertEquals(address, desAddress);
+
+        String emptyStr = "";
+        JSONString emptyJsonStr = new JSONString(JSONSerializeUtils.serializeToJSON(emptyStr));
+        String desEmptyStr = JSONSerializeUtils.deserializeAs(emptyJsonStr, String.class);
+        assertEquals(emptyStr, desEmptyStr);
+
+        String nullStr = null;
+        String nullJson = JSONSerializeUtils.serializeToJSON(nullStr);
+        assertNull(nullJson);
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.*;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testJSONString() {
+        Car car = new Car();
+        car.setCost(10);
+        car.setWeight(1000);
+
+        String carJSON = JSONSerializeUtils.serializeToJSON(car);
+        JSONString jsonString = new JSONString(carJSON);
+        System.out.println("1:--\r\n" + carJSON);
+
+        String newJSONString = JSONSerializeUtils.serializeToJSON(jsonString);
+        assertEquals(carJSON, newJSONString);
+        System.out.println("2:--\r\n" + newJSONString);
+
+        JSONString newJSONString2 = JSONSerializeUtils.deserializeAs(newJSONString, JSONString.class);
+        assertEquals(carJSON, newJSONString2.toString());
+
+        String address = UUID.randomUUID().toString();
+        JSONString jsonAddress = new JSONString(JSONSerializeUtils.serializeToJSON(address));
+        String desAddress = JSONSerializeUtils.deserializeAs(jsonAddress, String.class);
+        assertEquals(address, desAddress);
+
+        String emptyStr = "";
+        JSONString emptyJsonStr = new JSONString(JSONSerializeUtils.serializeToJSON(emptyStr));
+        String desEmptyStr = JSONSerializeUtils.deserializeAs(emptyJsonStr, String.class);
+        assertEquals(emptyStr, desEmptyStr);
+
+        String nullStr = null;
+        String nullJson = JSONSerializeUtils.serializeToJSON(nullStr);
+        assertNull(nullJson);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.8.1</version>
+        <scope>test</scope>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testJSONString() throws JsonProcessingException {
+        Car car = new Car();
+        car.setCost(10);
+        car.setWeight(1000);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String carJSON = mapper.writeValueAsString(car);
+        JSONString jsonString = new JSONString(carJSON);
+        System.out.println("1:--\r\n" + carJSON);
+
+        String newJSONString = mapper.writeValueAsString(jsonString);
+        assertEquals(carJSON, newJSONString);
+        System.out.println("2:--\r\n" + newJSONString);
+
+        JSONString newJSONString2 = mapper.readValue(newJSONString, JSONString.class);
+        assertEquals(carJSON, newJSONString2.toString());
+
+        String address = UUID.randomUUID().toString();
+        JSONString jsonAddress = new JSONString(mapper.writeValueAsString(address));
+        String desAddress = mapper.readValue(jsonAddress, String.class);
+        assertEquals(address, desAddress);
+
+        String emptyStr = "";
+        JSONString emptyJsonStr = new JSONString(mapper.writeValueAsString(emptyStr));
+        String desEmptyStr = mapper.readValue(emptyJsonStr, String.class);
+        assertEquals(emptyStr, desEmptyStr);
+
+        String nullStr = null;
+        String nullJson = mapper.writeValueAsString(nullStr);
+        assertNull(nullJson);
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.2</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void testJSONString() {
+        Car car = new Car();
+        car.setCost(10);
+        car.setWeight(1000);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String carJSON = mapper.writeValueAsString(car);
+        JSONString jsonString = new JSONString(carJSON);
+        System.out.println("1:--\r\n" + carJSON);
+
+        String newJSONString = mapper.writeValueAsString(jsonString);
+        assertEquals(carJSON, newJSONString);
+        System.out.println("2:--\r\n" + newJSONString);
+
+        JSONString newJSONString2 = mapper.readValue(newJSONString, JSONString.class);
+        assertEquals(carJSON, newJSONString2.toString());
+
+        String address = UUID.randomUUID().toString();
+        JSONString jsonAddress = new JSONString(mapper.writeValueAsString(address));
+        String desAddress = mapper.readValue(jsonAddress, String.class);
+        assertEquals(address, desAddress);
+
+        String emptyStr = "";
+        JSONString emptyJsonStr = new JSONString(mapper.writeValueAsString(emptyStr));
+        String desEmptyStr = mapper.readValue(emptyJsonStr, String.class);
+        assertEquals(emptyStr, desEmptyStr);
+
+        String nullStr = null;
+        String nullJson = mapper.writeValueAsString(nullStr);
+        assertNull(nullJson);
+    }
+
+
+import:
+
+['import com.fasterxml.jackson.core.JsonProcessingException;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.2</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testJSONString() {
+    Car car = new Car();
+    car.setCost(10);
+    car.setWeight(1000);
+
+    ObjectMapper mapper = new ObjectMapper();
+    String carJSON = mapper.writeValueAsString(car);
+    JSONString jsonString = new JSONString(carJSON);
+    System.out.println("1:--\r\n" + carJSON);
+
+    String newJSONString = mapper.writeValueAsString(jsonString);
+    assertEquals(carJSON, newJSONString);
+    System.out.println("2:--\r\n" + newJSONString);
+
+    JSONString newJSONString2 = mapper.readValue(newJSONString, JSONString.class);
+    assertEquals(carJSON, newJSONString2.toString());
+
+    String address = UUID.randomUUID().toString();
+    JSONString jsonAddress = new JSONString(mapper.writeValueAsString(address));
+    String desAddress = mapper.readValue(jsonAddress, String.class);
+    assertEquals(address, desAddress);
+
+    String emptyStr = "";
+    JSONString emptyJsonStr = new JSONString(mapper.writeValueAsString(emptyStr));
+    String desEmptyStr = mapper.readValue(emptyJsonStr, String.class);
+    assertEquals(emptyStr, desEmptyStr);
+
+    String nullStr = null;
+    String nullJson = mapper.writeValueAsString(nullStr);
+    assertNull(nullJson);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>

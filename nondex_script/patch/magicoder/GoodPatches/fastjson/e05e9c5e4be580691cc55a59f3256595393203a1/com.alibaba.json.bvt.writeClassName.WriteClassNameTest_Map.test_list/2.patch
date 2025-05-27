@@ -1,0 +1,51 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/writeClassName/WriteClassNameTest_Map.java
+Original Test Method:
+     public void test_list() throws Exception {
+        Model model = new Model();
+        Map tables = new LinkedHashMap();
+        tables.put("1001", new ExtTable(1001));
+        tables.put("1002", new Table());
+        model.setTables(tables);
+
+        String json = JSON.toJSONString(model);
+        assertEquals("{\"tables\":{\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Map$ExtTable\",\"id\":1001},\"1002\":{}}}", json);
+
+        JSONObject jsonObject = JSON.parseObject(json, Feature.IgnoreAutoType);
+        assertEquals("{\"tables\":{\"1002\":{},\"1001\":{\"id\":1001}}}", jsonObject.toJSONString());
+
+        Model model2 = JSON.parseObject(json, Model.class);
+        assertEquals(ExtTable.class, model2.getTables().get("1001").getClass());
+    }
+Patch:
+
+test_code:
+public void test_list() {
+    // Setup
+    String expected = "{\"tables\":{\"1002\":{},\"1001\":{\"id\":1001}}}";
+    JSONObject jsonObject = new JSONObject();
+    JSONObject tables = new JSONObject();
+    JSONObject table1 = new JSONObject();
+    JSONObject table2 = new JSONObject();
+    jsonObject.put("tables", tables);
+    tables.put("1001", table1);
+    tables.put("1002", table2);
+    table1.put("id", 1001);
+
+    // Run the test
+    String result = jsonObject.toJSONString();
+
+    // Verify the results
+    assertEquals(expected, result);
+}
+
+import:
+[]
+pom:
+
+
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20210307</version>
+    </dependency>
+

@@ -1,0 +1,209 @@
+Test File Path: projects/e2107883378d11b00ff9c09367a8fcd4476f7802/tribuo/tests/src/test/java/org/tribuo/tests/csv/CSVSaverWithMultiOutputsTest.java
+Original Test Method:
+     public void loaderCanReconstructSavedMultiLabel() throws IOException {
+        Path path = Resources.copyResourceToTmp("/org/tribuo/tests/csv/multilabel.csv");
+        Set<String> responses = new HashSet<>(Arrays.asList("R1", "R2"));
+        //
+        // Load the csv
+        CSVLoader<MultiLabel> loader = new CSVLoader<>(new MultiLabelFactory());
+        MutableDataset<MultiLabel> before = loader.load(path, responses);
+        //
+        // Save the dataset
+        File tmpFile = File.createTempFile("tribuo-csv-test","csv");
+        tmpFile.deleteOnExit();
+        Path tmp = tmpFile.toPath();
+        new CSVSaver().save(tmp, before, responses);
+        //
+        // Reload and check that before & after are equivalent.
+        MutableDataset<MultiLabel> after = loader.load(tmp, responses);
+        //
+        // TODO: better check for dataset equivalence?
+        assertEquals(before.getData(), after.getData());
+        assertEquals(before.getOutputIDInfo().size(), after.getOutputIDInfo().size());
+        assertEquals(before.getFeatureIDMap().size(), after.getFeatureIDMap().size());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void loaderCanReconstructSavedMultiLabel() throws IOException {
+        Path path = Resources.copyResourceToTmp("/org/tribuo/tests/csv/multilabel.csv");
+        Set<String> responses = new LinkedHashSet<>(Arrays.asList("R1", "R2"));
+        //
+        // Load the csv
+        CSVLoader<MultiLabel> loader = new CSVLoader<>(new MultiLabelFactory());
+        MutableDataset<MultiLabel> before = loader.load(path, responses);
+        //
+        // Save the dataset
+        File tmpFile = File.createTempFile("tribuo-csv-test","csv");
+        tmpFile.deleteOnExit();
+        Path tmp = tmpFile.toPath();
+        new CSVSaver().save(tmp, before, responses);
+        //
+        // Reload and check that before & after are equivalent.
+        MutableDataset<MultiLabel> after = loader.load(tmp, responses);
+        //
+        // TODO: better check for dataset equivalence?
+        assertEquals(before.getData(), after.getData());
+        assertEquals(before.getOutputIDInfo().size(), after.getOutputIDInfo().size());
+        assertEquals(before.getFeatureIDMap().size(), after.getFeatureIDMap().size());
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void loaderCanReconstructSavedMultiLabel() throws IOException {
+        Path path = Resources.copyResourceToTmp("/org/tribuo/tests/csv/multilabel.csv");
+        Set<String> responses = new LinkedHashSet<>(Arrays.asList("R1", "R2"));
+        //
+        // Load the csv
+        CSVLoader<MultiLabel> loader = new CSVLoader<>(new MultiLabelFactory());
+        MutableDataset<MultiLabel> before = loader.load(path, responses);
+        //
+        // Save the dataset
+        File tmpFile = File.createTempFile("tribuo-csv-test","csv");
+        tmpFile.deleteOnExit();
+        Path tmp = tmpFile.toPath();
+        new CSVSaver().save(tmp, before, responses);
+        //
+        // Reload and check that before & after are equivalent.
+        MutableDataset<MultiLabel> after = loader.load(tmp, responses);
+        //
+        // TODO: better check for dataset equivalence?
+        assertEquals(before.getData(), after.getData());
+        assertEquals(before.getOutputIDInfo().size(), after.getOutputIDInfo().size());
+        assertEquals(before.getFeatureIDMap().size(), after.getFeatureIDMap().size());
+    }
+
+
+import:
+
+['import java.util.LinkedHashSet;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void loaderCanReconstructSavedMultiLabel() throws IOException {
+    Path path = Resources.copyResourceToTmp("/org/tribuo/tests/csv/multilabel.csv");
+    Set<String> responses = new LinkedHashSet<>(Arrays.asList("R1", "R2"));
+    //
+    // Load the csv
+    CSVLoader<MultiLabel> loader = new CSVLoader<>(new MultiLabelFactory());
+    MutableDataset<MultiLabel> before = loader.load(path, responses);
+    //
+    // Save the dataset
+    File tmpFile = File.createTempFile("tribuo-csv-test","csv");
+    tmpFile.deleteOnExit();
+    Path tmp = tmpFile.toPath();
+    new CSVSaver().save(tmp, before, responses);
+    //
+    // Reload and check that before & after are equivalent.
+    MutableDataset<MultiLabel> after = loader.load(tmp, responses);
+    //
+    // TODO: better check for dataset equivalence?
+    assertEquals(before.getData(), after.getData());
+    assertEquals(before.getOutputIDInfo().size(), after.getOutputIDInfo().size());
+    assertEquals(before.getFeatureIDMap().size(), after.getFeatureIDMap().size());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void loaderCanReconstructSavedMultiLabel() throws IOException {
+    Path path = Resources.copyResourceToTmp("/org/tribuo/tests/csv/multilabel.csv");
+    Set<String> responses = new LinkedHashSet<>(Arrays.asList("R1", "R2"));
+    //
+    // Load the csv
+    CSVLoader<MultiLabel> loader = new CSVLoader<>(new MultiLabelFactory());
+    MutableDataset<MultiLabel> before = loader.load(path, responses);
+    //
+    // Save the dataset
+    File tmpFile = File.createTempFile("tribuo-csv-test","csv");
+    tmpFile.deleteOnExit();
+    Path tmp = tmpFile.toPath();
+    new CSVSaver().save(tmp, before, responses);
+    //
+    // Reload and check that before & after are equivalent.
+    MutableDataset<MultiLabel> after = loader.load(tmp, responses);
+    //
+    // TODO: better check for dataset equivalence?
+    assertEquals(before.getData(), after.getData());
+    assertEquals(before.getOutputIDInfo().size(), after.getOutputIDInfo().size());
+    assertEquals(before.getFeatureIDMap().size(), after.getFeatureIDMap().size());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void loaderCanReconstructSavedMultiLabel() throws IOException {
+    Path path = Resources.copyResourceToTmp("/org/tribuo/tests/csv/multilabel.csv");
+    Set<String> responses = new LinkedHashSet<>(Arrays.asList("R1", "R2"));
+    //
+    // Load the csv
+    CSVLoader<MultiLabel> loader = new CSVLoader<>(new MultiLabelFactory());
+    MutableDataset<MultiLabel> before = loader.load(path, responses);
+    //
+    // Save the dataset
+    File tmpFile = File.createTempFile("tribuo-csv-test","csv");
+    tmpFile.deleteOnExit();
+    Path tmp = tmpFile.toPath();
+    new CSVSaver().save(tmp, before, responses);
+    //
+    // Reload and check that before & after are equivalent.
+    MutableDataset<MultiLabel> after = loader.load(tmp, responses);
+    //
+    // TODO: better check for dataset equivalence?
+    assertEquals(before.getData(), after.getData());
+    assertEquals(before.getOutputIDInfo().size(), after.getOutputIDInfo().size());
+    assertEquals(before.getFeatureIDMap().size(), after.getFeatureIDMap().size());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

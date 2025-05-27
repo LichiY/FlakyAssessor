@@ -1,0 +1,459 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-engine/src/test/java/org/flowable/engine/test/api/runtime/migration/ProcessInstanceMigrationGatewaysTest.java
+Original Test Method:
+     public void testMigrateActivityToExclusiveGatewayStartInsideEmbeddedSubProcess() {
+        ProcessDefinition procDefOneTask = deployProcessDefinition("my deploy", "org/flowable/engine/test/api/runtime/migration/one-task-simple-process.bpmn20.xml");
+        ProcessDefinition procWithExcGtw = deployProcessDefinition("my deploy", "org/flowable/engine/test/api/runtime/migration/exclusive-gateway-with-default-sequence-inside-embedded-subprocess.bpmn20.xml");
+
+        //Start the processInstance without timer
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(procDefOneTask.getId());
+
+        //Confirm the state to migrate
+        List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+        assertThat(executions).extracting(Execution::getActivityId).containsExactly("userTask1Id");
+        assertThat(executions).extracting("processDefinitionId").containsOnly(procDefOneTask.getId());
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("userTask1Id");
+        assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(procDefOneTask.getId());
+
+        //Migrate to the other processDefinition
+        ProcessInstanceMigrationBuilder processInstanceMigrationBuilder = processMigrationService.createProcessInstanceMigrationBuilder()
+            .migrateToProcessDefinition(procWithExcGtw.getId())
+            .addActivityMigrationMapping(ActivityMigrationMapping.createMappingFor("userTask1Id", "exclusiveGw").withLocalVariables(Collections.singletonMap("input", Integer.valueOf(1))));
+
+        ProcessInstanceMigrationValidationResult processInstanceMigrationValidationResult = processInstanceMigrationBuilder.validateMigration(processInstance.getId());
+        assertThat(processInstanceMigrationValidationResult.isMigrationValid()).isTrue();
+
+        processInstanceMigrationBuilder.migrate(processInstance.getId());
+
+        //Confirm
+        executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+        assertThat(executions).extracting(Execution::getActivityId).containsExactly("theSubProcess", "theTask1");
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("theTask1");
+
+        if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+            //Check History
+            checkActivityInstances(procWithExcGtw, processInstance, "userTask", "userTask1Id", "theTask1");
+            checkActivityInstances(procWithExcGtw, processInstance, "subProcess", "theSubProcess");
+            checkActivityInstances(procWithExcGtw, processInstance, "exclusiveGateway", "exclusiveGw");
+
+            checkTaskInstance(procWithExcGtw, processInstance, "userTask1Id", "theTask1");
+        }
+
+        //Complete the process
+        completeProcessInstanceTasks(processInstance.getId());
+
+        if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+            //Check History
+            checkActivityInstances(procWithExcGtw, processInstance, "userTask", "userTask1Id", "theTask1", "afterSubProcessTask");
+            checkActivityInstances(procWithExcGtw, processInstance, "subProcess", "theSubProcess");
+            checkActivityInstances(procWithExcGtw, processInstance, "exclusiveGateway", "exclusiveGw");
+
+            checkTaskInstance(procWithExcGtw, processInstance, "userTask1Id", "theTask1", "afterSubProcessTask");
+        }
+
+        assertProcessEnded(processInstance.getId());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testMigrateActivityToExclusiveGatewayStartInsideEmbeddedSubProcess() {
+    ProcessDefinition procDefOneTask = deployProcessDefinition("my deploy", "org/flowable/engine/test/api/runtime/migration/one-task-simple-process.bpmn20.xml");
+    ProcessDefinition procWithExcGtw = deployProcessDefinition("my deploy", "org/flowable/engine/test/api/runtime/migration/exclusive-gateway-with-default-sequence-inside-embedded-subprocess.bpmn20.xml");
+
+    //Start the processInstance without timer
+    ProcessInstance processInstance = runtimeService.startProcessInstanceById(procDefOneTask.getId());
+
+    //Confirm the state to migrate
+    List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("userTask1Id");
+    assertThat(executions).extracting("processDefinitionId").containsOnly(procDefOneTask.getId());
+    Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("userTask1Id");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(procDefOneTask.getId());
+
+    //Migrate to the other processDefinition
+    ProcessInstanceMigrationBuilder processInstanceMigrationBuilder = processMigrationService.createProcessInstanceMigrationBuilder()
+        .migrateToProcessDefinition(procWithExcGtw.getId())
+        .addActivityMigrationMapping(ActivityMigrationMapping.createMappingFor("userTask1Id", "exclusiveGw").withLocalVariables(Collections.singletonMap("input", Integer.valueOf(1))));
+
+    ProcessInstanceMigrationValidationResult processInstanceMigrationValidationResult = processInstanceMigrationBuilder.validateMigration(processInstance.getId());
+    assertThat(processInstanceMigrationValidationResult.isMigrationValid()).isTrue();
+
+    processInstanceMigrationBuilder.migrate(processInstance.getId());
+
+    //Confirm
+    executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("theSubProcess", "theTask1");
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("theTask1");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(procWithExcGtw.getId());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(procWithExcGtw, processInstance, "userTask", "userTask1Id", "theTask1");
+        checkActivityInstances(procWithExcGtw, processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(procWithExcGtw, processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(procWithExcGtw, processInstance, "userTask1Id", "theTask1");
+    }
+
+    //Complete the process
+    completeProcessInstanceTasks(processInstance.getId());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(procWithExcGtw, processInstance, "userTask", "userTask1Id", "theTask1", "afterSubProcessTask");
+        checkActivityInstances(procWithExcGtw, processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(procWithExcGtw, processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(procWithExcGtw, processInstance, "userTask1Id", "theTask1", "afterSubProcessTask");
+    }
+
+    assertProcessEnded(processInstance.getId());
+}
+
+
+import:
+
+['import org.flowable.engine.ProcessEngine;', 'import org.flowable.engine.ProcessEngineConfiguration;', 'import org.flowable.engine.RuntimeService;', 'import org.flowable.engine.TaskService;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.flowable</groupId>
+        <artifactId>flowable-engine</artifactId>
+        <version>7.0.0</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testMigrateActivityToExclusiveGatewayStartInsideEmbeddedSubProcess() {
+        ProcessEngineConfiguration processEngineConfiguration = getProcessEngineConfiguration();
+        ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
+        RuntimeService runtimeService = processEngine.getRuntimeService();
+        TaskService taskService = processEngine.getTaskService();
+
+        ProcessMigrationTestHelperBuilder processMigrationTestHelperBuilder = ProcessMigrationTestHelper.createProcessMigrationTestHelperBuilder()
+                .withProcessEngineConfiguration(processEngineConfiguration)
+                .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/one-task-simple-process.bpmn20.xml")
+                .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/exclusive-gateway-with-default-sequence-inside-embedded-subprocess.bpmn20.xml");
+
+        ProcessMigrationTestHelper processMigrationTestHelper = processMigrationTestHelperBuilder.build();
+
+        //Start the processInstance without timer
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+        //Confirm the state to migrate
+        List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+        assertThat(executions).extracting(Execution::getActivityId).containsExactly("userTask1Id");
+        assertThat(executions).extracting("processDefinitionId").containsOnly(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("userTask1Id");
+        assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+        //Migrate to the other processDefinition
+        ProcessInstanceMigrationBuilder processInstanceMigrationBuilder = processMigrationTestHelper.createProcessInstanceMigrationBuilder()
+                .migrateToProcessDefinition(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess())
+                .addActivityMigrationMapping(ActivityMigrationMapping.createMappingFor("userTask1Id", "exclusiveGw").withLocalVariables(Collections.singletonMap("input", Integer.valueOf(1))));
+
+        ProcessInstanceMigrationValidationResult processInstanceMigrationValidationResult = processInstanceMigrationBuilder.validateMigration(processInstance.getId());
+        assertThat(processInstanceMigrationValidationResult.isMigrationValid()).isTrue();
+
+        processInstanceMigrationBuilder.migrate(processInstance.getId());
+
+        //Confirm
+        executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+        assertThat(executions).extracting(Execution::getActivityId).containsExactly("theSubProcess", "theTask1");
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("theTask1");
+        assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess());
+
+        if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+            //Check History
+            checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1");
+            checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+            checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+            checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1");
+        }
+
+        //Complete the process
+        completeProcessInstanceTasks(processInstance.getId());
+
+        if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+            //Check History
+            checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1", "afterSubProcessTask");
+            checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+            checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+            checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1", "afterSubProcessTask");
+        }
+
+        assertProcessEnded(processInstance.getId());
+    }
+
+
+import:
+
+['import org.flowable.engine.test.Deployment;', 'import org.flowable.engine.test.FlowableTestCase;', 'import org.flowable.engine.test.api.runtime.migration.ProcessMigrationTestHelper;', 'import org.flowable.engine.test.api.runtime.migration.ProcessMigrationTestHelper.ProcessMigrationTestHelperBuilder;', 'import org.flowable.engine.test.api.runtime.migration.ProcessMigrationTestHelper.ProcessMigrationTestHelperBuilder.ProcessMigrationTestHelperBuilderStep;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.flowable</groupId>
+        <artifactId>flowable-engine</artifactId>
+        <version>7.0.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testMigrateActivityToExclusiveGatewayStartInsideEmbeddedSubProcess() {
+    ProcessEngineConfiguration processEngineConfiguration = getProcessEngineConfiguration();
+    ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
+    RuntimeService runtimeService = processEngine.getRuntimeService();
+    TaskService taskService = processEngine.getTaskService();
+
+    ProcessMigrationTestHelperBuilder processMigrationTestHelperBuilder = ProcessMigrationTestHelper.createProcessMigrationTestHelperBuilder()
+            .withProcessEngineConfiguration(processEngineConfiguration)
+            .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/one-task-simple-process.bpmn20.xml")
+            .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/exclusive-gateway-with-default-sequence-inside-embedded-subprocess.bpmn20.xml");
+
+    ProcessMigrationTestHelper processMigrationTestHelper = processMigrationTestHelperBuilder.build();
+
+    //Start the processInstance without timer
+    ProcessInstance processInstance = runtimeService.startProcessInstanceById(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+    //Confirm the state to migrate
+    List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("userTask1Id");
+    assertThat(executions).extracting("processDefinitionId").containsOnly(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+    Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("userTask1Id");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+    //Migrate to the other processDefinition
+    ProcessInstanceMigrationBuilder processInstanceMigrationBuilder = processMigrationTestHelper.createProcessInstanceMigrationBuilder()
+            .migrateToProcessDefinition(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess())
+            .addActivityMigrationMapping(ActivityMigrationMapping.createMappingFor("userTask1Id", "exclusiveGw").withLocalVariables(Collections.singletonMap("input", Integer.valueOf(1))));
+
+    ProcessInstanceMigrationValidationResult processInstanceMigrationValidationResult = processInstanceMigrationBuilder.validateMigration(processInstance.getId());
+    assertThat(processInstanceMigrationValidationResult.isMigrationValid()).isTrue();
+
+    processInstanceMigrationBuilder.migrate(processInstance.getId());
+
+    //Confirm
+    executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("theSubProcess", "theTask1");
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("theTask1");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1");
+    }
+
+    //Complete the process
+    completeProcessInstanceTasks(processInstance.getId());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1", "afterSubProcessTask");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1", "afterSubProcessTask");
+    }
+
+    assertProcessEnded(processInstance.getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testMigrateActivityToExclusiveGatewayStartInsideEmbeddedSubProcess() {
+    ProcessEngineConfiguration processEngineConfiguration = getProcessEngineConfiguration();
+    ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
+    RuntimeService runtimeService = processEngine.getRuntimeService();
+    TaskService taskService = processEngine.getTaskService();
+
+    ProcessMigrationTestHelperBuilder processMigrationTestHelperBuilder = ProcessMigrationTestHelper.createProcessMigrationTestHelperBuilder()
+            .withProcessEngineConfiguration(processEngineConfiguration)
+            .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/one-task-simple-process.bpmn20.xml")
+            .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/exclusive-gateway-with-default-sequence-inside-embedded-subprocess.bpmn20.xml");
+
+    ProcessMigrationTestHelper processMigrationTestHelper = processMigrationTestHelperBuilder.build();
+
+    //Start the processInstance without timer
+    ProcessInstance processInstance = runtimeService.startProcessInstanceById(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+    //Confirm the state to migrate
+    List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("userTask1Id");
+    assertThat(executions).extracting("processDefinitionId").containsOnly(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+    Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("userTask1Id");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+    //Migrate to the other processDefinition
+    ProcessInstanceMigrationBuilder processInstanceMigrationBuilder = processMigrationTestHelper.createProcessInstanceMigrationBuilder()
+            .migrateToProcessDefinition(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess())
+            .addActivityMigrationMapping(ActivityMigrationMapping.createMappingFor("userTask1Id", "exclusiveGw").withLocalVariables(Collections.singletonMap("input", Integer.valueOf(1))));
+
+    ProcessInstanceMigrationValidationResult processInstanceMigrationValidationResult = processInstanceMigrationBuilder.validateMigration(processInstance.getId());
+    assertThat(processInstanceMigrationValidationResult.isMigrationValid()).isTrue();
+
+    processInstanceMigrationBuilder.migrate(processInstance.getId());
+
+    //Confirm
+    executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("theSubProcess", "theTask1");
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("theTask1");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1");
+    }
+
+    //Complete the process
+    completeProcessInstanceTasks(processInstance.getId());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1", "afterSubProcessTask");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1", "afterSubProcessTask");
+    }
+
+    assertProcessEnded(processInstance.getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testMigrateActivityToExclusiveGatewayStartInsideEmbeddedSubProcess() {
+    ProcessEngineConfiguration processEngineConfiguration = getProcessEngineConfiguration();
+    RuntimeService runtimeService = processEngineConfiguration.buildProcessEngine().getRuntimeService();
+    TaskService taskService = processEngineConfiguration.buildProcessEngine().getTaskService();
+
+    ProcessMigrationTestHelperBuilder processMigrationTestHelperBuilder = ProcessMigrationTestHelper.createProcessMigrationTestHelperBuilder()
+            .withProcessEngineConfiguration(processEngineConfiguration)
+            .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/one-task-simple-process.bpmn20.xml")
+            .withProcessDefinitionResource("org/flowable/engine/test/api/runtime/migration/exclusive-gateway-with-default-sequence-inside-embedded-subprocess.bpmn20.xml");
+
+    ProcessMigrationTestHelper processMigrationTestHelper = processMigrationTestHelperBuilder.build();
+
+    //Start the processInstance without timer
+    ProcessInstance processInstance = runtimeService.startProcessInstanceById(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+    //Confirm the state to migrate
+    List<Execution> executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("userTask1Id");
+    assertThat(executions).extracting("processDefinitionId").containsOnly(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+    Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("userTask1Id");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdOneTaskSimpleProcess());
+
+    //Migrate to the other processDefinition
+    ProcessInstanceMigrationBuilder processInstanceMigrationBuilder = processMigrationTestHelper.createProcessInstanceMigrationBuilder()
+            .migrateToProcessDefinition(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess())
+            .addActivityMigrationMapping(ActivityMigrationMapping.createMappingFor("userTask1Id", "exclusiveGw").withLocalVariables(Collections.singletonMap("input", Integer.valueOf(1))));
+
+    ProcessInstanceMigrationValidationResult processInstanceMigrationValidationResult = processInstanceMigrationBuilder.validateMigration(processInstance.getId());
+    assertThat(processInstanceMigrationValidationResult.isMigrationValid()).isTrue();
+
+    processInstanceMigrationBuilder.migrate(processInstance.getId());
+
+    //Confirm
+    executions = runtimeService.createExecutionQuery().processInstanceId(processInstance.getId()).onlyChildExecutions().list();
+    assertThat(executions).extracting(Execution::getActivityId).containsExactly("theSubProcess", "theTask1");
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertThat(task).extracting(Task::getTaskDefinitionKey).isEqualTo("theTask1");
+    assertThat(task).extracting(Task::getProcessDefinitionId).isEqualTo(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1");
+    }
+
+    //Complete the process
+    completeProcessInstanceTasks(processInstance.getId());
+
+    if (HistoryTestHelper.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processEngineConfiguration)) {
+        //Check History
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask", "userTask1Id", "theTask1", "afterSubProcessTask");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "subProcess", "theSubProcess");
+        checkActivityInstances(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "exclusiveGateway", "exclusiveGw");
+
+        checkTaskInstance(processMigrationTestHelper.getProcessDefinitionIdExclusiveGatewayWithDefaultSequenceInsideEmbeddedSubprocess(), processInstance, "userTask1Id", "theTask1", "afterSubProcessTask");
+    }
+
+    assertProcessEnded(processInstance.getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.flowable</groupId>
+        <artifactId>flowable-engine</artifactId>
+        <version>7.0.0</version>
+    </dependency>
+

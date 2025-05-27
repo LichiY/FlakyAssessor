@@ -1,0 +1,259 @@
+Test File Path: projects/d3b5aebd2d9bfc8b98539f7ce157775cc5af6e95/classgraph/src/test/java/io/github/classgraph/json/JSONSerializationTest.java
+Original Test Method:
+     public void testJSON() {
+        final H h = new H();
+        h.g = new G();
+
+        final String json0 = JSONSerializer.serializeFromField(h, "g", 0, false);
+
+        final String expected = //
+                "{\"e\":{\"q\":{\"b\":3,\"a\":{\"x\":[3],\"y\":\"x\"},\"arr\":[3,3,3]},\"map\":{\"3\":3},"
+                        + "\"list\":[3,3,3],\"c\":{\"b\":5,\"a\":{\"x\":[5],\"y\":\"x\"},\"arr\":[5,5,5]},"
+                        + "\"z\":42},\"f\":{\"z\":1.5,\"q\":{\"b\":1.5,\"a\":{\"x\":[1.5],\"y\":\"x\"},"
+                        + "\"arr\":[1.5,1.5,1.5]},\"map\":{\"1.5\":1.5},\"list\":[1.5,1.5,1.5],\"wxy\":123}}";
+
+        assertThat(json0).isEqualTo(expected);
+
+        final G obj = JSONDeserializer.deserializeObject(G.class, json0);
+
+        final String json1 = JSONSerializer.serializeObject(obj, 0, false);
+
+        assertThat(json0).isEqualTo(json1);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testJSON() {
+    final H h = new H();
+    h.g = new G();
+
+    final String json0 = JSONSerializer.serializeFromField(h, "g", 0, false);
+
+    Configuration config = Configuration.defaultConfiguration()
+            .addOptions(Option.SUPPRESS_EXCEPTIONS)
+            .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+
+    Object document0 = JsonPath.using(config).parse(json0).json();
+    Object expectedDocument = JsonPath.using(config).parse(
+            "{\"e\":{\"q\":{\"b\":3,\"a\":{\"x\":[3],\"y\":\"x\"},\"arr\":[3,3,3]},\"map\":{\"3\":3},"
+            + "\"list\":[3,3,3],\"c\":{\"b\":5,\"a\":{\"x\":[5],\"y\":\"x\"},\"arr\":[5,5,5]},"
+            + "\"z\":42},\"f\":{\"z\":1.5,\"q\":{\"b\":1.5,\"a\":{\"x\":[1.5],\"y\":\"x\"},"
+            + "\"arr\":[1.5,1.5,1.5]},\"map\":{\"1.5\":1.5},\"list\":[1.5,1.5,1.5],\"wxy\":123}}"
+    ).json();
+
+    assertThat(document0).isEqualTo(expectedDocument);
+
+    final G obj = JSONDeserializer.deserializeObject(G.class, json0);
+    final String json1 = JSONSerializer.serializeObject(obj, 0, false);
+    Object document1 = JsonPath.using(config).parse(json1).json();
+
+    assertThat(document0).isEqualTo(document1);
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;', 'import com.jayway.jsonpath.Configuration;', 'import com.jayway.jsonpath.Option;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testJSON() {
+    final H h = new H();
+    h.g = new G();
+
+    final String json0 = JSONSerializer.serializeFromField(h, "g", 0, false);
+
+    Configuration config = Configuration.defaultConfiguration()
+            .addOptions(Option.SUPPRESS_EXCEPTIONS)
+            .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+
+    Object document0 = JsonPath.using(config).parse(json0).json();
+    Object expectedDocument = JsonPath.using(config).parse(
+            "{\"e\":{\"q\":{\"b\":3,\"a\":{\"x\":[3],\"y\":\"x\"},\"arr\":[3,3,3]},\"map\":{\"3\":3},"
+            + "\"list\":[3,3,3],\"c\":{\"b\":5,\"a\":{\"x\":[5],\"y\":\"x\"},\"arr\":[5,5,5]},"
+            + "\"z\":42},\"f\":{\"z\":1.5,\"q\":{\"b\":1.5,\"a\":{\"x\":[1.5],\"y\":\"x\"},"
+            + "\"arr\":[1.5,1.5,1.5]},\"map\":{\"1.5\":1.5},\"list\":[1.5,1.5,1.5],\"wxy\":123}}"
+    ).json();
+
+    assertThat(document0).usingRecursiveComparison().isEqualTo(expectedDocument);
+
+    final G obj = JSONDeserializer.deserializeObject(G.class, json0);
+    final String json1 = JSONSerializer.serializeObject(obj, 0, false);
+    Object document1 = JsonPath.using(config).parse(json1).json();
+
+    assertThat(document0).usingRecursiveComparison().isEqualTo(document1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testJSON() {
+    final H h = new H();
+    h.g = new G();
+
+    final String json0 = JSONSerializer.serializeFromField(h, "g", 0, false);
+
+    Configuration config = Configuration.defaultConfiguration()
+            .addOptions(Option.SUPPRESS_EXCEPTIONS)
+            .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+
+    Object document0 = JsonPath.using(config).parse(json0).json();
+    Object expectedDocument = JsonPath.using(config).parse(
+            "{\"e\":{\"q\":{\"b\":3,\"a\":{\"x\":[3],\"y\":\"x\"},\"arr\":[3,3,3]},\"map\":{\"3\":3},"
+            + "\"list\":[3,3,3],\"c\":{\"b\":5,\"a\":{\"x\":[5],\"y\":\"x\"},\"arr\":[5,5,5]},"
+            + "\"z\":42},\"f\":{\"z\":1.5,\"q\":{\"b\":1.5,\"a\":{\"x\":[1.5],\"y\":\"x\"},"
+            + "\"arr\":[1.5,1.5,1.5]},\"map\":{\"1.5\":1.5},\"list\":[1.5,1.5,1.5],\"wxy\":123}}"
+    ).json();
+
+    assertThat(document0).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expectedDocument);
+
+    final G obj = JSONDeserializer.deserializeObject(G.class, json0);
+    final String json1 = JSONSerializer.serializeObject(obj, 0, false);
+    Object document1 = JsonPath.using(config).parse(json1).json();
+
+    assertThat(document0).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(document1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.8.0</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testJSON() {
+    final H h = new H();
+    h.g = new G();
+
+    final String json0 = JSONSerializer.serializeFromField(h, "g", 0, false);
+
+    Configuration config = Configuration.defaultConfiguration()
+            .addOptions(Option.SUPPRESS_EXCEPTIONS)
+            .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+
+    Object document0 = JsonPath.using(config).parse(json0).json();
+    Object expectedDocument = JsonPath.using(config).parse(
+            "{\"e\":{\"q\":{\"b\":3,\"a\":{\"x\":[3],\"y\":\"x\"},\"arr\":[3,3,3]},\"map\":{\"3\":3},"
+            + "\"list\":[3,3,3],\"c\":{\"b\":5,\"a\":{\"x\":[5],\"y\":\"x\"},\"arr\":[5,5,5]},"
+            + "\"z\":42},\"f\":{\"z\":1.5,\"q\":{\"b\":1.5,\"a\":{\"x\":[1.5],\"y\":\"x\"},"
+            + "\"arr\":[1.5,1.5,1.5]},\"map\":{\"1.5\":1.5},\"list\":[1.5,1.5,1.5],\"wxy\":123}}"
+    ).json();
+
+    assertThat(document0).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expectedDocument);
+
+    final G obj = JSONDeserializer.deserializeObject(G.class, json0);
+    final String json1 = JSONSerializer.serializeObject(obj, 0, false);
+    Object document1 = JsonPath.using(config).parse(json1).json();
+
+    assertThat(document0).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(document1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testJSON() {
+    final H h = new H();
+    h.g = new G();
+
+    final String json0 = JSONSerializer.serializeFromField(h, "g", 0, false);
+
+    Configuration config = Configuration.defaultConfiguration()
+            .addOptions(Option.SUPPRESS_EXCEPTIONS)
+            .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+
+    Object document0 = JsonPath.using(config).parse(json0).json();
+    Object expectedDocument = JsonPath.using(config).parse(
+            "{\"e\":{\"q\":{\"b\":3,\"a\":{\"x\":[3],\"y\":\"x\"},\"arr\":[3,3,3]},\"map\":{\"3\":3},"
+            + "\"list\":[3,3,3],\"c\":{\"b\":5,\"a\":{\"x\":[5],\"y\":\"x\"},\"arr\":[5,5,5]},"
+            + "\"z\":42},\"f\":{\"z\":1.5,\"q\":{\"b\":1.5,\"a\":{\"x\":[1.5],\"y\":\"x\"},"
+            + "\"arr\":[1.5,1.5,1.5]},\"map\":{\"1.5\":1.5},\"list\":[1.5,1.5,1.5],\"wxy\":123}}"
+    ).json();
+
+    assertThat(document0).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expectedDocument);
+
+    final G obj = JSONDeserializer.deserializeObject(G.class, json0);
+    final String json1 = JSONSerializer.serializeObject(obj, 0, false);
+    Object document1 = JsonPath.using(config).parse(json1).json();
+
+    assertThat(document0).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(document1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+</dependency>
+

@@ -1,0 +1,136 @@
+Test File Path: projects/616ed866460ca909cb30a4eafb786c6040218ae8/dropwizard/dropwizard-jersey/src/test/java/io/dropwizard/jersey/errors/LoggingExceptionMapperTest.java
+Original Test Method:
+     public void handlesMethodNotAllowedWithHeaders() {
+        final Throwable thrown = catchThrowable(() -> target("/exception/json-mapping-exception")
+            .request(MediaType.APPLICATION_JSON)
+            .post(Entity.json("A"), String.class));
+        assertThat(thrown).isInstanceOf(WebApplicationException.class);
+        final Response resp = ((WebApplicationException) thrown).getResponse();
+        assertThat(resp.getStatus()).isEqualTo(405);
+        assertThat(resp.getHeaders()).contains(entry("Allow", Collections.singletonList("GET,OPTIONS")));
+        assertThat(resp.readEntity(String.class)).isEqualTo("{\"code\":405,\"message\":\"HTTP 405 Method Not Allowed\"}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import static javax.ws.rs.client.Entity.json;', 'import static javax.ws.rs.client.Entity.text;', 'import static javax.ws.rs.client.Entity.xml;', 'import static org.junit.Assert.assertTrue;', 'import static org.junit.Assert.assertFalse;', 'import static org.junit.Assert.assertEquals;', 'import static org.junit.Assert.assertNotEquals;', 'import static org.junit.Assert.assertSame;', 'import static org.junit.Assert.assertNotSame;', 'import static org.junit.Assert.fail;', 'import static org.junit.Assert.assertArrayEquals;', 'import static org.junit.Assert.assertNotNull;', 'import static org.junit.Assert.assertNull;']
+
+pom:
+
+<!-- pom.xml code -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void handlesMethodNotAllowedWithHeaders() {
+    // Setup
+    final String url = "/api/v1/resource";
+    final String method = "OPTIONS";
+    final String allowHeader = "GET,OPTIONS";
+
+    // Run the test
+    Response resp = client.target(url).request().method(method);
+
+    // Verify the results
+    assertThat(resp.getStatus()).isEqualTo(405);
+    assertThat(resp.getHeaders()).contains(entry("Allow", Collections.singletonList(allowHeader)));
+}
+
+
+import:
+
+['import org.apache.http.client.methods.CloseableHttpResponse;', 'import org.apache.http.impl.client.CloseableHttpClient;', 'import org.apache.http.impl.client.HttpClients;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.12</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void handlesMethodNotAllowedWithHeaders() {
+        // Setup
+        final String url = "/api/v1/resource";
+        final String method = "OPTIONS";
+        final String allowHeader = "GET,OPTIONS";
+
+        // Run the test
+        Response resp = target(url).request().method(method);
+
+        // Verify the results
+        assertThat(resp.getStatus()).isEqualTo(405);
+        assertThat(resp.getHeaders()).contains(entry("Allow", Collections.singletonList(allowHeader)));
+    }
+
+
+import:
+
+['import org.glassfish.jersey.test.JerseyTest;']
+
+pom:
+
+<dependency>
+    <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+    <artifactId>jersey-test-framework-provider-inmemory</artifactId>
+    <version>2.27</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void handlesMethodNotAllowedWithHeaders() {
+    // Setup
+    final String url = "/api/v1/resource";
+    final String method = "OPTIONS";
+    final String allowHeader = "GET,OPTIONS";
+
+    // Run the test
+    Response resp = target(url).request().method(method);
+
+    // Verify the results
+    assertThat(resp.getStatus()).isEqualTo(405);
+    assertThat(resp.getHeaders()).contains(entry("Allow", Collections.singletonList(allowHeader)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

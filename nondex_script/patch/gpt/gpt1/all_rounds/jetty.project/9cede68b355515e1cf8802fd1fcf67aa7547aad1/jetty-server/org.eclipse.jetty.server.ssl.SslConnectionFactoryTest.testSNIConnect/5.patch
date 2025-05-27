@@ -1,0 +1,152 @@
+Test File Path: projects/9cede68b355515e1cf8802fd1fcf67aa7547aad1/jetty.project/jetty-server/src/test/java/org/eclipse/jetty/server/ssl/SslConnectionFactoryTest.java
+Original Test Method:
+     public void testSNIConnect() throws Exception
+    {
+        String response = getResponse("localhost", "localhost", "jetty.eclipse.org");
+        assertThat(response, Matchers.containsString("host=localhost"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String cn = "jetty.eclipse.org";
+    String response = getResponse("localhost", "localhost", cn);
+    assertThat(response, Matchers.containsString("success"));
+    
+    X509Certificate cert = getCertificateFromResponse(response);
+    String subjectName = cert.getSubjectX500Principal().getName("CANONICAL");
+    assertThat(subjectName, Matchers.containsString("cn=" + cn.toLowerCase()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String cn = "jetty.eclipse.org";
+    String response = getResponse("localhost", "localhost", cn);
+    assertThat(response, Matchers.containsString("success"));
+    
+    // Extract certificate from response without order dependency
+    String certString = response.split("-----BEGIN CERTIFICATE-----")[1].split("-----END CERTIFICATE-----")[0];
+    byte[] certBytes = Base64.getDecoder().decode(certString.replaceAll("\\s", ""));
+    CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+    X509Certificate cert = (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(certBytes));
+    
+    String subjectName = cert.getSubjectX500Principal().getName("CANONICAL");
+    assertThat(subjectName, Matchers.containsString("cn=" + cn.toLowerCase()));
+}
+
+
+import:
+
+['import java.io.ByteArrayInputStream;', 'import java.security.cert.CertificateFactory;', 'import java.util.Base64;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String cn = "jetty.eclipse.org";
+    String response = getResponse("localhost", "localhost", cn);
+    assertThat(response, Matchers.containsString("200 OK"));
+    
+    // Extract certificate from response without order dependency
+    String certString = response.split("-----BEGIN CERTIFICATE-----")[1].split("-----END CERTIFICATE-----")[0];
+    byte[] certBytes = Base64.getDecoder().decode(certString.replaceAll("\\s", ""));
+    CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+    X509Certificate cert = (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(certBytes));
+    
+    String subjectName = cert.getSubjectX500Principal().getName("CANONICAL");
+    assertThat(subjectName, Matchers.containsString("cn=jetty.eclipse.org"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No new dependencies needed -->
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String cn = "jetty.eclipse.org";
+    String response = getResponse("localhost", "localhost", cn);
+    assertThat(response, Matchers.containsString("200 OK"));
+    
+    // Extract certificate from response without order dependency
+    String certString = response.split("-----BEGIN CERTIFICATE-----")[1].split("-----END CERTIFICATE-----")[0];
+    byte[] certBytes = Base64.getDecoder().decode(certString.replaceAll("\\s", ""));
+    CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+    X509Certificate cert = (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(certBytes));
+    
+    String subjectName = cert.getSubjectX500Principal().getName("CANONICAL");
+    assertThat(subjectName, Matchers.containsString("cn=jetty.eclipse.org"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No new dependencies needed -->
+

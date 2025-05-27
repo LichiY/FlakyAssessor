@@ -1,0 +1,188 @@
+Test File Path: projects/e9809cbd5bb1f32b39d9e7408de1c8c395411350/AxonFramework/messaging/src/test/java/org/axonframework/messaging/annotation/AnnotatedMessageHandlingMemberTest.java
+Original Test Method:
+     void attributeReturnsNonEmptyOptionalForMatchingAttributeKey() {
+        Optional<Object> resultMessageType = testSubject.attribute(HandlerAttributes.MESSAGE_TYPE);
+        Optional<Object> resultPayloadType = testSubject.attribute(HandlerAttributes.PAYLOAD_TYPE);
+
+        assertTrue(resultMessageType.isPresent());
+        assertEquals(EventMessage.class, resultMessageType.get());
+
+        assertTrue(resultPayloadType.isPresent());
+        assertEquals(Object.class, resultPayloadType.get());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+void attributeReturnsNonEmptyOptionalForMatchingAttributeKey() {
+    Optional<Object> resultMessageType = testSubject.attribute(HandlerAttributes.MESSAGE_TYPE);
+    Optional<Object> resultPayloadType = testSubject.attribute(HandlerAttributes.PAYLOAD_TYPE);
+
+    if (resultMessageType.isPresent() && resultPayloadType.isPresent()) {
+        assertEquals(EventMessage.class, resultMessageType.get());
+        assertEquals(Object.class, resultPayloadType.get());
+    } else {
+        fail("Expected both attributes to be present");
+    }
+}
+
+
+import:
+
+['import static org.junit.Assert.assertEquals;', 'import static org.junit.Assert.fail;']
+
+pom:
+
+<!-- pom.xml code -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void attributeReturnsNonEmptyOptionalForMatchingAttributeKey() {
+        TestSubject testSubject = new TestSubject();
+
+        Optional<Object> resultMessageType = testSubject.attribute(HandlerAttributes.MESSAGE_TYPE);
+        Optional<Object> resultPayloadType = testSubject.attribute(HandlerAttributes.PAYLOAD_TYPE);
+
+        assertTrue(resultMessageType.isPresent() && resultPayloadType.isPresent(),
+                "Expected both attributes to be present");
+
+        assertEquals(EventMessage.class, resultMessageType.get(),
+                "Expected EventMessage class for MESSAGE_TYPE attribute");
+
+        assertEquals(Object.class, resultPayloadType.get(),
+                "Expected Object class for PAYLOAD_TYPE attribute");
+    }
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import static org.junit.jupiter.api.Assertions.assertTrue;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void attributeReturnsNonEmptyOptionalForMatchingAttributeKey() {
+        TestSubject testSubject = new TestSubject();
+
+        Optional<Object> resultMessageType = testSubject.attribute(HandlerAttributes.MESSAGE_TYPE);
+        Optional<Object> resultPayloadType = testSubject.attribute(HandlerAttributes.PAYLOAD_TYPE);
+
+        assertTrue(resultMessageType.isPresent() && resultPayloadType.isPresent(),
+                "Expected both attributes to be present");
+
+        assertEquals(EventMessage.class, resultMessageType.get(),
+                "Expected EventMessage class for MESSAGE_TYPE attribute");
+
+        assertEquals(Object.class, resultPayloadType.get(),
+                "Expected Object class for PAYLOAD_TYPE attribute");
+    }
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import static org.junit.jupiter.api.Assertions.assertTrue;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    void attributeReturnsNonEmptyOptionalForMatchingAttributeKey() {
+        TestSubject testSubject = new TestSubject();
+
+        Optional<Object> resultMessageType = testSubject.attribute(HandlerAttributes.MESSAGE_TYPE);
+        Optional<Object> resultPayloadType = testSubject.attribute(HandlerAttributes.PAYLOAD_TYPE);
+
+        assertTrue(resultMessageType.isPresent() && resultPayloadType.isPresent(),
+                "Expected both attributes to be present");
+
+        assertEquals(EventMessage.class, resultMessageType.get(),
+                "Expected EventMessage class for MESSAGE_TYPE attribute");
+
+        assertEquals(Object.class, resultPayloadType.get(),
+                "Expected Object class for PAYLOAD_TYPE attribute");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    void attributeReturnsNonEmptyOptionalForMatchingAttributeKey() {
+        TestSubject testSubject = new TestSubject();
+
+        Optional<Object> resultMessageType = testSubject.attribute(HandlerAttributes.MESSAGE_TYPE);
+        Optional<Object> resultPayloadType = testSubject.attribute(HandlerAttributes.PAYLOAD_TYPE);
+
+        assertTrue(resultMessageType.isPresent() && resultPayloadType.isPresent(),
+                "Expected both attributes to be present");
+
+        assertEquals(EventMessage.class, resultMessageType.get(),
+                "Expected EventMessage class for MESSAGE_TYPE attribute");
+
+        assertEquals(Object.class, resultPayloadType.get(),
+                "Expected Object class for PAYLOAD_TYPE attribute");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    void attributeReturnsNonEmptyOptionalForMatchingAttributeKey() {
+        TestSubject testSubject = new TestSubject();
+
+        Optional<Object> resultMessageType = testSubject.attribute(HandlerAttributes.MESSAGE_TYPE);
+        Optional<Object> resultPayloadType = testSubject.attribute(HandlerAttributes.PAYLOAD_TYPE);
+
+        assertTrue(resultMessageType.isPresent() && resultPayloadType.isPresent(),
+                "Expected both attributes to be present");
+
+        assertEquals(EventMessage.class, resultMessageType.get(),
+                "Expected EventMessage class for MESSAGE_TYPE attribute");
+
+        assertEquals(Object.class, resultPayloadType.get(),
+                "Expected Object class for PAYLOAD_TYPE attribute");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

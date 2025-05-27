@@ -1,0 +1,206 @@
+Test File Path: projects/e8d89c9eb0929dda304174729c9c69fb29f448eb/spring-ws/spring-ws-core/src/test/java/org/springframework/ws/wsdl/wsdl11/DefaultWsdl11DefinitionTest.java
+Original Test Method:
+ 	public void testImport() throws Exception {
+		ClassPathResource resource = new ClassPathResource("importing.xsd", getClass());
+		CommonsXsdSchemaCollection schemaCollection = new CommonsXsdSchemaCollection(resource);
+		schemaCollection.setInline(true);
+		schemaCollection.afterPropertiesSet();
+		definition.setSchemaCollection(schemaCollection);
+
+		definition.setPortTypeName("Order");
+		definition.setTargetNamespace("http://www.springframework.org/spring-ws/import/definitions");
+		definition.setLocationUri("http://localhost:8080/");
+		definition.afterPropertiesSet();
+
+		DOMResult domResult = new DOMResult();
+		transformer.transform(definition.getSource(), domResult);
+
+		Document result = (Document) domResult.getNode();
+		Document expected = documentBuilder.parse(getClass().getResourceAsStream("import-inline.wsdl"));
+		assertXMLEqual("Invalid WSDL built", expected, result);
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testImport() throws Exception {
+    ClassPathResource resource = new ClassPathResource("importing.xsd", getClass());
+    CommonsXsdSchemaCollection schemaCollection = new CommonsXsdSchemaCollection(resource);
+    schemaCollection.setInline(true);
+    schemaCollection.afterPropertiesSet();
+    definition.setSchemaCollection(schemaCollection);
+
+    definition.setPortTypeName("Order");
+    definition.setTargetNamespace("http://www.springframework.org/spring-ws/import/definitions");
+    definition.setLocationUri("http://localhost:8080/");
+    definition.afterPropertiesSet();
+
+    DOMResult domResult = new DOMResult();
+    transformer.transform(definition.getSource(), domResult);
+
+    Document result = (Document) domResult.getNode();
+    Document expected = documentBuilder.parse(getClass().getResourceAsStream("import-inline.wsdl"));
+    assertXMLEqual("Invalid WSDL built", expected, result);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testImport() throws Exception {
+    ClassPathResource resource = new ClassPathResource("importing.xsd", getClass());
+    CommonsXsdSchemaCollection schemaCollection = new CommonsXsdSchemaCollection(resource);
+    schemaCollection.setInline(true);
+    schemaCollection.afterPropertiesSet();
+    definition.setSchemaCollection(schemaCollection);
+
+    definition.setPortTypeName("Order");
+    definition.setTargetNamespace("http://www.springframework.org/spring-ws/import/definitions");
+    definition.setLocationUri("http://localhost:8080/");
+    definition.afterPropertiesSet();
+
+    DOMResult domResult = new DOMResult();
+    transformer.transform(definition.getSource(), domResult);
+
+    Document result = (Document) domResult.getNode();
+    Document expected = documentBuilder.parse(getClass().getResourceAsStream("import-inline.wsdl"));
+    assertXMLEqual("Invalid WSDL built", expected, result);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testImport() throws Exception {
+    ClassPathResource resource = new ClassPathResource("importing.xsd", getClass());
+    CommonsXsdSchemaCollection schemaCollection = new CommonsXsdSchemaCollection(resource);
+    schemaCollection.setInline(true);
+    schemaCollection.afterPropertiesSet();
+    definition.setSchemaCollection(schemaCollection);
+
+    definition.setPortTypeName("Order");
+    definition.setTargetNamespace("http://www.springframework.org/spring-ws/import/definitions");
+    definition.setLocationUri("http://localhost:8080/");
+    definition.afterPropertiesSet();
+
+    DOMResult domResult = new DOMResult();
+    transformer.transform(definition.getSource(), domResult);
+
+    Document result = (Document) domResult.getNode();
+    Document expected = documentBuilder.parse(getClass().getResourceAsStream("import-inline.wsdl"));
+    assertXMLEqual("Invalid WSDL built", expected, result);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testImport() throws Exception {
+    ClassPathResource resource = new ClassPathResource("importing.xsd", getClass());
+    CommonsXsdSchemaCollection schemaCollection = new CommonsXsdSchemaCollection(resource);
+    schemaCollection.setInline(true);
+    schemaCollection.afterPropertiesSet();
+    definition.setSchemaCollection(schemaCollection);
+
+    definition.setPortTypeName("Order");
+    definition.setTargetNamespace("http://www.springframework.org/spring-ws/import/definitions");
+    definition.setLocationUri("http://localhost:8080/");
+    definition.afterPropertiesSet();
+
+    DOMResult domResult = new DOMResult();
+    transformer.transform(definition.getSource(), domResult);
+
+    Document result = (Document) domResult.getNode();
+    Document expected = documentBuilder.parse(getClass().getResourceAsStream("import-inline.wsdl"));
+    assertXMLEqual("Invalid WSDL built", expected, result);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testImport() throws Exception {
+        ClassPathResource resource = new ClassPathResource("importing.xsd", getClass());
+        CommonsXsdSchemaCollection schemaCollection = new CommonsXsdSchemaCollection(resource);
+        schemaCollection.setInline(true);
+        schemaCollection.afterPropertiesSet();
+        definition = new DOMSource(schemaCollection.getSchema());
+
+        definition.setPortTypeName("Order");
+        definition.setTargetNamespace("http://www.springframework.org/spring-ws/import/definitions");
+        definition.setLocationUri("http://localhost:8080/");
+        definition.afterPropertiesSet();
+
+        Document result = documentBuilder.parse(new DOMSource(definition.getSource()));
+        Document expected = documentBuilder.parse(getClass().getResourceAsStream("import-inline.wsdl"));
+
+        StringWriter writer = new StringWriter();
+        transformer.transform(new DOMSource(result), new StreamResult(writer));
+        String output = writer.toString();
+
+        writer = new StringWriter();
+        transformer.transform(new DOMSource(expected), new StreamResult(writer));
+        String expectedOutput = writer.toString();
+
+        Diff diff = DiffBuilder.compare(output).withTest(expectedOutput).checkForSimilar()
+                .ignoreWhitespace().ignoreComments().build();
+
+        if (diff.hasDifferences()) {
+            throw new AssertionError("Invalid WSDL built", diff.getControlDetails(), diff.getTestDetails());
+        }
+    }
+
+
+import:
+
+['import org.xmlunit.builder.DiffBuilder;', 'import org.xmlunit.diff.Diff;', 'import javax.xml.transform.dom.DOMSource;', 'import javax.xml.transform.stream.StreamResult;', 'import java.io.StringWriter;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-collections4</artifactId>
+    <version>4.4</version>
+</dependency>

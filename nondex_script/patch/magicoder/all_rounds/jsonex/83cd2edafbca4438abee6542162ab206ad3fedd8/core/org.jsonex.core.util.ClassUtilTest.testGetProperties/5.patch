@@ -1,0 +1,373 @@
+Test File Path: projects/83cd2edafbca4438abee6542162ab206ad3fedd8/jsonex/core/src/test/java/org/jsonex/core/util/ClassUtilTest.java
+Original Test Method:
+   @Test public void testGetProperties() {
+    Map<String, BeanProperty> properties = ClassUtil.getProperties(B.class);
+    log.info("Properties.keySet():" + properties.keySet());
+    String[] exp = {"fieldA1", "fieldA2", "fieldA3", "fieldA4", "fieldB1", "fieldB2", "fieldB3", "fieldB4", "fieldB5", "fieldB6", "readOnly", "writeOnly"};
+    // Java compiler will mass up the order of the getter methods, field order is preserved in most of the java versions
+    assertArrayEquals(exp, properties.keySet().toArray());
+
+    // Field with setter/getters
+    BeanProperty prop = properties.get("fieldB6");
+    assertEquals("fieldB6", prop.getName());
+    B b = new B();
+    prop.set(b, true);
+    assertEquals(true, prop.get(b));
+    assertFalse(prop.isImmutable(false));
+    assertTrue(prop.isReadable(false));
+    assertEquals(Boolean.TYPE, prop.getType());
+    assertEquals(Boolean.TYPE, prop.getGenericType());
+    assertEquals(B.class.getMethod("setFieldB6", new Class[]{Boolean.TYPE}), prop.getSetter());
+    assertEquals(B.class.getMethod("isFieldB6", new Class[0]), prop.getGetter());
+    assertTrue(prop.isTransient());
+    assertFalse(prop.isFieldAccessible(false));
+    assertEquals(Modifier.PUBLIC, prop.getModifier());
+    assertNotNull("Transient is annotated", prop.getAnnotation(Transient.class));
+
+    // Field without setter/getters
+    prop = properties.get("fieldB2");
+    prop.set(b, "str");
+    assertNull(prop.getSetter());
+    assertNull(prop.getGetter());
+    assertNotNull(prop.getField());
+    assertEquals("str", prop.get(b));
+    assertEquals(String.class, prop.getType());
+    assertEquals(String.class, prop.getGenericType());
+    assertNotNull(prop.getAnnotation(Nullable.class));
+    assertNull(prop.getAnnotation(DefaultEnum.class));
+    assertEquals(Modifier.PUBLIC | Modifier.TRANSIENT, prop.getModifier());
+    assertTrue(prop.isTransient());
+
+    // Set only field
+    prop = properties.get("writeOnly");
+    prop.set(b, "str");
+    assertEquals("str", b.fieldB5);
+    assertEquals(String.class, prop.getType());
+    assertEquals(String.class, prop.getGenericType());
+    assertNotNull(prop.getAnnotation(Nullable.class));
+    assertNull(prop.getAnnotation(DefaultEnum.class));
+    assertEquals(Modifier.PUBLIC, prop.getModifier());
+    assertTrue(prop.isTransient());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testGetProperties() {
+    Map<String, BeanProperty> properties = ClassUtil.getProperties(B.class);
+    log.info("Properties.keySet():" + properties.keySet());
+    String[] exp = {"fieldA1", "fieldA2", "fieldA3", "fieldA4", "fieldB1", "fieldB2", "fieldB3", "fieldB4", "fieldB5", "fieldB6", "readOnly", "writeOnly"};
+    // Java compiler will mass up the order of the getter methods, field order is preserved in most of the java versions
+    assertArrayEquals(exp, properties.keySet().toArray());
+
+    // Field with setter/getters
+    BeanProperty prop = properties.get("fieldB6");
+    assertEquals("fieldB6", prop.getName());
+    B b = new B();
+    prop.set(b, true);
+    assertEquals(true, prop.get(b));
+    assertFalse(prop.isImmutable(false));
+    assertTrue(prop.isReadable(false));
+    assertEquals(Boolean.TYPE, prop.getType());
+    assertEquals(Boolean.TYPE, prop.getGenericType());
+    assertEquals(B.class.getMethod("setFieldB6", new Class[]{Boolean.TYPE}), prop.getSetter());
+    assertEquals(B.class.getMethod("isFieldB6", new Class[0]), prop.getGetter());
+    assertTrue(prop.isTransient());
+    assertFalse(prop.isFieldAccessible(false));
+    assertEquals(Modifier.PUBLIC, prop.getModifier());
+    assertNotNull("Transient is annotated", prop.getAnnotation(Transient.class));
+
+    // Field without setter/getters
+    prop = properties.get("fieldB2");
+    prop.set(b, "str");
+    assertNull(prop.getSetter());
+    assertNull(prop.getGetter());
+    assertNotNull(prop.getField());
+    assertEquals("str", prop.get(b));
+    assertEquals(String.class, prop.getType());
+    assertEquals(String.class, prop.getGenericType());
+    assertNotNull(prop.getAnnotation(Nullable.class));
+    assertNull(prop.getAnnotation(DefaultEnum.class));
+    assertEquals(Modifier.PUBLIC | Modifier.TRANSIENT, prop.getModifier());
+    assertTrue(prop.isTransient());
+
+    // Set only field
+    prop = properties.get("writeOnly");
+    prop.set(b, "str");
+    assertEquals("str", b.fieldB5);
+    assertEquals(String.class, prop.getType());
+    assertEquals(String.class, prop.getGenericType());
+    assertNotNull(prop.getAnnotation(Nullable.class));
+    assertNull(prop.getAnnotation(DefaultEnum.class));
+    assertEquals(Modifier.PUBLIC, prop.getModifier());
+    assertTrue(prop.isTransient());
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetProperties() {
+        Map<String, BeanProperty> properties = ClassUtil.getProperties(B.class);
+        log.info("Properties.keySet():" + properties.keySet());
+        String[] exp = {"fieldA1", "fieldA2", "fieldA3", "fieldA4", "fieldB1", "fieldB2", "fieldB3", "fieldB4", "fieldB5", "fieldB6", "readOnly", "writeOnly"};
+        // Java compiler will mass up the order of the getter methods, field order is preserved in most of the java versions
+        assertArrayEquals(exp, properties.keySet().toArray());
+
+        // Field with setter/getters
+        BeanProperty prop = properties.get("fieldB6");
+        assertEquals("fieldB6", prop.getName());
+        B b = new B();
+        prop.set(b, true);
+        assertEquals(true, prop.get(b));
+        assertFalse(prop.isImmutable(false));
+        assertTrue(prop.isReadable(false));
+        assertEquals(Boolean.TYPE, prop.getType());
+        assertEquals(Boolean.TYPE, prop.getGenericType());
+        assertEquals(B.class.getMethod("setFieldB6", new Class[]{Boolean.TYPE}), prop.getSetter());
+        assertEquals(B.class.getMethod("isFieldB6", new Class[0]), prop.getGetter());
+        assertTrue(prop.isTransient());
+        assertFalse(prop.isFieldAccessible(false));
+        assertEquals(Modifier.PUBLIC, prop.getModifier());
+        assertNotNull("Transient is annotated", prop.getAnnotation(Transient.class));
+
+        // Field without setter/getters
+        prop = properties.get("fieldB2");
+        prop.set(b, "str");
+        assertNull(prop.getSetter());
+        assertNull(prop.getGetter());
+        assertNotNull(prop.getField());
+        assertEquals("str", prop.get(b));
+        assertEquals(String.class, prop.getType());
+        assertEquals(String.class, prop.getGenericType());
+        assertNotNull(prop.getAnnotation(Nullable.class));
+        assertNull(prop.getAnnotation(DefaultEnum.class));
+        assertEquals(Modifier.PUBLIC | Modifier.TRANSIENT, prop.getModifier());
+        assertTrue(prop.isTransient());
+
+        // Set only field
+        prop = properties.get("writeOnly");
+        prop.set(b, "str");
+        assertEquals("str", b.fieldB5);
+        assertEquals(String.class, prop.getType());
+        assertEquals(String.class, prop.getGenericType());
+        assertNotNull(prop.getAnnotation(Nullable.class));
+        assertNull(prop.getAnnotation(DefaultEnum.class));
+        assertEquals(Modifier.PUBLIC, prop.getModifier());
+        assertTrue(prop.isTransient());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetProperties() {
+    Map<String, BeanProperty> properties = ClassUtil.getProperties(B.class);
+    log.info("Properties.keySet():" + properties.keySet());
+    String[] exp = {"fieldA1", "fieldA2", "fieldA3", "fieldA4", "fieldB1", "fieldB2", "fieldB3", "fieldB4", "fieldB5", "fieldB6", "readOnly", "writeOnly"};
+    // Java compiler will mass up the order of the getter methods, field order is preserved in most of the java versions
+    assertArrayEquals(exp, properties.keySet().toArray());
+
+    // Field with setter/getters
+    BeanProperty prop = properties.get("fieldB6");
+    assertEquals("fieldB6", prop.getName());
+    B b = new B();
+    prop.set(b, true);
+    assertEquals(true, prop.get(b));
+    assertFalse(prop.isImmutable(false));
+    assertTrue(prop.isReadable(false));
+    assertEquals(Boolean.TYPE, prop.getType());
+    assertEquals(Boolean.TYPE, prop.getGenericType());
+    assertEquals(B.class.getMethod("setFieldB6", new Class[]{Boolean.TYPE}), prop.getSetter());
+    assertEquals(B.class.getMethod("isFieldB6", new Class[0]), prop.getGetter());
+    assertTrue(prop.isTransient());
+    assertFalse(prop.isFieldAccessible(false));
+    assertEquals(Modifier.PUBLIC, prop.getModifier());
+    assertNotNull("Transient is annotated", prop.getAnnotation(Transient.class));
+
+    // Field without setter/getters
+    prop = properties.get("fieldB2");
+    prop.set(b, "str");
+    assertNull(prop.getSetter());
+    assertNull(prop.getGetter());
+    assertNotNull(prop.getField());
+    assertEquals("str", prop.get(b));
+    assertEquals(String.class, prop.getType());
+    assertEquals(String.class, prop.getGenericType());
+    assertNotNull(prop.getAnnotation(Nullable.class));
+    assertNull(prop.getAnnotation(DefaultEnum.class));
+    assertEquals(Modifier.PUBLIC | Modifier.TRANSIENT, prop.getModifier());
+    assertTrue(prop.isTransient());
+
+    // Set only field
+    prop = properties.get("writeOnly");
+    prop.set(b, "str");
+    assertEquals("str", b.fieldB5);
+    assertEquals(String.class, prop.getType());
+    assertEquals(String.class, prop.getGenericType());
+    assertNotNull(prop.getAnnotation(Nullable.class));
+    assertNull(prop.getAnnotation(DefaultEnum.class));
+    assertEquals(Modifier.PUBLIC, prop.getModifier());
+    assertTrue(prop.isTransient());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>31.1-jre</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetProperties() {
+        Map<String, BeanProperty> properties = ClassUtil.getProperties(B.class);
+        System.out.println("Properties.keySet():" + properties.keySet());
+        String[] exp = {"fieldA1", "fieldA2", "fieldA3", "fieldA4", "fieldB1", "fieldB2", "fieldB3", "fieldB4", "fieldB5", "fieldB6", "readOnly", "writeOnly"};
+        assertArrayEquals(exp, ImmutableList.copyOf(properties.keySet()).toArray());
+
+        BeanProperty prop = properties.get("fieldB6");
+        assertEquals("fieldB6", prop.getName());
+        B b = new B();
+        prop.set(b, true);
+        assertEquals(true, prop.get(b));
+        assertFalse(prop.isImmutable(false));
+        assertTrue(prop.isReadable(false));
+        assertEquals(Boolean.TYPE, prop.getType());
+        assertEquals(Boolean.TYPE, prop.getGenericType());
+        assertEquals(B.class.getMethod("setFieldB6", new Class[]{Boolean.TYPE}), prop.getSetter());
+        assertEquals(B.class.getMethod("isFieldB6", new Class[0]), prop.getGetter());
+        assertTrue(prop.isTransient());
+        assertFalse(prop.isFieldAccessible(false));
+        assertEquals(Modifier.PUBLIC, prop.getModifier());
+        assertNotNull("Transient is annotated", prop.getAnnotation(Transient.class));
+
+        prop = properties.get("fieldB2");
+        prop.set(b, "str");
+        assertNull(prop.getSetter());
+        assertNull(prop.getGetter());
+        assertNotNull(prop.getField());
+        assertEquals("str", prop.get(b));
+        assertEquals(String.class, prop.getType());
+        assertEquals(String.class, prop.getGenericType());
+        assertNotNull(prop.getAnnotation(Nullable.class));
+        assertNull(prop.getAnnotation(DefaultEnum.class));
+        assertEquals(Modifier.PUBLIC | Modifier.TRANSIENT, prop.getModifier());
+        assertTrue(prop.isTransient());
+
+        prop = properties.get("writeOnly");
+        prop.set(b, "str");
+        assertEquals("str", b.fieldB5);
+        assertEquals(String.class, prop.getType());
+        assertEquals(String.class, prop.getGenericType());
+        assertNotNull(prop.getAnnotation(Nullable.class));
+        assertNull(prop.getAnnotation(DefaultEnum.class));
+        assertEquals(Modifier.PUBLIC, prop.getModifier());
+        assertTrue(prop.isTransient());
+    }
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import static org.junit.Assert.assertEquals;', 'import static org.junit.Assert.assertArrayEquals;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetProperties() {
+        Map<String, BeanProperty> properties = ClassUtil.getProperties(B.class);
+        System.out.println("Properties.keySet():" + properties.keySet());
+        String[] exp = {"fieldA1", "fieldA2", "fieldA3", "fieldA4", "fieldB1", "fieldB2", "fieldB3", "fieldB4", "fieldB5", "fieldB6", "readOnly", "writeOnly"};
+        assertArrayEquals(exp, properties.keySet().toArray());
+
+        BeanProperty prop = properties.get("fieldB6");
+        assertEquals("fieldB6", prop.getName());
+        B b = new B();
+        prop.set(b, true);
+        assertEquals(true, prop.get(b));
+        assertFalse(prop.isImmutable(false));
+        assertTrue(prop.isReadable(false));
+        assertEquals(Boolean.TYPE, prop.getType());
+        assertEquals(Boolean.TYPE, prop.getGenericType());
+        assertEquals(B.class.getMethod("setFieldB6", new Class[]{Boolean.TYPE}), prop.getSetter());
+        assertEquals(B.class.getMethod("isFieldB6", new Class[0]), prop.getGetter());
+        assertTrue(prop.isTransient());
+        assertFalse(prop.isFieldAccessible(false));
+        assertEquals(Modifier.PUBLIC, prop.getModifier());
+        assertNotNull("Transient is annotated", prop.getAnnotation(Transient.class));
+
+        prop = properties.get("fieldB2");
+        prop.set(b, "str");
+        assertNull(prop.getSetter());
+        assertNull(prop.getGetter());
+        assertNotNull(prop.getField());
+        assertEquals("str", prop.get(b));
+        assertEquals(String.class, prop.getType());
+        assertEquals(String.class, prop.getGenericType());
+        assertNotNull(prop.getAnnotation(Nullable.class));
+        assertNull(prop.getAnnotation(DefaultEnum.class));
+        assertEquals(Modifier.PUBLIC | Modifier.TRANSIENT, prop.getModifier());
+        assertTrue(prop.isTransient());
+
+        prop = properties.get("writeOnly");
+        prop.set(b, "str");
+        assertEquals("str", b.fieldB5);
+        assertEquals(String.class, prop.getType());
+        assertEquals(String.class, prop.getGenericType());
+        assertNotNull(prop.getAnnotation(Nullable.class));
+        assertNull(prop.getAnnotation(DefaultEnum.class));
+        assertEquals(Modifier.PUBLIC, prop.getModifier());
+        assertTrue(prop.isTransient());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

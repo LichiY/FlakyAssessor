@@ -1,0 +1,143 @@
+Test File Path: projects/3a351fa0716c51b5b4d7caa0c5f72cd61f80445f/feign/json/src/test/java/feign/json/JsonEncoderTest.java
+Original Test Method:
+   public void encodesObject() {
+    new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+    assertEquals("{\"a\":\"b\",\"c\":1}", new String(requestTemplate.body(), UTF_8));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void encodesObject() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("a", "b");
+        jsonObject.put("c", 1);
+
+        RequestTemplate requestTemplate = new RequestTemplate();
+        new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+
+        assertEquals("{\"a\":\"b\",\"c\":1}", new String(requestTemplate.body(), StandardCharsets.UTF_8));
+    }
+
+
+import:
+
+['import java.nio.charset.StandardCharsets;', 'import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void encodesObject() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("a", "b");
+        jsonObject.put("c", 1);
+
+        RequestTemplate requestTemplate = new RequestTemplate();
+        new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+
+        assertEquals("{\"a\":\"b\",\"c\":1}", new String(requestTemplate.body(), StandardCharsets.UTF_8));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void encodesObject() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("a", "b");
+        jsonObject.put("c", 1);
+
+        RequestTemplate requestTemplate = new RequestTemplate();
+        new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+
+        assertEquals("{\"a\":\"b\",\"c\":1}", new String(requestTemplate.body(), StandardCharsets.UTF_8));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void encodesObject() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("a", "b");
+        jsonObject.put("c", 1);
+
+        RequestTemplate requestTemplate = new RequestTemplate();
+        new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+
+        assertEquals("{\"a\":\"b\",\"c\":1}", new String(requestTemplate.body(), StandardCharsets.UTF_8));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void encodesObject() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("a", "b");
+        jsonObject.put("c", 1);
+
+        RequestTemplate requestTemplate = new RequestTemplate();
+        new JsonEncoder().encode(jsonObject, JSONObject.class, requestTemplate);
+
+        assertEquals("{\"a\":\"b\",\"c\":1}", new String(requestTemplate.body(), StandardCharsets.UTF_8));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20220320</version>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.8.2</version>
+        <scope>test</scope>
+    </dependency>
+

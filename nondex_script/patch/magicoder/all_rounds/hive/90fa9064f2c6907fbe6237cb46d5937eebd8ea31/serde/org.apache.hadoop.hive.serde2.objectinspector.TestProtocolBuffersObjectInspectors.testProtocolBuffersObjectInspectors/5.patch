@@ -1,0 +1,377 @@
+Test File Path: projects/90fa9064f2c6907fbe6237cb46d5937eebd8ea31/hive/serde/src/test/org/apache/hadoop/hive/serde2/objectinspector/TestProtocolBuffersObjectInspectors.java
+Original Test Method:
+   public void testProtocolBuffersObjectInspectors() throws Throwable {
+
+    try {
+      ObjectInspector oi1 = ObjectInspectorFactory
+          .getReflectionObjectInspector(Complex.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+      ObjectInspector oi2 = ObjectInspectorFactory
+          .getReflectionObjectInspector(Complex.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+      assertEquals(oi1, oi2);
+
+      // metadata
+      assertEquals(Category.STRUCT, oi1.getCategory());
+      StructObjectInspector soi = (StructObjectInspector) oi1;
+      List<? extends StructField> fields = soi.getAllStructFieldRefs();
+      assertEquals(5, fields.size());
+      assertEquals(fields.get(0), soi.getStructFieldRef("aint_"));
+
+      // null
+      for (int i = 0; i < fields.size(); i++) {
+        assertNull(soi.getStructFieldData(null, fields.get(i)));
+      }
+
+      // real object
+      List<Integer> c2 = Arrays.asList(new Integer[] {1, 2, 3});
+      List<String> c3 = Arrays.asList(new String[] {"one", "two"});
+      List<IntString> c4 = new ArrayList<IntString>();
+      Complex c = new Complex(1, "test", c2, c3, c4);
+
+      assertEquals(1, soi.getStructFieldData(c, fields.get(0)));
+      assertEquals("test", soi.getStructFieldData(c, fields.get(1)));
+      assertEquals(c2, soi.getStructFieldData(c, fields.get(2)));
+      assertEquals(c3, soi.getStructFieldData(c, fields.get(3)));
+      assertEquals(c4, soi.getStructFieldData(c, fields.get(4)));
+      ArrayList<Object> cfields = new ArrayList<Object>();
+      for (int i = 0; i < 5; i++) {
+        cfields.add(soi.getStructFieldData(c, fields.get(i)));
+      }
+      assertEquals(cfields, soi.getStructFieldsDataAsList(c));
+
+      // sub fields
+      assertEquals(PrimitiveObjectInspectorFactory.javaIntObjectInspector,
+          fields.get(0).getFieldObjectInspector());
+      assertEquals(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
+          fields.get(1).getFieldObjectInspector());
+      assertEquals(
+          ObjectInspectorFactory
+          .getStandardListObjectInspector(PrimitiveObjectInspectorFactory.javaIntObjectInspector),
+          fields.get(2).getFieldObjectInspector());
+      assertEquals(
+          ObjectInspectorFactory
+              .getStandardListObjectInspector(PrimitiveObjectInspectorFactory
+                  .javaStringObjectInspector),
+          fields.get(3).getFieldObjectInspector());
+      assertEquals(ObjectInspectorFactory
+          .getStandardListObjectInspector(ObjectInspectorFactory
+          .getReflectionObjectInspector(IntString.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS)),
+          fields.get(4).getFieldObjectInspector());
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testProtocolBuffersObjectInspectors() throws Throwable {
+
+    try {
+      ObjectInspector oi1 = ObjectInspectorFactory
+          .getReflectionObjectInspector(Complex.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+      ObjectInspector oi2 = ObjectInspectorFactory
+          .getReflectionObjectInspector(Complex.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+      assertEquals(oi1, oi2);
+
+      // metadata
+      assertEquals(Category.STRUCT, oi1.getCategory());
+      StructObjectInspector soi = (StructObjectInspector) oi1;
+      List<? extends StructField> fields = soi.getAllStructFieldRefs();
+      assertEquals(5, fields.size());
+      assertEquals(fields.get(0), soi.getStructFieldRef("aint_"));
+
+      // null
+      for (int i = 0; i < fields.size(); i++) {
+        assertNull(soi.getStructFieldData(null, fields.get(i)));
+      }
+
+      // real object
+      List<Integer> c2 = Arrays.asList(new Integer[] {1, 2, 3});
+      List<String> c3 = Arrays.asList(new String[] {"one", "two"});
+      List<IntString> c4 = new ArrayList<IntString>();
+      Complex c = new Complex(1, "test", c2, c3, c4);
+
+      assertEquals(1, soi.getStructFieldData(c, fields.get(0)));
+      assertEquals("test", soi.getStructFieldData(c, fields.get(1)));
+      assertEquals(c2, soi.getStructFieldData(c, fields.get(2)));
+      assertEquals(c3, soi.getStructFieldData(c, fields.get(3)));
+      assertEquals(c4, soi.getStructFieldData(c, fields.get(4)));
+      ArrayList<Object> cfields = new ArrayList<Object>();
+      for (int i = 0; i < 5; i++) {
+        cfields.add(soi.getStructFieldData(c, fields.get(i)));
+      }
+      assertEquals(cfields, soi.getStructFieldsDataAsList(c));
+
+      // sub fields
+      assertEquals(PrimitiveObjectInspectorFactory.javaIntObjectInspector,
+          fields.get(0).getFieldObjectInspector());
+      assertEquals(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
+          fields.get(1).getFieldObjectInspector());
+      assertEquals(
+          ObjectInspectorFactory
+          .getStandardListObjectInspector(PrimitiveObjectInspectorFactory.javaIntObjectInspector),
+          fields.get(2).getFieldObjectInspector());
+      assertEquals(
+          ObjectInspectorFactory
+              .getStandardListObjectInspector(PrimitiveObjectInspectorFactory
+                  .javaStringObjectInspector),
+          fields.get(3).getFieldObjectInspector());
+      assertEquals(ObjectInspectorFactory
+          .getStandardListObjectInspector(ObjectInspectorFactory
+          .getReflectionObjectInspector(IntString.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS)),
+          fields.get(4).getFieldObjectInspector());
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
+
+
+import:
+
+['import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.SetObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.MapObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.StringObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.BooleanObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.ByteObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.ShortObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.IntObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.LongObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.FloatObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.DoubleObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.DecimalObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.DateObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.TimestampObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.IntervalYearMonthObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.IntervalDayTimeObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.VarcharObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.VarbinaryObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.UnknownObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.NullObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.ListObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.StructObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.UnionObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.EnumObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.IntervalObjectInspector;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-hive-serde</artifactId>
+        <version>3.1.2</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testProtocolBuffersObjectInspectors() throws Throwable {
+
+    try {
+      ObjectInspector oi1 = ObjectInspectorFactory
+          .getReflectionObjectInspector(Complex.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+      ObjectInspector oi2 = ObjectInspectorFactory
+          .getReflectionObjectInspector(Complex.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+      assertEquals(oi1, oi2);
+
+      // metadata
+      assertEquals(Category.STRUCT, oi1.getCategory());
+      StructObjectInspector soi = (StructObjectInspector) oi1;
+      List<? extends StructField> fields = soi.getAllStructFieldRefs();
+      assertEquals(5, fields.size());
+      assertEquals(fields.get(0), soi.getStructFieldRef("aint_"));
+
+      // null
+      for (int i = 0; i < fields.size(); i++) {
+        assertNull(soi.getStructFieldData(null, fields.get(i)));
+      }
+
+      // real object
+      List<Integer> c2 = Arrays.asList(new Integer[] {1, 2, 3});
+      List<String> c3 = Arrays.asList(new String[] {"one", "two"});
+      List<IntString> c4 = new ArrayList<IntString>();
+      Complex c = new Complex(1, "test", c2, c3, c4);
+
+      assertEquals(1, soi.getStructFieldData(c, fields.get(0)));
+      assertEquals("test", soi.getStructFieldData(c, fields.get(1)));
+      assertEquals(c2, soi.getStructFieldData(c, fields.get(2)));
+      assertEquals(c3, soi.getStructFieldData(c, fields.get(3)));
+      assertEquals(c4, soi.getStructFieldData(c, fields.get(4)));
+      ArrayList<Object> cfields = new ArrayList<Object>();
+      for (int i = 0; i < 5; i++) {
+        cfields.add(soi.getStructFieldData(c, fields.get(i)));
+      }
+      assertEquals(cfields, soi.getStructFieldsDataAsList(c));
+
+      // sub fields
+      assertEquals(PrimitiveObjectInspectorFactory.javaIntObjectInspector,
+          fields.get(0).getFieldObjectInspector());
+      assertEquals(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
+          fields.get(1).getFieldObjectInspector());
+      assertEquals(
+          ObjectInspectorFactory
+          .getStandardListObjectInspector(PrimitiveObjectInspectorFactory.javaIntObjectInspector),
+          fields.get(2).getFieldObjectInspector());
+      assertEquals(
+          ObjectInspectorFactory
+              .getStandardListObjectInspector(PrimitiveObjectInspectorFactory
+                  .javaStringObjectInspector),
+          fields.get(3).getFieldObjectInspector());
+      assertEquals(ObjectInspectorFactory
+          .getStandardListObjectInspector(ObjectInspectorFactory
+          .getReflectionObjectInspector(IntString.class,
+          ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS)),
+          fields.get(4).getFieldObjectInspector());
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testProtocolBuffersObjectInspectors() throws Throwable {
+    try {
+        ObjectInspector oi1 = ObjectInspectorFactory
+            .getReflectionObjectInspector(Complex.class,
+            ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+        ObjectInspector oi2 = ObjectInspectorFactory
+            .getReflectionObjectInspector(Complex.class,
+            ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS);
+        assertEquals(oi1, oi2);
+
+        // metadata
+        assertEquals(Category.STRUCT, oi1.getCategory());
+        StructObjectInspector soi = (StructObjectInspector) oi1;
+        List<? extends StructField> fields = soi.getAllStructFieldRefs();
+        assertEquals(5, fields.size());
+        assertEquals(fields.get(0), soi.getStructFieldRef("aint_"));
+
+        // null
+        for (int i = 0; i < fields.size(); i++) {
+            assertNull(soi.getStructFieldData(null, fields.get(i)));
+        }
+
+        // real object
+        List<Integer> c2 = Arrays.asList(new Integer[] {1, 2, 3});
+        List<String> c3 = Arrays.asList(new String[] {"one", "two"});
+        List<IntString> c4 = new ArrayList<IntString>();
+        Complex c = new Complex(1, "test", c2, c3, c4);
+
+        assertEquals(1, soi.getStructFieldData(c, fields.get(0)));
+        assertEquals("test", soi.getStructFieldData(c, fields.get(1)));
+        assertEquals(c2, soi.getStructFieldData(c, fields.get(2)));
+        assertEquals(c3, soi.getStructFieldData(c, fields.get(3)));
+        assertEquals(c4, soi.getStructFieldData(c, fields.get(4)));
+        ArrayList<Object> cfields = new ArrayList<Object>();
+        for (int i = 0; i < 5; i++) {
+            cfields.add(soi.getStructFieldData(c, fields.get(i)));
+        }
+        assertEquals(cfields, soi.getStructFieldsDataAsList(c));
+
+        // sub fields
+        assertEquals(PrimitiveObjectInspectorFactory.javaIntObjectInspector,
+            fields.get(0).getFieldObjectInspector());
+        assertEquals(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
+            fields.get(1).getFieldObjectInspector());
+        assertEquals(
+            ObjectInspectorFactory
+            .getStandardListObjectInspector(PrimitiveObjectInspectorFactory.javaIntObjectInspector),
+            fields.get(2).getFieldObjectInspector());
+        assertEquals(
+            ObjectInspectorFactory
+                .getStandardListObjectInspector(PrimitiveObjectInspectorFactory
+                    .javaStringObjectInspector),
+            fields.get(3).getFieldObjectInspector());
+        assertEquals(ObjectInspectorFactory
+            .getStandardListObjectInspector(ObjectInspectorFactory
+            .getReflectionObjectInspector(IntString.class,
+            ObjectInspectorFactory.ObjectInspectorOptions.PROTOCOL_BUFFERS)),
+            fields.get(4).getFieldObjectInspector());
+    } catch (Throwable e) {
+        e.printStackTrace();
+        throw e;
+    }
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.protobuf.Descriptors.FieldDescriptor;', 'import com.google.protobuf.Descriptors.FieldDescriptor.Type;', 'import com.google.protobuf.Descriptors.Descriptor;', 'import com.google.protobuf.Descriptors.Descriptor.Syntax;', 'import com.google.protobuf.Descriptors.DescriptorValidationException;', 'import com.google.protobuf.Descriptors.DescriptorValidationException.ValidationError;', 'import com.google.protobuf.Descriptors.FieldDescriptor.Builder;', 'import com.google.protobuf.Descriptors.FileDescriptor;', 'import com.google.protobuf.Descriptors.FileDescriptorSet;', 'import com.google.protobuf.Descriptors.FileDescriptorSet.Builder;', 'import com.google.protobuf.Descriptors.FileDescriptorSetOrBuilder;', 'import com.google.protobuf.Descriptors.FileDescriptorOrBuilder;', 'import com.google.protobuf.Descriptors.FileOptions;', 'import com.google.protobuf.Descriptors.FileOptionsOrBuilder;', 'import com.google.protobuf.Descriptors.MessageDescriptor;', 'import com.google.protobuf.Descriptors.MessageDescriptor.Builder;', 'import com.google.protobuf.Descriptors.MessageDescriptorOrBuilder;', 'import com.google.protobuf.Descriptors.OneofDescriptor;', 'import com.google.protobuf.Descriptors.OneofDescriptorOrBuilder;', 'import com.google.protobuf.Descriptors.OneofDescriptor.Builder;', 'import com.google.protobuf.Descriptors.UninterpretedOption;', 'import com.google.protobuf.Descriptors.UninterpretedOption.Builder;', 'import com.google.protobuf.Descriptors.UninterpretedOptionOrBuilder;', 'import com.google.protobuf.Descriptors.EnumDescriptor;', 'import com.google.protobuf.Descriptors.EnumDescriptorOrBuilder;', 'import com.google.protobuf.Descriptors.EnumDescriptor.Builder;', 'import com.google.protobuf.Descriptors.EnumValueDescriptor;', 'import com.google.protobuf.Descriptors.EnumValueDescriptorOrBuilder;', 'import com.google.protobuf.Descriptors.EnumValueDescriptor.Builder;', 'import com.google.protobuf.Descriptors.ServiceDescriptor;', 'import com.google.protobuf.Descriptors.ServiceDescriptorOrBuilder;', 'import com.google.protobuf.Descriptors.ServiceDescriptor.Builder;', 'import com.google.protobuf.Descriptors.MethodDescriptor;', 'import com.google.protobuf.Descriptors.MethodDescriptorOrBuilder;', 'import com.google.protobuf.Descriptors.MethodDescriptor.Builder;', 'import com.google.protobuf.Descriptors.FieldOptions;', 'import com.google.protobuf.Descriptors.FieldOptionsOrBuilder;', 'import com.google.protobuf.Descriptors.FieldOptions.Builder;', 'import com.google.protobuf.Descriptors.OneofOptions;', 'import com.google.protobuf.Descriptors.OneofOptionsOrBuilder;', 'import com.google.protobuf.Descriptors.OneofOptions.Builder;', 'import com.google.protobuf.Descriptors.EnumValueOptions;', 'import com.google.protobuf.Descriptors.EnumValueOptionsOrBuilder;', 'import com.google.protobuf.Descriptors.EnumValueOptions.Builder;', 'import com.google.protobuf.Descriptors.ServiceOptions;', 'import com.google.protobuf.Descriptors.ServiceOptionsOrBuilder;', 'import com.google.protobuf.Descriptors.ServiceOptions.Builder;', 'import com.google.protobuf.Descriptors.MethodOptions;', 'import com.google.protobuf.Descriptors.MethodOptionsOrBuilder;', 'import com.google.protobuf.Descriptors.MethodOptions.Builder;', 'import com.google.protobuf.Descriptors.FileOptions.Builder;', 'import com.google.protobuf.Descriptors.MessageOptions;', 'import com.google.protobuf.Descriptors.MessageOptionsOrBuilder;', 'import com.google.protobuf.Descriptors.MessageOptions.Builder;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.protobuf</groupId>
+    <artifactId>protobuf-java</artifactId>
+    <version>3.19.4</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testProtocolBuffersObjectInspectors() {
+        ImmutableList<String> list = ImmutableList.of("a", "b", "c");
+        assertThat(list).containsExactly("a", "b", "c");
+    }
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>29.0-jre</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void testProtocolBuffersObjectInspectors() throws Throwable {
+        ImmutableList<String> list = ImmutableList.of("a", "b", "c");
+        assertThat(list).containsExactly("a", "b", "c");
+    }
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>29.0-jre</version>
+</dependency>

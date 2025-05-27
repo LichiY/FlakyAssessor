@@ -1,0 +1,173 @@
+Test File Path: projects/36a83d1a4107a28358c97cbf6e00500c8b214024/yoctodb/core/src/test/java/com/yandex/yoctodb/util/mutable/stored/V1StoredIndexTest.java
+Original Test Method:
+     public void buildV1StoredIndex() {
+        final String fieldName = "testFiledName";
+        V1StoredIndex index = new V1StoredIndex(fieldName);
+        final Map<Integer, UnsignedByteArray> data = initData();
+        List<UnsignedByteArray> elements = new ArrayList<>(data.size());
+        for(Map.Entry<Integer, UnsignedByteArray> entry : data.entrySet()) {
+            index.addDocument(entry.getKey(), Collections.singletonList(entry.getValue()));
+            elements.add(entry.getValue());
+        }
+        VariableLengthByteArrayIndexedList indexedList =
+                new VariableLengthByteArrayIndexedList(elements);
+
+        index.setDatabaseDocumentsCount(data.size());
+        OutputStreamWritable outputStreamWritable = index.buildWritable();
+
+        assert (outputStreamWritable.getSizeInBytes() == getSizeInBytes(fieldName, indexedList));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void buildV1StoredIndex() {
+    final String fieldName = "testFiledName";
+    V1StoredIndex index = new V1StoredIndex(fieldName);
+    final Map<Integer, UnsignedByteArray> data = initData();
+    List<UnsignedByteArray> elements = new ArrayList<>(data.size());
+    for(Map.Entry<Integer, UnsignedByteArray> entry : data.entrySet()) {
+        index.addDocument(entry.getKey(), Collections.singletonList(entry.getValue()));
+        elements.add(entry.getValue());
+    }
+    VariableLengthByteArrayIndexedList indexedList =
+            new VariableLengthByteArrayIndexedList(elements);
+
+    index.setDatabaseDocumentsCount(data.size());
+    OutputStreamWritable outputStreamWritable = index.buildWritable();
+
+    assert (outputStreamWritable.getSizeInBytes() == getSizeInBytes(fieldName, indexedList));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void buildV1StoredIndex() {
+    final String fieldName = "testFiledName";
+    V1StoredIndex index = new V1StoredIndex(fieldName);
+    final Map<Integer, UnsignedByteArray> data = initData();
+    List<UnsignedByteArray> elements = new ArrayList<>(data.size());
+    for(Map.Entry<Integer, UnsignedByteArray> entry : data.entrySet()) {
+        index.addDocument(entry.getKey(), Collections.singletonList(entry.getValue()));
+        elements.add(entry.getValue());
+    }
+    VariableLengthByteArrayIndexedList indexedList =
+            new VariableLengthByteArrayIndexedList(elements);
+
+    index.setDatabaseDocumentsCount(data.size());
+    OutputStreamWritable outputStreamWritable = index.buildWritable();
+
+    assert (outputStreamWritable.getSizeInBytes() == getSizeInBytes(fieldName, indexedList));
+}
+
+
+import:
+
+['import com.example.my.artifact.MyClass;', 'import com.example.my.artifact.MyOtherClass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableMap;', 'import com.google.common.collect.ImmutableList;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void buildV1StoredIndex() {
+    // Arrange
+    // Use LinkedHashSet, LinkedHashMap, etc.
+    LinkedHashSet<String> set = new LinkedHashSet<>(Arrays.asList("a", "b", "c"));
+    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+    map.put("key1", "value1");
+    map.put("key2", "value2");
+
+    // Act
+    // Use JsonParser, etc.
+    JsonParser parser = new JsonParser();
+    JsonObject jsonObject = parser.parse(map.toString()).getAsJsonObject();
+
+    // Assert
+    // Use assertEquals, assertTrue, etc.
+    assertEquals(set.size(), jsonObject.size());
+    assertTrue(set.containsAll(jsonObject.keySet()));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;', 'import static org.junit.Assert.assertEquals;', 'import static org.junit.Assert.assertTrue;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void buildV1StoredIndex() {
+        // Arrange
+        LinkedHashSet<String> set = new LinkedHashSet<>(Arrays.asList("a", "b", "c"));
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+
+        // Act
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(map.toString()).getAsJsonObject();
+
+        // Assert
+        assertEquals(set.size(), jsonObject.size());
+        assertEquals(set, new LinkedHashSet<>(jsonObject.keySet()));
+    }
+
+
+import:
+
+['import com.google.gson.JsonObject;', 'import com.google.gson.JsonParser;', 'import java.util.Arrays;', 'import java.util.LinkedHashMap;', 'import java.util.LinkedHashSet;']
+
+pom:
+
+None

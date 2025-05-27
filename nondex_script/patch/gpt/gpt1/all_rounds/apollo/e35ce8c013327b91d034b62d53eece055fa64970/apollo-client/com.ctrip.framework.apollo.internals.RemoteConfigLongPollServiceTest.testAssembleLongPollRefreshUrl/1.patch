@@ -1,0 +1,61 @@
+Test File Path: projects/e35ce8c013327b91d034b62d53eece055fa64970/apollo/apollo-client/src/test/java/com/ctrip/framework/apollo/internals/RemoteConfigLongPollServiceTest.java
+Original Test Method:
+   public void testAssembleLongPollRefreshUrl() throws Exception {
+    String someUri = someServerUrl;
+    String someAppId = "someAppId";
+    String someCluster = "someCluster+ &.-_someSign";
+    String someNamespace = "someName";
+    long someNotificationId = 1;
+    Map<String, Long> notificationsMap = ImmutableMap.of(someNamespace, someNotificationId);
+
+    String longPollRefreshUrl =
+        remoteConfigLongPollService
+            .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+    assertTrue(longPollRefreshUrl.contains(someServerUrl + "/notifications/v2?"));
+    assertTrue(longPollRefreshUrl.contains("appId=" + someAppId));
+    assertTrue(longPollRefreshUrl.contains("cluster=someCluster%2B+%26.-_someSign"));
+    assertTrue(longPollRefreshUrl.contains(
+        "notifications=%5B%7B%22namespaceName%22%3A%22" + someNamespace
+            + "%22%2C%22notificationId%22%3A" + 1 + "%7D%5D"));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testAssembleLongPollRefreshUrl() throws Exception {
+    String someUri = someServerUrl;
+    String someAppId = "someAppId";
+    String someCluster = "someCluster+ &.-_someSign";
+    String someNamespace = "someName";
+    long someNotificationId = 1;
+    Map<String, Long> notificationsMap = ImmutableMap.of(someNamespace, someNotificationId);
+
+    String longPollRefreshUrl =
+        remoteConfigLongPollService
+            .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+    assertThat(longPollRefreshUrl).contains(someServerUrl + "/notifications/v2?");
+    assertThat(longPollRefreshUrl).contains("appId=" + someAppId);
+    assertThat(longPollRefreshUrl).contains("cluster=someCluster%2B+%26.-_someSign");
+    assertThat(longPollRefreshUrl).contains("namespaceName%22%3A%22" + someNamespace + "%22");
+    assertThat(longPollRefreshUrl).contains("notificationId%22%3A" + someNotificationId);
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+

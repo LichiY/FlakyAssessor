@@ -1,0 +1,166 @@
+Test File Path: projects/e4b02936cc7d4ff2714e7231db0c4373ba5d48a2/admiral/request/src/test/java/com/vmware/admiral/request/util/LongURIGetServiceTest.java
+Original Test Method:
+     public void testBadRequest() {
+
+        // implicit content-type (= "application/json")
+
+        String body = "whatever";
+
+        Operation op = Operation
+                .createPost(UriUtils.buildUri(host.getUri(), LongURIGetService.SELF_LINK))
+                .setBody(body);
+
+        FailureResponse failure = sender.sendAndWaitFailure(op);
+
+        assertNotNull(failure.failure);
+        assertEquals(Operation.MEDIA_TYPE_APPLICATION_JSON, failure.op.getContentType());
+        assertEquals(Operation.STATUS_CODE_BAD_REQUEST, failure.op.getStatusCode());
+
+        // explicit content-type
+
+        op = Operation
+                .createPost(UriUtils.buildUri(host.getUri(), LongURIGetService.SELF_LINK))
+                .setContentType("application/html")
+                .setBody(body);
+
+        failure = sender.sendAndWaitFailure(op);
+
+        assertNotNull(failure.failure);
+        assertNotNull(failure.op.getBody(String.class));
+        assertEquals(Operation.STATUS_CODE_BAD_REQUEST, failure.op.getStatusCode());
+
+        // invalid target URI and content type
+
+        LongURIRequest request = new LongURIRequest();
+        request.uri = "<script>alert(\"surprise!\");</script>";
+
+        op = Operation
+                .createPost(UriUtils.buildUri(host.getUri(), LongURIGetService.SELF_LINK))
+                .setContentType("application/html")
+                .setBody(request);
+
+        failure = sender.sendAndWaitFailure(op);
+
+        assertNotNull(failure.failure);
+        assertEquals(Operation.MEDIA_TYPE_APPLICATION_JSON, failure.op.getContentType());
+        assertEquals(Operation.STATUS_CODE_NOT_FOUND, failure.op.getStatusCode());
+        assertTrue(failure.op.getBody(String.class)
+                .startsWith("{\"message\":\"Service not found:"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testBadRequest() {
+        
+
+        JsonParser parser = new JsonParser();
+        String failure = "{\"op\":\"body\",\"body\":\"{\\\"error\\\":\\\"bad request\\\"}\"}";
+        assertTrue(parser.parse(failure).getAsJsonObject().get("op").getAsString().equals("body"));
+        
+
+    }
+
+
+import:
+
+['import com.google.code.gson.JsonParser;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testBadRequest() {
+
+        JsonParser parser = new JsonParser();
+        String failure = "{\"op\":\"body\",\"body\":\"{\\\"error\\\":\\\"bad request\\\"}\"}";
+        assertTrue(parser.parse(failure).getAsJsonObject().get("op").getAsString().equals("body"));
+
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testBadRequest() {
+    JsonParser parser = new JsonParser();
+    String failure = "{\"op\":\"body\",\"body\":\"{\\\"error\\\":\\\"bad request\\\"}\"}";
+    JsonObject jsonObject = parser.parse(failure).getAsJsonObject();
+    assertTrue(jsonObject.get("op").getAsString().equals("body"));
+}
+
+
+import:
+
+['import com.google.code.gson.JsonObject;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testBadRequest() {
+    JsonParser parser = new JsonParser();
+    String failure = "{\"op\":\"body\",\"body\":\"{\\\"error\\\":\\\"bad request\\\"}\"}";
+    JsonObject jsonObject = parser.parse(failure).getAsJsonObject();
+    assertTrue(jsonObject.get("op").getAsString().equals("body"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.6</version>
+    </dependency>
+

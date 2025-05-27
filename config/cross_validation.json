@@ -1,0 +1,51 @@
+{
+  "project_name": "FlakyPatchValidator",
+  "seed": 66,
+  "data": {
+    "data_dir": "data",
+    "combined_csv_file": "cleaned_mutation_data.csv", 
+    "project_col": "project_name",
+    "flaky_col": "flaky_code",
+    "patch_col": "generated_patch",
+    "label_col": "isCorrect",
+    "time_col": "time_consume",
+    "source_file_col": "source_file", 
+    "test_name_col": "full_test_name",
+    "incorrect_type_col": "incorrect_type",
+    "generated_source_marker_col": "augmented_source_marker",
+    "rerun_consistency_col":"rerun_consistency",
+    "n_folds": 5
+  },
+  "model": {
+    "encoder_name": "/home/lizhyu/model/microsoft/unixcoder-base",
+    "max_length": 512,
+    "dnn_layers": [768, 256, 128],
+    "dropout_rate": 0.35
+  },
+  "train": {
+    "output_dir_base": "outputs_cross_validation", 
+    "epochs": 100, 
+    "batch_size": 48,
+    "early_stopping_patience": 15,
+    "learning_rate": 5e-05,
+    "optimizer": "AdamW", 
+    "weight_decay": 0.05, 
+    "lr_scheduler": "cosine",
+    "use_weighted_loss": true,
+    "pos_weight_multiplier": 1.0, 
+    "warmup_steps_ratio": 0.06, 
+    "device_setting": {
+      "device_ids": "0",    
+      "num_workers": 1
+    },
+    "log_steps": 50,
+    "eval_strategy": "epoch"
+  },
+  "eval": { 
+    "batch_size": 1
+  },
+  "log": {
+    "filename_base": "./outputs_cross_validation/run_cross_validation.log", 
+    "level": "info"
+  }
+}

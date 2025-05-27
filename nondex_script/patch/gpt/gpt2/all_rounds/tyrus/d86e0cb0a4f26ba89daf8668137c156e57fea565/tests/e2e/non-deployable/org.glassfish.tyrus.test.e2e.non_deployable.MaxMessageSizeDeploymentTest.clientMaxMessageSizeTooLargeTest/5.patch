@@ -1,0 +1,315 @@
+Test File Path: projects/d86e0cb0a4f26ba89daf8668137c156e57fea565/tyrus/tests/e2e/non-deployable/src/test/java/org/glassfish/tyrus/test/e2e/non_deployable/MaxMessageSizeDeploymentTest.java
+Original Test Method:
+     public void clientMaxMessageSizeTooLargeTest() throws DeploymentException {
+        Server server = startServer(DummyServerEndpoint.class);
+        try {
+            ClientManager client = createClient();
+            Map<String, Object> properties = client.getProperties();
+            properties.put(ClientProperties.INCOMING_BUFFER_SIZE, 1);
+            final AtomicBoolean warningLogged = new AtomicBoolean(false);
+            LoggerHandler handler = new LoggerHandler() {
+                @Override
+                public void publish(LogRecord record) {
+                    String expectedWarningMessage =
+                            LocalizationMessages.ENDPOINT_MAX_MESSAGE_SIZE_TOO_LONG(
+                                    2, LargeMaxMessageSizeClientEndpoint.class.getMethods()[0].getName(),
+                                    LargeMaxMessageSizeClientEndpoint.class.getName(), 1);
+                    System.out.println("Expected message: " + expectedWarningMessage);
+                    System.out.println("Logged message: " + record.getMessage());
+                    if (expectedWarningMessage.equals(record.getMessage())) {
+                        warningLogged.set(true);
+                    }
+                }
+            };
+            logger.setLevel(Level.CONFIG);
+            logger.addHandler(handler);
+            client.connectToServer(LargeMaxMessageSizeClientEndpoint.class, getURI(DummyServerEndpoint.class, "ws"));
+            assertTrue(warningLogged.get());
+            logger.removeHandler(handler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            stopServer(server);
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void clientMaxMessageSizeTooLargeTest() throws DeploymentException {
+    Server server = startServer(DummyServerEndpoint.class);
+    try {
+        ClientManager client = createClient();
+        Map<String, Object> properties = client.getProperties();
+        properties.put(ClientProperties.INCOMING_BUFFER_SIZE, 1);
+        final AtomicBoolean warningLogged = new AtomicBoolean(false);
+        LoggerHandler handler = new LoggerHandler() {
+            @Override
+            public void publish(LogRecord record) {
+                Method[] methods = LargeMaxMessageSizeClientEndpoint.class.getMethods();
+                Arrays.sort(methods, Comparator.comparing(Method::getName));
+                String expectedWarningMessage =
+                        LocalizationMessages.ENDPOINT_MAX_MESSAGE_SIZE_TOO_LONG(
+                                2, methods[0].getName(),
+                                LargeMaxMessageSizeClientEndpoint.class.getName(), 1);
+                System.out.println("Expected message: " + expectedWarningMessage);
+                System.out.println("Logged message: " + record.getMessage());
+                if (expectedWarningMessage.equals(record.getMessage())) {
+                    warningLogged.set(true);
+                }
+            }
+        };
+        logger.setLevel(Level.CONFIG);
+        logger.addHandler(handler);
+        client.connectToServer(LargeMaxMessageSizeClientEndpoint.class, getURI(DummyServerEndpoint.class, "ws"));
+        assertTrue(warningLogged.get());
+        logger.removeHandler(handler);
+
+    } catch (IOException e) {
+        e.printStackTrace();
+        fail();
+    } finally {
+        stopServer(server);
+    }
+}
+
+
+import:
+
+['import java.lang.reflect.Method;', 'import java.util.Arrays;', 'import java.util.Comparator;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void clientMaxMessageSizeTooLargeTest() throws DeploymentException {
+    Server server = startServer(DummyServerEndpoint.class);
+    try {
+        ClientManager client = createClient();
+        Map<String, Object> properties = client.getProperties();
+        properties.put(ClientProperties.INCOMING_BUFFER_SIZE, 1);
+        final AtomicBoolean warningLogged = new AtomicBoolean(false);
+        LoggerHandler handler = new LoggerHandler() {
+            @Override
+            public void publish(LogRecord record) {
+                Method method = Arrays.stream(LargeMaxMessageSizeClientEndpoint.class.getMethods())
+                    .filter(m -> m.getName().equals("onMessage"))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("No onMessage method found"));
+                String expectedWarningMessage =
+                        LocalizationMessages.ENDPOINT_MAX_MESSAGE_SIZE_TOO_LONG(
+                                2, method.getName(),
+                                LargeMaxMessageSizeClientEndpoint.class.getName(), 1);
+                System.out.println("Expected message: " + expectedWarningMessage);
+                System.out.println("Logged message: " + record.getMessage());
+                if (expectedWarningMessage.equals(record.getMessage())) {
+                    warningLogged.set(true);
+                }
+            }
+        };
+        logger.setLevel(Level.CONFIG);
+        logger.addHandler(handler);
+        client.connectToServer(LargeMaxMessageSizeClientEndpoint.class, getURI(DummyServerEndpoint.class, "ws"));
+        assertTrue(warningLogged.get());
+        logger.removeHandler(handler);
+
+    } catch (IOException e) {
+        e.printStackTrace();
+        fail();
+    } finally {
+        stopServer(server);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void clientMaxMessageSizeTooLargeTest() throws DeploymentException {
+    Server server = startServer(DummyServerEndpoint.class);
+    try {
+        ClientManager client = createClient();
+        Map<String, Object> properties = client.getProperties();
+        properties.put(ClientProperties.INCOMING_BUFFER_SIZE, 1);
+        final AtomicBoolean warningLogged = new AtomicBoolean(false);
+        LoggerHandler handler = new LoggerHandler() {
+            @Override
+            public void publish(LogRecord record) {
+                Method method = Arrays.stream(LargeMaxMessageSizeClientEndpoint.class.getMethods())
+                    .filter(m -> "onMessage".equals(m.getName()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("No onMessage method found"));
+                String expectedWarningMessage =
+                        LocalizationMessages.ENDPOINT_MAX_MESSAGE_SIZE_TOO_LONG(
+                                2, method.getName(),
+                                LargeMaxMessageSizeClientEndpoint.class.getName(), 1);
+                System.out.println("Expected message: " + expectedWarningMessage);
+                System.out.println("Logged message: " + record.getMessage());
+                if (expectedWarningMessage.equals(record.getMessage())) {
+                    warningLogged.set(true);
+                }
+            }
+        };
+        logger.setLevel(Level.CONFIG);
+        logger.addHandler(handler);
+        client.connectToServer(LargeMaxMessageSizeClientEndpoint.class, getURI(DummyServerEndpoint.class, "ws"));
+        assertTrue(warningLogged.get());
+        logger.removeHandler(handler);
+
+    } catch (IOException e) {
+        e.printStackTrace();
+        fail();
+    } finally {
+        stopServer(server);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void clientMaxMessageSizeTooLargeTest() throws DeploymentException {
+    Server server = startServer(DummyServerEndpoint.class);
+    try {
+        ClientManager client = createClient();
+        Map<String, Object> properties = client.getProperties();
+        properties.put(ClientProperties.INCOMING_BUFFER_SIZE, 1);
+        final AtomicBoolean warningLogged = new AtomicBoolean(false);
+        LoggerHandler handler = new LoggerHandler() {
+            @Override
+            public void publish(LogRecord record) {
+                Method method = Arrays.stream(LargeMaxMessageSizeClientEndpoint.class.getMethods())
+                    .filter(m -> "onMessage".equals(m.getName()))
+                    .findFirst()
+                    .orElse(null);
+                if (method == null) {
+                    return;
+                }
+                String expectedWarningMessage =
+                        LocalizationMessages.ENDPOINT_MAX_MESSAGE_SIZE_TOO_LONG(
+                                2, method.getName(),
+                                LargeMaxMessageSizeClientEndpoint.class.getName(), 1);
+                System.out.println("Expected message: " + expectedWarningMessage);
+                System.out.println("Logged message: " + record.getMessage());
+                if (expectedWarningMessage.equals(record.getMessage())) {
+                    warningLogged.set(true);
+                }
+            }
+        };
+        logger.setLevel(Level.CONFIG);
+        logger.addHandler(handler);
+        client.connectToServer(LargeMaxMessageSizeClientEndpoint.class, getURI(DummyServerEndpoint.class, "ws"));
+        assertTrue(warningLogged.get());
+        logger.removeHandler(handler);
+
+    } catch (IOException e) {
+        e.printStackTrace();
+        fail();
+    } finally {
+        stopServer(server);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void clientMaxMessageSizeTooLargeTest() throws DeploymentException {
+    Server server = startServer(DummyServerEndpoint.class);
+    try {
+        ClientManager client = createClient();
+        Map<String, Object> properties = client.getProperties();
+        properties.put(ClientProperties.INCOMING_BUFFER_SIZE, 1);
+        final AtomicBoolean warningLogged = new AtomicBoolean(false);
+        LoggerHandler handler = new LoggerHandler() {
+            @Override
+            public void publish(LogRecord record) {
+                Method method = Arrays.stream(LargeMaxMessageSizeClientEndpoint.class.getMethods())
+                    .filter(m -> "onMessage".equals(m.getName()))
+                    .findFirst()
+                    .orElse(null);
+                if (method == null) {
+                    return;
+                }
+                String expectedWarningMessage =
+                        LocalizationMessages.ENDPOINT_MAX_MESSAGE_SIZE_TOO_LONG(
+                                2, method.getName(),
+                                LargeMaxMessageSizeClientEndpoint.class.getName(), 1);
+                System.out.println("Expected message: " + expectedWarningMessage);
+                System.out.println("Logged message: " + record.getMessage());
+                if (expectedWarningMessage.equals(record.getMessage())) {
+                    warningLogged.set(true);
+                }
+            }
+        };
+        logger.setLevel(Level.CONFIG);
+        logger.addHandler(handler);
+        client.connectToServer(LargeMaxMessageSizeClientEndpoint.class, getURI(DummyServerEndpoint.class, "ws"));
+        
+        // Wait for the warning to be logged with timeout
+        long endTime = System.currentTimeMillis() + 5000;
+        while (!warningLogged.get() && System.currentTimeMillis() < endTime) {
+            Thread.sleep(100);
+        }
+        assertTrue("Warning message was not logged", warningLogged.get());
+        logger.removeHandler(handler);
+
+    } catch (IOException | InterruptedException e) {
+        e.printStackTrace();
+        fail();
+    } finally {
+        stopServer(server);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+

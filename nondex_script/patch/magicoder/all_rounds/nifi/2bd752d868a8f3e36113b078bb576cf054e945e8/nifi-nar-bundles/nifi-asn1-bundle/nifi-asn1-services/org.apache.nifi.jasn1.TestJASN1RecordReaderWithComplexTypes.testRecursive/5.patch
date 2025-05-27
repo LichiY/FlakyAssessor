@@ -1,0 +1,449 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-asn1-bundle/nifi-asn1-services/src/test/java/org/apache/nifi/jasn1/TestJASN1RecordReaderWithComplexTypes.java
+Original Test Method:
+     public void testRecursive() throws Exception {
+        String dataFile = "target/recursive.dat";
+
+        Recursive recursive = new Recursive();
+        Recursive.Children children = new Recursive.Children();
+        Recursive child1 = new Recursive();
+        Recursive child2 = new Recursive();
+        Recursive.Children grandChildren1 = new Recursive.Children();
+        Recursive grandChild11 = new Recursive();
+
+        grandChild11.setName(new BerIA5String("grandChildName11".getBytes()));
+        grandChild11.setChildren(new Recursive.Children());
+
+        grandChildren1.getRecursive().add(grandChild11);
+
+        child1.setName(new BerIA5String("childName1".getBytes()));
+        child1.setChildren(grandChildren1);
+
+        child2.setName(new BerIA5String("childName2".getBytes()));
+        child2.setChildren(new Recursive.Children());
+
+        children.getRecursive().add(child1);
+        children.getRecursive().add(child2);
+
+        recursive.setName(new BerIA5String("name".getBytes()));
+        recursive.setChildren(children);
+
+        /**
+         * Cannot resolve children schema, neither in expected nor in actual.
+         * A resolved recursive schema MUST NOT go through an equals check, unless IDENTICAL to the compared one.
+         * The resolution of the recursive schema results in a cyclic reference graph which in turn leads to
+         *  StackOverflowError when trying to compare to a similar resolved recursive schema.
+         */
+        SimpleRecordSchema expectedSchema = new SimpleRecordSchema(Arrays.asList(
+                new RecordField("name", RecordFieldType.STRING.getDataType()),
+                new RecordField("children", RecordFieldType.ARRAY.getArrayDataType(
+                        RecordFieldType.RECORD.getRecordDataType(() -> null)
+                ))
+        ));
+
+        Map<String, Object> expectedValues = new HashMap<String, Object>() {{
+            put("name", "name");
+            put("children", new MapRecord[]{
+                    new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                        put("name", "childName1");
+                        put("children", new MapRecord[]{
+                                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                                    put("name", "grandChildName11");
+                                    put("children", new MapRecord[0]);
+                                }})
+                        });
+                    }}),
+                    new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                        put("name", "childName2");
+                        put("children", new MapRecord[0]);
+                    }}),
+            });
+        }};
+
+        testReadRecord(dataFile, recursive, expectedValues, expectedSchema);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testRecursive() throws Exception {
+    String dataFile = "target/recursive.dat";
+
+    Recursive recursive = new Recursive();
+    Recursive.Children children = new Recursive.Children();
+    Recursive child1 = new Recursive();
+    Recursive child2 = new Recursive();
+    Recursive.Children grandChildren1 = new Recursive.Children();
+    Recursive grandChild11 = new Recursive();
+
+    grandChild11.setName(new BerIA5String("grandChildName11".getBytes()));
+    grandChild11.setChildren(new Recursive.Children());
+
+    grandChildren1.getRecursive().add(grandChild11);
+
+    child1.setName(new BerIA5String("childName1".getBytes()));
+    child1.setChildren(grandChildren1);
+
+    child2.setName(new BerIA5String("childName2".getBytes()));
+    child2.setChildren(new Recursive.Children());
+
+    children.getRecursive().add(child1);
+    children.getRecursive().add(child2);
+
+    recursive.setName(new BerIA5String("name".getBytes()));
+    recursive.setChildren(children);
+
+    /**
+     * Cannot resolve children schema, neither in expected nor in actual.
+     * A resolved recursive schema MUST NOT go through an equals check, unless IDENTICAL to the compared one.
+     * The resolution of the recursive schema results in a cyclic reference graph which in turn leads to
+     *  StackOverflowError when trying to compare to a similar resolved recursive schema.
+     */
+    SimpleRecordSchema expectedSchema = new SimpleRecordSchema(Arrays.asList(
+            new RecordField("name", RecordFieldType.STRING.getDataType()),
+            new RecordField("children", RecordFieldType.ARRAY.getArrayDataType(
+                    RecordFieldType.RECORD.getRecordDataType(() -> null)
+            ))
+    ));
+
+    Map<String, Object> expectedValues = new HashMap<String, Object>() {{
+        put("name", "name");
+        put("children", new MapRecord[]{
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName1");
+                    put("children", new MapRecord[]{
+                            new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                                put("name", "grandChildName11");
+                                put("children", new MapRecord[0]);
+                            }})
+                    });
+                }}),
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName2");
+                    put("children", new MapRecord[0]);
+                }}),
+        });
+    }};
+
+    testReadRecord(dataFile, recursive, expectedValues, expectedSchema);
+}
+
+
+import:
+
+['import com.google.code.gson.Gson;', 'import com.google.code.gson.GsonBuilder;', 'import com.google.code.gson.JsonElement;', 'import com.google.code.gson.JsonParser;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.6</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testRecursive() throws Exception {
+    String dataFile = "target/recursive.dat";
+
+    Recursive recursive = new Recursive();
+    Recursive.Children children = new Recursive.Children();
+    Recursive child1 = new Recursive();
+    Recursive child2 = new Recursive();
+    Recursive.Children grandChildren1 = new Recursive.Children();
+    Recursive grandChild11 = new Recursive();
+
+    grandChild11.setName(new BerIA5String("grandChildName11".getBytes()));
+    grandChild11.setChildren(new Recursive.Children());
+
+    grandChildren1.getRecursive().add(grandChild11);
+
+    child1.setName(new BerIA5String("childName1".getBytes()));
+    child1.setChildren(grandChildren1);
+
+    child2.setName(new BerIA5String("childName2".getBytes()));
+    child2.setChildren(new Recursive.Children());
+
+    children.getRecursive().add(child1);
+    children.getRecursive().add(child2);
+
+    recursive.setName(new BerIA5String("name".getBytes()));
+    recursive.setChildren(children);
+
+    SimpleRecordSchema expectedSchema = new SimpleRecordSchema(Arrays.asList(
+            new RecordField("name", RecordFieldType.STRING.getDataType()),
+            new RecordField("children", RecordFieldType.ARRAY.getArrayDataType(
+                    RecordFieldType.RECORD.getRecordDataType(() -> null)
+            ))
+    ));
+
+    Map<String, Object> expectedValues = new HashMap<String, Object>() {{
+        put("name", "name");
+        put("children", new MapRecord[]{
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName1");
+                    put("children", new MapRecord[]{
+                            new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                                put("name", "grandChildName11");
+                                put("children", new MapRecord[0]);
+                            }})
+                    });
+                }}),
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName2");
+                    put("children", new MapRecord[0]);
+                }}),
+        });
+    }};
+
+    testReadRecord(dataFile, recursive, expectedValues, expectedSchema);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.6</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testRecursive() throws Exception {
+    String dataFile = "target/recursive.dat";
+
+    Recursive recursive = new Recursive();
+    Recursive.Children children = new Recursive.Children();
+    Recursive child1 = new Recursive();
+    Recursive child2 = new Recursive();
+    Recursive.Children grandChildren1 = new Recursive.Children();
+    Recursive grandChild11 = new Recursive();
+
+    grandChild11.setName(new BerIA5String("grandChildName11".getBytes()));
+    grandChild11.setChildren(new Recursive.Children());
+
+    grandChildren1.getRecursive().add(grandChild11);
+
+    child1.setName(new BerIA5String("childName1".getBytes()));
+    child1.setChildren(grandChildren1);
+
+    child2.setName(new BerIA5String("childName2".getBytes()));
+    child2.setChildren(new Recursive.Children());
+
+    children.getRecursive().add(child1);
+    children.getRecursive().add(child2);
+
+    recursive.setName(new BerIA5String("name".getBytes()));
+    recursive.setChildren(children);
+
+    SimpleRecordSchema expectedSchema = new SimpleRecordSchema(Arrays.asList(
+            new RecordField("name", RecordFieldType.STRING.getDataType()),
+            new RecordField("children", RecordFieldType.ARRAY.getArrayDataType(
+                    RecordFieldType.RECORD.getRecordDataType(() -> null)
+            ))
+    ));
+
+    Map<String, Object> expectedValues = new HashMap<String, Object>() {{
+        put("name", "name");
+        put("children", new MapRecord[]{
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName1");
+                    put("children", new MapRecord[]{
+                            new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                                put("name", "grandChildName11");
+                                put("children", new MapRecord[0]);
+                            }})
+                    });
+                }}),
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName2");
+                    put("children", new MapRecord[0]);
+                }}),
+        });
+    }};
+
+    testReadRecord(dataFile, recursive, expectedValues, expectedSchema);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.6</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testRecursive() throws Exception {
+    String dataFile = "target/recursive.dat";
+
+    Recursive recursive = new Recursive();
+    Recursive.Children children = new Recursive.Children();
+    Recursive child1 = new Recursive();
+    Recursive child2 = new Recursive();
+    Recursive.Children grandChildren1 = new Recursive.Children();
+    Recursive grandChild11 = new Recursive();
+
+    grandChild11.setName(new BerIA5String("grandChildName11".getBytes()));
+    grandChild11.setChildren(new Recursive.Children());
+
+    grandChildren1.getRecursive().add(grandChild11);
+
+    child1.setName(new BerIA5String("childName1".getBytes()));
+    child1.setChildren(grandChildren1);
+
+    child2.setName(new BerIA5String("childName2".getBytes()));
+    child2.setChildren(new Recursive.Children());
+
+    children.getRecursive().add(child1);
+    children.getRecursive().add(child2);
+
+    recursive.setName(new BerIA5String("name".getBytes()));
+    recursive.setChildren(children);
+
+    SimpleRecordSchema expectedSchema = new SimpleRecordSchema(Arrays.asList(
+            new RecordField("name", RecordFieldType.STRING.getDataType()),
+            new RecordField("children", RecordFieldType.ARRAY.getArrayDataType(
+                    RecordFieldType.RECORD.getRecordDataType(() -> null)
+            ))
+    ));
+
+    Map<String, Object> expectedValues = new HashMap<String, Object>() {{
+        put("name", "name");
+        put("children", new MapRecord[]{
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName1");
+                    put("children", new MapRecord[]{
+                            new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                                put("name", "grandChildName11");
+                                put("children", new MapRecord[0]);
+                            }})
+                    });
+                }}),
+                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                    put("name", "childName2");
+                    put("children", new MapRecord[0]);
+                }}),
+        });
+    }};
+
+    testReadRecord(dataFile, recursive, expectedValues, expectedSchema);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testRecursive() throws Exception {
+        String dataFile = "target/recursive.dat";
+
+        Recursive recursive = new Recursive();
+        Recursive.Children children = new Recursive.Children();
+        Recursive child1 = new Recursive();
+        Recursive child2 = new Recursive();
+        Recursive.Children grandChildren1 = new Recursive.Children();
+        Recursive grandChild11 = new Recursive();
+
+        grandChild11.setName(new BerIA5String("grandChildName11".getBytes()));
+        grandChild11.setChildren(new Recursive.Children());
+
+        grandChildren1.getRecursive().add(grandChild11);
+
+        child1.setName(new BerIA5String("childName1".getBytes()));
+        child1.setChildren(grandChildren1);
+
+        child2.setName(new BerIA5String("childName2".getBytes()));
+        child2.setChildren(new Recursive.Children());
+
+        children.getRecursive().add(child1);
+        children.getRecursive().add(child2);
+
+        recursive.setName(new BerIA5String("name".getBytes()));
+        recursive.setChildren(children);
+
+        SimpleRecordSchema expectedSchema = new SimpleRecordSchema(Arrays.asList(
+                new RecordField("name", RecordFieldType.STRING.getDataType()),
+                new RecordField("children", RecordFieldType.ARRAY.getArrayDataType(
+                        RecordFieldType.RECORD.getRecordDataType(() -> null)
+                ))
+        ));
+
+        Map<String, Object> expectedValues = new HashMap<String, Object>() {{
+            put("name", "name");
+            put("children", new MapRecord[]{
+                    new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                        put("name", "childName1");
+                        put("children", new MapRecord[]{
+                                new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                                    put("name", "grandChildName11");
+                                    put("children", new MapRecord[0]);
+                                }})
+                        });
+                    }}),
+                    new MapRecord(expectedSchema, new HashMap<String, Object>() {{
+                        put("name", "childName2");
+                        put("children", new MapRecord[0]);
+                    }}),
+            });
+        }};
+
+        testReadRecord(dataFile, recursive, expectedValues, expectedSchema);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<project>
+    
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+    
+</project>

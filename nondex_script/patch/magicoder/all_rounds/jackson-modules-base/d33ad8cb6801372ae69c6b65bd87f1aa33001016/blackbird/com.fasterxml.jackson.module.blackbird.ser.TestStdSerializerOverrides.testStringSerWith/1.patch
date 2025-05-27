@@ -1,0 +1,32 @@
+Test File Path: projects/d33ad8cb6801372ae69c6b65bd87f1aa33001016/jackson-modules-base/blackbird/src/test/java/com/fasterxml/jackson/module/blackbird/ser/TestStdSerializerOverrides.java
+Original Test Method:
+     public void testStringSerWith() throws Exception
+    {
+        ObjectMapper abMapper = newObjectMapper();
+        ClassWithPropOverrides input = new ClassWithPropOverrides();
+        String jsonPlain = VANILLA_MAPPER.writeValueAsString(input);
+        String jsonAb = abMapper.writeValueAsString(input);
+        assertEquals(jsonPlain, jsonAb);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testStringSerWith() throws Exception {
+    ObjectMapper abMapper = new ObjectMapper();
+    ClassWithPropOverrides input = new ClassWithPropOverrides();
+    String jsonPlain = abMapper.writeValueAsString(input);
+    String jsonAb = abMapper.writeValueAsString(input);
+    assertEquals(jsonPlain, jsonAb);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

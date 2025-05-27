@@ -1,0 +1,235 @@
+Test File Path: projects/90fa9064f2c6907fbe6237cb46d5937eebd8ea31/hive/serde/src/test/org/apache/hadoop/hive/serde2/lazy/TestLazySimpleSerDe.java
+Original Test Method:
+   public void testSerDeParameters() throws SerDeException, IOException {
+    // Setup
+    LazySimpleSerDe serDe = new LazySimpleSerDe();
+    Configuration conf = new Configuration();
+
+    MyTestClass row = new MyTestClass();
+    ExtraTypeInfo extraTypeInfo = new ExtraTypeInfo();
+    row.randomFill(new Random(1234), extraTypeInfo);
+
+    StructObjectInspector rowOI = (StructObjectInspector) ObjectInspectorFactory
+        .getReflectionObjectInspector(MyTestClass.class,
+            ObjectInspectorOptions.JAVA);
+
+    String fieldNames = ObjectInspectorUtils.getFieldNames(rowOI);
+    String fieldTypes = ObjectInspectorUtils.getFieldTypes(rowOI);
+
+    Properties schema = new Properties();
+    schema.setProperty(serdeConstants.LIST_COLUMNS, fieldNames);
+    schema.setProperty(serdeConstants.LIST_COLUMN_TYPES, fieldTypes);
+
+    SerDeUtils.initializeSerDe(serDe, conf, schema, null);
+    SerDeParameters serdeParams = LazySimpleSerDe.initSerdeParams(conf, schema, "testSerdeName");
+
+    // Test
+    LazyStruct data = (LazyStruct)serializeAndDeserialize(row, rowOI, serDe, serdeParams);
+    assertEquals((boolean)row.myBool, ((LazyBoolean)data.getField(0)).getWritableObject().get());
+    assertEquals((int)row.myInt, ((LazyInteger)data.getField(3)).getWritableObject().get());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.hadoop.hive.common.type.HiveDecimal;', 'import org.apache.hadoop.hive.common.type.HiveChar;', 'import org.apache.hadoop.hive.common.type.HiveIntervalYearMonth;', 'import org.apache.hadoop.hive.common.type.HiveIntervalDayTime;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;', 'import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;', 'import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoFactory;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hive</groupId>
+    <artifactId>hive-serde</artifactId>
+    <version>1.2.1</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSerDeParameters() {
+    // setup
+    LazySimpleSerDe serDe = new LazySimpleSerDe();
+    serDe.setSerdeParameters(new SerDeParameters());
+
+    // test
+    try {
+        Object row = new Object();
+        Object rowOI = new Object();
+        SerDeParameters serdeParams = new SerDeParameters();
+
+        Object serializeStream = new Object();
+        serDe.serialize(serializeStream, row, rowOI, serdeParams);
+
+        Object deserializeStream = new Object();
+        LazyStruct data = (LazyStruct)serDe.deserialize(deserializeStream, rowOI, serdeParams);
+
+        // assert
+        // add assertions here
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
+import:
+
+['import org.apache.hadoop.hive.common.type.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void testSerDeParameters() throws SerDeException, IOException {
+    // setup
+    LazySimpleSerDe serDe = new LazySimpleSerDe();
+    serDe.setSerdeParameters(new SerDeParameters());
+
+    // test
+    try {
+        Object row = new Object();
+        Object rowOI = new Object();
+        SerDeParameters serdeParams = new SerDeParameters();
+
+        Object serializeStream = new Object();
+        serDe.serialize(serializeStream, row, rowOI, serdeParams);
+
+        Object deserializeStream = new Object();
+        LazyStruct data = (LazyStruct)serDe.deserialize(deserializeStream, rowOI, serdeParams);
+
+        // assert
+        // add assertions here
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
+import:
+
+['import org.apache.hadoop.hive.common.type.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testSerDeParameters() throws Exception {
+        // setup
+        LazySimpleSerDe serDe = new LazySimpleSerDe();
+        serDe.setConf(new Configuration());
+
+        // test
+        Object row = new Object();
+        Object rowOI = new Object();
+        Object serializeStream = new Object();
+        Object deserializeStream = new Object();
+
+        serDe.serialize(serializeStream, row, rowOI);
+        ObjectInspector oi = PrimitiveObjectInspectorFactory.writableObjectInspectorFromType(PrimitiveObjectInspectorFactory.PrimitiveCategory.STRING);
+        serDe.deserialize(deserializeStream, oi);
+    }
+
+
+import:
+
+['import org.apache.hadoop.hive.serde2.AbstractSerDe;', 'import org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-core</artifactId>
+    <version>1.2.1</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void testSerDeParameters() throws SerDeException, IOException {
+        // setup
+        LazySimpleSerDe serDe = new LazySimpleSerDe();
+        serDe.setConf(new Configuration());
+
+        // test
+        Object row = new Object();
+        Object rowOI = new Object();
+        Object serializeStream = new Object();
+        Object deserializeStream = new Object();
+
+        serDe.serialize(serializeStream, row, rowOI);
+        ObjectInspector oi = PrimitiveObjectInspectorFactory.writableObjectInspectorFromType(PrimitiveObjectInspectorFactory.PrimitiveCategory.STRING);
+        serDe.deserialize(deserializeStream, oi);
+    }
+
+
+import:
+
+['import org.apache.hadoop.hive.serde2.AbstractSerDe;', 'import org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-core</artifactId>
+    <version>1.2.1</version>
+</dependency>

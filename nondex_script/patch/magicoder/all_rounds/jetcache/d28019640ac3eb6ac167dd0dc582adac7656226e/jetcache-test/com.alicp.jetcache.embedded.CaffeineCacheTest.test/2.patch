@@ -1,0 +1,69 @@
+Test File Path: projects/d28019640ac3eb6ac167dd0dc582adac7656226e/jetcache/jetcache-test/src/test/java/com/alicp/jetcache/embedded/CaffeineCacheTest.java
+Original Test Method:
+     public void test() throws Exception {
+        super.test(500, false);
+
+//        cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+//                .buildFunc(getBuildFunc()).expireAfterWrite(100, TimeUnit.MILLISECONDS).limit(2).build();
+//        cache.put("K1", "V1");
+//        cache.put("K2", "V2");
+//        cache.put("K3", "V3");
+//        System.out.println(cache.get("K1"));
+//        System.out.println(cache.get("K2"));
+//        System.out.println(cache.get("K3"));
+//        System.out.println(cache.get("K1"));
+//        System.out.println(cache.get("K2"));
+//        System.out.println(cache.get("K3"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    super.test(500, false);
+
+    cache = EmbeddedCacheBuilder.createEmbeddedCacheBuilder()
+            .buildFunc(getBuildFunc()).expireAfterWrite(100, TimeUnit.MILLISECONDS).limit(2).build();
+    cache.put("K1", "V1");
+    cache.put("K2", "V2");
+    cache.put("K3", "V3");
+    System.out.println(cache.get("K1"));
+    System.out.println(cache.get("K2"));
+    System.out.println(cache.get("K3"));
+    System.out.println(cache.get("K1"));
+    System.out.println(cache.get("K2"));
+    System.out.println(cache.get("K3"));
+}
+
+
+import:
+
+['import com.google.common.cache.CacheBuilder;', 'import java.util.concurrent.TimeUnit;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>29.0-jre</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.assertj.core.api.Assertions;', 'import org.assertj.core.api.SoftAssertions;', 'import org.assertj.core.util.Lists;', 'import org.assertj.core.util.Sets;', 'import org.assertj.core.util.Strings;', 'import org.assertj.core.util.Arrays;', 'import org.assertj.core.util.Maps;', 'import org.assertj.core.util.Objects;', 'import org.assertj.core.util.Preconditions;', 'import org.assertj.core.util.Iterables;', 'import org.assertj.core.util.Iterators;', 'import org.assertj.core.util.Spliterators;', 'import org.assertj.core.util.Comparables;', 'import org.assertj.core.util.Doubles;', 'import org.assertj.core.util.Floats;', 'import org.assertj.core.util.Ints;', 'import org.assertj.core.util.Longs;', 'import org.assertj.core.util.Shorts;', 'import org.assertj.core.util.Characters;', 'import org.assertj.core.util.Bytes;', 'import org.assertj.core.util.Booleans;', 'import org.assertj.core.util.DateTimes;', 'import org.assertj.core.util.Times;', 'import org.assertj.core.util.Durations;', 'import org.assertj.core.util.ZonedDateTimes;', 'import org.assertj.core.util.Calendars;', 'import org.assertj.core.util.TimeZones;', 'import org.assertj.core.util.Locales;', 'import org.assertj.core.util.Currencies;', 'import org.assertj.core.util.Units;', 'import org.assertj.core.util.BigDecimals;', 'import org.assertj.core.util.BigIntegers;', 'import org.assertj.core.util.Files;', 'import org.assertj.core.util.Paths;', 'import org.assertj.core.util.URLs;', 'import org.assertj.core.util.URIBuilder;', 'import org.assertj.core.util.URLEncoder;', 'import org.assertj.core.util.URLDecoder;', 'import org.assertj.core.util.Base64;', 'import org.assertj.core.util.Base32;', 'import org.assertj.core.util.Base16;', 'import org.assertj.core.util.Base85;', 'import org.assertj.core.util.Base91;', 'import org.assertj.core.util.Base92;', 'import org.assertj.core.util.Base93;', 'import org.assertj.core.util.Base94;', 'import org.assertj.core.util.Base95;', 'import org.assertj.core.util.Base96;', 'import org.assertj.core.util.Base97;', 'import org.assertj.core.util.Base98;', 'import org.assertj.core.util.Base99;', 'import org.assertj.core.util.Base100;', 'import org.assertj.core.util.Base101;', 'import org.assertj.core.util.Base102;', 'import org.assertj.core.util.Base103;', 'import org.assertj.core.util.Base104;', 'import org.assertj.core.util.Base105;', 'import org.assertj.core.util.Base106;', 'import org.assertj.core.util.Base107;', 'import org.assertj.core.util.Base108;', 'import org.assertj.core.util.Base109;', 'import org.assertj.core.util.Base110;', 'import org.assertj.core.util.Base111;', 'import org.assertj.core.util.Base112;', 'import org.assertj.core.util.Base113;', 'import org.assertj.core.util.Base114;', 'import org.assertj.core.util.Base115;', 'import org.assertj.core.util.Base116;', 'import org.assertj.core.util.Base117;', 'import org.assertj.core.util.Base118;', 'import org.assertj.core.util.Base119;', 'import org.assertj.core.util.Base120;', 'import org.assertj.core.util.Base121;', 'import org.assertj.core.util.Base122;', 'import org.assertj.core.util.Base123;', 'import org.assertj.core.util.Base124;', 'import org.assertj.core.util.Base125;', 'import org.assertj.core.util.Base126;', 'import org.assertj.core.util.Base127;', 'import org.assertj.core.util.Base128;', 'import org.assertj.core.util.Base129;', 'import org.assertj.core.util.Base130;', 'import org.assertj.core.util.Base131;', 'import org.assertj.core.util.Base132;', 'import org.assertj.core.util.Base133;', 'import org.assertj.core.util.Base134;', 'import org.assertj.core.util.Base135;', 'import org.assertj.core.util.Base136;', 'import org.assertj.core.util.Base137;', 'import org.assertj.core.util.Base138;', 'import org.assertj.core.util.Base139;', 'import org.assertj.core.util.Base140;', 'import org.assertj.core.util.Base141;', 'import org.assertj.core.util.Base142;', 'import org.assertj.core.util.Base143;', 'import org.assertj.core.util.Base144;', 'import org.assertj.core.util.Base145;', 'import org.assertj.core.util.Base146;', 'import org.assertj.core.util.Base147;', 'import org.assertj.core.util.Base148;', 'import org.assertj.core.util.Base149;', 'import org.assertj.core.util.Base150;', 'import org.assertj.core.util.Base151;', 'import org.assertj.core.util.Base152;', 'import org.assertj.core.util.Base153;', 'import org.assertj.core.util.Base154;', 'import org.assertj.core.util.Base155;', 'import org.assertj.core.util.Base156;', 'import org.assertj.core.util.Base157;', 'import org.assertj.core.util.Base158;', 'import org.assertj.core.util.Base159;', 'import org.assertj.core.util.Base160;', 'import org.assertj.core.util.Base161;', 'import org.assertj.core.util.Base162;', 'import org.assertj.core.util.Base163;', 'import org.assertj.core.util.Base164;', 'import org.assertj.core.util.Base165;', 'import org.assertj.core.util.Base166;', 'import org.assertj.core.util.Base167;', 'import org.assertj.core.util.Base168;', 'import org.assertj.core.util.Base169;', 'import org.assertj.core.util.Base170;', 'import org.assertj.core.util.Base171;', 'import org.assertj.core.util.Base172;', 'import org.assertj.core.util.Base173;', 'import org.assertj.core.util.Base174;', 'import org.assertj.core.util.Base175;', 'import org.assertj.core.util.Base176;', 'import org.assertj.core.util.Base177;', 'import org.assertj.core.util.Base178;', 'import org.assertj.core.util.Base179;', 'import org.assertj.core.util.Base180;']
+
+pom:
+
+None

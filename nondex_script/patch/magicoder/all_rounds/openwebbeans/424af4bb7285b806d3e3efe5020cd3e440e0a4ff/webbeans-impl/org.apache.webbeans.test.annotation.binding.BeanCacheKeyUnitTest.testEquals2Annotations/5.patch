@@ -1,0 +1,164 @@
+Test File Path: projects/424af4bb7285b806d3e3efe5020cd3e440e0a4ff/openwebbeans/webbeans-impl/src/test/java/org/apache/webbeans/test/annotation/binding/BeanCacheKeyUnitTest.java
+Original Test Method:
+     public void testEquals2Annotations()
+    {
+        BeanCacheKey a = new BeanCacheKey(true, String.class, null, it -> null, a12);
+        BeanCacheKey b = new BeanCacheKey(true, String.class, null, it -> null, a12);
+        Assert.assertEquals(a, b);
+        Assert.assertEquals(a.hashCode(), b.hashCode());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;', 'import org.apache.commons.lang3.builder.ToStringBuilder;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testEquals2Annotations() {
+        AnnotationWithBindingMember a = new AnnotationWithBindingMember("B", 3);
+        AnnotationWithBindingMember b = new AnnotationWithBindingMember("B", 0);
+
+        List<AnnotationWithBindingMember> listA = Arrays.asList(a, b);
+        List<AnnotationWithBindingMember> listB = Arrays.asList(b, a);
+
+        
+
+        List<AnnotationWithBindingMember> sortedListA = listA.stream()
+                .sorted((o1, o2) -> o1.getNumber() - o2.getNumber())
+                .collect(Collectors.toList());
+
+        List<AnnotationWithBindingMember> sortedListB = listB.stream()
+                .sorted((o1, o2) -> o1.getNumber() - o2.getNumber())
+                .collect(Collectors.toList());
+        
+
+
+        Assert.assertEquals(sortedListA, sortedListB);
+    }
+
+
+import:
+
+['import java.util.Arrays;', 'import java.util.List;', 'import java.util.stream.Collectors;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.webbeans</groupId>
+    <artifactId>webbeans-api</artifactId>
+    <version>2.0.1</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testEquals2Annotations() {
+    AnnotationWithBindingMember a = new AnnotationWithBindingMember("B", 3);
+    AnnotationWithBindingMember b = new AnnotationWithBindingMember("B", 0);
+
+    List<AnnotationWithBindingMember> listA = Arrays.asList(a, b);
+    List<AnnotationWithBindingMember> listB = Arrays.asList(b, a);
+
+    List<AnnotationWithBindingMember> sortedListA = listA.stream()
+            .sorted((o1, o2) -> o1.getNumber() - o2.getNumber())
+            .collect(Collectors.toList());
+
+    List<AnnotationWithBindingMember> sortedListB = listB.stream()
+            .sorted((o1, o2) -> o1.getNumber() - o2.getNumber())
+            .collect(Collectors.toList());
+
+    Assert.assertEquals(sortedListA, sortedListB);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testEquals2Annotations() {
+    AnnotationWithBindingMember a = new AnnotationWithBindingMember("B", 3);
+    AnnotationWithBindingMember b = new AnnotationWithBindingMember("B", 0);
+
+    List<AnnotationWithBindingMember> listA = Arrays.asList(a, b);
+    List<AnnotationWithBindingMember> listB = Arrays.asList(b, a);
+
+    List<AnnotationWithBindingMember> sortedListA = listA.stream()
+            .sorted((o1, o2) -> o1.getNumber() - o2.getNumber())
+            .collect(Collectors.toList());
+
+    List<AnnotationWithBindingMember> sortedListB = listB.stream()
+            .sorted((o1, o2) -> o1.getNumber() - o2.getNumber())
+            .collect(Collectors.toList());
+
+    Assert.assertEquals(sortedListA, sortedListB);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testEquals2Annotations() {
+        AnnotationWithBindingMember a = new AnnotationWithBindingMember("B", 3);
+        AnnotationWithBindingMember b = new AnnotationWithBindingMember("B", 0);
+
+        List<AnnotationWithBindingMember> listA = Arrays.asList(a, b);
+        List<AnnotationWithBindingMember> listB = Arrays.asList(b, a);
+
+        List<AnnotationWithBindingMember> sortedListA = listA.stream()
+                .sorted(Comparator.comparingInt(AnnotationWithBindingMember::getNumber))
+                .collect(Collectors.toList());
+
+        List<AnnotationWithBindingMember> sortedListB = listB.stream()
+                .sorted(Comparator.comparingInt(AnnotationWithBindingMember::getNumber))
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(sortedListA, sortedListB);
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None

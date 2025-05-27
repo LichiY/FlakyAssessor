@@ -1,0 +1,137 @@
+Test File Path: projects/521e742bfc034d66168e151e15e65e29a23b56c9/flink/flink-runtime/src/test/java/org/apache/flink/runtime/checkpoint/metadata/MetadataV3SerializerTest.java
+Original Test Method:
+     void testCheckpointWithMasterAndTaskStateForSavepoint() throws Exception {
+        testCheckpointWithMasterAndTaskState(
+                TempDirUtils.newFolder(temporaryFolder).toURI().toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+void testCheckpointWithMasterAndTaskStateForSavepoint() throws Exception {
+    testCheckpointWithMasterAndTaskState(
+            TempDirUtils.newFolder(temporaryFolder).toURI().toString());
+}
+
+
+import:
+
+['import com.example.myclass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+void testCheckpointWithMasterAndTaskStateForSavepoint() throws Exception {
+    File tempDir = temporaryFolder.newFolder();
+    testCheckpointWithMasterAndTaskState(tempDir.toURI().toString());
+}
+
+
+import:
+
+['import org.junit.Rule;', 'import org.junit.rules.TemporaryFolder;', 'import java.io.File;']
+
+pom:
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>1.3.2</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+void testCheckpointWithMasterAndTaskStateForSavepoint() throws Exception {
+    File tempDir = temporaryFolder.newFolder();
+    testCheckpointWithMasterAndTaskState(tempDir.toURI().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testCheckpointWithMasterAndTaskStateForSavepoint() throws Exception {
+        File tempDir = temporaryFolder.newFolder();
+        testCheckpointWithMasterAndTaskState(tempDir.toURI().toString());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void testCheckpointWithMasterAndTaskStateForSavepoint() throws Exception {
+        File tempDir = temporaryFolder.newFolder();
+        testCheckpointWithMasterAndTaskState(tempDir.toURI().toString());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+void testCheckpointWithMasterAndTaskStateForSavepoint() throws Exception {
+    File tempDir = temporaryFolder.newFolder();
+    testCheckpointWithMasterAndTaskState(tempDir.toURI().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>

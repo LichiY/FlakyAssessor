@@ -1,0 +1,170 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/writeClassName/WriteDuplicateType.java
+Original Test Method:
+     public void test_dupType() throws Exception {
+        DianDianCart cart = new DianDianCart();
+        cart.setId(1001);
+        
+        LinkedHashMap<String, JSONObject> cartMap = new LinkedHashMap<String, JSONObject>();
+        
+        JSONObject obj = new JSONObject();
+        obj.put("id", 1001);
+        obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+        cartMap.put("1001", obj);
+        
+        String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
+        Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+        
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_dupType() throws Exception {
+    DianDianCart cart = new DianDianCart();
+    cart.setId(1001);
+    
+    LinkedHashMap<String, JSONObject> cartMap = new LinkedHashMap<String, JSONObject>();
+    
+    JSONObject obj = new JSONObject();
+    obj.put("id", 1001);
+    obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+    cartMap.put("1001", obj);
+    
+    String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
+    Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+    
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.76</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.Map;']
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>2.0.17</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_dupType() {
+    DianDianCart cart = new DianDianCart();
+    cart.setId(1001);
+
+    LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+    map.put("@type", "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+    map.put("id", 1001);
+
+    String text1 = JSON.toJSONString(map);
+
+    Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+public void test_dupType() throws Exception {
+    DianDianCart cart = new DianDianCart();
+    cart.setId(1001);
+
+    LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+    map.put("@type", "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+    map.put("id", 1001);
+
+    String text1 = JSON.toJSONString(map);
+
+    Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test_dupType() throws Exception {
+        DianDianCart cart = new DianDianCart();
+        cart.setId(1001);
+
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        map.put("@type", "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+        map.put("id", 1001);
+
+        String text1 = JSON.toJSONString(map);
+
+        Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+    }
+
+
+import:
+
+['import org.junit.Test;']
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.73</version>
+</dependency>

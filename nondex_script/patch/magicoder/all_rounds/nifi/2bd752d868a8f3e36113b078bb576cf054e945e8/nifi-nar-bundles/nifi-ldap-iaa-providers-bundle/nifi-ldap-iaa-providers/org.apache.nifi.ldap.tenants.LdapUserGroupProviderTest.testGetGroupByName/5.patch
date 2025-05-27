@@ -1,0 +1,165 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-ldap-iaa-providers-bundle/nifi-ldap-iaa-providers/src/test/java/org/apache/nifi/ldap/tenants/LdapUserGroupProviderTest.java
+Original Test Method:
+     public void testGetGroupByName() {
+        final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+        when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid", null, ParameterLookup.EMPTY));
+        when(configurationContext.getProperty(PROP_USER_GROUP_ATTRIBUTE)).thenReturn(new StandardPropertyValue("description", null, ParameterLookup.EMPTY)); // using description in lieu of memberof
+        when(configurationContext.getProperty(PROP_GROUP_NAME_ATTRIBUTE)).thenReturn(new StandardPropertyValue("cn", null, ParameterLookup.EMPTY));
+        ldapUserGroupProvider.onConfigured(configurationContext);
+
+        assertEquals(8, ldapUserGroupProvider.getUsers().size());
+        assertEquals(2, ldapUserGroupProvider.getGroups().size());
+
+        final Group group = ldapUserGroupProvider.getGroupByName("team1");
+        assertNotNull(group);
+        assertEquals("team1", group.getName());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testGetGroupByName() {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid", null, ParameterLookup.EMPTY));
+    when(configurationContext.getProperty(PROP_USER_GROUP_ATTRIBUTE)).thenReturn(new StandardPropertyValue("description", null, ParameterLookup.EMPTY)); // using description in lieu of memberof
+    when(configurationContext.getProperty(PROP_GROUP_NAME_ATTRIBUTE)).thenReturn(new StandardPropertyValue("cn", null, ParameterLookup.EMPTY));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    assertEquals(8, ldapUserGroupProvider.getUsers().size());
+    assertEquals(2, ldapUserGroupProvider.getGroups().size());
+
+    final Group group = ldapUserGroupProvider.getGroupByName("team1");
+    assertNotNull(group);
+    assertEquals("team1", group.getName());
+}
+
+
+import:
+
+['import org.springframework.ldap.core.DirContextOperations;', 'import org.springframework.ldap.core.LdapTemplate;', 'import org.springframework.ldap.core.support.AbstractContextMapper;', 'import org.springframework.ldap.core.support.LdapContextSource;', 'import org.springframework.ldap.filter.AndFilter;', 'import org.springframework.ldap.filter.EqualsFilter;', 'import org.springframework.ldap.filter.LikeFilter;', 'import org.springframework.ldap.filter.NotFilter;', 'import org.springframework.ldap.support.LdapUtils;', 'import org.springframework.ldap.support.LdapNameBuilder;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.ldap</groupId>
+    <artifactId>spring-ldap-core</artifactId>
+    <version>2.3.2.RELEASE</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetGroupByName() {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid", null, ParameterLookup.EMPTY));
+    when(configurationContext.getProperty(PROP_USER_GROUP_ATTRIBUTE)).thenReturn(new StandardPropertyValue("description", null, ParameterLookup.EMPTY)); // using description in lieu of memberof
+    when(configurationContext.getProperty(PROP_GROUP_NAME_ATTRIBUTE)).thenReturn(new StandardPropertyValue("cn", null, ParameterLookup.EMPTY));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    assertEquals(8, ldapUserGroupProvider.getUsers().size());
+    assertEquals(2, ldapUserGroupProvider.getGroups().size());
+
+    final Group group = ldapUserGroupProvider.getGroupByName("team1");
+    assertNotNull(group);
+    assertEquals("team1", group.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetGroupByName() {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid", null, ParameterLookup.EMPTY));
+    when(configurationContext.getProperty(PROP_USER_GROUP_ATTRIBUTE)).thenReturn(new StandardPropertyValue("description", null, ParameterLookup.EMPTY)); // using description in lieu of memberof
+    when(configurationContext.getProperty(PROP_GROUP_NAME_ATTRIBUTE)).thenReturn(new StandardPropertyValue("cn", null, ParameterLookup.EMPTY));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    assertEquals(8, ldapUserGroupProvider.getUsers().size());
+    assertEquals(2, ldapUserGroupProvider.getGroups().size());
+
+    final Group group = ldapUserGroupProvider.getGroupByName("team1");
+    assertNotNull(group);
+    assertEquals("team1", group.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetGroupByName() {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid", null, ParameterLookup.EMPTY));
+    when(configurationContext.getProperty(PROP_USER_GROUP_ATTRIBUTE)).thenReturn(new StandardPropertyValue("description", null, ParameterLookup.EMPTY)); // using description in lieu of memberof
+    when(configurationContext.getProperty(PROP_GROUP_NAME_ATTRIBUTE)).thenReturn(new StandardPropertyValue("cn", null, ParameterLookup.EMPTY));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    assertEquals(8, ldapUserGroupProvider.getUsers().size());
+    assertEquals(2, ldapUserGroupProvider.getGroups().size());
+
+    final Group group = ldapUserGroupProvider.getGroupByName("team1");
+    assertNotNull(group);
+    assertEquals("team1", group.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testGetGroupByName() {
+    final AuthorizerConfigurationContext configurationContext = getBaseConfiguration(USER_SEARCH_BASE, null);
+    when(configurationContext.getProperty(PROP_USER_IDENTITY_ATTRIBUTE)).thenReturn(new StandardPropertyValue("uid", null, ParameterLookup.EMPTY));
+    when(configurationContext.getProperty(PROP_USER_GROUP_ATTRIBUTE)).thenReturn(new StandardPropertyValue("description", null, ParameterLookup.EMPTY)); // using description in lieu of memberof
+    when(configurationContext.getProperty(PROP_GROUP_NAME_ATTRIBUTE)).thenReturn(new StandardPropertyValue("cn", null, ParameterLookup.EMPTY));
+    ldapUserGroupProvider.onConfigured(configurationContext);
+
+    assertEquals(8, ldapUserGroupProvider.getUsers().size());
+    assertEquals(2, ldapUserGroupProvider.getGroups().size());
+
+    final Group group = ldapUserGroupProvider.getGroupByName("team1");
+    assertNotNull(group);
+    assertEquals("team1", group.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,107 @@
+Test File Path: projects/2e0a2ba49c703f33fcca359a97af86094b4ded0d/tiny-spring/src/test/java/us/codecraft/tinyioc/context/ApplicationContextTest.java
+Original Test Method:
+     public void testPostBeanProcessor() throws Exception {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tinyioc-postbeanprocessor.xml");
+        HelloWorldService helloWorldService = (HelloWorldService) applicationContext.getBean("helloWorldService");
+        helloWorldService.helloWorld();
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testPostBeanProcessor() throws Exception {
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tinyioc-postbeanprocessor.xml");
+    HelloWorldService helloWorldService = (HelloWorldService) applicationContext.getBean("helloWorldService");
+    helloWorldService.helloWorld();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testPostBeanProcessor() throws Exception {
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tinyioc-postbeanprocessor.xml");
+    HelloWorldService helloWorldService = (HelloWorldService) applicationContext.getBean("helloWorldService");
+    helloWorldService.helloWorld();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testPostBeanProcessor() throws Exception {
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tinyioc-postbeanprocessor.xml");
+    HelloWorldService helloWorldService = (HelloWorldService) applicationContext.getBean("helloWorldService");
+    helloWorldService.helloWorld();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testPostBeanProcessor() throws Exception {
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tinyioc-postbeanprocessor.xml");
+    HelloWorldService helloWorldService = (HelloWorldService) applicationContext.getBean("helloWorldService");
+    helloWorldService.helloWorld();
+}
+
+
+import:
+
+['import org.springframework.context.ApplicationContext;', 'import org.springframework.context.support.ClassPathXmlApplicationContext;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testPostBeanProcessor() throws Exception {
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tinyioc-postbeanprocessor.xml");
+    HelloWorldService helloWorldService = (HelloWorldService) applicationContext.getBean("helloWorldService");
+    helloWorldService.someOtherMethod();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

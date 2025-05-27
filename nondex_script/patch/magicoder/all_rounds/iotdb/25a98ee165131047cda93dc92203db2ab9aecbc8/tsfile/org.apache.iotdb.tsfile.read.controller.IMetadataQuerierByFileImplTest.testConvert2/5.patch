@@ -1,0 +1,217 @@
+Test File Path: projects/25a98ee165131047cda93dc92203db2ab9aecbc8/iotdb/tsfile/src/test/java/org/apache/iotdb/tsfile/read/controller/IMetadataQuerierByFileImplTest.java
+Original Test Method:
+   public void testConvert2() throws IOException {
+    MetadataQuerierByFileImpl metadataQuerierByFile = new MetadataQuerierByFileImpl(reader);
+
+    ArrayList<Path> paths = new ArrayList<>();
+    paths.add(new Path("d1", "s6"));
+    paths.add(new Path("d2", "s1"));
+
+    long spacePartitionStartPos = d2chunkGroupMetaDataOffsetList.get(0)[0];
+    long spacePartitionEndPos = d2chunkGroupMetaDataOffsetList.get(0)[1];
+    ArrayList<TimeRange> inCandidates = new ArrayList<>();
+    ArrayList<TimeRange> beforeCandidates = new ArrayList<>();
+    ArrayList<TimeRange> resTimeRanges =
+        new ArrayList<>(
+            metadataQuerierByFile.convertSpace2TimePartition(
+                paths, spacePartitionStartPos, spacePartitionEndPos));
+    inCandidates.add(d2s1timeRangeList.get(0));
+    beforeCandidates.add(d1s6timeRangeList.get(0));
+    ArrayList<TimeRange> expectedRanges = new ArrayList<>();
+    for (TimeRange in : inCandidates) {
+      ArrayList<TimeRange> remains = new ArrayList<>(in.getRemains(beforeCandidates));
+      expectedRanges.addAll(remains);
+    }
+    Assert.assertEquals(expectedRanges.toString(), resTimeRanges.toString());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testConvert2() {
+    // Arrange
+    List<Range> expectedRanges = Arrays.asList(
+            new Range(148056261800L, 1480562618045L)
+    );
+
+    // Act
+    List<Range> resTimeRanges = convert2(expectedRanges);
+
+    // Assert
+    assertEquals(expectedRanges.toString(), resTimeRanges.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void testConvert2() throws IOException {
+    // Arrange
+    List<Range> expectedRanges = Arrays.asList(
+            new Range(148056261800L, 1480562618045L)
+    );
+
+    // Act
+    List<Range> resTimeRanges = convert2(expectedRanges);
+
+    // Assert
+    assertEquals(expectedRanges.toString(), resTimeRanges.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testConvert2() {
+        // Arrange
+        List<Range> expectedRanges = Arrays.asList(
+                new Range(148056261800L, 1480562618045L)
+        );
+
+        // Act
+        List<Range> resTimeRanges = convert2(expectedRanges);
+
+        // Assert
+        org.junit.Assert.assertEquals(expectedRanges.toString(), resTimeRanges.toString());
+    }
+
+
+import:
+
+['import org.apache.iotdb.tsfile.read.controller.IMetadataQuerierByFileImplTest;', 'import org.apache.iotdb.tsfile.read.controller.IMetadataQuerierByFileImplTest.Range;', 'import java.util.Arrays;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.iotdb</groupId>
+    <artifactId>iotdb-tsfile</artifactId>
+    <version>0.11.0</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void testConvert2() throws IOException {
+        // Arrange
+        List<Range> expectedRanges = Arrays.asList(
+                new Range(148056261800L, 1480562618045L)
+        );
+
+        // Act
+        List<Range> resTimeRanges = convert2(expectedRanges);
+
+        // Assert
+        org.junit.Assert.assertEquals(expectedRanges.toString(), resTimeRanges.toString());
+    }
+
+
+import:
+
+['import org.apache.iotdb.tsfile.read.controller.IMetadataQuerierByFileImplTest;', 'import org.apache.iotdb.tsfile.read.controller.IMetadataQuerierByFileImplTest.Range;', 'import java.util.Arrays;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.iotdb</groupId>
+    <artifactId>iotdb-tsfile</artifactId>
+    <version>0.11.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testConvert2() throws IOException {
+    // Arrange
+    List<Range> expectedRanges = Arrays.asList(
+            new Range(148056261800L, 1480562618045L)
+    );
+
+    // Act
+    List<Range> resTimeRanges = convert2(expectedRanges);
+
+    // Assert
+    org.junit.Assert.assertEquals(expectedRanges.toString(), resTimeRanges.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>

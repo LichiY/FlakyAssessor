@@ -1,0 +1,137 @@
+Test File Path: projects/08f6dca23e5296d6affdc40895bf294d9b3144f6/CoreNLP/test/src/edu/stanford/nlp/util/CollectionValuedMapTest.java
+Original Test Method:
+   public void testAddRemove() {
+    CollectionValuedMap<Integer, Integer> fooMap = new CollectionValuedMap<>();
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
+        fooMap.add(new Integer(i), new Integer(j));
+      }
+    }
+    fooMap.remove(new Integer(2));
+    Assert.assertEquals("{0=[0, 1, 2, 3], 1=[0, 1, 2, 3], 3=[0, 1, 2, 3]}", fooMap.toString());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testAddRemove() {
+    CollectionValuedMap<Integer, Integer> fooMap = new CollectionValuedMap<>();
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
+        fooMap.add(i, j);
+      }
+    }
+    fooMap.remove(2);
+    Assert.assertEquals("{0=[0, 1, 2, 3], 1=[0, 1, 2, 3], 3=[0, 1, 2, 3]}", fooMap.toString());
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testAddRemove() {
+    CollectionValuedMap<Integer, Integer> fooMap = new CollectionValuedMap<>();
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
+        fooMap.add(i, j);
+      }
+    }
+    fooMap.remove(2);
+    Assert.assertEquals("{0=[0, 1, 2, 3], 1=[0, 1, 2, 3], 3=[0, 1, 2, 3]}", fooMap.toString());
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testAddRemove() {
+    CollectionValuedMap<Integer, Integer> fooMap = new CollectionValuedMap<>();
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
+        fooMap.add(i, j);
+      }
+    }
+    fooMap.remove(2);
+    Assert.assertEquals("{0=[0, 1, 2, 3], 1=[0, 1, 2, 3], 3=[0, 1, 2, 3]}", fooMap.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testAddRemove() {
+    CollectionValuedMap<Integer, Integer> fooMap = new CollectionValuedMap<>();
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
+        fooMap.add(i, j);
+      }
+    }
+    fooMap.remove(2);
+    Assert.assertEquals("{0=[0, 1, 2, 3], 1=[0, 1, 2, 3], 3=[0, 1, 2, 3]}", fooMap.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testAddRemove() {
+    CollectionValuedMap<Integer, Integer> fooMap = new CollectionValuedMap<>();
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
+        fooMap.add(i, j);
+      }
+    }
+    fooMap.remove(2);
+    Assert.assertEquals("{0=[0, 1, 2, 3], 1=[0, 1, 2, 3], 3=[0, 1, 2, 3]}", fooMap.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

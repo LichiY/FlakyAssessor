@@ -1,0 +1,163 @@
+Test File Path: projects/e3966d7cefa4fa429d13bbc8de7f4dafbae0de35/spring-boot-cloud/registry/src/test/java/cn/zhangxd/registry/ApplicationTests.java
+Original Test Method:
+     public void catalogLoads() {
+        @SuppressWarnings("rawtypes")
+        ResponseEntity<Map> entity =
+                testRestTemplate
+                        .withBasicAuth(username, password)
+                        .getForEntity("/eureka/apps", Map.class);
+        assertEquals(HttpStatus.OK, entity.getStatusCode());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void catalogLoads() {
+        ResponseEntity<Map> entity =
+                testRestTemplate
+                        .withBasicAuth(username, password)
+                        .getForEntity("/eureka/apps", Map.class);
+        assert entity.getStatusCode() == HttpStatus.OK;
+    }
+
+
+import:
+
+['import org.springframework.web.client.RestTemplate;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.3.1.RELEASE</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void catalogLoads() {
+        ResponseEntity<Map> entity =
+                testRestTemplate
+                        .withBasicAuth(username, password)
+                        .getForEntity("/eureka/apps", Map.class);
+        assert entity.getStatusCode() == HttpStatus.OK;
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.7.2</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void catalogLoads() {
+        ResponseEntity<Map> entity =
+                testRestTemplate
+                        .withBasicAuth(username, password)
+                        .getForEntity("/eureka/apps", Map.class);
+        assert entity.getStatusCode() == HttpStatus.OK;
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.3.1.RELEASE</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.3.4.RELEASE</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void catalogLoads() throws Exception {
+        Map<String, Object> model = new HashMap<>();
+        model.put("message", "Hello World!");
+        mockMvc.perform(get("/catalog"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("catalog"))
+                .andExpect(model().attribute("message", "Hello World!"))
+                .andReturn();
+    }
+
+
+import:
+
+['import org.springframework.test.web.servlet.MockMvc;', 'import org.springframework.test.web.servlet.setup.MockMvcBuilders;', 'import org.springframework.web.servlet.view.InternalResourceView;', 'import java.util.HashMap;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>5.2.5.RELEASE</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void catalogLoads() {
+        Map<String, Object> model = new HashMap<>();
+        model.put("message", "Hello World!");
+        mockMvc.perform(get("/catalog"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("catalog"))
+                .andExpect(model().attribute("message", "Hello World!"))
+                .andReturn();
+    }
+
+
+import:
+
+['import org.springframework.test.web.servlet.MockMvc;', 'import org.springframework.test.web.servlet.setup.MockMvcBuilders;', 'import org.springframework.web.servlet.view.InternalResourceView;', 'import java.util.HashMap;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>5.2.5.RELEASE</version>
+</dependency>

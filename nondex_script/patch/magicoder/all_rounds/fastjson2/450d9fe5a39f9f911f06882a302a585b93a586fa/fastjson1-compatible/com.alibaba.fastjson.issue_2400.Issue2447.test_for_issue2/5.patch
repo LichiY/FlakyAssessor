@@ -1,0 +1,130 @@
+Test File Path: projects/450d9fe5a39f9f911f06882a302a585b93a586fa/fastjson2/fastjson1-compatible/src/test/java/com/alibaba/fastjson/issue_2400/Issue2447.java
+Original Test Method:
+     public void test_for_issue2() {
+        VO2 vo = new VO2();
+        vo.id = 123;
+        vo.properties.put("latitude", 37);
+        vo.properties.put("longitude", 127);
+
+        Object obj = JSON.toJSON(vo);
+        String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+        assertEquals("{\"latitude\":37,\"id\":123,\"longitude\":127}", text);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue2() {
+        VO2 vo = new VO2();
+        vo.id = 123;
+        vo.properties.put("latitude", 37);
+        vo.properties.put("longitude", 127);
+
+        Object obj = JSON.toJSON(vo);
+        String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+        assertEquals("{\"latitude\":37,\"id\":123,\"longitude\":127}", text);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_for_issue2() {
+    VO2 vo = new VO2();
+    vo.id = 123;
+    vo.properties.put("latitude", 37);
+    vo.properties.put("longitude", 127);
+
+    Object obj = JSON.toJSON(vo);
+    String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+    assertEquals("{\"latitude\":37,\"id\":123,\"longitude\":127}", text);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>2.0.7</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void test_for_issue2() {
+        VO2 vo = new VO2();
+        vo.id = 123;
+        vo.properties.put("latitude", 37);
+        vo.properties.put("longitude", 127);
+        Object obj = JSON.toJSON(vo);
+        String text = JSON.toJSONString(obj, SerializerFeature.SortField);
+        assertEquals("{\"latitude\":37,\"id\":123,\"longitude\":127}", text);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.76</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.HashMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.76</version>
+</dependency>

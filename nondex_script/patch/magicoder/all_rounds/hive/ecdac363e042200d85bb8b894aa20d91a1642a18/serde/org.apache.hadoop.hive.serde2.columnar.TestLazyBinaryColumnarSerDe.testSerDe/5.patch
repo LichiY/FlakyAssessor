@@ -1,0 +1,339 @@
+Test File Path: projects/ecdac363e042200d85bb8b894aa20d91a1642a18/hive/serde/src/test/org/apache/hadoop/hive/serde2/columnar/TestLazyBinaryColumnarSerDe.java
+Original Test Method:
+   public void testSerDe() throws SerDeException {
+    StructObjectInspector oi = (StructObjectInspector) ObjectInspectorFactory
+        .getReflectionObjectInspector(OuterStruct.class, ObjectInspectorOptions.JAVA);
+    String cols = ObjectInspectorUtils.getFieldNames(oi);
+    Properties props = new Properties();
+    props.setProperty(serdeConstants.LIST_COLUMNS, cols);
+    props.setProperty(serdeConstants.LIST_COLUMN_TYPES, ObjectInspectorUtils.getFieldTypes(oi));
+    LazyBinaryColumnarSerDe serde = new LazyBinaryColumnarSerDe();
+    serde.initialize(new Configuration(), props, null);
+
+    OuterStruct outerStruct = new OuterStruct();
+    outerStruct.mByte  = 1;
+    outerStruct.mShort = 2;
+    outerStruct.mInt = 3;
+    outerStruct.mLong = 4l;
+    outerStruct.mFloat = 5.01f;
+    outerStruct.mDouble = 6.001d;
+    outerStruct.mString = "seven";
+    outerStruct.mBA =  new byte[]{'2'};
+    InnerStruct is1 = new InnerStruct(8, 9l);
+    InnerStruct is2 = new InnerStruct(10, 11l);
+    outerStruct.mArray = new ArrayList<InnerStruct>(2);
+    outerStruct.mArray.add(is1);
+    outerStruct.mArray.add(is2);
+    outerStruct.mMap = new TreeMap<String, InnerStruct>();
+    outerStruct.mMap.put(new String("twelve"), new InnerStruct(13, 14l));
+    outerStruct.mMap.put(new String("fifteen"), new InnerStruct(16, 17l));
+    outerStruct.mStruct = new InnerStruct(18, 19l);
+    BytesRefArrayWritable braw = (BytesRefArrayWritable) serde.serialize(outerStruct, oi);
+
+    ObjectInspector out_oi = serde.getObjectInspector();
+    Object out_o = serde.deserialize(braw);
+    if (0 != ObjectInspectorUtils.compare(outerStruct, oi, out_o, out_oi, new CrossMapEqualComparer())) {
+      System.out.println("expected = "
+          + SerDeUtils.getJSONString(outerStruct, oi));
+      System.out.println("actual = "
+          + SerDeUtils.getJSONString(out_o, out_oi));
+      fail("Deserialized object does not compare");
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSerDe() throws SerDeException {
+    StructObjectInspector oi = (StructObjectInspector) ObjectInspectorFactory
+        .getReflectionObjectInspector(OuterStruct.class, ObjectInspectorOptions.JAVA);
+    String cols = ObjectInspectorUtils.getFieldNames(oi);
+    Properties props = new Properties();
+    props.setProperty(serdeConstants.LIST_COLUMNS, cols);
+    props.setProperty(serdeConstants.LIST_COLUMN_TYPES, ObjectInspectorUtils.getFieldTypes(oi));
+    LazyBinaryColumnarSerDe serde = new LazyBinaryColumnarSerDe();
+    serde.initialize(new Configuration(), props, null);
+
+    OuterStruct outerStruct = new OuterStruct();
+    outerStruct.mByte  = 1;
+    outerStruct.mShort = 2;
+    outerStruct.mInt = 3;
+    outerStruct.mLong = 4l;
+    outerStruct.mFloat = 5.01f;
+    outerStruct.mDouble = 6.001d;
+    outerStruct.mString = "seven";
+    outerStruct.mBA =  new byte[]{'2'};
+    InnerStruct is1 = new InnerStruct(8, 9l);
+    InnerStruct is2 = new InnerStruct(10, 11l);
+    outerStruct.mArray = new ArrayList<InnerStruct>(2);
+    outerStruct.mArray.add(is1);
+    outerStruct.mArray.add(is2);
+    outerStruct.mMap = new TreeMap<String, InnerStruct>();
+    outerStruct.mMap.put(new String("twelve"), new InnerStruct(13, 14l));
+    outerStruct.mMap.put(new String("fifteen"), new InnerStruct(16, 17l));
+    outerStruct.mStruct = new InnerStruct(18, 19l);
+    BytesRefArrayWritable braw = (BytesRefArrayWritable) serde.serialize(outerStruct, oi);
+
+    ObjectInspector out_oi = serde.getObjectInspector();
+    Object out_o = serde.deserialize(braw);
+    if (0 != ObjectInspectorUtils.compare(outerStruct, oi, out_o, out_oi, new CrossMapEqualComparer())) {
+      System.out.println("expected = "
+          + SerDeUtils.getJSONString(outerStruct, oi));
+      System.out.println("actual = "
+          + SerDeUtils.getJSONString(out_o, out_oi));
+      fail("Deserialized object does not compare");
+    }
+  }
+
+
+import:
+
+['import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.SetObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.MapObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.WritableObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.JavaObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.StringObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.ByteObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.ShortObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.IntObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.LongObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.FloatObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.DoubleObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.BooleanObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.DecimalObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.DateObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.TimestampObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.IntervalYearMonthObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.IntervalDayTimeObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.EnumObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.VoidObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.UnionObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.ListObjectInspector;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorUtils;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>3.2.1</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testSerDe() throws SerDeException {
+        
+
+        StructObjectInspector oi = (StructObjectInspector) ObjectInspectorFactory
+            .getReflectionObjectInspector(OuterStruct.class, ObjectInspectorOptions.JAVA);
+        String cols = ObjectInspectorUtils.getFieldNames(oi);
+        Properties props = new Properties();
+        props.setProperty(serdeConstants.LIST_COLUMNS, cols);
+        props.setProperty(serdeConstants.LIST_COLUMN_TYPES, ObjectInspectorUtils.getFieldTypes(oi));
+        LazyBinaryColumnarSerDe serde = new LazyBinaryColumnarSerDe();
+        serde.initialize(new Configuration(), props, null);
+
+        OuterStruct outerStruct = new OuterStruct();
+        outerStruct.mByte  = 1;
+        outerStruct.mShort = 2;
+        outerStruct.mInt = 3;
+        outerStruct.mLong = 4l;
+        outerStruct.mFloat = 5.01f;
+        outerStruct.mDouble = 6.001d;
+        outerStruct.mString = "seven";
+        outerStruct.mBA =  new byte[]{'2'};
+        InnerStruct is1 = new InnerStruct(8, 9l);
+        InnerStruct is2 = new InnerStruct(10, 11l);
+        outerStruct.mArray = new ArrayList<InnerStruct>(2);
+        outerStruct.mArray.add(is1);
+        outerStruct.mArray.add(is2);
+        outerStruct.mMap = new TreeMap<String, InnerStruct>();
+        outerStruct.mMap.put(new String("twelve"), new InnerStruct(13, 14l));
+        outerStruct.mMap.put(new String("fifteen"), new InnerStruct(16, 17l));
+        outerStruct.mStruct = new InnerStruct(18, 19l);
+        BytesRefArrayWritable braw = (BytesRefArrayWritable) serde.serialize(outerStruct, oi);
+
+        ObjectInspector out_oi = serde.getObjectInspector();
+        Object out_o = serde.deserialize(braw);
+        if (0 != ObjectInspectorUtils.compare(outerStruct, oi, out_o, out_oi, new CrossMapEqualComparer())) {
+            System.out.println("expected = "
+                + SerDeUtils.getJSONString(outerStruct, oi));
+            System.out.println("actual = "
+                + SerDeUtils.getJSONString(out_o, out_oi));
+            fail("Deserialized object does not compare");
+        }
+        
+
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.2</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSerDe() throws SerDeException {
+
+    StructObjectInspector oi = (StructObjectInspector) ObjectInspectorFactory
+        .getReflectionObjectInspector(OuterStruct.class, ObjectInspectorOptions.JAVA);
+    String cols = ObjectInspectorUtils.getFieldNames(oi);
+    Properties props = new Properties();
+    props.setProperty(serdeConstants.LIST_COLUMNS, cols);
+    props.setProperty(serdeConstants.LIST_COLUMN_TYPES, ObjectInspectorUtils.getFieldTypes(oi));
+    LazyBinaryColumnarSerDe serde = new LazyBinaryColumnarSerDe();
+    serde.initialize(new Configuration(), props, null);
+
+    OuterStruct outerStruct = new OuterStruct();
+    outerStruct.mByte  = 1;
+    outerStruct.mShort = 2;
+    outerStruct.mInt = 3;
+    outerStruct.mLong = 4l;
+    outerStruct.mFloat = 5.01f;
+    outerStruct.mDouble = 6.001d;
+    outerStruct.mString = "seven";
+    outerStruct.mBA =  new byte[]{'2'};
+    InnerStruct is1 = new InnerStruct(8, 9l);
+    InnerStruct is2 = new InnerStruct(10, 11l);
+    outerStruct.mArray = new ArrayList<InnerStruct>(2);
+    outerStruct.mArray.add(is1);
+    outerStruct.mArray.add(is2);
+    outerStruct.mMap = new TreeMap<String, InnerStruct>();
+    outerStruct.mMap.put(new String("twelve"), new InnerStruct(13, 14l));
+    outerStruct.mMap.put(new String("fifteen"), new InnerStruct(16, 17l));
+    outerStruct.mStruct = new InnerStruct(18, 19l);
+    BytesRefArrayWritable braw = (BytesRefArrayWritable) serde.serialize(outerStruct, oi);
+
+    ObjectInspector out_oi = serde.getObjectInspector();
+    Object out_o = serde.deserialize(braw);
+    if (0 != ObjectInspectorUtils.compare(outerStruct, oi, out_o, out_oi, new CrossMapEqualComparer())) {
+        System.out.println("expected = "
+            + SerDeUtils.getJSONString(outerStruct, oi));
+        System.out.println("actual = "
+            + SerDeUtils.getJSONString(out_o, out_oi));
+        fail("Deserialized object does not compare");
+    }
+
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSerDe() throws SerDeException {
+    StructObjectInspector oi = (StructObjectInspector) ObjectInspectorFactory
+        .getReflectionObjectInspector(OuterStruct.class, ObjectInspectorOptions.JAVA);
+    String cols = ObjectInspectorUtils.getFieldNames(oi);
+    Properties props = new Properties();
+    props.setProperty(serdeConstants.LIST_COLUMNS, cols);
+    props.setProperty(serdeConstants.LIST_COLUMN_TYPES, ObjectInspectorUtils.getFieldTypes(oi));
+    LazyBinaryColumnarSerDe serde = new LazyBinaryColumnarSerDe();
+    serde.initialize(new Configuration(), props, null);
+
+    OuterStruct outerStruct = new OuterStruct();
+    outerStruct.mByte  = 1;
+    outerStruct.mShort = 2;
+    outerStruct.mInt = 3;
+    outerStruct.mLong = 4l;
+    outerStruct.mFloat = 5.01f;
+    outerStruct.mDouble = 6.001d;
+    outerStruct.mString = "seven";
+    outerStruct.mBA =  new byte[]{'2'};
+    InnerStruct is1 = new InnerStruct(8, 9l);
+    InnerStruct is2 = new InnerStruct(10, 11l);
+    outerStruct.mArray = new ArrayList<InnerStruct>(2);
+    outerStruct.mArray.add(is1);
+    outerStruct.mArray.add(is2);
+    outerStruct.mMap = new TreeMap<String, InnerStruct>();
+    outerStruct.mMap.put(new String("twelve"), new InnerStruct(13, 14l));
+    outerStruct.mMap.put(new String("fifteen"), new InnerStruct(16, 17l));
+    outerStruct.mStruct = new InnerStruct(18, 19l);
+    BytesRefArrayWritable braw = (BytesRefArrayWritable) serde.serialize(outerStruct, oi);
+
+    ObjectInspector out_oi = serde.getObjectInspector();
+    Object out_o = serde.deserialize(braw);
+    if (0 != ObjectInspectorUtils.compare(outerStruct, oi, out_o, out_oi, new CrossMapEqualComparer())) {
+        System.out.println("expected = "
+            + SerDeUtils.getJSONString(outerStruct, oi));
+        System.out.println("actual = "
+            + SerDeUtils.getJSONString(out_o, out_oi));
+        fail("Deserialized object does not compare");
+    }
+}
+
+
+import:
+
+['import java.util.*;', 'import java.io.*;', 'import org.apache.hadoop.hive.serde2.objectinspector.primitive.*;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>3.2.1</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testSerDe() throws SerDeException {
+    StructObjectInspector oi = (StructObjectInspector) ObjectInspectorFactory
+        .getReflectionObjectInspector(OuterStruct.class, ObjectInspectorOptions.JAVA);
+    String cols = ObjectInspectorUtils.getFieldNames(oi);
+    Properties props = new Properties();
+    props.setProperty(serdeConstants.LIST_COLUMNS, cols);
+    props.setProperty(serdeConstants.LIST_COLUMN_TYPES, ObjectInspectorUtils.getFieldTypes(oi));
+    LazyBinaryColumnarSerDe serde = new LazyBinaryColumnarSerDe();
+    serde.initialize(new Configuration(), props, null);
+
+    OuterStruct outerStruct = new OuterStruct();
+    outerStruct.mByte  = 1;
+    outerStruct.mShort = 2;
+    outerStruct.mInt = 3;
+    outerStruct.mLong = 4l;
+    outerStruct.mFloat = 5.01f;
+    outerStruct.mDouble = 6.001d;
+    outerStruct.mString = "seven";
+    outerStruct.mBA =  new byte[]{'2'};
+    InnerStruct is1 = new InnerStruct(8, 9l);
+    InnerStruct is2 = new InnerStruct(10, 11l);
+    outerStruct.mArray = new ArrayList<InnerStruct>(2);
+    outerStruct.mArray.add(is1);
+    outerStruct.mArray.add(is2);
+    outerStruct.mMap = new TreeMap<String, InnerStruct>();
+    outerStruct.mMap.put(new String("twelve"), new InnerStruct(13, 14l));
+    outerStruct.mMap.put(new String("fifteen"), new InnerStruct(16, 17l));
+    outerStruct.mStruct = new InnerStruct(18, 19l);
+    BytesRefArrayWritable braw = (BytesRefArrayWritable) serde.serialize(outerStruct, oi);
+
+    ObjectInspector out_oi = serde.getObjectInspector();
+    Object out_o = serde.deserialize(braw);
+    if (0 != ObjectInspectorUtils.compare(outerStruct, oi, out_o, out_oi, new CrossMapEqualComparer())) {
+        System.out.println("expected = "
+            + SerDeUtils.getJSONString(outerStruct, oi));
+        System.out.println("actual = "
+            + SerDeUtils.getJSONString(out_o, out_oi));
+        fail("Deserialized object does not compare");
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

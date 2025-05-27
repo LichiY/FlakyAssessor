@@ -1,0 +1,337 @@
+Test File Path: projects/23c9b5ac50d04d28a34a87c78eb2d3331c06b74b/flink/flink-streaming-java/src/test/java/org/apache/flink/streaming/api/graph/SlotAllocationTest.java
+Original Test Method:
+ 	public void testCoOperation() {
+		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+		CoMapFunction<Long, Long, Long> dummyCoMap = new CoMapFunction<Long, Long, Long>() {
+			@Override
+			public Long map1(Long value) throws Exception {
+				return null;
+			}
+
+			@Override
+			public Long map2(Long value) throws Exception {
+				return null;
+			}
+		};
+
+		DataStream<Long> src1 = env.generateSequence(1, 10);
+		DataStream<Long> src2 = env.generateSequence(1, 10).slotSharingGroup("src-1");
+
+		// this should not inherit group "src-1"
+		src1.connect(src2).map(dummyCoMap);
+
+		DataStream<Long> src3 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+		DataStream<Long> src4 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+
+		// this should inherit "group-1" now
+		src3.connect(src4).map(dummyCoMap);
+
+		JobGraph jobGraph = env.getStreamGraph().getJobGraph();
+
+		List<JobVertex> vertices = jobGraph.getVerticesSortedTopologicallyFromSources();
+
+		// first pipeline
+		assertEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+		assertNotEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(1).getSlotSharingGroup());
+		assertNotEquals(vertices.get(1).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+
+		// second pipeline
+		assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(3).getSlotSharingGroup());
+		assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+		assertEquals(vertices.get(3).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testCoOperation() {
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+    CoMapFunction<Long, Long, Long> dummyCoMap = new CoMapFunction<Long, Long, Long>() {
+        @Override
+        public Long map1(Long value) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Long map2(Long value) throws Exception {
+            return null;
+        }
+    };
+
+    DataStream<Long> src1 = env.generateSequence(1, 10);
+    DataStream<Long> src2 = env.generateSequence(1, 10).slotSharingGroup("src-1");
+
+    // this should not inherit group "src-1"
+    src1.connect(src2).map(dummyCoMap);
+
+    DataStream<Long> src3 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+    DataStream<Long> src4 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+
+    // this should inherit "group-1" now
+    src3.connect(src4).map(dummyCoMap);
+
+    JobGraph jobGraph = env.getStreamGraph().getJobGraph();
+
+    List<JobVertex> vertices = jobGraph.getVerticesSortedTopologicallyFromSources();
+
+    // first pipeline
+    assertEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+    assertNotEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(1).getSlotSharingGroup());
+    assertNotEquals(vertices.get(1).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+
+    // second pipeline
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(3).getSlotSharingGroup());
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+    assertEquals(vertices.get(3).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testCoOperation() {
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+    CoMapFunction<Long, Long, Long> dummyCoMap = new CoMapFunction<Long, Long, Long>() {
+        @Override
+        public Long map1(Long value) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Long map2(Long value) throws Exception {
+            return null;
+        }
+    };
+
+    DataStream<Long> src1 = env.generateSequence(1, 10);
+    DataStream<Long> src2 = env.generateSequence(1, 10).slotSharingGroup("src-1");
+
+    // this should not inherit group "src-1"
+    src1.connect(src2).map(dummyCoMap);
+
+    DataStream<Long> src3 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+    DataStream<Long> src4 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+
+    // this should inherit "group-1" now
+    src3.connect(src4).map(dummyCoMap);
+
+    JobGraph jobGraph = env.getStreamGraph().getJobGraph();
+
+    List<JobVertex> vertices = jobGraph.getVerticesSortedTopologicallyFromSources();
+
+    // first pipeline
+    assertEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+    assertNotEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(1).getSlotSharingGroup());
+    assertNotEquals(vertices.get(1).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+
+    // second pipeline
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(3).getSlotSharingGroup());
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+    assertEquals(vertices.get(3).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+    <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-streaming-java</artifactId>
+        <version>1.13.2</version>
+    </dependency>
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testCoOperation() {
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+    CoMapFunction<Long, Long, Long> dummyCoMap = new CoMapFunction<Long, Long, Long>() {
+        @Override
+        public Long map1(Long value) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Long map2(Long value) throws Exception {
+            return null;
+        }
+    };
+
+    DataStream<Long> src1 = env.generateSequence(1, 10);
+    DataStream<Long> src2 = env.generateSequence(1, 10).slotSharingGroup("src-1");
+
+    // this should not inherit group "src-1"
+    src1.connect(src2).map(dummyCoMap);
+
+    DataStream<Long> src3 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+    DataStream<Long> src4 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+
+    // this should inherit "group-1" now
+    src3.connect(src4).map(dummyCoMap);
+
+    JobGraph jobGraph = env.getStreamGraph().getJobGraph();
+
+    List<JobVertex> vertices = jobGraph.getVerticesSortedTopologicallyFromSources();
+
+    // first pipeline
+    assertEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+    assertNotEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(1).getSlotSharingGroup());
+    assertNotEquals(vertices.get(1).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+
+    // second pipeline
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(3).getSlotSharingGroup());
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+    assertEquals(vertices.get(3).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testCoOperation() {
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+    CoMapFunction<Long, Long, Long> dummyCoMap = new CoMapFunction<Long, Long, Long>() {
+        @Override
+        public Long map1(Long value) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Long map2(Long value) throws Exception {
+            return null;
+        }
+    };
+
+    DataStream<Long> src1 = env.generateSequence(1, 10);
+    DataStream<Long> src2 = env.generateSequence(1, 10).slotSharingGroup("src-1");
+
+    // this should not inherit group "src-1"
+    src1.connect(src2).map(dummyCoMap);
+
+    DataStream<Long> src3 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+    DataStream<Long> src4 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+
+    // this should inherit "group-1" now
+    src3.connect(src4).map(dummyCoMap);
+
+    JobGraph jobGraph = env.getStreamGraph().getJobGraph();
+
+    List<JobVertex> vertices = jobGraph.getVerticesSortedTopologicallyFromSources();
+
+    // first pipeline
+    assertEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+    assertNotEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(1).getSlotSharingGroup());
+    assertNotEquals(vertices.get(1).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+
+    // second pipeline
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(3).getSlotSharingGroup());
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+    assertEquals(vertices.get(3).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+}
+
+
+import:
+
+['import org.apache.flink.types.LongValue;', 'import org.apache.flink.util.Collector;', 'import static org.junit.Assert.*;']
+
+pom:
+
+<!--
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java_2.11</artifactId>
+    <version>1.11.0</version>
+</dependency>
+-->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testCoOperation() {
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+    CoMapFunction<Long, Long, Long> dummyCoMap = new CoMapFunction<Long, Long, Long>() {
+        @Override
+        public Long map1(Long value) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Long map2(Long value) throws Exception {
+            return null;
+        }
+    };
+
+    DataStream<Long> src1 = env.generateSequence(1, 10);
+    DataStream<Long> src2 = env.generateSequence(1, 10).slotSharingGroup("src-1");
+
+    // this should not inherit group "src-1"
+    src1.connect(src2).map(dummyCoMap);
+
+    DataStream<Long> src3 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+    DataStream<Long> src4 = env.generateSequence(1, 10).slotSharingGroup("group-1");
+
+    // this should inherit "group-1" now
+    src3.connect(src4).map(dummyCoMap);
+
+    JobGraph jobGraph = env.getStreamGraph().getJobGraph();
+
+    List<JobVertex> vertices = jobGraph.getVerticesSortedTopologicallyFromSources();
+
+    // first pipeline
+    assertEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+    assertNotEquals(vertices.get(0).getSlotSharingGroup(), vertices.get(1).getSlotSharingGroup());
+    assertNotEquals(vertices.get(1).getSlotSharingGroup(), vertices.get(4).getSlotSharingGroup());
+
+    // second pipeline
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(3).getSlotSharingGroup());
+    assertEquals(vertices.get(2).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+    assertEquals(vertices.get(3).getSlotSharingGroup(), vertices.get(5).getSlotSharingGroup());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,43 @@
+Test File Path: projects/744fd725ac60b534ff553ec96dcd6494631e677f/feign/mock/src/test/java/feign/mock/RequestHeadersTest.java
+Original Test Method:
+   public void shouldPrintHeaders() {
+    RequestHeaders headers = RequestHeaders
+        .builder()
+        .add("header", "val")
+        .add("other header", "val2")
+        .add("header", Arrays.asList("val3", "val4"))
+        .build();
+    assertThat(headers.toString()).isEqualTo("other header=[val2], header=[val, val3, val4]");
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void shouldPrintHeaders() {
+    RequestHeaders headers = RequestHeaders
+        .builder()
+        .add("header", "val")
+        .add("other header", "val2")
+        .add("header", Arrays.asList("val3", "val4"))
+        .build();
+    Assertions.assertThat(headers.toString())
+        .contains("header=[val, val3, val4]", "other header=[val2]");
+}
+
+
+import:
+
+['import org.assertj.core.api.Assertions;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+

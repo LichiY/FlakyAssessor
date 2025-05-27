@@ -1,0 +1,127 @@
+Test File Path: projects/97b5d802465b82feef8e52d1e5cb3d90e8d374e7/graphhopper/isochrone/src/test/java/com/graphhopper/isochrone/algorithm/ShortestPathTreeTest.java
+Original Test Method:
+     public void testSearch30Seconds() {
+        fillTestGraph(graph);
+        ShortestPathTree instance = new ShortestPathTree(graph, new FastestWeighting(carEncoder, new PMap()), false);
+        instance.setTimeLimit(30);
+        List<Set<Integer>> res = searchFromNode0Into5Buckets(instance);
+        assertEquals("[[0], [4], [], [6], [1, 7]]", res.toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSearch30Seconds() {
+    fillTestGraph(graph);
+    ShortestPathTree instance = new ShortestPathTree(graph, new FastestWeighting(carEncoder, new PMap()), false);
+    instance.setTimeLimit(30);
+    List<Set<Integer>> res = searchFromNode0Into5Buckets(instance);
+    res.sort(Comparator.comparing(Set::toString));
+    assertEquals("[[0], [4], [], [6], [1, 7]]", res.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSearch30Seconds() {
+    fillTestGraph(graph);
+    ShortestPathTree instance = new ShortestPathTree(graph, new FastestWeighting(carEncoder, new PMap()), false);
+    instance.setTimeLimit(30);
+    List<Set<Integer>> res = searchFromNode0Into5Buckets(instance);
+    res.sort(Comparator.comparing(Set::toString));
+    assertEquals("[[0], [4], [], [6], [1, 7]]", res.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testSearch30Seconds() {
+        Graph graph = new Graph();
+        fillTestGraph(graph);
+        instance = new ShortestPathTree(graph, new FastestWeighting(carEncoder, new PMap()), false);
+        instance.setTimeLimit(30);
+        res = searchFromNode0Into5Buckets(instance);
+        res.sort(Comparator.comparing(Set::toString));
+        assertEquals("[[0], [4], [], [6], [1, 7]]", res.toString());
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSearch30Seconds() {
+    Graph graph = new Graph();
+    fillTestGraph(graph);
+    ShortestPathTree instance = new ShortestPathTree(graph, new FastestWeighting(carEncoder, new PMap()), false);
+    instance.setTimeLimit(30);
+    List<Set<Integer>> res = searchFromNode0Into5Buckets(instance);
+    res.sort(Comparator.comparing(Set::toString));
+    assertEquals("[[0], [4], [], [6], [1, 7]]", res.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testSearch30Seconds() {
+    Graph graph = new Graph();
+    fillTestGraph(graph);
+    ShortestPathTree instance = new ShortestPathTree(graph, new FastestWeighting(carEncoder, new PMap()), false);
+    instance.setTimeLimit(30);
+    List<Set<Integer>> res = searchFromNode0Into5Buckets(instance);
+    res.sort(Comparator.comparing(Set::toString));
+    assertEquals("[[0], [4], [], [6], [1, 7]]", res.toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

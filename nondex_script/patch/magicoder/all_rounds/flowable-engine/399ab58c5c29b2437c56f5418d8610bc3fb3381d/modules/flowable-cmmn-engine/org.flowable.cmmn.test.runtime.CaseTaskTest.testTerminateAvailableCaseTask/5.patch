@@ -1,0 +1,125 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-cmmn-engine/src/test/java/org/flowable/cmmn/test/runtime/CaseTaskTest.java
+Original Test Method:
+     public void testTerminateAvailableCaseTask() {
+        CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("terminateAvailableCaseTask").start();
+
+        PlanItemInstance planItemInstance = cmmnRuntimeService.createPlanItemInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .planItemDefinitionType(PlanItemDefinitionType.CASE_TASK)
+            .planItemInstanceStateAvailable().singleResult();
+        assertEquals("myCase", planItemInstance.getName());
+
+        // When the event listener now occurs, the stage should be exited, also exiting the case task plan item
+        UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .singleResult();
+        cmmnRuntimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+        assertCaseInstanceEnded(caseInstance);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testTerminateAvailableCaseTask() {
+        CaseInstance caseInstance = Mocks.cmmnRuntimeService().createCaseInstanceBuilder().caseDefinitionKey("terminateAvailableCaseTask").start();
+
+        PlanItemInstance planItemInstance = Mocks.cmmnRuntimeService().createPlanItemInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .planItemDefinitionType(PlanItemDefinitionType.CASE_TASK)
+            .planItemInstanceStateAvailable().singleResult();
+        assertEquals("myCase", planItemInstance.getName());
+
+        // When the event listener now occurs, the stage should be exited, also exiting the case task plan item
+        UserEventListenerInstance userEventListenerInstance = Mocks.cmmnRuntimeService().createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .singleResult();
+        Mocks.cmmnRuntimeService().completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+        assertCaseInstanceEnded(caseInstance);
+    }
+
+
+import:
+
+['import org.camunda.bpm.engine.test.mock.Mocks;', 'import org.camunda.bpm.engine.test.mock.Mocks.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <version>2.3.1.RELEASE</version>
+    <scope>test</scope>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.camunda.bpm</groupId>
+    <artifactId>camunda-engine-test</artifactId>
+    <version>7.16.0</version>
+    <scope>test</scope>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.gson.JsonParser;', 'import java.util.Arrays;', 'import java.util.HashSet;', 'import java.util.LinkedHashSet;', 'import java.util.Set;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None

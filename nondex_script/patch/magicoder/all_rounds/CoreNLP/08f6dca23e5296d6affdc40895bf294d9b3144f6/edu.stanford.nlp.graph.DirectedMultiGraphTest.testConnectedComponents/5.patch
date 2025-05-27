@@ -1,0 +1,145 @@
+Test File Path: projects/08f6dca23e5296d6affdc40895bf294d9b3144f6/CoreNLP/test/src/edu/stanford/nlp/graph/DirectedMultiGraphTest.java
+Original Test Method:
+   public void testConnectedComponents() {
+
+    System.out.println("graph is " + graph.toString());
+    List<Set<Integer>> ccs = graph.getConnectedComponents();
+    for (Set<Integer> cc : ccs) {
+      System.out.println("Connected component: " + cc);
+    }
+    assertEquals(ccs.size(), 4);
+    assertEquals(CollectionUtils.sorted(ccs.get(0)), 
+                 Arrays.asList(1, 2, 3, 4));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testConnectedComponents() {
+
+    System.out.println("graph is " + graph.toString());
+    List<Set<Integer>> ccs = graph.getConnectedComponents();
+    for (Set<Integer> cc : ccs) {
+      System.out.println("Connected component: " + cc);
+    }
+    assertEquals(ccs.size(), 4);
+    assertEquals(ccs.get(0), new HashSet<>(Arrays.asList(1, 2, 3, 4)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testConnectedComponents() {
+    System.out.println("graph is " + graph.toString());
+    List<Set<Integer>> ccs = graph.getConnectedComponents();
+    for (Set<Integer> cc : ccs) {
+        System.out.println("Connected component: " + cc);
+    }
+    assertEquals(ccs.size(), 4);
+    assertEquals(ccs.get(0), new HashSet<>(Arrays.asList(1, 2, 3, 4)));
+    assertEquals(ccs.get(1), new HashSet<>(Arrays.asList(5, 7, 6)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testConnectedComponents() {
+    System.out.println("graph is " + graph.toString());
+    List<Set<Integer>> ccs = graph.getConnectedComponents();
+    for (Set<Integer> cc : ccs) {
+        System.out.println("Connected component: " + cc);
+    }
+    assertEquals(ccs.size(), 4);
+    assertEquals(ccs.get(0), new HashSet<>(Arrays.asList(1, 2, 3, 4)));
+    assertEquals(ccs.get(1), new HashSet<>(Arrays.asList(5, 7, 6)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testConnectedComponents() {
+    System.out.println("graph is " + graph.toString());
+    List<Set<Integer>> ccs = graph.getConnectedComponents();
+    for (Set<Integer> cc : ccs) {
+        System.out.println("Connected component: " + cc);
+    }
+    assertEquals(ccs.size(), 4);
+    assertEquals(ccs.get(0), new LinkedHashSet<>(Arrays.asList(1, 2, 3, 4)));
+    assertEquals(ccs.get(1), new LinkedHashSet<>(Arrays.asList(5, 7, 6)));
+}
+
+
+import:
+
+['import org.junit.jupiter.api.Test;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.7.0</version>
+        <scope>test</scope>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testConnectedComponents() {
+        System.out.println("graph is " + graph.toString());
+        List<Set<Integer>> ccs = graph.getConnectedComponents();
+        for (Set<Integer> cc : ccs) {
+            System.out.println("Connected component: " + cc);
+        }
+        assertEquals(ccs.size(), 4);
+        assertEquals(ccs.get(0), new LinkedHashSet<>(Arrays.asList(1, 2, 3, 4)));
+        assertEquals(ccs.get(1), new LinkedHashSet<>(Arrays.asList(5, 7, 6)));
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None

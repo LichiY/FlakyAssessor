@@ -1,0 +1,321 @@
+Test File Path: projects/505e08a76425c6e49ff5bc691f8ca7587184a2bf/pulsar/pulsar-client/src/test/java/org/apache/pulsar/client/impl/schema/AvroSchemaTest.java
+Original Test Method:
+     public void testNotAllowNullSchema() {
+        AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+        assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+        Schema.Parser parser = new Schema.Parser();
+        String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+        assertEquals(schemaJson, SCHEMA_AVRO_NOT_ALLOW_NULL);
+        Schema schema = parser.parse(schemaJson);
+
+        for (String fieldName : FOO_FIELDS) {
+            Schema.Field field = schema.getField(fieldName);
+            Assert.assertNotNull(field);
+
+            if (field.name().equals("field4")) {
+                Assert.assertNotNull(field.schema().getTypes().get(1).getField("field1"));
+            }
+            if (field.name().equals("fieldUnableNull")) {
+                Assert.assertNotNull(field.schema().getType());
+            }
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    
+    // Parse both expected and actual schemas to compare their logical equivalence
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_NOT_ALLOW_NULL);
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Compare schema names and types
+    assertEquals(expectedSchema.getFullName(), actualSchema.getFullName());
+    assertEquals(expectedSchema.getType(), actualSchema.getType());
+    
+    // Compare fields by name and type, ignoring order
+    Map<String, Schema.Field> expectedFields = new LinkedHashMap<>();
+    for (Schema.Field field : expectedSchema.getFields()) {
+        expectedFields.put(field.name(), field);
+    }
+    
+    Map<String, Schema.Field> actualFields = new LinkedHashMap<>();
+    for (Schema.Field field : actualSchema.getFields()) {
+        actualFields.put(field.name(), field);
+    }
+    
+    assertEquals(expectedFields.keySet(), actualFields.keySet());
+    
+    for (String fieldName : expectedFields.keySet()) {
+        Schema.Field expectedField = expectedFields.get(fieldName);
+        Schema.Field actualField = actualFields.get(fieldName);
+        assertEquals(expectedField.schema().getType(), actualField.schema().getType());
+        
+        if (fieldName.equals("field4")) {
+            Assert.assertNotNull(actualField.schema().getTypes().get(1).getField("field1"));
+        }
+        if (fieldName.equals("fieldUnableNull")) {
+            Assert.assertNotNull(actualField.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;', 'import java.util.Map;']
+
+pom:
+
+
+<!-- No new dependencies needed -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    
+    // Parse both expected and actual schemas to compare their logical equivalence
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_NOT_ALLOW_NULL);
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Compare schema names and types
+    assertEquals(expectedSchema.getFullName(), actualSchema.getFullName());
+    assertEquals(expectedSchema.getType(), actualSchema.getType());
+    
+    // Compare fields by name and type, ignoring order
+    Map<String, Schema.Field> expectedFields = new LinkedHashMap<>();
+    expectedSchema.getFields().stream()
+        .sorted(Comparator.comparing(Schema.Field::name))
+        .forEach(field -> expectedFields.put(field.name(), field));
+    
+    Map<String, Schema.Field> actualFields = new LinkedHashMap<>();
+    actualSchema.getFields().stream()
+        .sorted(Comparator.comparing(Schema.Field::name))
+        .forEach(field -> actualFields.put(field.name(), field));
+    
+    assertEquals(new TreeSet<>(expectedFields.keySet()), new TreeSet<>(actualFields.keySet()));
+    
+    for (String fieldName : expectedFields.keySet()) {
+        Schema.Field expectedField = expectedFields.get(fieldName);
+        Schema.Field actualField = actualFields.get(fieldName);
+        assertEquals(expectedField.schema().getType(), actualField.schema().getType());
+        
+        if (fieldName.equals("field4")) {
+            Assert.assertNotNull(actualField.schema().getTypes().get(1).getField("field1"));
+        }
+        if (fieldName.equals("fieldUnableNull")) {
+            Assert.assertNotNull(actualField.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+['import java.util.Comparator;', 'import java.util.TreeSet;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.11.3</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    
+    // Parse both expected and actual schemas to compare their logical equivalence
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_NOT_ALLOW_NULL);
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Compare schema names and types
+    assertEquals(expectedSchema.getFullName(), actualSchema.getFullName());
+    assertEquals(expectedSchema.getType(), actualSchema.getType());
+    
+    // Compare fields by name and type, using LinkedHashMap to maintain order
+    Map<String, Schema.Field> expectedFields = new LinkedHashMap<>();
+    expectedSchema.getFields().stream()
+        .sorted(Comparator.comparing(Schema.Field::name))
+        .forEachOrdered(field -> expectedFields.put(field.name(), field));
+    
+    Map<String, Schema.Field> actualFields = new LinkedHashMap<>();
+    actualSchema.getFields().stream()
+        .sorted(Comparator.comparing(Schema.Field::name))
+        .forEachOrdered(field -> actualFields.put(field.name(), field));
+    
+    assertEquals(expectedFields.keySet(), actualFields.keySet());
+    
+    for (Map.Entry<String, Schema.Field> entry : expectedFields.entrySet()) {
+        String fieldName = entry.getKey();
+        Schema.Field expectedField = entry.getValue();
+        Schema.Field actualField = actualFields.get(fieldName);
+        assertEquals(expectedField.schema().getType(), actualField.schema().getType());
+        
+        if (fieldName.equals("field4")) {
+            Assert.assertNotNull(actualField.schema().getTypes().get(1).getField("field1"));
+        }
+        if (fieldName.equals("fieldUnableNull")) {
+            Assert.assertNotNull(actualField.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No new dependencies needed -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    
+    // Parse both expected and actual schemas to compare their logical equivalence
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_NOT_ALLOW_NULL);
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Compare schema names and types
+    assertEquals(expectedSchema.getFullName(), actualSchema.getFullName());
+    assertEquals(expectedSchema.getType(), actualSchema.getType());
+    
+    // Compare fields by name and type, using LinkedHashMap to maintain order
+    Map<String, Schema.Field> expectedFields = new LinkedHashMap<>();
+    expectedSchema.getFields().stream()
+        .sorted(Comparator.comparing(Schema.Field::name))
+        .forEachOrdered(field -> expectedFields.put(field.name(), field));
+    
+    Map<String, Schema.Field> actualFields = new LinkedHashMap<>();
+    actualSchema.getFields().stream()
+        .sorted(Comparator.comparing(Schema.Field::name))
+        .forEachOrdered(field -> actualFields.put(field.name(), field));
+    
+    assertEquals(new LinkedHashSet<>(expectedFields.keySet()), new LinkedHashSet<>(actualFields.keySet()));
+    
+    for (String fieldName : new TreeSet<>(expectedFields.keySet())) {
+        Schema.Field expectedField = expectedFields.get(fieldName);
+        Schema.Field actualField = actualFields.get(fieldName);
+        assertEquals(expectedField.schema().getType(), actualField.schema().getType());
+        
+        if (fieldName.equals("field4")) {
+            Assert.assertNotNull(actualField.schema().getTypes().get(1).getField("field1"));
+        }
+        if (fieldName.equals("fieldUnableNull")) {
+            Assert.assertNotNull(actualField.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.11.3</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testNotAllowNullSchema() {
+    AvroSchema<Foo> avroSchema = AvroSchema.of(SchemaDefinition.<Foo>builder().withPojo(Foo.class).withAlwaysAllowNull(false).build());
+    assertEquals(avroSchema.getSchemaInfo().getType(), SchemaType.AVRO);
+    Schema.Parser parser = new Schema.Parser();
+    String schemaJson = new String(avroSchema.getSchemaInfo().getSchema());
+    
+    // Parse both expected and actual schemas to compare their logical equivalence
+    Schema expectedSchema = parser.parse(SCHEMA_AVRO_NOT_ALLOW_NULL);
+    Schema actualSchema = parser.parse(schemaJson);
+    
+    // Compare schema names and types
+    assertEquals(expectedSchema.getFullName(), actualSchema.getFullName());
+    assertEquals(expectedSchema.getType(), actualSchema.getType());
+    
+    // Compare fields by name and type, using TreeMap for deterministic order
+    Map<String, Schema.Field> expectedFields = new TreeMap<>();
+    for (Schema.Field field : expectedSchema.getFields()) {
+        expectedFields.put(field.name(), field);
+    }
+    
+    Map<String, Schema.Field> actualFields = new TreeMap<>();
+    for (Schema.Field field : actualSchema.getFields()) {
+        actualFields.put(field.name(), field);
+    }
+    
+    assertEquals(expectedFields.keySet(), actualFields.keySet());
+    
+    for (Map.Entry<String, Schema.Field> entry : expectedFields.entrySet()) {
+        String fieldName = entry.getKey();
+        Schema.Field expectedField = entry.getValue();
+        Schema.Field actualField = actualFields.get(fieldName);
+        assertEquals(expectedField.schema().getType(), actualField.schema().getType());
+        
+        if (fieldName.equals("field4")) {
+            Assert.assertNotNull(actualField.schema().getTypes().get(1).getField("field1"));
+        }
+        if (fieldName.equals("fieldUnableNull")) {
+            Assert.assertNotNull(actualField.schema().getType());
+        }
+    }
+}
+
+
+import:
+
+['import java.util.TreeMap;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.11.3</version>
+</dependency>
+

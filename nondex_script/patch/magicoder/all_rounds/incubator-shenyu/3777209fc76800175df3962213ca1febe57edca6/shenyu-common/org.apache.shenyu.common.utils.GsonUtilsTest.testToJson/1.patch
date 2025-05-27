@@ -1,0 +1,29 @@
+Test File Path: projects/3777209fc76800175df3962213ca1febe57edca6/incubator-shenyu/shenyu-common/src/test/java/org/apache/shenyu/common/utils/GsonUtilsTest.java
+Original Test Method:
+     public void testToJson() {
+        TestObject testObject = generateTestObject();
+
+        Assert.assertEquals(EXPECTED_JSON, GsonUtils.getInstance().toJson(testObject));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testToJson() {
+    TestObject testObject = generateTestObject();
+
+    String expectedJson = "{\"bool\":true,\"iNumber\":1,\"fNumber\":1.0,\"dNumber\":1.0,\"bigDecimal\":1,\"string\":\"test\",\"testList\":[\"list_string_0\",\"list_string_1\",\"list_string_2\",\"list_string_3\",\"list_string_4\",\"list_string_5\",\"list_string_6\",\"list_string_7\",\"list_string_8\",\"list_string_9\"],\"testMap\":{\"map_key_2\":\"map_value_2\",\"map_key_1\":\"map_value_1\",\"map_key_0\":\"map_value_0\",\"map_key_9\":\"map_value_9\",\"map_key_8\":\"map_value_8\",\"map_key_7\":\"map_value_7\",\"map_key_6\":\"map_value_6\",\"map_key_5\":\"map_value_5\",\"map_key_4\":\"map_value_4\",\"map_key_3\":\"map_value_3\"},\"emptyList\":[],\"emptyMap\":{},\"nestedMap\":{\"map_2\":{},\"map_1\":{\"map_key_2\":\"map_value_2\",\"map_key_1\":\"map_value_1\",\"map_key_0\":\"map_value_0\",\"map_key_9\":\"map_value_9\",\"map_key_8\":\"map_value_8\",\"map_key_7\":\"map_value_7\",\"map_key_6\":\"map_value_6\",\"map_key_5\":\"map_value_5\",\"map_key_4\":\"map_value_4\",\"map_key_3\":\"map_value_3\"},\"bool\":false}}";
+
+    Assert.assertEquals(expectedJson, GsonUtils.getInstance().toJson(testObject));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

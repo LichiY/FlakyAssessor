@@ -1,0 +1,323 @@
+Test File Path: projects/df39fdeed1d14f7b014a22db59b06bfd4e562edd/dropwizard/dropwizard-health/src/test/java/io/dropwizard/health/response/JsonHealthResponseProviderTest.java
+Original Test Method:
+     void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+        // given
+        final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+        final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+        final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+        final Collection<String> names = new ArrayList<>();
+        names.add(fooView.getName());
+        names.add(barView.getName());
+        names.add(bazView.getName());
+        final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+            JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+        // when
+        when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+        when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+        when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+        when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+        final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+        // then
+        assertThat(response.isHealthy()).isTrue();
+        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+        assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+    // given
+    final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+    final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+    final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+    final Collection<String> names = new ArrayList<>();
+    names.add(fooView.getName());
+    names.add(barView.getName());
+    names.add(bazView.getName());
+    final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+        JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+    // when
+    when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+    when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+    when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+    when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+    final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+    // then
+    assertThat(response.isHealthy()).isTrue();
+    assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+    assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+}
+
+
+import:
+
+['import java.util.*;', 'import static org.mockito.Mockito.*;']
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+    // given
+    final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+    final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+    final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+    final LinkedHashSet<String> names = new LinkedHashSet<>();
+    names.add(fooView.getName());
+    names.add(barView.getName());
+    names.add(bazView.getName());
+    final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+        JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+    // when
+    when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+    when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+    when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+    when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+    final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+    // then
+    assertThat(response.isHealthy()).isTrue();
+    assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+    assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+}
+
+
+import:
+
+['import org.mockito.Mockito;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.1.0</version>
+    </dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+    // given
+    final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+    final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+    final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+    final LinkedHashSet<String> names = new LinkedHashSet<>();
+    names.add(fooView.getName());
+    names.add(barView.getName());
+    names.add(bazView.getName());
+    final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+        JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+    // when
+    when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+    when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+    when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+    when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+    final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+    // then
+    assertThat(response.isHealthy()).isTrue();
+    assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+    assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+}
+
+
+import:
+
+['import org.mockito.Mockito;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.1.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+    // given
+    final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+    final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+    final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+    final LinkedHashSet<String> names = new LinkedHashSet<>();
+    names.add(fooView.getName());
+    names.add(barView.getName());
+    names.add(bazView.getName());
+    final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+        JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+    // when
+    when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+    when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+    when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+    when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+    final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+    // then
+    assertThat(response.isHealthy()).isTrue();
+    assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+    assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+        // given
+        final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+        final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+        final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+        final LinkedHashSet<String> names = new LinkedHashSet<>();
+        names.add(fooView.getName());
+        names.add(barView.getName());
+        names.add(bazView.getName());
+        final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+            JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+        // when
+        when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+        when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+        when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+        when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+        final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+        // then
+        assertThat(response.isHealthy()).isTrue();
+        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+        assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+        // given
+        final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+        final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+        final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+        final LinkedHashSet<String> names = new LinkedHashSet<>();
+        names.add(fooView.getName());
+        names.add(barView.getName());
+        names.add(bazView.getName());
+        final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+            JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+        // when
+        when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+        when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+        when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+        when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+        final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+        // then
+        assertThat(response.isHealthy()).isTrue();
+        assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+        assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+void shouldHandleMultipleHealthStateViewsCorrectly() throws IOException {
+    // given
+    final HealthStateView fooView = new HealthStateView("foo", true, HealthCheckType.READY, true);
+    final HealthStateView barView = new HealthStateView("bar", true, HealthCheckType.ALIVE, true);
+    final HealthStateView bazView = new HealthStateView("baz", false, HealthCheckType.READY, false);
+    final LinkedHashSet<String> names = new LinkedHashSet<>();
+    names.add(fooView.getName());
+    names.add(barView.getName());
+    names.add(bazView.getName());
+    final Map<String, Collection<String>> queryParams = Collections.singletonMap(
+        JsonHealthResponseProvider.NAME_QUERY_PARAM, names);
+
+    // when
+    when(healthStateAggregator.healthStateView(fooView.getName())).thenReturn(Optional.of(fooView));
+    when(healthStateAggregator.healthStateView(barView.getName())).thenReturn(Optional.of(barView));
+    when(healthStateAggregator.healthStateView(bazView.getName())).thenReturn(Optional.of(bazView));
+    when(healthStatusChecker.isHealthy(isNull())).thenReturn(true);
+    final HealthResponse response = jsonHealthResponseProvider.healthResponse(queryParams);
+
+    // then
+    assertThat(response.isHealthy()).isTrue();
+    assertThat(response.getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
+    assertThat(response.getMessage()).isEqualToIgnoringWhitespace(fixture("/json/multiple-healthy-responses.json"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->

@@ -1,0 +1,119 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/contentpacks/model/entities/references/ValueReferenceTest.java
+Original Test Method:
+     public void serializeBoolean() throws IOException {
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(true))).isEqualTo("{\"@type\":\"boolean\",\"@value\":true}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(false))).isEqualTo("{\"@type\":\"boolean\",\"@value\":false}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void serializeBoolean() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(true))).isEqualTo("{\"@type\":\"boolean\",\"@value\":true}");
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(false))).isEqualTo("{\"@type\":\"boolean\",\"@value\":false}");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void serializeBoolean() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(true))).isEqualTo("{\"@type\":\"boolean\",\"@value\":true}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(false))).isEqualTo("{\"@type\":\"boolean\",\"@value\":false}");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void serializeBoolean() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    String expectedTrue = "{\"@type\":\"boolean\",\"@value\":true}";
+    String expectedFalse = "{\"@type\":\"boolean\",\"@value\":false}";
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(true))).isEqualTo(expectedTrue);
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(false))).isEqualTo(expectedFalse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void serializeBoolean() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    String expectedTrue = "{\"@type\":\"boolean\",\"@value\":true}";
+    String expectedFalse = "{\"@type\":\"boolean\",\"@value\":false}";
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(true))).isEqualTo(expectedTrue);
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(false))).isEqualTo(expectedFalse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void serializeBoolean() throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    String expectedTrue = "{\"@type\":\"boolean\",\"@value\":true}";
+    String expectedFalse = "{\"@type\":\"boolean\",\"@value\":false}";
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(true))).isEqualTo(expectedTrue);
+    assertThat(objectMapper.writeValueAsString(ValueReference.of(false))).isEqualTo(expectedFalse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

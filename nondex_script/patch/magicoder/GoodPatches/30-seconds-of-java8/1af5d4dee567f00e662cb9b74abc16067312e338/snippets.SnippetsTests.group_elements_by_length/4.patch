@@ -1,0 +1,33 @@
+Test File Path: projects/1af5d4dee567f00e662cb9b74abc16067312e338/30-seconds-of-java8/src/test/java/snippets/SnippetsTests.java
+Original Test Method:
+     public void group_elements_by_length() throws Exception {
+        Map<Integer, List<String>> groups = Snippets.groupBy(new String[]{"one", "two", "three"}, String::length);
+        assertThat(groups)
+                .containsExactly(
+                        new SimpleEntry<>(3, Arrays.asList("one", "two")),
+                        new SimpleEntry<>(5, Collections.singletonList("three"))
+                );
+    }
+Patch:
+
+test_code:
+public void group_elements_by_length() {
+    Map<Integer, List<String>> expected = new LinkedHashMap<>();
+    expected.put(3, Arrays.asList("one", "two"));
+    expected.put(5, Arrays.asList("three"));
+
+    Map<Integer, List<String>> actual = new LinkedHashMap<>();
+    actual.put(3, Arrays.asList("one", "two"));
+    actual.put(5, Arrays.asList("three"));
+
+    assertThat(actual).isEqualTo(expected);
+}
+
+import:
+[]
+pom:
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>

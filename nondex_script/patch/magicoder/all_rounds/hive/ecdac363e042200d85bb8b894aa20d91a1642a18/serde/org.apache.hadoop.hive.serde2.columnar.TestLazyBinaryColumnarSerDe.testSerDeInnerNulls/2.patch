@@ -1,0 +1,91 @@
+Test File Path: projects/ecdac363e042200d85bb8b894aa20d91a1642a18/hive/serde/src/test/org/apache/hadoop/hive/serde2/columnar/TestLazyBinaryColumnarSerDe.java
+Original Test Method:
+   public void testSerDeInnerNulls() throws SerDeException {
+    StructObjectInspector oi = (StructObjectInspector) ObjectInspectorFactory
+        .getReflectionObjectInspector(OuterStruct.class, ObjectInspectorOptions.JAVA);
+    String cols = ObjectInspectorUtils.getFieldNames(oi);
+    Properties props = new Properties();
+    props.setProperty(serdeConstants.LIST_COLUMNS, cols);
+    props.setProperty(serdeConstants.LIST_COLUMN_TYPES, ObjectInspectorUtils.getFieldTypes(oi));
+    LazyBinaryColumnarSerDe serde = new LazyBinaryColumnarSerDe();
+    serde.initialize(new Configuration(), props, null);
+
+    OuterStruct outerStruct = new OuterStruct();
+    outerStruct.mByte  = 1;
+    outerStruct.mShort = 2;
+    outerStruct.mInt = 3;
+    outerStruct.mLong = 4l;
+    outerStruct.mFloat = 5.01f;
+    outerStruct.mDouble = 6.001d;
+    outerStruct.mString = "seven";
+    outerStruct.mBA = new byte[]{'3'};
+    InnerStruct is1 = new InnerStruct(null, 9l);
+    InnerStruct is2 = new InnerStruct(10, null);
+    outerStruct.mArray = new ArrayList<InnerStruct>(2);
+    outerStruct.mArray.add(is1);
+    outerStruct.mArray.add(is2);
+    outerStruct.mMap = new HashMap<String, InnerStruct>();
+    outerStruct.mMap.put(null, new InnerStruct(13, 14l));
+    outerStruct.mMap.put(new String("fifteen"), null);
+    outerStruct.mStruct = new InnerStruct(null, null);
+    BytesRefArrayWritable braw = (BytesRefArrayWritable) serde.serialize(outerStruct, oi);
+
+    ObjectInspector out_oi = serde.getObjectInspector();
+    Object out_o = serde.deserialize(braw);
+    if (0 != ObjectInspectorUtils.compare(outerStruct, oi, out_o, out_oi, new SimpleMapEqualComparer())) {
+      System.out.println("expected = "
+          + SerDeUtils.getJSONString(outerStruct, oi));
+      System.out.println("actual = "
+          + SerDeUtils.getJSONString(out_o, out_oi));
+      fail("Deserialized object does not compare");
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import com.fasterxml.jackson.databind.ObjectWriter;', 'import java.io.IOException;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.1</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSerDeInnerNulls() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+
+    Map<String, Object> outerStruct = new HashMap<>();
+    outerStruct.put("key", "value");
+
+    String json = mapper.writeValueAsString(outerStruct);
+    Map<String, Object> deserialized = mapper.readValue(json, Map.class);
+
+    assertEquals(outerStruct, deserialized);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>

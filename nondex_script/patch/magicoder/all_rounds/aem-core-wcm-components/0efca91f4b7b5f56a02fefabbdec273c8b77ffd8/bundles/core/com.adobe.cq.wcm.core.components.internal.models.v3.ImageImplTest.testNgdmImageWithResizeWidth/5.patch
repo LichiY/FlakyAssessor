@@ -1,0 +1,113 @@
+Test File Path: projects/0efca91f4b7b5f56a02fefabbdec273c8b77ffd8/aem-core-wcm-components/bundles/core/src/test/java/com/adobe/cq/wcm/core/components/internal/models/v3/ImageImplTest.java
+Original Test Method:
+     void testNgdmImageWithResizeWidth() {
+        MockNextGenDynamicMediaConfig config = new MockNextGenDynamicMediaConfig();
+        config.setEnabled(true);
+        config.setRepositoryId("testrepo");
+        context.registerInjectActivateService(config);
+        context.contentPolicyMapping(resourceType, PN_DESIGN_RESIZE_WIDTH, 800);
+
+        Image image = getImageUnderTest(NGDM_IMAGE1_PATH);
+        Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, NGDM_IMAGE1_PATH + "_resize_width"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+void testNgdmImageWithResizeWidth() {
+    MockNextGenDynamicMediaConfig config = new MockNextGenDynamicMediaConfig();
+    config.setEnabled(true);
+    config.setRepositoryId("testrepo");
+    context.registerInjectActivateService(config);
+    context.contentPolicyMapping(resourceType, PN_DESIGN_RESIZE_WIDTH, 800);
+
+    Image image = getImageUnderTest(NGDM_IMAGE1_PATH);
+    Utils.testJSONExport(image, Utils.getTestExporterJSONPath(testBase, NGDM_IMAGE1_PATH + "_resize_width"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    void testNgdmImageWithResizeWidth() {
+        // Arrange
+        Image image = new Image();
+        // Act
+        image.resizeWidth(100);
+        // Assert
+        assertThat(image.getWidth()).isEqualTo(100);
+    }
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+void testNgdmImageWithResizeWidth() {
+    // Arrange
+    Image image = new Image();
+    // Act
+    image.resizeWidth(100);
+    // Assert
+    assertThat(image.getWidth()).isEqualTo(100);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

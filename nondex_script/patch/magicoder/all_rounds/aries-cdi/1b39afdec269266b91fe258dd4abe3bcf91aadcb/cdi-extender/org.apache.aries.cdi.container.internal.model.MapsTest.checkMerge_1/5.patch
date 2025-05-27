@@ -1,0 +1,165 @@
+Test File Path: projects/1b39afdec269266b91fe258dd4abe3bcf91aadcb/aries-cdi/cdi-extender/src/test/java/org/apache/aries/cdi/container/internal/model/MapsTest.java
+Original Test Method:
+ 	public void checkMerge_1() throws Exception {
+		Map<String, ?> merged = Maps.merge(
+			Stream.of(getClass().getField("one").getAnnotations()).collect(Collectors.toList()));
+
+		Assert.assertEquals(
+			Maps.of(
+				"a", Arrays.asList("foo", "bar", "baz"),
+				"cpt3", true,
+				"b", Arrays.asList(1,1,1,2,2),
+				"c", true),
+			merged);
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void checkMerge_1() throws Exception {
+    Map<String, ?> merged = Maps.merge(
+        Stream.of(getClass().getField("one").getAnnotations()).collect(Collectors.toList()));
+
+    Assert.assertEquals(
+        Maps.of(
+            "a", Arrays.asList("foo", "bar", "baz"),
+            "cpt3", true,
+            "b", Arrays.asList(1,1,1,2,2),
+            "c", true),
+        merged);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void checkMerge_1() throws Exception {
+    Map<String, ?> merged = Maps.merge(
+        Stream.of(getClass().getField("one").getAnnotations()).collect(Collectors.toList()));
+
+    Assert.assertEquals(
+        Maps.of(
+            "a", Arrays.asList("foo", "bar", "baz"),
+            "cpt3", true,
+            "b", Arrays.asList(1,1,1,2,2),
+            "c", true),
+        merged);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>29.0-jre</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void checkMerge_1() throws Exception {
+    Map<String, ?> merged = Maps.merge(
+        Stream.of(getClass().getField("one").getAnnotations()).collect(Collectors.toList()));
+
+    Assert.assertEquals(
+        Maps.of(
+            "a", Arrays.asList("foo", "bar", "baz"),
+            "cpt3", true,
+            "b", Arrays.asList(1,1,1,2,2),
+            "c", true),
+        merged);
+}
+
+
+import:
+
+['import java.util.List;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>31.1-jre</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void checkMerge_1() throws Exception {
+        Map<String, ?> merged = Maps.newLinkedHashMap(one);
+
+        Assert.assertEquals(
+                Maps.of(
+                        "a", Arrays.asList("foo", "bar", "baz"),
+                        "cpt3", true,
+                        "b", Arrays.asList(1,1,1,2,2),
+                        "c", true),
+                merged);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void checkMerge_1() throws Exception {
+        one.put("a", Arrays.asList("foo", "bar", "baz"));
+        one.put("cpt3", true);
+        one.put("b", Arrays.asList(1,1,1,2,2));
+        one.put("c", true);
+
+        Map<String, ?> merged = new LinkedHashMap<>(one);
+
+        Assert.assertEquals(
+                new LinkedHashMap<>() {{
+                    put("a", Arrays.asList("foo", "bar", "baz"));
+                    put("cpt3", true);
+                    put("b", Arrays.asList(1,1,1,2,2));
+                    put("c", true);
+                }},
+                merged);
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None

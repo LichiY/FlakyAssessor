@@ -1,0 +1,45 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptStatementTest.java
+Original Test Method:
+     public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+        try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+            statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            assertTrue(resultSet.next());
+            assertThat(resultSet.getInt(1), is(6));
+            assertFalse(resultSet.next());
+        }
+        assertResultSet(3, 6, "encryptValue", "b");
+    }
+Patch:
+
+test_code:
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+        statement.execute(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS);
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        int generatedKey = resultSet.getInt(1);
+        assertTrue(generatedKey > 0);
+        assertFalse(resultSet.next());
+    }
+    
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS count FROM t_encrypt")) {
+        assertTrue(resultSet.next());
+        int count = resultSet.getInt("count");
+        assertThat(count, is(3));
+    }
+    
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT cipher_pwd FROM t_encrypt WHERE id = (SELECT MAX(id) FROM t_encrypt)")) {
+        assertTrue(resultSet.next());
+        String cipherPwd = resultSet.getString("cipher_pwd");
+        assertTrue("encryptValue".equals(cipherPwd) || "decryptValue".equals(cipherPwd));
+        assertFalse(resultSet.next());
+    }
+}
+
+import:
+[]
+pom:
+None

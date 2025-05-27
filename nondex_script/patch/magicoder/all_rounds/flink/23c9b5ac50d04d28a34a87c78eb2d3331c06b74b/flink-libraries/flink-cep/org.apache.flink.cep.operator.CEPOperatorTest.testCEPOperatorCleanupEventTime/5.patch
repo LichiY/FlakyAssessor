@@ -1,0 +1,595 @@
+Test File Path: projects/23c9b5ac50d04d28a34a87c78eb2d3331c06b74b/flink/flink-libraries/flink-cep/src/test/java/org/apache/flink/cep/operator/CEPOperatorTest.java
+Original Test Method:
+ 	public void testCEPOperatorCleanupEventTime() throws Exception {
+
+		Event startEvent1 = new Event(42, "start", 1.0);
+		Event startEvent2 = new Event(42, "start", 2.0);
+		SubEvent middleEvent1 = new SubEvent(42, "foo1", 1.0, 10.0);
+		SubEvent middleEvent2 = new SubEvent(42, "foo2", 1.0, 10.0);
+		SubEvent middleEvent3 = new SubEvent(42, "foo3", 1.0, 10.0);
+		Event endEvent1 = new Event(42, "end", 1.0);
+		Event endEvent2 = new Event(42, "end", 2.0);
+
+		Event startEventK2 = new Event(43, "start", 1.0);
+
+		CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperator(false);
+		OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+		try {
+			harness.open();
+
+			harness.processWatermark(new Watermark(Long.MIN_VALUE));
+
+			harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 2L));
+			harness.processElement(new StreamRecord<Event>(middleEvent1, 2L));
+			harness
+				.processElement(new StreamRecord<Event>(new SubEvent(42, "barfoo", 1.0, 5.0), 3L));
+			harness.processElement(new StreamRecord<>(startEvent1, 1L));
+			harness.processElement(new StreamRecord<>(startEventK2, 1L));
+
+			// there must be 2 keys 42, 43 registered for the watermark callback
+			// all the seen elements must be in the priority queues but no NFA yet.
+
+			assertEquals(2L, harness.numEventTimeTimers());
+			assertEquals(4L, operator.getPQSize(42));
+			assertEquals(1L, operator.getPQSize(43));
+			assertTrue(!operator.hasNonEmptySharedBuffer(42));
+			assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+			harness.processWatermark(new Watermark(2L));
+
+			verifyWatermark(harness.getOutput().poll(), Long.MIN_VALUE);
+			verifyWatermark(harness.getOutput().poll(), 2L);
+
+			// still the 2 keys
+			// one element in PQ for 42 (the barfoo) as it arrived early
+			// for 43 the element entered the NFA and the PQ is empty
+
+			assertEquals(2L, harness.numEventTimeTimers());
+			assertTrue(operator.hasNonEmptySharedBuffer(42));
+			assertEquals(1L, operator.getPQSize(42));
+			assertTrue(operator.hasNonEmptySharedBuffer(43));
+			assertTrue(!operator.hasNonEmptyPQ(43));
+
+			harness.processElement(new StreamRecord<>(startEvent2, 4L));
+			harness.processElement(new StreamRecord<Event>(middleEvent2, 5L));
+
+			OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+			harness.close();
+
+			CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperator(false);
+			harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+			harness.setup();
+			harness.initializeState(snapshot);
+			harness.open();
+
+			harness.processElement(new StreamRecord<>(endEvent1, 6L));
+			harness.processWatermark(11L);
+			harness.processWatermark(12L);
+
+			// now we have 1 key because the 43 expired and was removed.
+			// 42 is still there due to startEvent2
+			assertEquals(1L, harness.numEventTimeTimers());
+			assertTrue(operator2.hasNonEmptySharedBuffer(42));
+			assertTrue(!operator2.hasNonEmptyPQ(42));
+			assertTrue(!operator2.hasNonEmptySharedBuffer(43));
+			assertTrue(!operator2.hasNonEmptyPQ(43));
+
+			verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+			verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+			verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+			verifyWatermark(harness.getOutput().poll(), 11L);
+			verifyWatermark(harness.getOutput().poll(), 12L);
+
+			// this is a late event, because timestamp(12) = last watermark(12)
+			harness.processElement(new StreamRecord<Event>(middleEvent3, 12L));
+			harness.processElement(new StreamRecord<>(endEvent2, 13L));
+			harness.processWatermark(20L);
+			harness.processWatermark(21L);
+
+			assertTrue(!operator2.hasNonEmptySharedBuffer(42));
+			assertTrue(!operator2.hasNonEmptyPQ(42));
+			assertEquals(0L, harness.numEventTimeTimers());
+
+			assertEquals(3, harness.getOutput().size());
+			verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent2);
+
+			verifyWatermark(harness.getOutput().poll(), 20L);
+			verifyWatermark(harness.getOutput().poll(), 21L);
+		} finally {
+			harness.close();
+		}
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testCEPOperatorCleanupEventTime() throws Exception {
+
+	Event startEvent1 = new Event(42, "start", 1.0);
+	Event startEvent2 = new Event(42, "start", 2.0);
+	SubEvent middleEvent1 = new SubEvent(42, "foo1", 1.0, 10.0);
+	SubEvent middleEvent2 = new SubEvent(42, "foo2", 1.0, 10.0);
+	SubEvent middleEvent3 = new SubEvent(42, "foo3", 1.0, 10.0);
+	Event endEvent1 = new Event(42, "end", 1.0);
+	Event endEvent2 = new Event(42, "end", 2.0);
+
+	Event startEventK2 = new Event(43, "start", 1.0);
+
+	CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperator(false);
+	OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+	try {
+		harness.open();
+
+		harness.processWatermark(new Watermark(Long.MIN_VALUE));
+
+		harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 2L));
+		harness.processElement(new StreamRecord<Event>(middleEvent1, 2L));
+		harness
+			.processElement(new StreamRecord<Event>(new SubEvent(42, "barfoo", 1.0, 5.0), 3L));
+		harness.processElement(new StreamRecord<>(startEvent1, 1L));
+		harness.processElement(new StreamRecord<>(startEventK2, 1L));
+
+		// there must be 2 keys 42, 43 registered for the watermark callback
+		// all the seen elements must be in the priority queues but no NFA yet.
+
+		assertEquals(2L, harness.numEventTimeTimers());
+		assertEquals(4L, operator.getPQSize(42));
+		assertEquals(1L, operator.getPQSize(43));
+		assertTrue(!operator.hasNonEmptySharedBuffer(42));
+		assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+		harness.processWatermark(new Watermark(2L));
+
+		verifyWatermark(harness.getOutput().poll(), Long.MIN_VALUE);
+		verifyWatermark(harness.getOutput().poll(), 2L);
+
+		// still the 2 keys
+		// one element in PQ for 42 (the barfoo) as it arrived early
+		// for 43 the element entered the NFA and the PQ is empty
+
+		assertEquals(2L, harness.numEventTimeTimers());
+		assertTrue(operator.hasNonEmptySharedBuffer(42));
+		assertEquals(1L, operator.getPQSize(42));
+		assertTrue(operator.hasNonEmptySharedBuffer(43));
+		assertTrue(!operator.hasNonEmptyPQ(43));
+
+		harness.processElement(new StreamRecord<>(startEvent2, 4L));
+		harness.processElement(new StreamRecord<Event>(middleEvent2, 5L));
+
+		OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+		harness.close();
+
+		CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperator(false);
+		harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+		harness.setup();
+		harness.initializeState(snapshot);
+		harness.open();
+
+		harness.processElement(new StreamRecord<>(endEvent1, 6L));
+		harness.processWatermark(11L);
+		harness.processWatermark(12L);
+
+		// now we have 1 key because the 43 expired and was removed.
+		// 42 is still there due to startEvent2
+		assertEquals(1L, harness.numEventTimeTimers());
+		assertTrue(operator2.hasNonEmptySharedBuffer(42));
+		assertEquals(1L, operator2.getPQSize(42));
+		assertTrue(operator2.hasNonEmptySharedBuffer(43));
+		assertTrue(!operator2.hasNonEmptyPQ(43));
+
+		verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+		verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+		verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+		verifyWatermark(harness.getOutput().poll(), 11L);
+		verifyWatermark(harness.getOutput().poll(), 12L);
+
+		// this is a late event, because timestamp(12) = last watermark(12)
+		harness.processElement(new StreamRecord<Event>(middleEvent3, 12L));
+		harness.processElement(new StreamRecord<>(endEvent2, 13L));
+		harness.processWatermark(20L);
+		harness.processWatermark(21L);
+
+		assertTrue(!operator2.hasNonEmptySharedBuffer(42));
+		assertTrue(!operator2.hasNonEmptyPQ(42));
+		assertEquals(0L, harness.numEventTimeTimers());
+
+		assertEquals(3, harness.getOutput().size());
+		verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent2);
+
+		verifyWatermark(harness.getOutput().poll(), 20L);
+		verifyWatermark(harness.getOutput().poll(), 21L);
+	} finally {
+		harness.close();
+	}
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>31.1-jre</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testCEPOperatorCleanupEventTime() throws Exception {
+
+	Event startEvent1 = new Event(42, "start", 1.0);
+	Event startEvent2 = new Event(42, "start", 2.0);
+	SubEvent middleEvent1 = new SubEvent(42, "foo1", 1.0, 10.0);
+	SubEvent middleEvent2 = new SubEvent(42, "foo2", 1.0, 10.0);
+	SubEvent middleEvent3 = new SubEvent(42, "foo3", 1.0, 10.0);
+	Event endEvent1 = new Event(42, "end", 1.0);
+	Event endEvent2 = new Event(42, "end", 2.0);
+
+	Event startEventK2 = new Event(43, "start", 1.0);
+
+	CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperator(false);
+	OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+	try {
+		harness.open();
+
+		harness.processWatermark(new Watermark(Long.MIN_VALUE));
+
+		harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 2L));
+		harness.processElement(new StreamRecord<Event>(middleEvent1, 2L));
+		harness
+			.processElement(new StreamRecord<Event>(new SubEvent(42, "barfoo", 1.0, 5.0), 3L));
+		harness.processElement(new StreamRecord<>(startEvent1, 1L));
+		harness.processElement(new StreamRecord<>(startEventK2, 1L));
+
+		// there must be 2 keys 42, 43 registered for the watermark callback
+		// all the seen elements must be in the priority queues but no NFA yet.
+
+		assertEquals(2L, harness.numEventTimeTimers());
+		assertEquals(4L, operator.getPQSize(42));
+		assertEquals(1L, operator.getPQSize(43));
+		assertTrue(!operator.hasNonEmptySharedBuffer(42));
+		assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+		harness.processWatermark(new Watermark(2L));
+
+		verifyWatermark(harness.getOutput().poll(), Long.MIN_VALUE);
+		verifyWatermark(harness.getOutput().poll(), 2L);
+
+		// still the 2 keys
+		// one element in PQ for 42 (the barfoo) as it arrived early
+		// for 43 the element entered the NFA and the PQ is empty
+
+		assertEquals(2L, harness.numEventTimeTimers());
+		assertTrue(operator.hasNonEmptySharedBuffer(42));
+		assertEquals(1L, operator.getPQSize(42));
+		assertTrue(operator.hasNonEmptySharedBuffer(43));
+		assertTrue(!operator.hasNonEmptyPQ(43));
+
+		harness.processElement(new StreamRecord<>(startEvent2, 4L));
+		harness.processElement(new StreamRecord<Event>(middleEvent2, 5L));
+
+		OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+		harness.close();
+
+		CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperator(false);
+		harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+		harness.setup();
+		harness.initializeState(snapshot);
+		harness.open();
+
+		harness.processElement(new StreamRecord<>(endEvent1, 6L));
+		harness.processWatermark(11L);
+		harness.processWatermark(12L);
+
+		// now we have 1 key because the 43 expired and was removed.
+		// 42 is still there due to startEvent2
+		assertEquals(1L, harness.numEventTimeTimers());
+		assertTrue(operator2.hasNonEmptySharedBuffer(42));
+		assertEquals(1L, operator2.getPQSize(42));
+		assertTrue(operator2.hasNonEmptySharedBuffer(43));
+		assertTrue(!operator2.hasNonEmptyPQ(43));
+
+		verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+		verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+		verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+		verifyWatermark(harness.getOutput().poll(), 11L);
+		verifyWatermark(harness.getOutput().poll(), 12L);
+
+		// this is a late event, because timestamp(12) = last watermark(12)
+		harness.processElement(new StreamRecord<Event>(middleEvent3, 12L));
+		harness.processElement(new StreamRecord<>(endEvent2, 13L));
+		harness.processWatermark(20L);
+		harness.processWatermark(21L);
+
+		assertTrue(!operator2.hasNonEmptySharedBuffer(42));
+		assertTrue(!operator2.hasNonEmptyPQ(42));
+		assertEquals(0L, harness.numEventTimeTimers());
+
+		assertEquals(3, harness.getOutput().size());
+		verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent2);
+
+		verifyWatermark(harness.getOutput().poll(), 20L);
+		verifyWatermark(harness.getOutput().poll(), 21L);
+	} finally {
+		harness.close();
+	}
+}
+
+
+import:
+
+['import org.apache.flink.streaming.api.functions.co.CoProcessFunction;', 'import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;', 'import org.apache.flink.streaming.api.windowing.windows.TimeWindow;', 'import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;', 'import org.apache.flink.streaming.api.windowing.triggers.Trigger;', 'import org.apache.flink.streaming.api.windowing.triggers.CountTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.PurgingTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.EventTimeTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.TimeTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.ContinuousProcessingTimeTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.ContinuousEventTimeTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.TriggerResult;']
+
+pom:
+
+<!-- ... -->
+</!-- ... -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testCEPOperatorCleanupEventTime() throws Exception {
+
+	Event startEvent1 = new Event(42, "start", 1.0);
+	Event startEvent2 = new Event(42, "start", 2.0);
+	SubEvent middleEvent1 = new SubEvent(42, "foo1", 1.0, 10.0);
+	SubEvent middleEvent2 = new SubEvent(42, "foo2", 1.0, 10.0);
+	SubEvent middleEvent3 = new SubEvent(42, "foo3", 1.0, 10.0);
+	Event endEvent1 = new Event(42, "end", 1.0);
+	Event endEvent2 = new Event(42, "end", 2.0);
+
+	Event startEventK2 = new Event(43, "start", 1.0);
+
+	CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperator(false);
+	OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+	try {
+		harness.open();
+
+		harness.processWatermark(new Watermark(Long.MIN_VALUE));
+
+		harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 2L));
+		harness.processElement(new StreamRecord<Event>(middleEvent1, 2L));
+		harness
+			.processElement(new StreamRecord<Event>(new SubEvent(42, "barfoo", 1.0, 5.0), 3L));
+		harness.processElement(new StreamRecord<>(startEvent1, 1L));
+		harness.processElement(new StreamRecord<>(startEventK2, 1L));
+
+		// there must be 2 keys 42, 43 registered for the watermark callback
+		// all the seen elements must be in the priority queues but no NFA yet.
+
+		assertEquals(2L, harness.numEventTimeTimers());
+		assertEquals(4L, operator.getPQSize(42));
+		assertEquals(1L, operator.getPQSize(43));
+		assertTrue(!operator.hasNonEmptySharedBuffer(42));
+		assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+		harness.processWatermark(new Watermark(2L));
+
+		verifyWatermark(harness.getOutput().poll(), Long.MIN_VALUE);
+		verifyWatermark(harness.getOutput().poll(), 2L);
+
+		// still the 2 keys
+		// one element in PQ for 42 (the barfoo) as it arrived early
+		// for 43 the element entered the NFA and the PQ is empty
+
+		assertEquals(2L, harness.numEventTimeTimers());
+		assertTrue(operator.hasNonEmptySharedBuffer(42));
+		assertEquals(1L, operator.getPQSize(42));
+		assertTrue(operator.hasNonEmptySharedBuffer(43));
+		assertTrue(!operator.hasNonEmptyPQ(43));
+
+		harness.processElement(new StreamRecord<>(startEvent2, 4L));
+		harness.processElement(new StreamRecord<Event>(middleEvent2, 5L));
+
+		OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+		harness.close();
+
+		CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperator(false);
+		harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+		harness.setup();
+		harness.initializeState(snapshot);
+		harness.open();
+
+		harness.processElement(new StreamRecord<>(endEvent1, 6L));
+		harness.processWatermark(11L);
+		harness.processWatermark(12L);
+
+		// now we have 1 key because the 43 expired and was removed.
+		// 42 is still there due to startEvent2
+		assertEquals(1L, harness.numEventTimeTimers());
+		assertTrue(operator2.hasNonEmptySharedBuffer(42));
+		assertEquals(1L, operator2.getPQSize(42));
+		assertTrue(operator2.hasNonEmptySharedBuffer(43));
+		assertTrue(!operator2.hasNonEmptyPQ(43));
+
+		verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+		verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+		verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+		verifyWatermark(harness.getOutput().poll(), 11L);
+		verifyWatermark(harness.getOutput().poll(), 12L);
+
+		// this is a late event, because timestamp(12) = last watermark(12)
+		harness.processElement(new StreamRecord<Event>(middleEvent3, 12L));
+		harness.processElement(new StreamRecord<>(endEvent2, 13L));
+		harness.processWatermark(20L);
+		harness.processWatermark(21L);
+
+		assertTrue(!operator2.hasNonEmptySharedBuffer(42));
+		assertTrue(!operator2.hasNonEmptyPQ(42));
+		assertEquals(0L, harness.numEventTimeTimers());
+
+		assertEquals(3, harness.getOutput().size());
+		verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent2);
+
+		verifyWatermark(harness.getOutput().poll(), 20L);
+		verifyWatermark(harness.getOutput().poll(), 21L);
+	} finally {
+		harness.close();
+	}
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java_2.11</artifactId>
+    <version>1.11.2</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testCEPOperatorCleanupEventTime() throws Exception {
+
+    Event startEvent1 = new Event(42, "start", 1.0);
+    Event startEvent2 = new Event(42, "start", 2.0);
+    SubEvent middleEvent1 = new SubEvent(42, "foo1", 1.0, 10.0);
+    SubEvent middleEvent2 = new SubEvent(42, "foo2", 1.0, 10.0);
+    SubEvent middleEvent3 = new SubEvent(42, "foo3", 1.0, 10.0);
+    Event endEvent1 = new Event(42, "end", 1.0);
+    Event endEvent2 = new Event(42, "end", 2.0);
+
+    Event startEventK2 = new Event(43, "start", 1.0);
+
+    StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperator(false);
+
+    try {
+        env.execute("CEP operator test");
+
+        operator.processWatermark(new Watermark(Long.MIN_VALUE));
+
+        operator.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 2L));
+        operator.processElement(new StreamRecord<Event>(middleEvent1, 2L));
+        operator
+            .processElement(new StreamRecord<Event>(new SubEvent(42, "barfoo", 1.0, 5.0), 3L));
+        operator.processElement(new StreamRecord<>(startEvent1, 1L));
+        operator.processElement(new StreamRecord<>(startEventK2, 1L));
+
+        // there must be 2 keys 42, 43 registered for the watermark callback
+        // all the seen elements must be in the priority queues but no NFA yet.
+
+        assertEquals(2L, operator.numEventTimeTimers());
+        assertEquals(4L, operator.getPQSize(42));
+        assertEquals(1L, operator.getPQSize(43));
+        assertTrue(!operator.hasNonEmptySharedBuffer(42));
+        assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+        operator.processWatermark(new Watermark(2L));
+
+        verifyWatermark(operator.getOutput().poll(), Long.MIN_VALUE);
+        verifyWatermark(operator.getOutput().poll(), 2L);
+
+        // still the 2 keys
+        // one element in PQ for 42 (the barfoo) as it arrived early
+        // for 43 the element entered the NFA and the PQ is empty
+
+        assertEquals(2L, operator.numEventTimeTimers());
+        assertTrue(operator.hasNonEmptySharedBuffer(42));
+        assertEquals(1L, operator.getPQSize(42));
+        assertTrue(operator.hasNonEmptySharedBuffer(43));
+        assertTrue(!operator.hasNonEmptyPQ(43));
+
+        operator.processElement(new StreamRecord<>(startEvent2, 4L));
+        operator.processElement(new StreamRecord<Event>(middleEvent2, 5L));
+
+        OperatorSubtaskState snapshot = operator.snapshot(0L, 0L);
+        operator.close();
+
+        CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperator(false);
+        operator2.setup();
+        operator2.initializeState(snapshot);
+        operator2.open();
+
+        operator2.processElement(new StreamRecord<>(endEvent1, 6L));
+        operator2.processWatermark(11L);
+        operator2.processWatermark(12L);
+
+        // now we have 1 key because the 43 expired and was removed.
+        // 42 is still there due to startEvent2
+        assertEquals(1L, operator2.numEventTimeTimers());
+        assertTrue(operator2.hasNonEmptySharedBuffer(42));
+        assertEquals(1L, operator2.getPQSize(42));
+        assertTrue(operator2.hasNonEmptySharedBuffer(43));
+        assertTrue(!operator2.hasNonEmptyPQ(43));
+
+        verifyPattern(operator2.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+        verifyPattern(operator2.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+        verifyPattern(operator2.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+        verifyWatermark(operator2.getOutput().poll(), 11L);
+        verifyWatermark(operator2.getOutput().poll(), 12L);
+
+        // this is a late event, because timestamp(12) = last watermark(12)
+        operator2.processElement(new StreamRecord<Event>(middleEvent3, 12L));
+        operator2.processElement(new StreamRecord<>(endEvent2, 13L));
+        operator2.processWatermark(20L);
+        operator2.processWatermark(21L);
+
+        assertTrue(!operator2.hasNonEmptySharedBuffer(42));
+        assertTrue(!operator2.hasNonEmptyPQ(42));
+        assertEquals(0L, operator2.numEventTimeTimers());
+
+        assertEquals(3, operator2.getOutput().size());
+        verifyPattern(operator2.getOutput().poll(), startEvent2, middleEvent2, endEvent2);
+
+        verifyWatermark(operator2.getOutput().poll(), 20L);
+        verifyWatermark(operator2.getOutput().poll(), 21L);
+    } finally {
+        operator2.close();
+    }
+}
+
+
+import:
+
+['import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-streaming-java</artifactId>
+    <version>1.13.2</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.flink.cep.CEP;', 'import org.apache.flink.cep.PatternStream;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-cep</artifactId>
+    <version>1.12.0</version>
+</dependency>

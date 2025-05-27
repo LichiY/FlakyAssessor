@@ -1,0 +1,192 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/MultilineRecursiveToStringStyleTest.java
+Original Test Method:
+     public void stringArray() {
+        final WithArrays wa = new WithArrays();
+        wa.stringArray = new String[] { "a", "A" };
+        final String exp = getClassPrefix(wa) + "[" + BR
+                   + "  boolArray=<null>," + BR
+                   + "  charArray=<null>," + BR
+                   + "  intArray=<null>," + BR
+                   + "  doubleArray=<null>," + BR
+                   + "  longArray=<null>," + BR
+                   + "  stringArray={" + BR
+                   + "    a," + BR
+                   + "    A" + BR
+                   + "  }" + BR
+                   + "]";
+        assertEquals(exp, toString(wa));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void stringArray() {
+    final WithArrays wa = new WithArrays();
+    wa.stringArray = new String[] { "a", "A" };
+    final String exp = getClassPrefix(wa) + "[" + BR
+                + "  boolArray=<null>," + BR
+                + "  charArray=<null>," + BR
+                + "  intArray=<null>," + BR
+                + "  doubleArray=<null>," + BR
+                + "  longArray=<null>," + BR
+                + "  stringArray={" + BR
+                + "    a," + BR
+                + "    A" + BR
+                + "  }" + BR
+                + "]";
+    assertEquals(exp, toString(wa));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- Add your dependency here -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void stringArray() {
+    final WithArrays wa = new WithArrays();
+    wa.stringArray = new String[] { "a", "A" };
+    final String exp = getClassPrefix(wa) + "[" + BR
+                + "  boolArray=<null>," + BR
+                + "  charArray=<null>," + BR
+                + "  intArray=<null>," + BR
+                + "  doubleArray=<null>," + BR
+                + "  longArray=<null>," + BR
+                + "  stringArray={" + BR
+                + "    a," + BR
+                + "    A" + BR
+                + "  }" + BR
+                + "]";
+    assertEquals(exp, toString(wa));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.MultilineRecursiveToStringStyle;', 'import org.apache.commons.lang3.builder.ToStringStyle;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void stringArray() {
+    final WithArrays wa = new WithArrays();
+    wa.stringArray = new String[] { "a", "A" };
+    final String exp = getClassPrefix(wa) + "[" + BR
+                + "  boolArray=<null>," + BR
+                + "  charArray=<null>," + BR
+                + "  intArray=<null>," + BR
+                + "  doubleArray=<null>," + BR
+                + "  longArray=<null>," + BR
+                + "  stringArray={" + BR
+                + "    a," + BR
+                + "    A" + BR
+                + "  }" + BR
+                + "]";
+    assertEquals(exp, toString(wa));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void stringArray() {
+    final WithArrays wa = new WithArrays();
+    wa.stringArray = new String[] { "a", "A" };
+    final String exp = getClassPrefix(wa) + "[" + BR
+                + "  boolArray=<null>," + BR
+                + "  charArray=<null>," + BR
+                + "  intArray=<null>," + BR
+                + "  doubleArray=<null>," + BR
+                + "  longArray=<null>," + BR
+                + "  stringArray={" + BR
+                + "    a," + BR
+                + "    A" + BR
+                + "  }" + BR
+                + "]";
+    assertEquals(exp, ToStringBuilder.reflectionToString(wa, new MultilineRecursiveToStringStyle()));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.ToStringBuilder;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void stringArray() {
+    final WithArrays wa = new WithArrays();
+    wa.stringArray = new String[] { "a", "A" };
+    final String exp = getClassPrefix(wa) + "[" + BR
+                + "  boolArray=<null>," + BR
+                + "  charArray=<null>," + BR
+                + "  intArray=<null>," + BR
+                + "  doubleArray=<null>," + BR
+                + "  longArray=<null>," + BR
+                + "  stringArray={" + BR
+                + "    a," + BR
+                + "    A" + BR
+                + "  }" + BR
+                + "]";
+    assertEquals(exp, ToStringBuilder.reflectionToString(wa, new MultilineRecursiveToStringStyle()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.9</version>
+    </dependency>
+
+<!-- <pom.xml end> -->

@@ -1,0 +1,107 @@
+Test File Path: projects/8c93b59dbc57841959f5237cb141ce0b3c18b778/retrofit/retrofit/src/test/java/retrofit2/CompletableFutureAndroidTest.java
+Original Test Method:
+   @Test public void completableFutureApi24() throws Exception {
+    server.enqueue(new MockResponse().setBody("Hi"));
+
+    CompletableFuture<String> future = service.endpoint();
+    assertThat(future.get()).isEqualTo("Hi");
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void completableFutureApi24() throws Exception {
+    server.enqueue(new MockResponse().setBody("Hi"));
+
+    CompletableFuture<String> future = service.endpoint();
+    future.thenApply(result -> assertThat(result).isEqualTo("Hi"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableList;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>30.1-jre</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void completableFutureApi24() {
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello");
+    String result = future.join();
+    assertThat(result).isEqualTo("Hello");
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void completableFutureApi24() {
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello");
+    String result = future.join();
+    assertThat(result).isEqualTo("Hello");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

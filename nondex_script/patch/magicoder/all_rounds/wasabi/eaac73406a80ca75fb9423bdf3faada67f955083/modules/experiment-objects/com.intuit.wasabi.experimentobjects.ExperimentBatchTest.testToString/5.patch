@@ -1,0 +1,136 @@
+Test File Path: projects/eaac73406a80ca75fb9423bdf3faada67f955083/wasabi/modules/experiment-objects/src/test/java/com/intuit/wasabi/experimentobjects/ExperimentBatchTest.java
+Original Test Method:
+     public void testToString() {
+        String out = "ExperimentBatch labels=" + labels
+                + ", profile=" + profile
+                + ", personalizationParameters=" + personalizationParameters;
+        assertEquals(expBatch.toString(), out);
+
+
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.Arrays;', 'import java.util.LinkedHashMap;', 'import java.util.List;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testToString() {
+    None none = new None();
+    none.setId(1L);
+    none.setName("Test");
+
+    String expected = "None{id=1, name='Test'}";
+    String actual = none.toString();
+
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testToString() {
+        None none = new None();
+        none.setId(1L);
+        none.setName("Test");
+
+        String expected = "None{id=1, name='Test'}";
+        String actual = none.toString();
+
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<!-- pom.xml code -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testToString() {
+        None none = new None();
+        none.setId(1L);
+        none.setName("Test");
+
+        String expected = "None{id=1, name='Test'}";
+        String actual = none.toString();
+
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+['import com.intuit.wasabi.experimentobjects.None;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.intuit</groupId>
+        <artifactId>wasabi</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testToString() {
+        None none = new None();
+        none.setId(1L);
+        none.setName("Test");
+
+        String expected = "None{id=1, name='Test'}";
+        String actual = none.toString();
+
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

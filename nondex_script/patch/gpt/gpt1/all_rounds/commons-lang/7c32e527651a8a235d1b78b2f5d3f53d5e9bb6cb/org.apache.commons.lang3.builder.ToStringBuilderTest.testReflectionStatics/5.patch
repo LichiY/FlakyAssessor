@@ -1,0 +1,253 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/ToStringBuilderTest.java
+Original Test Method:
+     public void testReflectionStatics() {
+        final ReflectionStaticFieldsFixture instance1 = new ReflectionStaticFieldsFixture();
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,instanceString=instanceString,instanceInt=67890]",
+            ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,staticTransientString=staticTransientString,staticTransientInt=54321,instanceString=instanceString,instanceInt=67890,transientString=transientString,transientInt=98765]",
+            ReflectionToStringBuilder.toString(instance1, null, true, true, ReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,instanceString=instanceString,instanceInt=67890]",
+            this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,instanceString=instanceString,instanceInt=67890]",
+            this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionStatics() {
+    final ReflectionStaticFieldsFixture instance1 = new ReflectionStaticFieldsFixture();
+    String expected1 = this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,instanceString=instanceString,instanceInt=67890]";
+    String actual1 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(actual1).contains("staticString=staticString", "staticInt=12345", "instanceString=instanceString", "instanceInt=67890");
+
+    String expected2 = this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,staticTransientString=staticTransientString,staticTransientInt=54321,instanceString=instanceString,instanceInt=67890,transientString=transientString,transientInt=98765]";
+    String actual2 = ReflectionToStringBuilder.toString(instance1, null, true, true, ReflectionStaticFieldsFixture.class);
+    assertThat(actual2).contains("staticString=staticString", "staticInt=12345", "staticTransientString=staticTransientString", "staticTransientInt=54321", "instanceString=instanceString", "instanceInt=67890", "transientString=transientString", "transientInt=98765");
+
+    String expected3 = this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,instanceString=instanceString,instanceInt=67890]";
+    String actual3 = this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class);
+    assertThat(actual3).contains("staticString=staticString", "staticInt=12345", "instanceString=instanceString", "instanceInt=67890");
+
+    String expected4 = this.toBaseString(instance1) + "[staticString=staticString,staticInt=12345,instanceString=instanceString,instanceInt=67890]";
+    String actual4 = this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class);
+    assertThat(actual4).contains("staticString=staticString", "staticInt=12345", "instanceString=instanceString", "instanceInt=67890");
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionStatics() {
+    final ReflectionStaticFieldsFixture instance1 = new ReflectionStaticFieldsFixture();
+    
+    assertThat(ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class))
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    assertThat(ReflectionToStringBuilder.toString(instance1, null, true, true, ReflectionStaticFieldsFixture.class))
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("staticTransientString=staticTransientString")
+        .contains("staticTransientInt=54321")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890")
+        .contains("transientString=transientString")
+        .contains("transientInt=98765");
+
+    assertThat(this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class))
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    assertThat(this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class))
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionStatics() {
+    final ReflectionStaticFieldsFixture instance1 = new ReflectionStaticFieldsFixture();
+    
+    String toString1 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toString1)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    String toString2 = ReflectionToStringBuilder.toString(instance1, null, true, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toString2)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("staticTransientString=staticTransientString")
+        .contains("staticTransientInt=54321")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890")
+        .contains("transientString=transientString")
+        .contains("transientInt=98765");
+
+    String toStringWithStatics1 = this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class);
+    assertThat(toStringWithStatics1)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    String toStringWithStatics2 = this.toStringWithStatics(instance1, null, ReflectionStaticFieldsFixture.class);
+    assertThat(toStringWithStatics2)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionStatics() {
+    final ReflectionStaticFieldsFixture instance1 = new ReflectionStaticFieldsFixture();
+    
+    String toString1 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toString1)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    String toString2 = ReflectionToStringBuilder.toString(instance1, null, true, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toString2)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("staticTransientString=staticTransientString")
+        .contains("staticTransientInt=54321")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890")
+        .contains("transientString=transientString")
+        .contains("transientInt=98765");
+
+    String toStringWithStatics1 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toStringWithStatics1)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    String toStringWithStatics2 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toStringWithStatics2)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionStatics() {
+    final ReflectionStaticFieldsFixture instance1 = new ReflectionStaticFieldsFixture();
+    
+    String toString1 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toString1)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    String toString2 = ReflectionToStringBuilder.toString(instance1, null, true, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toString2)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("staticTransientString=staticTransientString")
+        .contains("staticTransientInt=54321")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890")
+        .contains("transientString=transientString")
+        .contains("transientInt=98765");
+
+    String toStringWithStatics1 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toStringWithStatics1)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+
+    String toStringWithStatics2 = ReflectionToStringBuilder.toString(instance1, null, false, true, ReflectionStaticFieldsFixture.class);
+    assertThat(toStringWithStatics2)
+        .contains("staticString=staticString")
+        .contains("staticInt=12345")
+        .contains("instanceString=instanceString")
+        .contains("instanceInt=67890");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

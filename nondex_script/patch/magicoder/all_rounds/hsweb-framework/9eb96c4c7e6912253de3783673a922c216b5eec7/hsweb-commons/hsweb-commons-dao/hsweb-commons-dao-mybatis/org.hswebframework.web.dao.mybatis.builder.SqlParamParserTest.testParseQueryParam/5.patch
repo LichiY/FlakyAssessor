@@ -1,0 +1,281 @@
+Test File Path: projects/9eb96c4c7e6912253de3783673a922c216b5eec7/hsweb-framework/hsweb-commons/hsweb-commons-dao/hsweb-commons-dao-mybatis/src/test/java/org/hswebframework/web/dao/mybatis/builder/SqlParamParserTest.java
+Original Test Method:
+     public void testParseQueryParam() {
+        Map<String, Object> queryParam = new LinkedHashMap<>();
+        queryParam.put("name", "张三");
+        queryParam.put("name$like$or", "王五");
+        queryParam.put("and", TestQueryEntity
+                .builder()
+                .name$like("李四%").age$gt(1)
+                .or(TestQueryEntity.builder().name$like("王五").age$gt(10).build())
+                .build());
+
+        QueryParamEntity entity = SqlParamParser.parseQueryParam(queryParam);
+
+        Assert.assertTrue(!entity.getTerms().isEmpty());
+        Assert.assertEquals(entity.getTerms().get(0).getColumn(), "name");
+        Assert.assertEquals(entity.getTerms().get(0).getType(), Term.Type.and);
+
+        Assert.assertEquals(entity.getTerms().get(1).getColumn(), "name");
+        Assert.assertEquals(entity.getTerms().get(1).getTermType(), "like");
+        Assert.assertEquals(entity.getTerms().get(1).getType(), Term.Type.or);
+
+
+        Assert.assertEquals(entity.getTerms().get(2).getType(), Term.Type.and);
+        Assert.assertTrue(!entity.getTerms().get(2).getTerms().isEmpty());
+        Assert.assertEquals(entity.getTerms().get(2).getTerms().get(0).getTermType(), "like");
+
+        Assert.assertEquals(entity.getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+        Assert.assertTrue(!entity.getTerms().get(2).getTerms().get(2).getTerms().isEmpty());
+        Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(0).getTermType(), "like");
+        Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+        System.out.println(JSON.toJSONString(entity, SerializerFeature.PrettyFormat));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testParseQueryParam() {
+    Map<String, Object> queryParam = new LinkedHashMap<>();
+    queryParam.put("name", "张三");
+    queryParam.put("name$like$or", "王五");
+    queryParam.put("and", TestQueryEntity
+            .builder()
+            .name$like("李四%").age$gt(1)
+            .or(TestQueryEntity.builder().name$like("王五").age$gt(10).build())
+            .build());
+
+    QueryParamEntity entity = SqlParamParser.parseQueryParam(queryParam);
+
+    Assert.assertTrue(!entity.getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(0).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(0).getType(), Term.Type.and);
+
+    Assert.assertEquals(entity.getTerms().get(1).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(1).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(1).getType(), Term.Type.or);
+
+
+    Assert.assertEquals(entity.getTerms().get(2).getType(), Term.Type.and);
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(0).getTermType(), "like");
+
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(0).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    System.out.println(JSON.toJSONString(entity, SerializerFeature.PrettyFormat));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testParseQueryParam() {
+    Map<String, Object> queryParam = new LinkedHashMap<>();
+    queryParam.put("name", "张三");
+    queryParam.put("name$like$or", "王五");
+    queryParam.put("and", TestQueryEntity
+            .builder()
+            .name$like("李四%").age$gt(1)
+            .or(TestQueryEntity.builder().name$like("王五").age$gt(10).build())
+            .build());
+
+    QueryParamEntity entity = SqlParamParser.parseQueryParam(queryParam);
+
+    Assert.assertTrue(!entity.getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(0).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(0).getType(), Term.Type.and);
+
+    Assert.assertEquals(entity.getTerms().get(1).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(1).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(1).getType(), Term.Type.or);
+
+
+    Assert.assertEquals(entity.getTerms().get(2).getType(), Term.Type.and);
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(0).getTermType(), "like");
+
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(0).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    System.out.println(JSON.toJSONString(entity, SerializerFeature.PrettyFormat));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testParseQueryParam() {
+    Map<String, Object> queryParam = new LinkedHashMap<>();
+    queryParam.put("name", "张三");
+    queryParam.put("name$like$or", "王五");
+    queryParam.put("and", TestQueryEntity
+            .builder()
+            .name$like("李四%").age$gt(1)
+            .or(TestQueryEntity.builder().name$like("王五").age$gt(10).build())
+            .build());
+
+    QueryParamEntity entity = SqlParamParser.parseQueryParam(queryParam);
+
+    Assert.assertTrue(!entity.getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(0).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(0).getType(), Term.Type.and);
+
+    Assert.assertEquals(entity.getTerms().get(1).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(1).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(1).getType(), Term.Type.or);
+
+
+    Assert.assertEquals(entity.getTerms().get(2).getType(), Term.Type.and);
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(0).getTermType(), "like");
+
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(0).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    System.out.println(JSON.toJSONString(entity, SerializerFeature.PrettyFormat));
+}
+
+
+import:
+
+['import com.google.gson.Gson;', 'import com.google.gson.GsonBuilder;', 'import com.google.gson.JsonObject;', 'import com.google.gson.JsonParser;', 'import com.google.gson.reflect.TypeToken;', 'import java.lang.reflect.Type;', 'import java.util.ArrayList;', 'import java.util.List;', 'import java.util.stream.Collectors;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.6</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testParseQueryParam() {
+    Map<String, Object> queryParam = new LinkedHashMap<>();
+    queryParam.put("name", "张三");
+    queryParam.put("name$like$or", "王五");
+    queryParam.put("and", TestQueryEntity
+            .builder()
+            .name$like("李四%").age$gt(1)
+            .or(TestQueryEntity.builder().name$like("王五").age$gt(10).build())
+            .build());
+
+    QueryParamEntity entity = SqlParamParser.parseQueryParam(queryParam);
+
+    Assert.assertTrue(!entity.getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(0).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(0).getType(), Term.Type.and);
+
+    Assert.assertEquals(entity.getTerms().get(1).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(1).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(1).getType(), Term.Type.or);
+
+
+    Assert.assertEquals(entity.getTerms().get(2).getType(), Term.Type.and);
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(0).getTermType(), "like");
+
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(0).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    System.out.println(JSON.toJSONString(entity, SerializerFeature.PrettyFormat));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testParseQueryParam() {
+    Map<String, Object> queryParam = new LinkedHashMap<>();
+    queryParam.put("name", "张三");
+    queryParam.put("name$like$or", "王五");
+    queryParam.put("and", TestQueryEntity
+            .builder()
+            .name$like("李四%").age$gt(1)
+            .or(TestQueryEntity.builder().name$like("王五").age$gt(10).build())
+            .build());
+
+    QueryParamEntity entity = SqlParamParser.parseQueryParam(queryParam);
+
+    Assert.assertTrue(!entity.getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(0).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(0).getType(), Term.Type.and);
+
+    Assert.assertEquals(entity.getTerms().get(1).getColumn(), "name");
+    Assert.assertEquals(entity.getTerms().get(1).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(1).getType(), Term.Type.or);
+
+
+    Assert.assertEquals(entity.getTerms().get(2).getType(), Term.Type.and);
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(0).getTermType(), "like");
+
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    Assert.assertTrue(!entity.getTerms().get(2).getTerms().get(2).getTerms().isEmpty());
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(0).getTermType(), "like");
+    Assert.assertEquals(entity.getTerms().get(2).getTerms().get(2).getTerms().get(1).getTermType(), "gt");
+
+    System.out.println(JSON.toJSONString(entity, SerializerFeature.PrettyFormat));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

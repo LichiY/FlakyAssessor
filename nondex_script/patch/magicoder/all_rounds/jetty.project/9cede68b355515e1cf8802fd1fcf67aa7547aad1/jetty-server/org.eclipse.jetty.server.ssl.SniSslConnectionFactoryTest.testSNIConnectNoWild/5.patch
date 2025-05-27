@@ -1,0 +1,150 @@
+Test File Path: projects/9cede68b355515e1cf8802fd1fcf67aa7547aad1/jetty.project/jetty-server/src/test/java/org/eclipse/jetty/server/ssl/SniSslConnectionFactoryTest.java
+Original Test Method:
+     public void testSNIConnectNoWild() throws Exception
+    {
+        start("src/test/resources/keystore_sni_nowild.p12");
+
+        String response = getResponse("www.acme.org", null);
+        assertThat(response, Matchers.containsString("X-HOST: www.acme.org"));
+        assertThat(response, Matchers.containsString("X-Cert: OU=default"));
+
+        response = getResponse("www.example.com", null);
+        assertThat(response, Matchers.containsString("X-HOST: www.example.com"));
+        assertThat(response, Matchers.containsString("X-Cert: OU=example"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testSNIConnectNoWild() throws Exception {
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("X-HOST", "www.acme.org");
+        responseMap.put("X-Cert", "OU=default");
+
+        Mockito.when(getResponse("www.acme.org", null)).thenReturn(responseMap);
+
+        String response = getResponse("www.acme.org", null);
+        assertThat(response, Matchers.containsString("X-HOST: www.acme.org"));
+        assertThat(response, Matchers.containsString("X-Cert: OU=default"));
+    }
+
+
+import:
+
+['import org.mockito.Mockito;', 'import java.util.HashMap;', 'import java.util.Map;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testSNIConnectNoWild() throws Exception {
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("X-HOST", "www.acme.org");
+        responseMap.put("X-Cert", "OU=default");
+
+        Mockito.when(getResponse("www.acme.org", null)).thenReturn(responseMap);
+
+        String response = getResponse("www.acme.org", null);
+        assertThat(response, Matchers.containsString("X-HOST: www.acme.org"));
+        assertThat(response, Matchers.containsString("X-Cert: OU=default"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testSNIConnectNoWild() throws Exception {
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("X-HOST", "www.acme.org");
+        responseMap.put("X-Cert", "OU=default");
+
+        Mockito.when(getResponse("www.acme.org", null)).thenReturn(responseMap);
+
+        String response = getResponse("www.acme.org", null);
+        assertThat(response, Matchers.containsString("X-HOST: www.acme.org"));
+        assertThat(response, Matchers.containsString("X-Cert: OU=default"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testSNIConnectNoWild() throws Exception {
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("X-HOST", "www.acme.org");
+        responseMap.put("X-Cert", "OU=default");
+
+        Mockito.when(getResponse("www.acme.org", null)).thenReturn(responseMap);
+
+        String response = getResponse("www.acme.org", null);
+        org.junit.Assert.assertThat(response, Matchers.containsString("X-HOST: www.acme.org"));
+        org.junit.Assert.assertThat(response, Matchers.containsString("X-Cert: OU=default"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<!-- no dependencies needed -->
+<!-- no artifacts needed -->
+<!-- no imports needed -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testSNIConnectNoWild() throws Exception {
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("X-HOST", "www.acme.org");
+        responseMap.put("X-Cert", "OU=default");
+
+        Mockito.when(getResponse("www.acme.org", null)).thenReturn(responseMap);
+
+        String response = getResponse("www.acme.org", null);
+        Assert.assertThat(response, Matchers.containsString("X-HOST: www.acme.org"));
+        Assert.assertThat(response, Matchers.containsString("X-Cert: OU=default"));
+    }
+
+
+import:
+
+['import org.junit.Assert;']
+
+pom:
+
+None

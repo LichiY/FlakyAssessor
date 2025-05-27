@@ -1,0 +1,154 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-cmmn-engine/src/test/java/org/flowable/cmmn/test/el/VariableFunctionDelegatesTest.java
+Original Test Method:
+     public void testVariableEqualsVariableNotQuoted() {
+        
+        // Same as testVariableEquals, but now the variable name doesn't have quotes: ${variables:equals(myVar, 123)}
+        // (This is to test if the expression enhancer works correctly).
+        
+        CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("testElFunction").start();
+        
+        Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).singleResult();
+        assertEquals("The Task", task.getName());
+        
+        // Setting the variable should satisfy the sentry of the second task
+        cmmnRuntimeService.setVariable(caseInstance.getId(), "myVar", 123);
+        List<Task> tasks = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).orderByTaskName().asc().list();
+        assertEquals(2, tasks.size());
+        assertEquals("Guarded Task", tasks.get(0).getName());
+        assertEquals("The Task", tasks.get(1).getName());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testVariableEqualsVariableNotQuoted() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("testElFunction").start();
+    Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).singleResult();
+    assertEquals("The Task", task.getName());
+    cmmnRuntimeService.setVariable(caseInstance.getId(), "myVar", 123);
+    List<Task> tasks = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).orderByTaskName().asc().list();
+    assertEquals(2, tasks.size());
+    assertEquals("Guarded Task", tasks.get(0).getName());
+    assertEquals("The Task", tasks.get(1).getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.camunda.bpm.assert</groupId>
+    <artifactId>camunda-bpm-assert-core</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testVariableEqualsVariableNotQuoted() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("testElFunction").start();
+    Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).singleResult();
+    assertEquals("The Task", task.getName());
+    cmmnRuntimeService.setVariable(caseInstance.getId(), "myVar", 123);
+    List<Task> tasks = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).orderByTaskName().asc().list();
+    assertEquals(2, tasks.size());
+    assertEquals("Guarded Task", tasks.get(0).getName());
+    assertEquals("The Task", tasks.get(1).getName());
+}
+
+
+import:
+
+['import com.example.myartifact.MyClass;']
+
+pom:
+
+<!--
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>myartifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+-->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testVariableEqualsVariableNotQuoted() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("testElFunction").start();
+    Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).singleResult();
+    assertEquals("The Task", task.getName());
+    cmmnRuntimeService.setVariable(caseInstance.getId(), "myVar", 123);
+    List<Task> tasks = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).orderByTaskName().asc().list();
+    assertEquals(2, tasks.size());
+    assertEquals("Guarded Task", tasks.get(0).getName());
+    assertEquals("The Task", tasks.get(1).getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testVariableEqualsVariableNotQuoted() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("testElFunction").start();
+    Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).singleResult();
+    assertEquals("The Task", task.getName());
+    cmmnRuntimeService.setVariable(caseInstance.getId(), "myVar", 123);
+    List<Task> tasks = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).orderByTaskName().asc().list();
+    assertEquals(2, tasks.size());
+    assertEquals("Guarded Task", tasks.get(0).getName());
+    assertEquals("The Task", tasks.get(1).getName());
+}
+
+
+import:
+
+['import org.junit.jupiter.api.Assertions.*;']
+
+pom:
+
+<!-- Add your dependencies here -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testVariableEqualsVariableNotQuoted() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("testElFunction").start();
+    Task task = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).singleResult();
+    assertEquals("The Task", task.getName());
+    cmmnRuntimeService.setVariable(caseInstance.getId(), "myVar", 123);
+    List<Task> tasks = cmmnTaskService.createTaskQuery().caseInstanceId(caseInstance.getId()).orderByTaskName().asc().list();
+    assertEquals(2, tasks.size());
+    assertEquals("Guarded Task", tasks.get(0).getName());
+    assertEquals("The Task", tasks.get(1).getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- Add your dependencies here -->

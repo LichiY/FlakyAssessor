@@ -1,0 +1,58 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-cmmn-engine/src/test/java/org/flowable/cmmn/test/runtime/CaseTaskTest.java
+Original Test Method:
+     public void testTerminateAvailableCaseTask() {
+        CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("terminateAvailableCaseTask").start();
+
+        PlanItemInstance planItemInstance = cmmnRuntimeService.createPlanItemInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .planItemDefinitionType(PlanItemDefinitionType.CASE_TASK)
+            .planItemInstanceStateAvailable().singleResult();
+        assertEquals("myCase", planItemInstance.getName());
+
+        // When the event listener now occurs, the stage should be exited, also exiting the case task plan item
+        UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+            .caseInstanceId(caseInstance.getId())
+            .singleResult();
+        cmmnRuntimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+        assertCaseInstanceEnded(caseInstance);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testTerminateAvailableCaseTask() {
+    CaseInstance caseInstance = cmmnRuntimeService.createCaseInstanceBuilder().caseDefinitionKey("terminateAvailableCaseTask").start();
+
+    PlanItemInstance planItemInstance = cmmnRuntimeService.createPlanItemInstanceQuery()
+        .caseInstanceId(caseInstance.getId())
+        .planItemDefinitionType(PlanItemDefinitionType.CASE_TASK)
+        .planItemInstanceStateAvailable()
+        .list()
+        .stream()
+        .filter(item -> "myCase".equals(item.getName()))
+        .findFirst()
+        .orElse(null);
+    assertNotNull(planItemInstance);
+    assertEquals("myCase", planItemInstance.getName());
+
+    UserEventListenerInstance userEventListenerInstance = cmmnRuntimeService.createUserEventListenerInstanceQuery()
+        .caseInstanceId(caseInstance.getId())
+        .singleResult();
+    cmmnRuntimeService.completeUserEventListenerInstance(userEventListenerInstance.getId());
+
+    assertCaseInstanceEnded(caseInstance);
+}
+
+
+import:
+
+['import java.util.stream.Collectors;']
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+

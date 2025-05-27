@@ -1,0 +1,207 @@
+Test File Path: projects/5d58b0e4c922822c9df3d893fff2246d5784b11f/ecchronos/core/src/test/java/com/ericsson/bss/cassandra/ecchronos/core/repair/state/TestRepairStateImpl.java
+Original Test Method:
+     public void testPartiallyRepaired()
+    {
+        long now = System.currentTimeMillis();
+        long repairIntervalInMs = TimeUnit.HOURS.toMillis(1);
+        long expectedAtLeastRepairedAt = now - repairIntervalInMs;
+
+        RepairConfiguration repairConfiguration = repairConfiguration(repairIntervalInMs);
+
+        Node node = mockNode("DC1");
+        when(mockHostStates.isUp(eq(node))).thenReturn(true);
+
+        VnodeRepairState vnodeRepairState = new VnodeRepairState(new LongTokenRange(1, 2), ImmutableSet.of(node), VnodeRepairState.UNREPAIRED);
+        VnodeRepairState repairedVnodeRepairState = new VnodeRepairState(new LongTokenRange(2, 3), ImmutableSet.of(node), now);
+
+        VnodeRepairStates vnodeRepairStates = VnodeRepairStatesImpl.newBuilder(Arrays.asList(vnodeRepairState, repairedVnodeRepairState))
+                .build();
+
+        when(mockVnodeRepairStateFactory.calculateNewState(eq(tableReference), isNull())).thenReturn(vnodeRepairStates);
+        when(mockReplicaRepairGroupFactory.generateReplicaRepairGroups(repairGroupCaptor.capture())).thenReturn(Collections.singletonList(mockReplicaRepairGroup));
+
+        RepairState repairState = new RepairStateImpl(tableReference, repairConfiguration,
+                mockVnodeRepairStateFactory, mockHostStates,
+                mockTableRepairMetrics, mockReplicaRepairGroupFactory, mockPostUpdateHook);
+
+        RepairStateSnapshot repairStateSnapshot = repairState.getSnapshot();
+
+        List<VnodeRepairState> capturedVnodeStates = repairGroupCaptor.getValue();
+
+        assertThat(capturedVnodeStates).hasSize(1);
+        VnodeRepairState capturedVnodeRepairState = capturedVnodeStates.get(0);
+
+        assertVnodeRepairStateRepairedBefore(vnodeRepairState, capturedVnodeRepairState, System.currentTimeMillis() - repairIntervalInMs);
+        assertRepairStateSnapshot(repairStateSnapshot, expectedAtLeastRepairedAt, Collections.singletonList(mockReplicaRepairGroup), vnodeRepairStates);
+
+        verify(mockTableRepairMetrics).repairState(eq(tableReference), eq(1), eq(1));
+        verify(mockTableRepairMetrics).lastRepairedAt(eq(tableReference), eq(repairStateSnapshot.lastCompletedAt()));
+        verify(mockPostUpdateHook, times(1)).postUpdate(repairStateSnapshot);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testPartiallyRepaired() {
+    long expectedAtLeastRepairedAt = System.currentTimeMillis();
+    VnodeRepairStates vnodeRepairStatesBase = VnodeRepairStates.newBuilder()
+        .withVnodeRepairState(new VnodeRepairState(new TokenRange(1L, 2L), Collections.singletonList(mockReplica), expectedAtLeastRepairedAt))
+        .build();
+
+    RepairStateSnapshot repairStateSnapshot = new RepairStateSnapshot(
+        expectedAtLeastRepairedAt,
+        Collections.singletonList(mockReplicaRepairGroup),
+        vnodeRepairStatesBase
+    );
+
+    assertThat(repairStateSnapshot.getVnodeRepairStates().getVnodeRepairStates())
+        .containsExactlyInAnyOrderElementsOf(vnodeRepairStatesBase.combineWithRepairedAt(repairStateSnapshot.lastCompletedAt()).getVnodeRepairStates());
+    assertRepairStateSnapshot(repairStateSnapshot, expectedAtLeastRepairedAt, Collections.singletonList(mockReplicaRepairGroup), vnodeRepairStatesBase);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testPartiallyRepaired() {
+    long expectedAtLeastRepairedAt = System.currentTimeMillis();
+    VnodeRepairStates.Builder vnodeRepairStatesBuilder = VnodeRepairStates.builder();
+    VnodeRepairState vnodeRepairState = new VnodeRepairState(new TokenRange(1L, 2L), Collections.singletonList(mockReplica), expectedAtLeastRepairedAt);
+    VnodeRepairStates vnodeRepairStatesBase = vnodeRepairStatesBuilder.addVnodeRepairState(vnodeRepairState).build();
+
+    RepairStateSnapshot.Builder builder = RepairStateSnapshot.builder();
+    RepairStateSnapshot repairStateSnapshot = builder
+        .withLastCompletedAt(expectedAtLeastRepairedAt)
+        .withReplicaRepairGroups(Collections.singletonList(mockReplicaRepairGroup))
+        .withVnodeRepairStates(vnodeRepairStatesBase)
+        .build();
+
+    assertThat(repairStateSnapshot.getVnodeRepairStates().getVnodeRepairStates())
+        .containsExactlyInAnyOrderElementsOf(vnodeRepairStatesBase.combineWithRepairedAt(repairStateSnapshot.lastCompletedAt()).getVnodeRepairStates());
+    assertRepairStateSnapshot(repairStateSnapshot, expectedAtLeastRepairedAt, Collections.singletonList(mockReplicaRepairGroup), vnodeRepairStatesBase);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testPartiallyRepaired() {
+    long expectedAtLeastRepairedAt = System.currentTimeMillis();
+    VnodeRepairStates.Builder vnodeRepairStatesBuilder = VnodeRepairStates.newBuilder();
+    VnodeRepairState vnodeRepairState = new VnodeRepairState(new TokenRange(1L, 2L), Collections.singletonList(mockReplica), expectedAtLeastRepairedAt);
+    VnodeRepairStates vnodeRepairStatesBase = vnodeRepairStatesBuilder.withVnodeRepairState(vnodeRepairState).build();
+
+    RepairStateSnapshot.Builder builder = RepairStateSnapshot.newBuilder();
+    RepairStateSnapshot repairStateSnapshot = builder
+        .lastCompletedAt(expectedAtLeastRepairedAt)
+        .replicaRepairGroups(Collections.singletonList(mockReplicaRepairGroup))
+        .vnodeRepairStates(vnodeRepairStatesBase)
+        .build();
+
+    assertThat(repairStateSnapshot.getVnodeRepairStates().getVnodeRepairStates())
+        .containsExactlyInAnyOrderElementsOf(vnodeRepairStatesBase.combineWithRepairedAt(repairStateSnapshot.lastCompletedAt()).getVnodeRepairStates());
+    assertRepairStateSnapshot(repairStateSnapshot, expectedAtLeastRepairedAt, Collections.singletonList(mockReplicaRepairGroup), vnodeRepairStatesBase);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testPartiallyRepaired() {
+    long expectedAtLeastRepairedAt = System.currentTimeMillis();
+    VnodeRepairStates vnodeRepairStatesBase = VnodeRepairStates.builder()
+        .withVnodeRepairState(new VnodeRepairState(new TokenRange(1L, 2L), Collections.singletonList(mockReplica), expectedAtLeastRepairedAt))
+        .build();
+
+    RepairStateSnapshot repairStateSnapshot = RepairStateSnapshot.builder()
+        .lastCompletedAt(expectedAtLeastRepairedAt)
+        .replicaRepairGroups(Collections.singletonList(mockReplicaRepairGroup))
+        .vnodeRepairStates(vnodeRepairStatesBase)
+        .build();
+
+    assertThat(repairStateSnapshot.getVnodeRepairStates().getVnodeRepairStates())
+        .containsExactlyInAnyOrderElementsOf(vnodeRepairStatesBase.combineWithRepairedAt(repairStateSnapshot.lastCompletedAt()).getVnodeRepairStates());
+    assertRepairStateSnapshot(repairStateSnapshot, expectedAtLeastRepairedAt, Collections.singletonList(mockReplicaRepairGroup), vnodeRepairStatesBase);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+

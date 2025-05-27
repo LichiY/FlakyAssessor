@@ -1,0 +1,164 @@
+Test File Path: projects/616ed866460ca909cb30a4eafb786c6040218ae8/dropwizard/dropwizard-views-freemarker/src/test/java/io/dropwizard/views/freemarker/MultipleContentTypeTest.java
+Original Test Method:
+     public void testJsonContentType() {
+        final Response response = target("/").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.readEntity(String.class)).isEqualTo("{\"title\":\"Title#TEST\",\"content\":\"Content#TEST\"}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testJsonContentType() {
+    final Response response = target("/").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
+
+    assertThat(response.getStatus()).isEqualTo(200);
+
+    String expectedJson = "{\"title\":\"Title#TEST\",\"content\":\"Content#TEST\"}";
+    String actualJson = response.readEntity(String.class);
+
+    JSONAssert.assertEquals(expectedJson, actualJson, false);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.skyscreamer</groupId>
+        <artifactId>jsonassert</artifactId>
+        <version>1.5.0</version>
+        <scope>test</scope>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testJsonContentType() {
+        final Client client = ClientBuilder.newClient();
+        final WebTarget target = client.target("http://localhost:8080/");
+
+        final Response response = target.request(MediaType.APPLICATION_JSON_TYPE).get();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+
+        String expectedJson = "{\"title\":\"Title#TEST\",\"content\":\"Content#TEST\"}";
+        String actualJson = response.readEntity(String.class);
+
+        assertThat(actualJson).isEqualTo(expectedJson);
+    }
+
+
+import:
+
+['import javax.ws.rs.client.Client;', 'import javax.ws.rs.client.ClientBuilder;', 'import javax.ws.rs.client.WebTarget;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testJsonContentType() {
+    final Client client = ClientBuilder.newClient();
+    final WebTarget target = client.target("http://localhost:8080/");
+
+    final Response response = target.request(MediaType.APPLICATION_JSON_TYPE).get();
+
+    assertThat(response.getStatus()).isEqualTo(200);
+
+    String expectedJson = "{\"title\":\"Title#TEST\",\"content\":\"Content#TEST\"}";
+    String actualJson = response.readEntity(String.class);
+
+    assertThat(actualJson).isEqualTo(expectedJson);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.11.2</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testJsonContentType() {
+    final Client client = ClientBuilder.newClient();
+    final WebTarget target = client.target("http://localhost:8080/");
+
+    final Response response = target.request(MediaType.APPLICATION_JSON_TYPE).get();
+
+    assertThat(response.getStatus()).isEqualTo(200);
+
+    String expectedJson = "{\"title\":\"Title#TEST\",\"content\":\"Content#TEST\"}";
+    String actualJson = response.readEntity(String.class);
+
+    assertThat(actualJson).isEqualTo(expectedJson);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testJsonContentType() {
+    final Client client = ClientBuilder.newClient();
+    final WebTarget target = client.target("http://localhost:8080/");
+
+    final Response response = target.request(MediaType.APPLICATION_JSON_TYPE).get();
+
+    assertThat(response.getStatus()).isEqualTo(200);
+
+    String expectedJson = "{\"title\":\"Title#TEST\",\"content\":\"Content#TEST\"}";
+    String actualJson = response.readEntity(String.class);
+
+    assertThat(actualJson).isEqualTo(expectedJson);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+    </dependency>
+
+<!-- <pom.xml end> -->

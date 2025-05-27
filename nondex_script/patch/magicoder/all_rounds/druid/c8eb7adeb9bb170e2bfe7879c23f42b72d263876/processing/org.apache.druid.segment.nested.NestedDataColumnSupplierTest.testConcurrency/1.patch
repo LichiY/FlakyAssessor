@@ -1,0 +1,65 @@
+Test File Path: projects/c8eb7adeb9bb170e2bfe7879c23f42b72d263876/druid/processing/src/test/java/org/apache/druid/segment/nested/NestedDataColumnSupplierTest.java
+Original Test Method:
+   public void testConcurrency() throws ExecutionException, InterruptedException
+  {
+    // if this test ever starts being to be a flake, there might be thread safety issues
+    ColumnBuilder bob = new ColumnBuilder();
+    bob.setFileMapper(fileMapper);
+    NestedDataColumnSupplier supplier = NestedDataColumnSupplier.read(
+        ColumnType.NESTED_DATA,
+        false,
+        baseBuffer,
+        bob,
+        ALWAYS_USE_INDEXES,
+        bitmapSerdeFactory,
+        ByteOrder.nativeOrder()
+    );
+    final String expectedReason = "none";
+    final AtomicReference<String> failureReason = new AtomicReference<>(expectedReason);
+
+    final int threads = 10;
+    ListeningExecutorService executorService = MoreExecutors.listeningDecorator(
+        Execs.multiThreaded(threads, "StandardNestedColumnSupplierTest-%d")
+    );
+    Collection<ListenableFuture<?>> futures = new ArrayList<>(threads);
+    final CountDownLatch threadsStartLatch = new CountDownLatch(1);
+    for (int i = 0; i < threads; ++i) {
+      futures.add(
+          executorService.submit(() -> {
+            try {
+              threadsStartLatch.await();
+              for (int iter = 0; iter < 5000; iter++) {
+                try (NestedDataComplexColumn column = (NestedDataComplexColumn) supplier.get()) {
+                  smokeTest(column);
+                }
+              }
+            }
+            catch (Throwable ex) {
+              failureReason.set(ex.getMessage());
+            }
+          })
+      );
+    }
+    threadsStartLatch.countDown();
+    Futures.allAsList(futures).get();
+    Assert.assertEquals(expectedReason, failureReason.get());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableMap;', 'import com.google.common.collect.ImmutableSortedMap;', 'import com.google.common.collect.ImmutableSortedSet;', 'import com.google.common.collect.ImmutableTable;', 'import com.google.common.collect.Table;', 'import com.google.common.collect.Table.Cell;', 'import com.google.common.collect.Table.CellSet;', 'import com.google.common.collect.Table.CellVisitor;', 'import com.google.common.collect.Table.CellView;', 'import com.google.common.collect.Table.CellViewMap;', 'import com.google.common.collect.Table.CellViewMap.CellViewMapEntry;', 'import com.google.common.collect.Table.CellViewMap.CellViewMapEntry.CellViewMapEntryKey;', 'import com.google.common.collect.Table.CellViewMap.CellViewMapEntry.CellViewMapEntryValue;', 'import com.google.common.collect.Table.ColumnKey;', 'import com.google.common.collect.Table.RowKey;', 'import com.google.common.collect.Table.SubTable;', 'import com.google.common.collect.Table.SubTable.SubTableCell;', 'import com.google.common.collect.Table.SubTable.SubTableCellSet;', 'import com.google.common.collect.Table.SubTable.SubTableCellVisitor;', 'import com.google.common.collect.Table.SubTable.SubTableCellView;', 'import com.google.common.collect.Table.SubTable.SubTableCellViewMap;', 'import com.google.common.collect.Table.SubTable.SubTableCellViewMap.SubTableCellViewMapEntry;', 'import com.google.common.collect.Table.SubTable.SubTableCellViewMap.SubTableCellViewMapEntry.SubTableCellViewMapEntryKey;', 'import com.google.common.collect.Table.SubTable.SubTableCellViewMap.SubTableCellViewMapEntry.SubTableCellViewMapEntryValue;', 'import com.google.common.collect.Table.SubTable.SubTableColumnKey;', 'import com.google.common.collect.Table.SubTable.SubTableRowKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCell;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCellSet;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCellVisitor;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCellView;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCellViewMap;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCellViewMap.SubTableSubTableCellViewMapEntry;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCellViewMap.SubTableSubTableCellViewMapEntry.SubTableSubTableCellViewMapEntryKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableCellViewMap.SubTableSubTableCellViewMapEntry.SubTableSubTableCellViewMapEntryValue;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableColumnKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableRowKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCell;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCellSet;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCellVisitor;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCellView;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCellViewMap;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCellViewMap.SubTableSubTableSubTableCellViewMapEntry;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCellViewMap.SubTableSubTableSubTableCellViewMapEntry.SubTableSubTableSubTableCellViewMapEntryKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableCellViewMap.SubTableSubTableSubTableCellViewMapEntry.SubTableSubTableSubTableCellViewMapEntryValue;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableColumnKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableRowKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCell;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCellSet;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCellVisitor;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCellView;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCellViewMap;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCellViewMap.SubTableSubTableSubTableSubTableCellViewMapEntry;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCellViewMap.SubTableSubTableSubTableSubTableCellViewMapEntry.SubTableSubTableSubTableSubTableCellViewMapEntryKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableCellViewMap.SubTableSubTableSubTableSubTableCellViewMapEntry.SubTableSubTableSubTableSubTableCellViewMapEntryValue;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableColumnKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableRowKey;', 'import com.google.common.collect.Table.SubTable.SubTableSubTable.SubTableSubTableSubTable.SubTableSubTableSubTableSubTable.SubTableSubTableSubTableSubTableSubTable;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>

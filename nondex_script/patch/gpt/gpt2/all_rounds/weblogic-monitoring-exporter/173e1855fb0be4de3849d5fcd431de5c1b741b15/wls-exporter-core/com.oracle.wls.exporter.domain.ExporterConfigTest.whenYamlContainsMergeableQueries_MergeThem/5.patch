@@ -1,0 +1,155 @@
+Test File Path: projects/173e1855fb0be4de3849d5fcd431de5c1b741b15/weblogic-monitoring-exporter/wls-exporter-core/src/test/java/com/oracle/wls/exporter/domain/ExporterConfigTest.java
+Original Test Method:
+     public void whenYamlContainsMergeableQueries_MergeThem() {
+        ExporterConfig config = loadFromString(MERGEABLE_CONFIG);
+
+        assertThat(config.toString(), equalTo(MERGED_CONFIG));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void whenYamlContainsMergeableQueries_MergeThem() {
+    ExporterConfig config = loadFromString(MERGEABLE_CONFIG);
+    
+    assertThat(config.toString()).isEqualTo(MERGED_CONFIG);
+}
+
+
+import:
+
+['import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;', 'import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void whenYamlContainsMergeableQueries_MergeThem() {
+    ExporterConfig config = loadFromString(MERGEABLE_CONFIG);
+    
+    assertThatJson(config.toString()).isEqualTo(MERGED_CONFIG);
+}
+
+
+import:
+
+['import static net.javacrumbs.jsonunit.assertj.JsonAssert.assertThatJson;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void whenYamlContainsMergeableQueries_MergeThem() {
+    ExporterConfig config = loadFromString(MERGEABLE_CONFIG);
+    
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode actual = mapper.readTree(config.toString());
+    JsonNode expected = mapper.readTree(MERGED_CONFIG);
+    assertThat(actual).isEqualTo(expected);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.0</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void whenYamlContainsMergeableQueries_MergeThem() {
+    ExporterConfig config = loadFromString(MERGEABLE_CONFIG);
+    
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode actual = mapper.readTree(config.toString());
+    JsonNode expected = mapper.readTree(MERGED_CONFIG);
+    assertThatJson(actual).isEqualTo(expected);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void whenYamlContainsMergeableQueries_MergeThem() {
+    ExporterConfig config = loadFromString(MERGEABLE_CONFIG);
+    
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode actual = mapper.readTree(config.toString());
+    JsonNode expected = mapper.readTree(MERGED_CONFIG);
+    
+    // Convert both JSON trees to sorted maps for order-independent comparison
+    Map<String, Object> actualMap = convertToOrderedMap(actual);
+    Map<String, Object> expectedMap = convertToOrderedMap(expected);
+    
+    assertThat(actualMap).isEqualTo(expectedMap);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.node.ObjectNode;', 'import java.util.Iterator;', 'import java.util.LinkedHashMap;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+

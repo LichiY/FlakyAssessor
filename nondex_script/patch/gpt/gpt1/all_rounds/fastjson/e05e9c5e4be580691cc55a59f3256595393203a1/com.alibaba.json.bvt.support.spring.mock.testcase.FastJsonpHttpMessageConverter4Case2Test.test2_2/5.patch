@@ -1,0 +1,183 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/support/spring/mock/testcase/FastJsonpHttpMessageConverter4Case2Test.java
+Original Test Method:
+     public void test2_2() throws Exception {
+
+        String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+        ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+                .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+        actions.andDo(print());
+        actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+                .andExpect(content().string("/**/fnUpdateSome({\"p1\":1,\"p2\":2})"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void test2_2() throws Exception {
+        String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+        ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+                .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+        actions.andDo(print());
+        actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT));
+        
+        String expected = "/**/fnUpdateSome({\"p1\":1,\"p2\":2})";
+        String actual = actions.andReturn().getResponse().getContentAsString();
+        JSONAssert.assertEquals(expected, actual, JSONCompareMode.NON_EXTENSIBLE);
+    }
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;', 'import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT));
+    
+    String expected = "/**/fnUpdateSome({\"p1\":1,\"p2\":2})";
+    String actual = actions.andReturn().getResponse().getContentAsString();
+    JSONAssert.assertEquals(expected, actual, JSONCompareMode.LENIENT);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT));
+    
+    String expected = "/**/fnUpdateSome({\"p1\":1,\"p2\":2})";
+    String actual = actions.andReturn().getResponse().getContentAsString();
+    assertThatJson(actual).isEqualTo(expected);
+}
+
+
+import:
+
+['import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT));
+    
+    String expected = "/**/fnUpdateSome({\"p1\":1,\"p2\":2})";
+    String actual = actions.andReturn().getResponse().getContentAsString();
+    assertThatJson(actual).isEqualTo(expected);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test2_2() throws Exception {
+    String jsonStr = "[{\"name\":\"p1\",\"sonList\":[{\"name\":\"s1\"}]},{\"name\":\"p2\",\"sonList\":[{\"name\":\"s2\"},{\"name\":\"s3\"}]}]";
+
+    ResultActions actions = mockMvc.perform((post("/fastjson/test2?jsonp=fnUpdateSome").characterEncoding("UTF-8")
+            .content(jsonStr).contentType(MediaType.APPLICATION_JSON)));
+    actions.andDo(print());
+    actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT));
+    
+    String expected = "/**/fnUpdateSome({\"p1\":1,\"p2\":2})";
+    String actual = actions.andReturn().getResponse().getContentAsString();
+    assertThatJson(actual).node("p1").isEqualTo(1);
+    assertThatJson(actual).node("p2").isEqualTo(2);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+

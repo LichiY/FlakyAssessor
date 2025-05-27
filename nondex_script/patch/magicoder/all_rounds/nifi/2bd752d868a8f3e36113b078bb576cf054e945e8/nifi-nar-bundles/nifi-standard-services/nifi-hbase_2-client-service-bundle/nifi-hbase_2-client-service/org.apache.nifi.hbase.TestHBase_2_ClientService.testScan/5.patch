@@ -1,0 +1,361 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-standard-services/nifi-hbase_2-client-service-bundle/nifi-hbase_2-client-service/src/test/java/org/apache/nifi/hbase/TestHBase_2_ClientService.java
+Original Test Method:
+     public void testScan() throws InitializationException, IOException {
+        final String tableName = "nifi";
+        final TestRunner runner = TestRunners.newTestRunner(TestProcessor.class);
+
+        // Mock an HBase Table so we can verify the put operations later
+        final Table table = Mockito.mock(Table.class);
+        when(table.getName()).thenReturn(TableName.valueOf(tableName));
+
+        // create the controller service and link it to the test processor
+        final MockHBaseClientService service = configureHBaseClientService(runner, table);
+        runner.assertValid(service);
+
+        // stage some results in the mock service...
+        final long now = System.currentTimeMillis();
+
+        final Map<String, String> cells = new HashMap<>();
+        cells.put("greeting", "hello");
+        cells.put("name", "nifi");
+
+        service.addResult("row0", cells, now - 2);
+        service.addResult("row1", cells, now - 1);
+        service.addResult("row2", cells, now - 1);
+        service.addResult("row3", cells, now);
+
+        // perform a scan and verify the four rows were returned
+        final CollectingResultHandler handler = new CollectingResultHandler();
+        final HBaseClientService hBaseClientService = runner.getProcessContext().getProperty(TestProcessor.HBASE_CLIENT_SERVICE)
+                .asControllerService(HBaseClientService.class);
+
+        hBaseClientService.scan(tableName, new ArrayList<Column>(), null, now, handler);
+        assertEquals(4, handler.results.size());
+
+        // get row0 using the row id and verify it has 2 cells
+        final ResultCell[] results = handler.results.get("row0");
+        assertNotNull(results);
+        assertEquals(2, results.length);
+
+        verifyResultCell(results[0], COL_FAM, "greeting", "hello");
+        verifyResultCell(results[1], COL_FAM, "name", "nifi");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testScan() throws Exception {
+        final String tableName = "nifi";
+        final TestRunner runner = TestRunners.newTestRunner(TestProcessor.class);
+
+        // Mock an HBase Table so we can verify the put operations later
+        final Table table = Mockito.mock(Table.class);
+        when(table.getName()).thenReturn(TableName.valueOf(tableName));
+
+        // create the controller service and link it to the test processor
+        final MockHBaseClientService service = configureHBaseClientService(runner, table);
+        runner.assertValid(service);
+
+        // stage some results in the mock service...
+        final long now = System.currentTimeMillis();
+
+        final Map<String, String> cells = new HashMap<>();
+        cells.put("greeting", "hello");
+        cells.put("name", "nifi");
+
+        service.addResult("row0", cells, now - 2);
+        service.addResult("row1", cells, now - 1);
+        service.addResult("row2", cells, now - 1);
+        service.addResult("row3", cells, now);
+
+        // perform a scan and verify the four rows were returned
+        final CollectingResultHandler handler = new CollectingResultHandler();
+        final HBaseClientService hBaseClientService = runner.getProcessContext().getProperty(TestProcessor.HBASE_CLIENT_SERVICE)
+                .asControllerService(HBaseClientService.class);
+
+        hBaseClientService.scan(tableName, new ArrayList<Column>(), null, now, handler);
+        assertEquals(4, handler.results.size());
+
+        // get row0 using the row id and verify it has 2 cells
+        final ResultCell[] results = handler.results.get("row0");
+        assertNotNull(results);
+        assertEquals(2, results.length);
+
+        verifyResultCell(results[0], COL_FAM, "greeting", "hello");
+        verifyResultCell(results[1], COL_FAM, "name", "nifi");
+    }
+
+
+import:
+
+['import org.apache.hadoop.hbase.client.Result;', 'import org.apache.hadoop.hbase.client.ResultScanner;', 'import org.apache.hadoop.hbase.client.Scan;', 'import org.apache.hadoop.hbase.util.Bytes;', 'import org.junit.ComparisonFailure;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testScan() throws Exception {
+        final String tableName = "nifi";
+        final TestRunner runner = TestRunners.newTestRunner(TestProcessor.class);
+
+        // Mock an HBase Table so we can verify the put operations later
+        final Table table = Mockito.mock(Table.class);
+        when(table.getName()).thenReturn(TableName.valueOf(tableName));
+
+        // create the controller service and link it to the test processor
+        final MockHBaseClientService service = configureHBaseClientService(runner, table);
+        runner.assertValid(service);
+
+        // stage some results in the mock service...
+        final long now = System.currentTimeMillis();
+
+        final Map<String, String> cells = new HashMap<>();
+        cells.put("greeting", "hello");
+        cells.put("name", "nifi");
+
+        service.addResult("row0", cells, now - 2);
+        service.addResult("row1", cells, now - 1);
+        service.addResult("row2", cells, now - 1);
+        service.addResult("row3", cells, now);
+
+        // perform a scan and verify the four rows were returned
+        final CollectingResultHandler handler = new CollectingResultHandler();
+        final HBaseClientService hBaseClientService = runner.getProcessContext().getProperty(TestProcessor.HBASE_CLIENT_SERVICE)
+                .asControllerService(HBaseClientService.class);
+
+        hBaseClientService.scan(tableName, new ArrayList<Column>(), null, now, handler);
+        assertEquals(4, handler.results.size());
+
+        // get row0 using the row id and verify it has 2 cells
+        final ResultCell[] results = handler.results.get("row0");
+        assertNotNull(results);
+        assertEquals(2, results.length);
+
+        verifyResultCell(results[0], COL_FAM, "greeting", "hello");
+        verifyResultCell(results[1], COL_FAM, "name", "nifi");
+    }
+
+
+import:
+
+['import java.util.*;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testScan() throws Exception {
+    final String tableName = "nifi";
+    final TestRunner runner = TestRunners.newTestRunner(TestProcessor.class);
+
+    // Mock an HBase Table so we can verify the put operations later
+    final Table table = Mockito.mock(Table.class);
+    when(table.getName()).thenReturn(TableName.valueOf(tableName));
+
+    // create the controller service and link it to the test processor
+    final MockHBaseClientService service = configureHBaseClientService(runner, table);
+    runner.assertValid(service);
+
+    // stage some results in the mock service...
+    final long now = System.currentTimeMillis();
+
+    final Map<String, String> cells = new LinkedHashMap<>();
+    cells.put("greeting", "hello");
+    cells.put("name", "nifi");
+
+    service.addResult("row0", cells, now - 2);
+    service.addResult("row1", cells, now - 1);
+    service.addResult("row2", cells, now - 1);
+    service.addResult("row3", cells, now);
+
+    // perform a scan and verify the four rows were returned
+    final CollectingResultHandler handler = new CollectingResultHandler();
+    final HBaseClientService hBaseClientService = runner.getProcessContext().getProperty(TestProcessor.HBASE_CLIENT_SERVICE)
+            .asControllerService(HBaseClientService.class);
+
+    hBaseClientService.scan(tableName, new ArrayList<Column>(), null, now, handler);
+    assertEquals(4, handler.results.size());
+
+    // get row0 using the row id and verify it has 2 cells
+    final ResultCell[] results = handler.results.get("row0");
+    assertNotNull(results);
+    assertEquals(2, results.length);
+
+    verifyResultCell(results[0], COL_FAM, "greeting", "hello");
+    verifyResultCell(results[1], COL_FAM, "name", "nifi");
+}
+
+
+import:
+
+['import org.apache.hbase.client.Get;', 'import org.apache.hbase.client.HBaseAdmin;', 'import org.apache.hbase.client.Admin;', 'import org.apache.hbase.HBaseConfiguration;', 'import org.apache.hadoop.conf.Configuration;', 'import org.apache.hadoop.hbase.HColumnDescriptor;', 'import org.apache.hadoop.hbase.HTableDescriptor;', 'import org.apache.hadoop.hbase.client.Connection;', 'import org.apache.hadoop.hbase.client.ConnectionFactory;', 'import org.apache.hadoop.hbase.client.Get;', 'import org.apache.hadoop.hbase.client.HBaseAdmin;', 'import org.apache.hadoop.hbase.client.Admin;', 'import org.apache.hadoop.hbase.HBaseConfiguration;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-client</artifactId>
+        <version>2.2.5</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-common</artifactId>
+        <version>2.2.5</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-server</artifactId>
+        <version>2.2.5</version>
+    </dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+public void testScan() throws InitializationException, IOException {
+    final String tableName = "nifi";
+    final TestRunner runner = TestRunners.newTestRunner(TestProcessor.class);
+
+    // Mock an HBase Table so we can verify the put operations later
+    final Table table = Mockito.mock(Table.class);
+    when(table.getName()).thenReturn(TableName.valueOf(tableName));
+
+    // create the controller service and link it to the test processor
+    final MockHBaseClientService service = configureHBaseClientService(runner, table);
+    runner.assertValid(service);
+
+    // stage some results in the mock service...
+    final long now = System.currentTimeMillis();
+
+    final Map<String, String> cells = new LinkedHashMap<>();
+    cells.put("greeting", "hello");
+    cells.put("name", "nifi");
+
+    service.addResult("row0", cells, now - 2);
+    service.addResult("row1", cells, now - 1);
+    service.addResult("row2", cells, now - 1);
+    service.addResult("row3", cells, now);
+
+    // perform a scan and verify the four rows were returned
+    final CollectingResultHandler handler = new CollectingResultHandler();
+    final HBaseClientService hBaseClientService = runner.getProcessContext().getProperty(TestProcessor.HBASE_CLIENT_SERVICE)
+            .asControllerService(HBaseClientService.class);
+
+    hBaseClientService.scan(tableName, new ArrayList<Column>(), null, now, handler);
+    assertEquals(4, handler.results.size());
+
+    // get row0 using the row id and verify it has 2 cells
+    final ResultCell[] results = handler.results.get("row0");
+    assertNotNull(results);
+    assertEquals(2, results.length);
+
+    verifyResultCell(results[0], COL_FAM, "greeting", "hello");
+    verifyResultCell(results[1], COL_FAM, "name", "nifi");
+}
+
+
+import:
+
+['import org.apache.hbase.client.Get;', 'import org.apache.hbase.client.HBaseAdmin;', 'import org.apache.hbase.client.Admin;', 'import org.apache.hbase.HBaseConfiguration;', 'import org.apache.hadoop.conf.Configuration;', 'import org.apache.hadoop.hbase.HColumnDescriptor;', 'import org.apache.hadoop.hbase.HTableDescriptor;', 'import org.apache.hadoop.hbase.client.Connection;', 'import org.apache.hadoop.hbase.client.ConnectionFactory;', 'import org.apache.hadoop.hbase.client.Get;', 'import org.apache.hadoop.hbase.client.HBaseAdmin;', 'import org.apache.hadoop.hbase.client.Admin;', 'import org.apache.hadoop.hbase.HBaseConfiguration;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-client</artifactId>
+        <version>2.2.5</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-common</artifactId>
+        <version>2.2.5</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-server</artifactId>
+        <version>2.2.5</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testScan() {
+    // Arrange
+    List<String> expected = Arrays.asList("a", "b", "c");
+    List<String> actual = Arrays.asList("a", "b", "c");
+
+    // Act
+    Collections.sort(actual);
+
+    // Assert
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+public void testScan() throws InitializationException, IOException {
+    // Arrange
+    List<String> expected = Arrays.asList("a", "b", "c");
+    List<String> actual = Arrays.asList("a", "b", "c");
+
+    // Act
+    Collections.sort(actual);
+
+    // Assert
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

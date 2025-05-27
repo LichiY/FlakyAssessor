@@ -1,0 +1,237 @@
+Test File Path: projects/e35ce8c013327b91d034b62d53eece055fa64970/apollo/apollo-client/src/test/java/com/ctrip/framework/apollo/internals/RemoteConfigLongPollServiceTest.java
+Original Test Method:
+   public void testAssembleLongPollRefreshUrlWithMultipleNamespaces() throws Exception {
+    String someUri = someServerUrl;
+    String someAppId = "someAppId";
+    String someCluster = "someCluster+ &.-_someSign";
+    String someNamespace = "someName";
+    String anotherNamespace = "anotherName";
+    long someNotificationId = 1;
+    long anotherNotificationId = 2;
+    Map<String, Long> notificationsMap =
+        ImmutableMap.of(someNamespace, someNotificationId, anotherNamespace, anotherNotificationId);
+
+    String longPollRefreshUrl =
+        remoteConfigLongPollService
+            .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+    assertTrue(longPollRefreshUrl.contains(someServerUrl + "/notifications/v2?"));
+    assertTrue(longPollRefreshUrl.contains("appId=" + someAppId));
+    assertTrue(longPollRefreshUrl.contains("cluster=someCluster%2B+%26.-_someSign"));
+    assertTrue(
+        longPollRefreshUrl.contains("notifications=%5B%7B%22namespaceName%22%3A%22" + someNamespace
+            + "%22%2C%22notificationId%22%3A" + someNotificationId
+            + "%7D%2C%7B%22namespaceName%22%3A%22" + anotherNamespace
+            + "%22%2C%22notificationId%22%3A" + anotherNotificationId + "%7D%5D"));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testAssembleLongPollRefreshUrlWithMultipleNamespaces() throws Exception {
+    String someUri = someServerUrl;
+    String someAppId = "someAppId";
+    String someCluster = "someCluster+ &.-_someSign";
+    String someNamespace = "someName";
+    String anotherNamespace = "anotherName";
+    long someNotificationId = 1;
+    long anotherNotificationId = 2;
+    Map<String, Long> notificationsMap =
+        ImmutableMap.of(someNamespace, someNotificationId, anotherNamespace, anotherNotificationId);
+
+    String longPollRefreshUrl =
+        remoteConfigLongPollService
+            .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+    assertTrue(longPollRefreshUrl.contains(someServerUrl + "/notifications/v2?"));
+    assertTrue(longPollRefreshUrl.contains("appId=" + someAppId));
+    assertTrue(longPollRefreshUrl.contains("cluster=someCluster%2B+%26.-_someSign"));
+    assertTrue(
+        longPollRefreshUrl.contains("notifications=%5B%7B%22namespaceName%22%3A%22" + someNamespace
+            + "%22%2C%22notificationId%22%3A" + someNotificationId
+            + "%7D%2C%7B%22namespaceName%22%3A%22" + anotherNamespace
+            + "%22%2C%22notificationId%22%3A" + anotherNotificationId + "%7D%5D"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>31.1-jre</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testAssembleLongPollRefreshUrlWithMultipleNamespaces() throws Exception {
+        String someUri = "someServerUrl";
+        String someAppId = "someAppId";
+        String someCluster = "someCluster+ &.-_someSign";
+        String someNamespace = "someName";
+        String anotherNamespace = "anotherName";
+        long someNotificationId = 1;
+        long anotherNotificationId = 2;
+        Map<String, Long> notificationsMap =
+            ImmutableMap.of(someNamespace, someNotificationId, anotherNamespace, anotherNotificationId);
+
+        String longPollRefreshUrl =
+            remoteConfigLongPollService
+                .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+        assertTrue(longPollRefreshUrl.contains(someServerUrl + "/notifications/v2?"));
+        assertTrue(longPollRefreshUrl.contains("appId=" + someAppId));
+        assertTrue(longPollRefreshUrl.contains("cluster=someCluster%2B+%26.-_someSign"));
+        assertTrue(
+            longPollRefreshUrl.contains("notifications=%5B%7B%22namespaceName%22%3A%22" + someNamespace
+                + "%22%2C%22notificationId%22%3A" + someNotificationId
+                + "%7D%2C%7B%22namespaceName%22%3A%22" + anotherNamespace
+                + "%22%2C%22notificationId%22%3A" + anotherNotificationId + "%7D%5D"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testAssembleLongPollRefreshUrlWithMultipleNamespaces() throws Exception {
+    String someUri = "someServerUrl";
+    String someAppId = "someAppId";
+    String someCluster = "someCluster+ &.-_someSign";
+    String someNamespace = "someName";
+    String anotherNamespace = "anotherName";
+    long someNotificationId = 1;
+    long anotherNotificationId = 2;
+    Map<String, Long> notificationsMap =
+        ImmutableMap.of(someNamespace, someNotificationId, anotherNamespace, anotherNotificationId);
+
+    String longPollRefreshUrl =
+        remoteConfigLongPollService
+            .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+    assertTrue(longPollRefreshUrl.contains(someServerUrl + "/notifications/v2?"));
+    assertTrue(longPollRefreshUrl.contains("appId=" + someAppId));
+    assertTrue(longPollRefreshUrl.contains("cluster=someCluster%2B+%26.-_someSign"));
+    assertTrue(
+        longPollRefreshUrl.contains("notifications=%5B%7B%22namespaceName%22%3A%22" + someNamespace
+            + "%22%2C%22notificationId%22%3A" + someNotificationId
+            + "%7D%2C%7B%22namespaceName%22%3A%22" + anotherNamespace
+            + "%22%2C%22notificationId%22%3A" + anotherNotificationId + "%7D%5D"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testAssembleLongPollRefreshUrlWithMultipleNamespaces() throws Exception {
+    String someUri = "someServerUrl";
+    String someAppId = "someAppId";
+    String someCluster = "someCluster+ &.-_someSign";
+    String someNamespace = "someName";
+    String anotherNamespace = "anotherName";
+    long someNotificationId = 1;
+    long anotherNotificationId = 2;
+    Map<String, Long> notificationsMap =
+        ImmutableMap.of(someNamespace, someNotificationId, anotherNamespace, anotherNotificationId);
+
+    String longPollRefreshUrl =
+        remoteConfigLongPollService
+            .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+    assertTrue(longPollRefreshUrl.contains(someServerUrl + "/notifications/v2?"));
+    assertTrue(longPollRefreshUrl.contains("appId=" + someAppId));
+    assertTrue(longPollRefreshUrl.contains("cluster=someCluster%2B+%26.-_someSign"));
+    assertTrue(
+        longPollRefreshUrl.contains("notifications=%5B%7B%22namespaceName%22%3A%22" + someNamespace
+            + "%22%2C%22notificationId%22%3A" + someNotificationId
+            + "%7D%2C%7B%22namespaceName%22%3A%22" + anotherNamespace
+            + "%22%2C%22notificationId%22%3A" + anotherNotificationId + "%7D%5D"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testAssembleLongPollRefreshUrlWithMultipleNamespaces() throws Exception {
+    String someUri = "someServerUrl";
+    String someAppId = "someAppId";
+    String someCluster = "someCluster+ &.-_someSign";
+    String someNamespace = "someName";
+    String anotherNamespace = "anotherName";
+    long someNotificationId = 1;
+    long anotherNotificationId = 2;
+    Map<String, Long> notificationsMap =
+        ImmutableMap.of(someNamespace, someNotificationId, anotherNamespace, anotherNotificationId);
+
+    String longPollRefreshUrl =
+        remoteConfigLongPollService
+            .assembleLongPollRefreshUrl(someUri, someAppId, someCluster, null, notificationsMap);
+
+    assertTrue(longPollRefreshUrl.contains(someUri + "/notifications/v2?"));
+    assertTrue(longPollRefreshUrl.contains("appId=" + someAppId));
+    assertTrue(longPollRefreshUrl.contains("cluster=" + someCluster));
+    assertTrue(
+        longPollRefreshUrl.contains("notifications=%5B%7B%22namespaceName%22%3A%22" + someNamespace
+            + "%22%2C%22notificationId%22%3A" + someNotificationId
+            + "%7D%2C%7B%22namespaceName%22%3A%22" + anotherNamespace
+            + "%22%2C%22notificationId%22%3A" + anotherNotificationId + "%7D%5D"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>31.1-jre</version>
+    </dependency>
+

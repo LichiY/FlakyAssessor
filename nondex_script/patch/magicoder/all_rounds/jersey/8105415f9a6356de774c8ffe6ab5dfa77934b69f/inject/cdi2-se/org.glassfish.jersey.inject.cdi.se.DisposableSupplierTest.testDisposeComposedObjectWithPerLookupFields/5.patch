@@ -1,0 +1,239 @@
+Test File Path: projects/8105415f9a6356de774c8ffe6ab5dfa77934b69f/jersey/inject/cdi2-se/src/test/java/org/glassfish/jersey/inject/cdi/se/DisposableSupplierTest.java
+Original Test Method:
+     public void testDisposeComposedObjectWithPerLookupFields() {
+        BindingTestHelper.bind(injectionManager, binder -> {
+                    binder.bindFactory(DisposableSupplierImpl.class, Singleton.class)
+                            .to(String.class);
+
+                    binder.bindAsContract(ComposedObject.class)
+                            .in(RequestScoped.class);
+                });
+
+        RequestScope request = injectionManager.getInstance(RequestScope.class);
+        AtomicReference<Supplier<String>> atomicSupplier = new AtomicReference<>();
+        request.runInScope(() -> {
+            // Save Singleton Supplier for later check that the instance was disposed.
+            Supplier<String> supplier = injectionManager.getInstance(DISPOSABLE_SUPPLIER_TYPE);
+            atomicSupplier.set(supplier);
+
+            // All instances should be the same because they are request scoped.
+            ComposedObject instance = injectionManager.getInstance(ComposedObject.class);
+            assertEquals("1", instance.getFirst());
+            assertEquals("2", instance.getSecond());
+            assertEquals("3", instance.getThird());
+        });
+
+        Supplier<String> cleanedSupplier = atomicSupplier.get();
+        // Next should be 1 - all instances are disposed and decremented back
+        assertEquals("1", cleanedSupplier.get());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testDisposeComposedObjectWithPerLookupFields() {
+    BindingTestHelper.bind(injectionManager, binder -> {
+                binder.bindFactory(DisposableSupplierImpl.class, Singleton.class)
+                        .to(String.class);
+
+                binder.bindAsContract(ComposedObject.class)
+                        .in(RequestScoped.class);
+            });
+
+    RequestScope request = injectionManager.getInstance(RequestScope.class);
+    AtomicReference<Supplier<String>> atomicSupplier = new AtomicReference<>();
+    request.runInScope(() -> {
+        // Save Singleton Supplier for later check that the instance was disposed.
+        Supplier<String> supplier = injectionManager.getInstance(DISPOSABLE_SUPPLIER_TYPE);
+        atomicSupplier.set(supplier);
+
+        // All instances should be the same because they are request scoped.
+        ComposedObject instance = injectionManager.getInstance(ComposedObject.class);
+        assertEquals("1", instance.getFirst());
+        assertEquals("2", instance.getSecond());
+        assertEquals("3", instance.getThird());
+    });
+
+    Supplier<String> cleanedSupplier = atomicSupplier.get();
+    // Next should be 1 - all instances are disposed and decremented back
+    assertEquals("1", cleanedSupplier.get());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testDisposeComposedObjectWithPerLookupFields() {
+    BindingTestHelper.bind(injectionManager, binder -> {
+                binder.bindFactory(DisposableSupplierImpl.class, Singleton.class)
+                        .to(String.class);
+
+                binder.bindAsContract(ComposedObject.class)
+                        .in(RequestScoped.class);
+            });
+
+    RequestScope request = injectionManager.getInstance(RequestScope.class);
+    AtomicReference<Supplier<String>> atomicSupplier = new AtomicReference<>();
+    request.runInScope(() -> {
+        // Save Singleton Supplier for later check that the instance was disposed.
+        Supplier<String> supplier = injectionManager.getInstance(DISPOSABLE_SUPPLIER_TYPE);
+        atomicSupplier.set(supplier);
+
+        // All instances should be the same because they are request scoped.
+        ComposedObject instance = injectionManager.getInstance(ComposedObject.class);
+        assertEquals("1", instance.getFirst());
+        assertEquals("2", instance.getSecond());
+        assertEquals("3", instance.getThird());
+    });
+
+    Supplier<String> cleanedSupplier = atomicSupplier.get();
+    // Next should be 1 - all instances are disposed and decremented back
+    assertEquals("1", cleanedSupplier.get());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testDisposeComposedObjectWithPerLookupFields() {
+    BindingTestHelper.bind(injectionManager, binder -> {
+                binder.bindFactory(DisposableSupplierImpl.class, Singleton.class)
+                        .to(String.class);
+
+                binder.bindAsContract(ComposedObject.class)
+                        .in(RequestScoped.class);
+            });
+
+    RequestScope request = injectionManager.getInstance(RequestScope.class);
+    AtomicReference<Supplier<String>> atomicSupplier = new AtomicReference<>();
+    request.runInScope(() -> {
+        // Save Singleton Supplier for later check that the instance was disposed.
+        Supplier<String> supplier = injectionManager.getInstance(DISPOSABLE_SUPPLIER_TYPE);
+        atomicSupplier.set(supplier);
+
+        // All instances should be the same because they are request scoped.
+        ComposedObject instance = injectionManager.getInstance(ComposedObject.class);
+        assertEquals("1", instance.getFirst());
+        assertEquals("2", instance.getSecond());
+        assertEquals("3", instance.getThird());
+    });
+
+    Supplier<String> cleanedSupplier = atomicSupplier.get();
+    // Next should be 1 - all instances are disposed and decremented back
+    assertEquals("1", cleanedSupplier.get());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testDisposeComposedObjectWithPerLookupFields() {
+    BindingTestHelper.bind(injectionManager, binder -> {
+        binder.bindFactory(DisposableSupplierImpl.class, Singleton.class)
+                .to(String.class);
+
+        binder.bindAsContract(ComposedObject.class)
+                .in(RequestScoped.class);
+    });
+
+    RequestScope request = injectionManager.getInstance(RequestScope.class);
+    AtomicReference<Supplier<String>> atomicSupplier = new AtomicReference<>();
+    request.runInScope(() -> {
+        // Save Singleton Supplier for later check that the instance was disposed.
+        Supplier<String> supplier = injectionManager.getInstance(DISPOSABLE_SUPPLIER_TYPE);
+        atomicSupplier.set(supplier);
+
+        // All instances should be the same because they are request scoped.
+        ComposedObject instance = injectionManager.getInstance(ComposedObject.class);
+        assertEquals("1", instance.getFirst());
+        assertEquals("2", instance.getSecond());
+        assertEquals("3", instance.getThird());
+    });
+
+    Supplier<String> cleanedSupplier = atomicSupplier.get();
+    // Next should be 1 - all instances are disposed and decremented back
+    assertEquals("1", cleanedSupplier.get());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testDisposeComposedObjectWithPerLookupFields() {
+    BindingTestHelper.bind(injectionManager, binder -> {
+        binder.bindFactory(DisposableSupplierImpl.class, Singleton.class)
+                .to(String.class);
+
+        binder.bindAsContract(ComposedObject.class)
+                .in(RequestScoped.class);
+    });
+
+    RequestScope request = injectionManager.getInstance(RequestScope.class);
+    AtomicReference<Supplier<String>> atomicSupplier = new AtomicReference<>();
+    request.runInScope(() -> {
+        // Save Singleton Supplier for later check that the instance was disposed.
+        Supplier<String> supplier = injectionManager.getInstance(DISPOSABLE_SUPPLIER_TYPE);
+        atomicSupplier.set(supplier);
+
+        // All instances should be the same because they are request scoped.
+        ComposedObject instance = injectionManager.getInstance(ComposedObject.class);
+        assertEquals("1", instance.getFirst());
+        assertEquals("2", instance.getSecond());
+        assertEquals("3", instance.getThird());
+    });
+
+    Supplier<String> cleanedSupplier = atomicSupplier.get();
+    // Next should be 1 - all instances are disposed and decremented back
+    assertEquals("1", cleanedSupplier.get());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

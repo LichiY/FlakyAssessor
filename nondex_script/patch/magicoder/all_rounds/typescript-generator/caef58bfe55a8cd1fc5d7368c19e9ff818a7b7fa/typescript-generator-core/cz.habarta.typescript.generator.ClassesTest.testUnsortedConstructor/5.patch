@@ -1,0 +1,168 @@
+Test File Path: projects/caef58bfe55a8cd1fc5d7368c19e9ff818a7b7fa/typescript-generator/typescript-generator-core/src/test/java/cz/habarta/typescript/generator/ClassesTest.java
+Original Test Method:
+     public void testUnsortedConstructor() {
+        final Settings settings = TestUtils.settings();
+        settings.optionalAnnotations = Arrays.asList(Nullable.class);
+        settings.outputFileType = TypeScriptFileType.implementationFile;
+        settings.mapClasses = ClassMapping.asClasses;
+        settings.generateConstructors = true;
+        settings.sortDeclarations = false;
+        final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(FooBar.class));
+        String unsortedPropertyAssignments = "" +
+                "        this.foo = data.foo;" + settings.newline +
+                "        this.bar = data.bar;";
+        Assert.assertTrue(output.contains(unsortedPropertyAssignments));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testUnsortedConstructor() {
+    final Settings settings = TestUtils.settings();
+    settings.optionalAnnotations = Arrays.asList(Nullable.class);
+    settings.outputFileType = TypeScriptFileType.implementationFile;
+    settings.mapClasses = ClassMapping.asClasses;
+    settings.generateConstructors = true;
+    settings.sortDeclarations = false;
+    final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(FooBar.class));
+    String unsortedPropertyAssignments = "" +
+            "        this.foo = data.foo;" + settings.newline +
+            "        this.bar = data.bar;";
+    Assert.assertTrue(output.contains(unsortedPropertyAssignments));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testUnsortedConstructor() {
+    final Settings settings = TestUtils.settings();
+    settings.optionalAnnotations = Arrays.asList(Nullable.class);
+    settings.outputFileType = TypeScriptFileType.implementationFile;
+    settings.mapClasses = ClassMapping.asClasses;
+    settings.generateConstructors = true;
+    settings.sortDeclarations = false;
+    final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(FooBar.class));
+    String unsortedPropertyAssignments = "" +
+            "        this.foo = data.foo;" + settings.newline +
+            "        this.bar = data.bar;";
+    Assert.assertTrue(output.contains(unsortedPropertyAssignments));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testUnsortedConstructor() {
+    final Settings settings = TestUtils.settings();
+    settings.optionalAnnotations = Arrays.asList(Nullable.class);
+    settings.outputFileType = TypeScriptFileType.implementationFile;
+    settings.mapClasses = ClassMapping.asClasses;
+    settings.generateConstructors = true;
+    settings.sortDeclarations = false;
+    final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(FooBar.class));
+    String unsortedPropertyAssignments = "" +
+            "        this.foo = data.foo;" + settings.newline +
+            "        this.bar = data.bar;";
+    String sortedPropertyAssignments = "" +
+            "        this.bar = data.bar;" + settings.newline +
+            "        this.foo = data.foo;";
+    Assert.assertTrue(output.contains(sortedPropertyAssignments));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testUnsortedConstructor() {
+    final Settings settings = TestUtils.settings();
+    settings.optionalAnnotations = Arrays.asList(Nullable.class);
+    settings.outputFileType = TypeScriptFileType.implementationFile;
+    settings.mapClasses = ClassMapping.asClasses;
+    settings.generateConstructors = true;
+    settings.sortDeclarations = false;
+    final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(FooBar.class));
+    String unsortedPropertyAssignments = "" +
+            "        this.foo = data.foo;" + settings.newline +
+            "        this.bar = data.bar;";
+    String sortedPropertyAssignments = "" +
+            "        this.bar = data.bar;" + settings.newline +
+            "        this.foo = data.foo;";
+    Assert.assertTrue(output.contains(sortedPropertyAssignments));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testUnsortedConstructor() {
+    final Settings settings = TestUtils.settings();
+    settings.optionalAnnotations = Arrays.asList(Nullable.class);
+    settings.outputFileType = TypeScriptFileType.implementationFile;
+    settings.mapClasses = ClassMapping.asClasses;
+    settings.generateConstructors = true;
+    settings.sortDeclarations = false;
+    final String output = new TypeScriptGenerator(settings).generateTypeScript(Input.from(FooBar.class));
+    String unsortedPropertyAssignments = "" +
+            "        this.foo = data.foo;" + settings.newline +
+            "        this.bar = data.bar;";
+    String sortedPropertyAssignments = "" +
+            "        this.bar = data.bar;" + settings.newline +
+            "        this.foo = data.foo;";
+    Assert.assertTrue(output.contains(sortedPropertyAssignments));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

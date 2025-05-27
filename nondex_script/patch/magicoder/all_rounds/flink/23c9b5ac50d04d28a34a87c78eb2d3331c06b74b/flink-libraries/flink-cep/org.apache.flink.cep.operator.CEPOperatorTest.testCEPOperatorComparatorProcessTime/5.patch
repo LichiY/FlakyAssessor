@@ -1,0 +1,311 @@
+Test File Path: projects/23c9b5ac50d04d28a34a87c78eb2d3331c06b74b/flink/flink-libraries/flink-cep/src/test/java/org/apache/flink/cep/operator/CEPOperatorTest.java
+Original Test Method:
+ 	public void testCEPOperatorComparatorProcessTime() throws Exception {
+		Event startEvent1 = new Event(42, "start", 1.0);
+		Event startEvent2 = new Event(42, "start", 2.0);
+		SubEvent middleEvent1 = new SubEvent(42, "foo1", 3.0, 10.0);
+		SubEvent middleEvent2 = new SubEvent(42, "foo2", 4.0, 10.0);
+		Event endEvent1 = new Event(42, "end", 1.0);
+
+		Event startEventK2 = new Event(43, "start", 1.0);
+
+		CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperatorWithComparator(true);
+		OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+		try {
+			harness.open();
+
+			harness.setProcessingTime(0L);
+
+			harness.processElement(new StreamRecord<>(startEvent1, 0L));
+			harness.processElement(new StreamRecord<>(startEventK2, 0L));
+			harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 0L));
+			harness
+				.processElement(new StreamRecord<>(new SubEvent(42, "barfoo", 1.0, 5.0), 0L));
+
+			assertTrue(!operator.hasNonEmptySharedBuffer(42));
+			assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+			harness.setProcessingTime(3L);
+			assertTrue(operator.hasNonEmptySharedBuffer(42));
+			assertTrue(operator.hasNonEmptySharedBuffer(43));
+
+			harness.processElement(new StreamRecord<>(middleEvent2, 3L));
+			harness.processElement(new StreamRecord<>(middleEvent1, 3L));
+			harness.processElement(new StreamRecord<>(startEvent2, 3L));
+
+			OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+			harness.close();
+
+			CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperatorWithComparator(true);
+			harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+			harness.setup();
+			harness.initializeState(snapshot);
+			harness.open();
+
+			harness.setProcessingTime(4L);
+			harness.processElement(new StreamRecord<>(endEvent1, 5L));
+			harness.setProcessingTime(5L);
+
+			verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+			verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+			verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent1, endEvent1);
+			verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+		} finally {
+			harness.close();
+		}
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testCEPOperatorComparatorProcessTime() throws Exception {
+    Event startEvent1 = new Event(42, "start", 1.0);
+    Event startEvent2 = new Event(42, "start", 2.0);
+    SubEvent middleEvent1 = new SubEvent(42, "foo1", 3.0, 10.0);
+    SubEvent middleEvent2 = new SubEvent(42, "foo2", 4.0, 10.0);
+    Event endEvent1 = new Event(42, "end", 1.0);
+
+    Event startEventK2 = new Event(43, "start", 1.0);
+
+    CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperatorWithComparator(true);
+    OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+    try {
+        harness.open();
+
+        harness.setProcessingTime(0L);
+
+        harness.processElement(new StreamRecord<>(startEvent1, 0L));
+        harness.processElement(new StreamRecord<>(startEventK2, 0L));
+        harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 0L));
+        harness
+            .processElement(new StreamRecord<>(new SubEvent(42, "barfoo", 1.0, 5.0), 0L));
+
+        assertTrue(!operator.hasNonEmptySharedBuffer(42));
+        assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+        harness.setProcessingTime(3L);
+        assertTrue(operator.hasNonEmptySharedBuffer(42));
+        assertTrue(operator.hasNonEmptySharedBuffer(43));
+
+        harness.processElement(new StreamRecord<>(middleEvent2, 3L));
+        harness.processElement(new StreamRecord<>(middleEvent1, 3L));
+        harness.processElement(new StreamRecord<>(startEvent2, 3L));
+
+        OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+        harness.close();
+
+        CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperatorWithComparator(true);
+        harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+        harness.setup();
+        harness.initializeState(snapshot);
+        harness.open();
+
+        harness.setProcessingTime(4L);
+        harness.processElement(new StreamRecord<>(endEvent1, 5L));
+        harness.setProcessingTime(5L);
+
+        verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent1, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+    } finally {
+        harness.close();
+    }
+}
+
+
+import:
+
+['import org.apache.flink.streaming.api.functions.co.CoProcessFunction;', 'import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;', 'import org.apache.flink.streaming.api.windowing.windows.TimeWindow;', 'import org.apache.flink.streaming.api.windowing.triggers.EventTimeTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.Trigger;', 'import org.apache.flink.streaming.api.windowing.triggers.CountTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.PurgingTrigger;', 'import org.apache.flink.streaming.api.windowing.triggers.TriggerResult;', 'import org.apache.flink.streaming.api.windowing.windows.GlobalWindow;', 'import org.apache.flink.streaming.api.windowing.windows.Window;', 'import org.apache.flink.streaming.api.windowing.windows.WindowFunction;', 'import org.apache.flink.streaming.api.windowing.windows.WindowFunctionContext;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-cep</artifactId>
+        <version>1.14.0</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testCEPOperatorComparatorProcessTime() throws Exception {
+    Event startEvent1 = new Event(42, "start", 1.0);
+    Event startEvent2 = new Event(42, "start", 2.0);
+    SubEvent middleEvent1 = new SubEvent(42, "foo1", 3.0, 10.0);
+    SubEvent middleEvent2 = new SubEvent(42, "foo2", 4.0, 10.0);
+    Event endEvent1 = new Event(42, "end", 1.0);
+
+    Event startEventK2 = new Event(43, "start", 1.0);
+
+    CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperatorWithComparator(true);
+    OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+    try {
+        harness.open();
+
+        harness.setProcessingTime(0L);
+
+        harness.processElement(new StreamRecord<>(startEvent1, 0L));
+        harness.processElement(new StreamRecord<>(startEventK2, 0L));
+        harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 0L));
+        harness
+            .processElement(new StreamRecord<>(new SubEvent(42, "barfoo", 1.0, 5.0), 0L));
+
+        assertTrue(!operator.hasNonEmptySharedBuffer(42));
+        assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+        harness.setProcessingTime(3L);
+        assertTrue(operator.hasNonEmptySharedBuffer(42));
+        assertTrue(operator.hasNonEmptySharedBuffer(43));
+
+        harness.processElement(new StreamRecord<>(middleEvent2, 3L));
+        harness.processElement(new StreamRecord<>(middleEvent1, 3L));
+        harness.processElement(new StreamRecord<>(startEvent2, 3L));
+
+        OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+        harness.close();
+
+        CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperatorWithComparator(true);
+        harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+        harness.setup();
+        harness.initializeState(snapshot);
+        harness.open();
+
+        harness.setProcessingTime(4L);
+        harness.processElement(new StreamRecord<>(endEvent1, 5L));
+        harness.setProcessingTime(5L);
+
+        verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent1, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+    } finally {
+        harness.close();
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testCEPOperatorComparatorProcessTime() throws Exception {
+    Event startEvent1 = new Event(42, "start", 1.0);
+    Event startEvent2 = new Event(42, "start", 2.0);
+    SubEvent middleEvent1 = new SubEvent(42, "foo1", 3.0, 10.0);
+    SubEvent middleEvent2 = new SubEvent(42, "foo2", 4.0, 10.0);
+    Event endEvent1 = new Event(42, "end", 1.0);
+
+    Event startEventK2 = new Event(43, "start", 1.0);
+
+    CepOperator<Event, Integer, Map<String, List<Event>>> operator = getKeyedCepOperatorWithComparator(true);
+    OneInputStreamOperatorTestHarness<Event, Map<String, List<Event>>> harness = CepOperatorTestUtilities.getCepTestHarness(operator);
+
+    try {
+        harness.open();
+
+        harness.setProcessingTime(0L);
+
+        harness.processElement(new StreamRecord<>(startEvent1, 0L));
+        harness.processElement(new StreamRecord<>(startEventK2, 0L));
+        harness.processElement(new StreamRecord<>(new Event(42, "foobar", 1.0), 0L));
+        harness
+            .processElement(new StreamRecord<>(new SubEvent(42, "barfoo", 1.0, 5.0), 0L));
+
+        assertTrue(!operator.hasNonEmptySharedBuffer(42));
+        assertTrue(!operator.hasNonEmptySharedBuffer(43));
+
+        harness.setProcessingTime(3L);
+        assertTrue(operator.hasNonEmptySharedBuffer(42));
+        assertTrue(operator.hasNonEmptySharedBuffer(43));
+
+        harness.processElement(new StreamRecord<>(middleEvent2, 3L));
+        harness.processElement(new StreamRecord<>(middleEvent1, 3L));
+        harness.processElement(new StreamRecord<>(startEvent2, 3L));
+
+        OperatorSubtaskState snapshot = harness.snapshot(0L, 0L);
+        harness.close();
+
+        CepOperator<Event, Integer, Map<String, List<Event>>> operator2 = getKeyedCepOperatorWithComparator(true);
+        harness = CepOperatorTestUtilities.getCepTestHarness(operator2);
+        harness.setup();
+        harness.initializeState(snapshot);
+        harness.open();
+
+        harness.setProcessingTime(4L);
+        harness.processElement(new StreamRecord<>(endEvent1, 5L));
+        harness.setProcessingTime(5L);
+
+        verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent1, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent1, middleEvent2, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent1, endEvent1);
+        verifyPattern(harness.getOutput().poll(), startEvent2, middleEvent2, endEvent1);
+    } finally {
+        harness.close();
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.flink.cep.CEP;', 'import org.apache.flink.cep.PatternStream;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-cep</artifactId>
+    <version>1.12.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;', 'import java.util.Arrays;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.3</version>
+</dependency>

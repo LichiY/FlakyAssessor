@@ -1,0 +1,146 @@
+Test File Path: projects/3777209fc76800175df3962213ca1febe57edca6/incubator-shenyu/shenyu-common/src/test/java/org/apache/shenyu/common/utils/GsonUtilsTest.java
+Original Test Method:
+     public void testToJson() {
+        TestObject testObject = generateTestObject();
+
+        Assert.assertEquals(EXPECTED_JSON, GsonUtils.getInstance().toJson(testObject));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testToJson() {
+    TestObject testObject = generateTestObject();
+    
+    JsonElement expected = JsonParser.parseString(EXPECTED_JSON);
+    JsonElement actual = JsonParser.parseString(GsonUtils.getInstance().toJson(testObject));
+    Assert.assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.10.1</version>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testToJson() {
+    TestObject testObject = generateTestObject();
+    
+    JsonElement expected = new JsonParser().parse(EXPECTED_JSON);
+    JsonElement actual = new JsonParser().parse(GsonUtils.getInstance().toJson(testObject));
+    
+    JsonObject expectedObj = expected.getAsJsonObject();
+    JsonObject actualObj = actual.getAsJsonObject();
+    
+    Assert.assertEquals(expectedObj.keySet(), actualObj.keySet());
+    for (String key : expectedObj.keySet()) {
+        Assert.assertEquals(expectedObj.get(key), actualObj.get(key));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.9</version>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testToJson() {
+    TestObject testObject = generateTestObject();
+    
+    JsonElement expected = JsonParser.parseString(EXPECTED_JSON);
+    JsonElement actual = JsonParser.parseString(GsonUtils.getInstance().toJson(testObject));
+    
+    JsonObject expectedObj = expected.getAsJsonObject();
+    JsonObject actualObj = actual.getAsJsonObject();
+    
+    Set<String> expectedKeys = new TreeSet<>(expectedObj.keySet());
+    Set<String> actualKeys = new TreeSet<>(actualObj.keySet());
+    
+    Assert.assertEquals(expectedKeys, actualKeys);
+    for (String key : expectedKeys) {
+        Assert.assertEquals(expectedObj.get(key), actualObj.get(key));
+    }
+}
+
+
+import:
+
+['import java.util.Set;', 'import java.util.TreeSet;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.9</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testToJson() {
+    TestObject testObject = generateTestObject();
+    
+    JsonElement expected = new JsonParser().parse(EXPECTED_JSON);
+    JsonElement actual = new JsonParser().parse(GsonUtils.getInstance().toJson(testObject));
+    
+    JsonObject expectedObj = expected.getAsJsonObject();
+    JsonObject actualObj = actual.getAsJsonObject();
+    
+    Set<Map.Entry<String, JsonElement>> expectedEntries = new TreeSet<>(Comparator.comparing(Map.Entry::getKey));
+    expectedEntries.addAll(expectedObj.entrySet());
+    
+    Set<Map.Entry<String, JsonElement>> actualEntries = new TreeSet<>(Comparator.comparing(Map.Entry::getKey));
+    actualEntries.addAll(actualObj.entrySet());
+    
+    Assert.assertEquals(expectedEntries, actualEntries);
+}
+
+
+import:
+
+['import java.util.Comparator;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.9</version>
+</dependency>
+

@@ -1,0 +1,38 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptPreparedStatementTest.java
+Original Test Method:
+     public void assertDeleteWithExecute() throws SQLException {
+        try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+            statement.setObject(1, 'a');
+            statement.setObject(2, 1);
+            statement.execute();
+        }
+        assertResultSet(1, 5, "encryptValue", "assistedEncryptValue");
+    }
+Patch:
+
+test_code:
+public void assertDeleteWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(DELETE_SQL)) {
+        statement.setObject(1, 'a');
+        statement.setObject(2, 1);
+        int affectedRows = statement.executeUpdate();
+        assertThat(affectedRows, is(1));
+    }
+    try (PreparedStatement queryStatement = getEncryptConnection().prepareStatement("SELECT COUNT(*) FROM t_encrypt");
+         ResultSet resultSet = queryStatement.executeQuery()) {
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        assertThat(count, greaterThanOrEqualTo(1));
+    }
+}
+
+import:
+['import static org.hamcrest.Matchers.greaterThanOrEqualTo;']
+pom:
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-core</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>

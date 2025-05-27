@@ -1,0 +1,152 @@
+Test File Path: projects/ac0b518f190c30228e401ef66d53329bbd27bad6/jReddit/src/test/java/com/github/jreddit/request/util/KeyValueFormatterTest.java
+Original Test Method:
+     public void testFormatMultiple() {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("a", "b");
+        params.put("a", "b");
+        params.put("b", "c");
+        
+        Assert.assertTrue(
+                ("a=b&b=c").equals(KeyValueFormatter.format(params, true))
+                ||
+                ("b=c&a=b").equals(KeyValueFormatter.format(params, true))
+                );
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void testFormatMultiple() {
+        Map<String, String> params = new HashMap<>();
+        params.put("a", "b");
+        params.put("b", "c");
+
+        Assert.assertTrue(
+                ("a=b&b=c").equals(KeyValueFormatter.format(params, true))
+                ||
+                ("b=c&a=b").equals(KeyValueFormatter.format(params, true))
+                );
+    }
+
+
+import:
+
+['import java.util.Map;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testFormatMultiple() {
+    Map<String, String> params = new LinkedHashMap<>();
+    params.put("a", "b");
+    params.put("b", "c");
+
+    Assert.assertTrue(
+            ("a=b&b=c").equals(KeyValueFormatter.format(params, true))
+            ||
+            ("b=c&a=b").equals(KeyValueFormatter.format(params, true))
+            );
+}
+
+
+import:
+
+['import com.google.common.collect.LinkedHashMap;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>29.0-jre</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testFormatMultiple() {
+        Map<String, String> params = new LinkedHashMap<>();
+        params.put("a", "b");
+        params.put("b", "c");
+
+        Assert.assertTrue(
+                ("a=b&b=c").equals(KeyValueFormatter.format(params, true))
+                ||
+                ("b=c&a=b").equals(KeyValueFormatter.format(params, true))
+                );
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testFormatMultiple() {
+    Map<String, String> params = new LinkedHashMap<>();
+    params.put("a", "b");
+    params.put("b", "c");
+
+    String expected = "a=b&b=c";
+    String actual = KeyValueFormatter.format(params, true);
+    
+    if (!expected.equals(actual) && !expected.equals(new StringBuilder(actual).reverse().toString())) {
+        throw new AssertionError("Expected: " + expected + ", but was: " + actual);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testFormatMultiple() {
+    Map<String, String> params = new LinkedHashMap<>();
+    params.put("a", "b");
+    params.put("b", "c");
+
+    String expected = "a=b&b=c";
+    String actual = KeyValueFormatter.format(params, true);
+    
+    if (!expected.equals(actual) && !expected.equals(new StringBuilder(actual).reverse().toString())) {
+        throw new AssertionError("Expected: " + expected + ", but was: " + actual);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

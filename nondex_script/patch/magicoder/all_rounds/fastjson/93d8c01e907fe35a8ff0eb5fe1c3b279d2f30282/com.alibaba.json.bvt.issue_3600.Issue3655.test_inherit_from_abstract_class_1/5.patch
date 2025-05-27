@@ -1,0 +1,130 @@
+Test File Path: projects/93d8c01e907fe35a8ff0eb5fe1c3b279d2f30282/fastjson/src/test/java/com/alibaba/json/bvt/issue_3600/Issue3655.java
+Original Test Method:
+     public void test_inherit_from_abstract_class_1() {
+        issue3655_b b = new issue3655_b(null, null, null, null, null, null, null, null, null);
+        String result = JSON.toJSONString(b, SerializerFeature.WriteNullStringAsEmpty);
+        System.out.println(result);
+        Assert.assertEquals(jsonStr, result);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_inherit_from_abstract_class_1() {
+    issue3655_b b = new issue3655_b(null, null, null, null, null, null, null, null, null);
+    String result = JSON.toJSONString(b, SerializerFeature.WriteNullStringAsEmpty);
+    System.out.println(result);
+    Assert.assertEquals(result, jsonStr);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.76</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_inherit_from_abstract_class_1() {
+    issue3655_b b = new issue3655_b(null, null, null, null, null, null, null, null, null);
+    String result = JSON.toJSONString(b, SerializerFeature.WriteNullStringAsEmpty);
+    System.out.println(result);
+    Assert.assertEquals(result, jsonStr);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.76</version>
+</dependency>
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_inherit_from_abstract_class_1() {
+    issue3655_b b = new issue3655_b(null, null, null, null, null, null, null, null, null);
+    String result = JSON.toJSONString(b, SerializerFeature.WriteNullStringAsEmpty);
+    System.out.println(result);
+    Assert.assertEquals(result, jsonStr);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.76</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_inherit_from_abstract_class_1() {
+    issue3655_b b = new issue3655_b(null, null, null, null, null, null, null, null, null);
+    String result = JSON.toJSONString(b, SerializerFeature.WriteNullStringAsEmpty);
+    System.out.println(result);
+    String expected = "{\"data1\":\"\",\"data2\":\"\",\"data3\":\"\",\"data4\":\"\",\"data5\":\"\",\"data6\":\"\",\"data7\":\"\",\"data8\":\"\",\"data9\":\"\"}";
+    Assert.assertEquals(result, expected);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_inherit_from_abstract_class_1() {
+    issue3655_b b = new issue3655_b(null, null, null, null, null, null, null, null, null);
+    String result = JSON.toJSONString(b, SerializerFeature.WriteNullStringAsEmpty);
+    System.out.println(result);
+    String expected = "{\"data1\":\"\",\"data2\":\"\",\"data3\":\"\",\"data4\":\"\",\"data5\":\"\",\"data6\":\"\",\"data7\":\"\",\"data8\":\"\",\"data9\":\"\"}";
+    Assert.assertEquals(result, expected);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

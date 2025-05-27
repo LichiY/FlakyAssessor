@@ -1,0 +1,17 @@
+Test File Path: projects/16452ef4d17ed76b079c6f1eba07a4749fa08d02/karate/karate-core/src/test/java/com/intuit/karate/core/FeatureResultTest.java
+Original Test Method:
+     void testJsonConversion() {
+        run("feature-result.feature");
+        Map<String, Object> featureResult = fr.result.toKarateJson();
+        String expected = FileUtils.toString(new File("src/test/java/com/intuit/karate/core/feature-result.json"));
+        match(featureResult, expected);
+        FeatureResult temp = FeatureResult.fromKarateJson(fr.suite.workingDir, featureResult);
+        Report report = SuiteReports.DEFAULT.featureReport(fr.suite, fr.result);
+        File file = report.render("target");        
+        logger.debug("saved report: {}", file.getAbsolutePath());        
+        Map<String, Object> karateClone = temp.toKarateJson();
+        match(featureResult, karateClone);
+        Map<String, Object> cucumberClone = temp.toCucumberJson();
+        expected = FileUtils.toString(new File("src/test/java/com/intuit/karate/core/feature-result-cucumber.json"));
+        match(cucumberClone, expected);
+    }

@@ -1,0 +1,158 @@
+Test File Path: projects/5e285ba5b47266d7dcede64aefae00fbe0c9c4ae/hippo4j/hippo4j-common/src/test/java/cn/hippo4j/common/toolkit/JSONUtilTest.java
+Original Test Method:
+     public void assertToJSONString() {
+        Assert.assertNull(JSONUtil.toJSONString(null));
+        Assert.assertEquals(EXPECTED_FOO_JSON, JSONUtil.toJSONString(EXPECTED_FOO));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertToJSONString() {
+    Assert.assertNull(JSONUtil.toJSONString(null));
+    Assert.assertEquals(EXPECTED_FOO_JSON, JSONUtil.toJSONString(EXPECTED_FOO));
+}
+
+
+import:
+
+['import com.alibaba.fastjson.JSON;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.73</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertToJSONString() {
+    Assert.assertNull(JSONUtil.toJSONString(null));
+    Assert.assertEquals(EXPECTED_FOO_JSON, JSONUtil.toJSONString(EXPECTED_FOO));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertToJSONString() {
+    Assert.assertNull(JSONUtil.toJSONString(null));
+    Assert.assertEquals(EXPECTED_FOO_JSON, JSONUtil.toJSONString(EXPECTED_FOO));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- pom.xml code -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public static void assertToJSONString() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        Id id = new Id();
+        id.id = 1;
+        id.name = "foo1";
+        id.foo = new Foo();
+        id.foo.id = 2;
+        id.foo.name = "foo2";
+
+        String expected = "{\"id\":1,\"name\":\"foo1\",\"foo\":{\"id\":2,\"name\":\"foo2\"}}";
+        String actual = mapper.writeValueAsString(id);
+
+        if (!expected.equals(actual)) {
+            throw new AssertionError("Expected: " + expected + ", but was: " + actual);
+        }
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    public void assertToJSONString() {
+        ObjectMapper mapper = new ObjectMapper();
+        Id id = new Id();
+        id.id = 1;
+        id.name = "foo1";
+        id.foo = new Foo();
+        id.foo.id = 2;
+        id.foo.name = "foo2";
+
+        String expected = "{\"id\":1,\"name\":\"foo1\",\"foo\":{\"id\":2,\"name\":\"foo2\"}}";
+        String actual = mapper.writeValueAsString(id);
+
+        if (!expected.equals(actual)) {
+            throw new AssertionError("Expected: " + expected + ", but was: " + actual);
+        }
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>

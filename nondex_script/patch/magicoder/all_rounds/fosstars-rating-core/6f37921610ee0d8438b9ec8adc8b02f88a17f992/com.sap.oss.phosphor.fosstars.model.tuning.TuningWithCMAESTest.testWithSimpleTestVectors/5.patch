@@ -1,0 +1,182 @@
+Test File Path: projects/6f37921610ee0d8438b9ec8adc8b02f88a17f992/fosstars-rating-core/src/test/java/com/sap/oss/phosphor/fosstars/model/tuning/TuningWithCMAESTest.java
+Original Test Method:
+   public void testWithSimpleTestVectors() throws Exception {
+    SecurityScoreExample score = new SecurityScoreExample();
+
+    ScoreVerification verification = new ScoreVerification(score, SIMPLE_TEST_VECTORS);
+    assertNotNull(verification);
+
+    new TuningWithCMAES(score, new ScoreVerifier(score, SIMPLE_TEST_VECTORS)).run();
+
+    verification.run();
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testWithSimpleTestVectors() throws Exception {
+    SecurityScoreExample score = new SecurityScoreExample();
+
+    ScoreVerification verification = new ScoreVerification(score, SIMPLE_TEST_VECTORS);
+    assertNotNull(verification);
+
+    new TuningWithCMAES(score, new ScoreVerifier(score, SIMPLE_TEST_VECTORS)).run();
+
+    verification.run();
+}
+
+
+import:
+
+['import com.example.myclass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testWithSimpleTestVectors() throws Exception {
+    SecurityScoreExample score = new SecurityScoreExample();
+
+    ScoreVerification verification = new ScoreVerification(score, SIMPLE_TEST_VECTORS);
+    assertNotNull(verification);
+
+    new TuningWithCMAES(score, new ScoreVerifier(score, SIMPLE_TEST_VECTORS)).run();
+
+    verification.run();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testWithSimpleTestVectors() {
+    // Use LinkedHashSet instead of HashSet to make sure the order is deterministic
+    Set<String> set = new LinkedHashSet<>();
+    set.add("a");
+    set.add("b");
+    set.add("c");
+
+    // Use LinkedHashMap instead of HashMap to make sure the order is deterministic
+    Map<String, Integer> map = new LinkedHashMap<>();
+    map.put("a", 1);
+    map.put("b", 2);
+    map.put("c", 3);
+
+    // Use JsonParser to parse JSON string
+    JsonParser parser = new JsonParser();
+    JsonElement element = parser.parse("{\"a\":1,\"b\":2,\"c\":3}");
+
+    // Use assertThatJson to compare JSON strings
+    assertThatJson(element).isEqualTo("{\"a\":1,\"b\":2,\"c\":3}");
+
+    // Use containsExactlyInAnyOrder to check if the set contains the expected elements in any order
+    assertThat(set).containsExactlyInAnyOrder("a", "b", "c");
+
+    // Use containsOnly to check if the map contains the expected key-value pairs
+    assertThat(map).containsOnly(entry("a", 1), entry("b", 2), entry("c", 3));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+public void testWithSimpleTestVectors() throws Exception {
+    // Use LinkedHashSet instead of HashSet to make sure the order is deterministic
+    Set<String> set = new LinkedHashSet<>();
+    set.add("a");
+    set.add("b");
+    set.add("c");
+
+    // Use LinkedHashMap instead of HashMap to make sure the order is deterministic
+    Map<String, Integer> map = new LinkedHashMap<>();
+    map.put("a", 1);
+    map.put("b", 2);
+    map.put("c", 3);
+
+    // Use JsonParser to parse JSON string
+    JsonParser parser = new JsonParser();
+    JsonElement element = parser.parse("{\"a\":1,\"b\":2,\"c\":3}");
+
+    // Use assertThatJson to compare JSON strings
+    assertThatJson(element).isEqualTo("{\"a\":1,\"b\":2,\"c\":3}");
+
+    // Use containsExactlyInAnyOrder to check if the set contains the expected elements in any order
+    assertThat(set).containsExactlyInAnyOrder("a", "b", "c");
+
+    // Use containsOnly to check if the map contains the expected key-value pairs
+    assertThat(map).containsOnly(entry("a", 1), entry("b", 2), entry("c", 3));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.gson.JsonElement;', 'import com.google.gson.JsonParser;', 'import java.util.LinkedHashMap;', 'import java.util.LinkedHashSet;', 'import java.util.Map;', 'import java.util.Set;', 'import static org.assertj.core.api.Assertions.assertThat;', 'import static org.assertj.core.api.Assertions.entry;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>

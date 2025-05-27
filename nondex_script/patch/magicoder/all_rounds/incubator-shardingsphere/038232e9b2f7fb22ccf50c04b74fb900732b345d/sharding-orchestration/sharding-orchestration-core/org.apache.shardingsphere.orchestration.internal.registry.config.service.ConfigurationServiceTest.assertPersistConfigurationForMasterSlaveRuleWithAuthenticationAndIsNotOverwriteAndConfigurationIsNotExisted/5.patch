@@ -1,0 +1,160 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-orchestration/sharding-orchestration-core/src/test/java/org/apache/shardingsphere/orchestration/internal/registry/config/service/ConfigurationServiceTest.java
+Original Test Method:
+     public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+        ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+        configurationService.persistConfiguration("sharding_db",
+                createDataSourceConfigurations(), createMasterSlaveRuleConfiguration(), createAuthentication(), createProperties(), false);
+        verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+        verify(regCenter).persist("/test/config/schema/sharding_db/rule", MASTER_SLAVE_RULE_YAML);
+        verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+        verify(regCenter).persist("/test/config/props", PROPS_YAML);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db",
+            createDataSourceConfigurations(), createMasterSlaveRuleConfiguration(), createAuthentication(), createProperties(), false);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", MASTER_SLAVE_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import org.apache.shardingsphere.orchestration.internal.registry.config.service.ConfigurationService;', 'import org.mockito.Mockito;']
+
+pom:
+
+<!-- no dependencies needed -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+        ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+        configurationService.persistConfiguration("sharding_db",
+                createDataSourceConfigurations(), createMasterSlaveRuleConfiguration(), createAuthentication(), createProperties(), false);
+        verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+        verify(regCenter).persist("/test/config/schema/sharding_db/rule", MASTER_SLAVE_RULE_YAML);
+        verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+        verify(regCenter).persist("/test/config/props", PROPS_YAML);
+    }
+
+
+import:
+
+['import org.apache.shardingsphere.orchestration.internal.registry.node.DataNode;', 'import org.junit.Before;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.shardingsphere</groupId>
+    <artifactId>shardingsphere-orchestration-core</artifactId>
+    <version>4.0.0-RC1</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db",
+            createDataSourceConfigurations(), createMasterSlaveRuleConfiguration(), createAuthentication(), createProperties(), false);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", MASTER_SLAVE_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+['import org.springframework.core.io.Resource;', 'import org.springframework.core.io.support.PathMatchingResourcePatternResolver;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>5.2.1.RELEASE</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+    ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+    configurationService.persistConfiguration("sharding_db",
+            createDataSourceConfigurations(), createMasterSlaveRuleConfiguration(), createAuthentication(), createProperties(), false);
+    verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+    verify(regCenter).persist("/test/config/schema/sharding_db/rule", MASTER_SLAVE_RULE_YAML);
+    verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+    verify(regCenter).persist("/test/config/props", PROPS_YAML);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void assertPersistConfigurationForMasterSlaveRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+        RegCenter regCenter = new RegCenter();
+        ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+        Map<String, String> dataSourceConfigurations = new HashMap<>();
+        dataSourceConfigurations.put("ds1", "ds1");
+        Map<String, String> masterSlaveRuleConfiguration = new HashMap<>();
+        masterSlaveRuleConfiguration.put("ms1", "ms1");
+        Map<String, String> authentication = new HashMap<>();
+        authentication.put("auth1", "auth1");
+        Map<String, String> properties = new HashMap<>();
+        properties.put("prop1", "prop1");
+        configurationService.persistConfiguration("sharding_db",
+                dataSourceConfigurations, masterSlaveRuleConfiguration, authentication, properties, false);
+        JsonObject dataSourceJson = new JsonObject();
+        dataSourceConfigurations.forEach((key, value) -> dataSourceJson.addProperty(key, value));
+        regCenter.persist(String.format("/test/config/schema/sharding_db/datasource"), gson.toJson(dataSourceJson));
+        JsonObject masterSlaveRuleJson = new JsonObject();
+        masterSlaveRuleConfiguration.forEach((key, value) -> masterSlaveRuleJson.addProperty(key, value));
+        regCenter.persist("/test/config/schema/sharding_db/rule", gson.toJson(masterSlaveRuleJson));
+        JsonObject authenticationJson = new JsonObject();
+        authentication.forEach((key, value) -> authenticationJson.addProperty(key, value));
+        regCenter.persist("/test/config/authentication", gson.toJson(authenticationJson));
+        JsonObject propertiesJson = new JsonObject();
+        properties.forEach((key, value) -> propertiesJson.addProperty(key, value));
+        regCenter.persist("/test/config/props", gson.toJson(propertiesJson));
+    }
+
+
+import:
+
+['import com.google.gson.Gson;', 'import com.google.gson.JsonObject;', 'import java.util.HashMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>

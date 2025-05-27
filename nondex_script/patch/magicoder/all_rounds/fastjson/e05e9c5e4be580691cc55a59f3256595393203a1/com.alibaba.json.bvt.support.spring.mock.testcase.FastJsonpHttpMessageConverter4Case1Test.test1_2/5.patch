@@ -1,0 +1,183 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/support/spring/mock/testcase/FastJsonpHttpMessageConverter4Case1Test.java
+Original Test Method:
+     public void test1_2() throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        json.put("id", 123);
+
+        json.put("name", "哈哈哈");
+
+        ResultActions actions = mockMvc.perform((post("/fastjson/test1?callback=fnUpdateSome").characterEncoding(
+                "UTF-8").content(json.toJSONString()).contentType(MediaType.APPLICATION_JSON)));
+        actions.andDo(print());
+        actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+                .andExpect(content().string("/**/fnUpdateSome({\"name\":\"哈哈哈\",\"id\":123})"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+    public void test1_2() throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        json.put("id", 123);
+
+        json.put("name", "哈哈哈");
+
+        if (mockMvc == null) {
+            mockMvc = MockMvcBuilders.standaloneSetup(new TestClass()).build();
+        }
+
+        ResultActions actions = mockMvc.perform((post("/fastjson/test1?callback=fnUpdateSome").characterEncoding(
+                "UTF-8").content(json.toString()).contentType(MediaType.APPLICATION_JSON)));
+        actions.andDo(print());
+        actions.andExpect(status().isOk()).andExpect(content().contentType(APPLICATION_JAVASCRIPT))
+                .andExpect(content().string("/**/fnUpdateSome({\"name\":\"哈哈哈\",\"id\":123})"));
+    }
+
+
+import:
+
+['import static org.springframework.http.MediaType.APPLICATION_JAVASCRIPT;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void test1_2() throws Exception {
+        JSONObject json = new JSONObject();
+
+        json.put("id", 123);
+        json.put("name", "哈哈哈");
+
+        ResultActions actions = mockMvc.perform(post("/fastjson/test1?callback=fnUpdateSome")
+                .characterEncoding("UTF-8")
+                .content(json.toString())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        actions.andDo(print());
+        actions.andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string("/**/fnUpdateSome({\"name\":\"哈哈哈\",\"id\":123})"));
+    }
+
+
+import:
+
+['import static org.springframework.http.MediaType.APPLICATION_JSON;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test1_2() throws Exception {
+    JSONObject json = new JSONObject();
+
+    json.put("id", 123);
+    json.put("name", "哈哈哈");
+
+    MockMvc mockMvc = new MockMvc();
+
+    ResultActions actions = mockMvc.perform(post("/fastjson/test1?callback=fnUpdateSome")
+            .characterEncoding("UTF-8")
+            .content(json.toString())
+            .contentType(MediaType.APPLICATION_JSON));
+
+    actions.andDo(print());
+    actions.andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().string("/**/fnUpdateSome({\"name\":\"哈哈哈\",\"id\":123})"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test1_2() throws Exception {
+    JSONObject json = new JSONObject();
+
+    json.put("id", 123);
+    json.put("name", "哈哈哈");
+
+    MockMvc mockMvc = new MockMvc();
+
+    ResultActions actions = mockMvc.perform(post("/fastjson/test1?callback=fnUpdateSome")
+            .characterEncoding("UTF-8")
+            .content(json.toString())
+            .contentType(MediaType.APPLICATION_JSON));
+
+    actions.andDo(print());
+    actions.andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().string("/**/fnUpdateSome({\"name\":\"哈哈哈\",\"id\":123})"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test1_2() throws Exception {
+        JSONObject json = new JSONObject();
+
+        json.put("id", 123);
+        json.put("name", "哈哈哈");
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new TestController()).build();
+
+        ResultActions actions = mockMvc.perform(post("/fastjson/test1?callback=fnUpdateSome")
+                .characterEncoding("UTF-8")
+                .content(json.toString())
+                .contentType(APPLICATION_JSON));
+
+        actions.andDo(print());
+        actions.andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string("/**/fnUpdateSome({\"name\":\"哈哈哈\",\"id\":123})"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>5.3.2</version>
+</dependency>

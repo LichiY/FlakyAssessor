@@ -1,0 +1,114 @@
+Test File Path: projects/b70edd7f1b600b7927913528405de98ebbebf5ce/openapi-generator/modules/openapi-generator/src/test/java/org/openapitools/codegen/kotlin/AbstractKotlinCodegenTest.java
+Original Test Method:
+     public void convertModelName() {
+        assertEquals(codegen.toModelName("$"), "Dollar");
+        assertEquals(codegen.toModelName("$$"), "DollarDollar");
+        assertEquals(codegen.toModelName("Pony?"), "PonyQuestionMark");
+        assertEquals(codegen.toModelName("$name"), "DollarName");
+        assertEquals(codegen.toModelName("nam#e"), "NamHashE");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherMinusFakeQuestionMark");
+        assertEquals(codegen.toModelName("Pony>=>="), "PonyGreaterThanEqualGreaterThanEqual");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void convertModelName() {
+    CodeGen codegen = new CodeGen();
+    assertEquals(codegen.toModelName("Pony>=>="), "PonyGreaterThanOrEqualToEqualGreaterThanOrEqualToEqual");
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void convertModelName() {
+    CodeGen codegen = new CodeGen();
+    String expected = "PonyGreaterThanOrEqualToEqualGreaterThanOrEqualToEqual";
+    String actual = codegen.toModelName("Pony>=>=");
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void convertModelName() {
+        CodeGen codegen = new CodeGen();
+        String expected = "PonyGreaterThanOrEqualToEqualGreaterThanOrEqualToEqual";
+        String actual = codegen.toModelName("Pony>=>=");
+        assertEquals(expected, actual);
+    }
+
+
+import:
+
+['import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>

@@ -1,0 +1,147 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptPreparedStatementTest.java
+Original Test Method:
+     public void assertUpdateWithExecuteUpdate() throws SQLException {
+        int result;
+        try (PreparedStatement statement = getEncryptConnection().prepareStatement(UPDATE_SQL)) {
+            statement.setObject(1, 'f');
+            statement.setObject(2, 'a');
+            result = statement.executeUpdate();
+        }
+        assertThat(result, is(2));
+        assertResultSet(2, 1, "encryptValue", "assistedEncryptValue");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertUpdateWithExecuteUpdate() throws SQLException {
+    int result;
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(UPDATE_SQL)) {
+        statement.setObject(1, 'f');
+        statement.setObject(2, 'a');
+        result = statement.executeUpdate();
+    }
+    assertThat(result, is(2));
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement("SELECT COUNT(*) FROM t_encrypt WHERE encrypt_value = ? AND assisted_encrypt_value = ?")) {
+        statement.setObject(1, "encryptValue");
+        statement.setObject(2, "assistedEncryptValue");
+        try (ResultSet resultSet = statement.executeQuery()) {
+            resultSet.next();
+            assertThat(resultSet.getInt(1), is(2));
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertUpdateWithExecuteUpdate() throws SQLException {
+    int result;
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(UPDATE_SQL)) {
+        statement.setObject(1, 'f');
+        statement.setObject(2, 'a');
+        result = statement.executeUpdate();
+    }
+    assertThat(result, is(2));
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement("SELECT COUNT(*) FROM t_encrypt WHERE cipher_value = ? AND assisted_query_value = ?")) {
+        statement.setObject(1, "encryptValue");
+        statement.setObject(2, "assistedEncryptValue");
+        try (ResultSet resultSet = statement.executeQuery()) {
+            resultSet.next();
+            assertThat(resultSet.getInt(1), is(2));
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertUpdateWithExecuteUpdate() throws SQLException {
+    int result;
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(UPDATE_SQL)) {
+        statement.setObject(1, 'f');
+        statement.setObject(2, 'a');
+        result = statement.executeUpdate();
+    }
+    assertThat(result, is(2));
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement("SELECT COUNT(*) FROM t_encrypt WHERE cipher_pwd = ? AND assisted_query_pwd = ?")) {
+        statement.setObject(1, "encryptValue");
+        statement.setObject(2, "assistedEncryptValue");
+        try (ResultSet resultSet = statement.executeQuery()) {
+            resultSet.next();
+            assertThat(resultSet.getInt(1), is(2));
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertUpdateWithExecuteUpdate() throws SQLException {
+    int result;
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(UPDATE_SQL)) {
+        statement.setObject(1, 'f');
+        statement.setObject(2, 'a');
+        result = statement.executeUpdate();
+    }
+    assertThat(result, is(2));
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement("SELECT COUNT(*) FROM t_encrypt WHERE cipher_pwd = ?")) {
+        statement.setObject(1, "encryptValue");
+        try (ResultSet resultSet = statement.executeQuery()) {
+            resultSet.next();
+            assertThat(resultSet.getInt(1), is(2));
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+

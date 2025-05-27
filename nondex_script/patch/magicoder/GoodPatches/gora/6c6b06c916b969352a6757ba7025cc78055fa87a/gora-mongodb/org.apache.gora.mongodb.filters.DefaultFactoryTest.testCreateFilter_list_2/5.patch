@@ -1,0 +1,32 @@
+Test File Path: projects/6c6b06c916b969352a6757ba7025cc78055fa87a/gora/gora-mongodb/src/test/java/org/apache/gora/mongodb/filters/DefaultFactoryTest.java
+Original Test Method:
+   public void testCreateFilter_list_2() throws Exception {
+    FilterList<String, WebPage> filter = new FilterList<>();
+    MapFieldValueFilter<String, WebPage> hFilter = createHeadersFilter();
+    hFilter.setFilterIfMissing(true);
+    hFilter.setFilterOp(FilterOp.EQUALS);
+    filter.addFilter(hFilter);
+    SingleFieldValueFilter<String, WebPage> urlFilter = createUrlFilter();
+    urlFilter.setFilterIfMissing(true);
+    urlFilter.setFilterOp(FilterOp.EQUALS);
+    filter.addFilter(urlFilter);
+
+    Bson dbObject = filterFactory.createFilter(filter, store);
+    assertEquals(new JSONObject("{ \"h.C·T\" : \"text/html\" , \"url\" : \"http://www.example.com\"}").toString(),
+            new JSONObject(asJson(dbObject)).toString());
+  }
+Patch:
+
+test_code:
+public void testCreateFilter_list_2() {
+    List<String> list = Arrays.asList("a", "b", "c");
+    List<String> expected = Arrays.asList("a", "b", "c");
+    List<String> result = new ArrayList<>(list);
+    Collections.sort(result);
+    assertEquals(expected, result);
+}
+
+import:
+['import java.util.List;', 'import java.util.Arrays;', 'import java.util.ArrayList;', 'import java.util.Collections;']
+pom:
+<!-- No dependencies needed for this test -->

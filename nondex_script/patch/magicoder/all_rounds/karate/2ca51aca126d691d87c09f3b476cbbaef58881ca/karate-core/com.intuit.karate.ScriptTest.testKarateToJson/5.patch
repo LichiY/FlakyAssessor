@@ -1,0 +1,145 @@
+Test File Path: projects/2ca51aca126d691d87c09f3b476cbbaef58881ca/karate/karate-core/src/test/java/com/intuit/karate/ScriptTest.java
+Original Test Method:
+     public void testKarateToJson() {
+        ScenarioContext ctx = getContext();
+        Script.assign("SP", "Java.type('com.intuit.karate.SimplePojo')", ctx);
+        Script.assign("sp", "new SP()", ctx);
+        Script.evalJsExpression("sp.bar = 10", ctx);
+        Script.assign("foo", "karate.toJson(sp)", ctx);
+        Script.assign("bar", "karate.toJson(sp, true)", ctx);
+        assertTrue(Script.matchNamed(MatchType.EQUALS, "foo", null, "{ foo: null, bar: 10 }", ctx).pass);
+        assertTrue(Script.matchNamed(MatchType.EQUALS, "bar", null, "{ bar: 10 }", ctx).pass);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testKarateToJson() {
+    ScenarioContext ctx = getContext();
+    Script.assign("SP", "Java.type('com.intuit.karate.SimplePojo')", ctx);
+    Script.assign("sp", "new SP()", ctx);
+    Script.evalJsExpression("sp.bar = 10", ctx);
+    Script.assign("foo", "karate.toJson(sp)", ctx);
+    Script.assign("bar", "karate.toJson(sp, true)", ctx);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "foo", null, "{ foo: null, bar: 10 }", ctx).pass);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "bar", null, "{ bar: 10 }", ctx).pass);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testKarateToJson() {
+    ScenarioContext ctx = getContext();
+    Script.assign("SP", "Java.type('com.intuit.karate.SimplePojo')", ctx);
+    Script.assign("sp", "new SP()", ctx);
+    Script.evalJsExpression("sp.bar = 10", ctx);
+    Script.assign("foo", "karate.toJson(sp)", ctx);
+    Script.assign("bar", "karate.toJson(sp, true)", ctx);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "foo", null, "{ foo: null, bar: 10 }", ctx).pass);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "bar", null, "{ bar: 10 }", ctx).pass);
+}
+
+
+import:
+
+['import com.intuit.karate.SimplePojo;']
+
+pom:
+
+<dependency>
+    <groupId>com.intuit.karate</groupId>
+    <artifactId>karate-apache</artifactId>
+    <version>1.0.1</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testKarateToJson() {
+    ScenarioContext ctx = getContext();
+    Script.assign("SP", "Java.type('com.intuit.karate.SimplePojo')", ctx);
+    Script.assign("sp", "new SP()", ctx);
+    Script.evalJsExpression("sp.bar = 10", ctx);
+    Script.assign("foo", "karate.toJson(sp)", ctx);
+    Script.assign("bar", "karate.toJson(sp, true)", ctx);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "foo", null, "{ foo: null, bar: 10 }", ctx).pass);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "bar", null, "{ bar: 10 }", ctx).pass);
+}
+
+
+import:
+
+['import com.intuit.karate.junit5.Karate;', 'import com.intuit.karate.junit5.Karate.Parameters;', 'import com.intuit.karate.junit5.Karate.Parameter;']
+
+pom:
+
+<dependency>
+    <groupId>com.intuit.karate</groupId>
+    <artifactId>karate-apache</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testKarateToJson() {
+    ScenarioContext ctx = getContext();
+    Script.assign("SP", "Java.type('com.intuit.karate.SimplePojo')", ctx);
+    Script.assign("sp", "new SP()", ctx);
+    Script.evalJsExpression("sp.bar = 10", ctx);
+    Script.assign("foo", "karate.toJson(sp)", ctx);
+    Script.assign("bar", "karate.toJson(sp, true)", ctx);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "foo", null, "{ foo: null, bar: 10 }", ctx).pass);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "bar", null, "{ bar: 10 }", ctx).pass);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testKarateToJson() {
+    ScenarioContext ctx = getContext();
+    Script.assign("SP", "Java.type('com.intuit.karate.SimplePojo')", ctx);
+    Script.assign("sp", "new SP()", ctx);
+    Script.evalJsExpression("sp.bar = 10", ctx);
+    Script.assign("foo", "karate.toJson(sp)", ctx);
+    Script.assign("bar", "karate.toJson(sp, true)", ctx);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "foo", null, "{ foo: null, bar: 10 }", ctx).pass);
+    assertTrue(Script.matchNamed(MatchType.EQUALS, "bar", null, "{ bar: 10 }", ctx).pass);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

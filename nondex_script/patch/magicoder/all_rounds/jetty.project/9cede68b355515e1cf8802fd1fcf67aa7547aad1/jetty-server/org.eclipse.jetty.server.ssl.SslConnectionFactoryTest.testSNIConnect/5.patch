@@ -1,0 +1,118 @@
+Test File Path: projects/9cede68b355515e1cf8802fd1fcf67aa7547aad1/jetty.project/jetty-server/src/test/java/org/eclipse/jetty/server/ssl/SslConnectionFactoryTest.java
+Original Test Method:
+     public void testSNIConnect() throws Exception
+    {
+        String response = getResponse("localhost", "localhost", "jetty.eclipse.org");
+        assertThat(response, Matchers.containsString("host=localhost"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String response = getResponse("localhost", "localhost", "jetty.eclipse.org");
+    assertThat(response, Matchers.containsString("host=localhost"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String response = getResponse("localhost", "localhost", "jetty.eclipse.org");
+    assertThat(response, Matchers.containsString("host=localhost"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String response = getResponse("localhost", "localhost", "jetty.eclipse.org");
+    assertThat(response, Matchers.containsString("host=localhost"));
+}
+
+
+import:
+
+['import org.apache.http.client.methods.CloseableHttpResponse;', 'import org.apache.http.client.methods.HttpGet;', 'import org.apache.http.impl.client.CloseableHttpClient;', 'import org.apache.http.impl.client.HttpClients;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.12</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSNIConnect() throws Exception {
+    String response = getResponse("localhost", "localhost", "jetty.eclipse.org");
+    String[] responseParts = response.split("\n");
+    Arrays.sort(responseParts);
+    assertThat(String.join("\n", responseParts), Matchers.containsString("host=localhost"));
+}
+
+
+import:
+
+['import java.io.BufferedReader;', 'import java.io.InputStreamReader;', 'import java.util.Arrays;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.12</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testSNIConnect() throws Exception {
+        String response = getResponse("localhost", "localhost", "jetty.eclipse.org");
+        String[] responseParts = response.split("\n");
+        Arrays.sort(responseParts);
+        assertThat(String.join("\n", responseParts), Matchers.containsString("host=localhost"));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.12</version>
+</dependency>

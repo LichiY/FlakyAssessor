@@ -1,0 +1,165 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptStatementTest.java
+Original Test Method:
+     public void assertInsertWithExecute() throws SQLException {
+        try (Statement statement = getEncryptConnection().createStatement()) {
+            statement.execute(INSERT_SQL);
+        }
+        assertResultSet(3, 2, "encryptValue", "b");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement()) {
+        statement.execute(INSERT_SQL);
+    }
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM t_encrypt")) {
+        resultSet.next();
+        int actualCount = resultSet.getInt(1);
+        assertThat(actualCount, is(3));
+    }
+    assertResultSet(3, 2, "encryptValue", "b");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement()) {
+        statement.execute(INSERT_SQL);
+    }
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM t_encrypt")) {
+        resultSet.next();
+        int actualCount = resultSet.getInt(1);
+        assertThat(actualCount, is(3));
+    }
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT * FROM t_encrypt ORDER BY id")) {
+        int count = 0;
+        while (resultSet.next()) {
+            count++;
+            if (count == 3) {
+                assertThat(resultSet.getString("cipher_pwd"), is("encryptValue"));
+                assertThat(resultSet.getString("plain_pwd"), is("b"));
+            }
+        }
+        assertThat(count, is(3));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement()) {
+        statement.execute(INSERT_SQL);
+    }
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM t_encrypt")) {
+        resultSet.next();
+        int actualCount = resultSet.getInt(1);
+        assertThat(actualCount, is(3));
+    }
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT * FROM t_encrypt ORDER BY id")) {
+        int count = 0;
+        boolean foundExpectedRecord = false;
+        while (resultSet.next()) {
+            count++;
+            if ("b".equals(resultSet.getString("plain_pwd"))) {
+                foundExpectedRecord = true;
+                assertThat(resultSet.getString("cipher_pwd"), is("encryptValue"));
+                assertThat(resultSet.getString("plain_pwd"), is("b"));
+            }
+        }
+        assertThat(count, is(3));
+        assertTrue(foundExpectedRecord);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (Statement statement = getEncryptConnection().createStatement()) {
+        statement.execute(INSERT_SQL);
+    }
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM t_encrypt")) {
+        resultSet.next();
+        int actualCount = resultSet.getInt(1);
+        assertThat(actualCount, is(3));
+    }
+    try (Statement statement = getEncryptConnection().createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT * FROM t_encrypt ORDER BY id")) {
+        int count = 0;
+        boolean foundExpectedRecord = false;
+        while (resultSet.next()) {
+            count++;
+            if ("b".equals(resultSet.getString("plain_pwd"))) {
+                foundExpectedRecord = true;
+                assertThat(resultSet.getString("cipher_pwd"), not(isEmptyOrNullString()));
+                assertThat(resultSet.getString("plain_pwd"), is("b"));
+            }
+        }
+        assertThat(count, is(3));
+        assertTrue(foundExpectedRecord);
+    }
+}
+
+
+import:
+
+['import static org.hamcrest.CoreMatchers.not;', 'import static org.hamcrest.Matchers.isEmptyOrNullString;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-library</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+

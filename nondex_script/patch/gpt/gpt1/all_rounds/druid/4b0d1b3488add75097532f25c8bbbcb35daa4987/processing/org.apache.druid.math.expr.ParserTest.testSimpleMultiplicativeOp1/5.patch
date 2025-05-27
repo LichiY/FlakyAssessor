@@ -1,0 +1,122 @@
+Test File Path: projects/4b0d1b3488add75097532f25c8bbbcb35daa4987/druid/processing/src/test/java/org/apache/druid/math/expr/ParserTest.java
+Original Test Method:
+   public void testSimpleMultiplicativeOp1()
+  {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    validateParser("x%y", "(% x y)", ImmutableList.of("x", "y"));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+}
+
+
+import:
+
+['import org.assertj.core.api.Assertions;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    
+    Set<String> expectedBindings = new LinkedHashSet<>(ImmutableList.of("x", "y"));
+    Assert.assertEquals(expectedBindings, new LinkedHashSet<>(deets.getRequiredBindingsList()));
+    Assert.assertEquals(expectedBindings, new LinkedHashSet<>(roundTripDeets.getRequiredBindingsList()));
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    ParserDetails deets = validateParser("x*y", "(* x y)", ImmutableList.of("x", "y"));
+    ParserDetails roundTripDeets = validateParser("x/y", "(/ x y)", ImmutableList.of("x", "y"));
+    
+    Set<String> expectedBindings = new LinkedHashSet<>(ImmutableList.of("x", "y"));
+    Assert.assertEquals(expectedBindings, new LinkedHashSet<>(deets.getRequiredBindingsList()));
+    Assert.assertEquals(expectedBindings, new LinkedHashSet<>(roundTripDeets.getRequiredBindingsList()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testSimpleMultiplicativeOp1() {
+    List<String> expectedBindings = ImmutableList.of("x", "y");
+    List<String> deetsBindings = validateParser("x*y", "(* x y)", expectedBindings).getRequiredBindingsList();
+    List<String> roundTripBindings = validateParser("x/y", "(/ x y)", expectedBindings).getRequiredBindingsList();
+    
+    Assert.assertEquals(expectedBindings, deetsBindings);
+    Assert.assertEquals(expectedBindings, roundTripBindings);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+

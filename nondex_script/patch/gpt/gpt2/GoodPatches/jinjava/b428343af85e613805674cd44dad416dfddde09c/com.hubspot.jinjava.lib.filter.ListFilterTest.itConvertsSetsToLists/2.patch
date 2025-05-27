@@ -1,0 +1,21 @@
+Test File Path: projects/b428343af85e613805674cd44dad416dfddde09c/jinjava/src/test/java/com/hubspot/jinjava/lib/filter/ListFilterTest.java
+Original Test Method:
+   public void itConvertsSetsToLists() {
+    Set<Integer> ints = Sets.newHashSet(1, 2, 3);
+    List<?> o = (List<?>) filter.filter(ints, null);
+    assertThat(o).isEqualTo(Lists.newArrayList(1, 2, 3));
+  }
+Patch:
+
+test_code:
+public void itConvertsSetsToLists() {
+    Set<Integer> ints = new LinkedHashSet<>(Sets.newHashSet(1, 2, 3));
+    List<?> o = (List<?>) filter.filter(ints, null);
+    assertThat(o).containsExactlyInAnyOrder(1, 2, 3);
+}
+
+import:
+[]
+pom:
+
+<!-- No new dependencies needed -->

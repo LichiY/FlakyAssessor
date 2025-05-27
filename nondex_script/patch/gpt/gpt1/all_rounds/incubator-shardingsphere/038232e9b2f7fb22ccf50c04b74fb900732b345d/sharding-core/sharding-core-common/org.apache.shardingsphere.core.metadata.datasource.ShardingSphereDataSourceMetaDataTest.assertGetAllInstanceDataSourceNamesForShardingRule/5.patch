@@ -1,0 +1,109 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-core/sharding-core-common/src/test/java/org/apache/shardingsphere/core/metadata/datasource/ShardingSphereDataSourceMetaDataTest.java
+Original Test Method:
+     public void assertGetAllInstanceDataSourceNamesForShardingRule() {
+        assertEquals(dataSourceMetas.getAllInstanceDataSourceNames(), Lists.newArrayList("ds_1"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertGetAllInstanceDataSourceNamesForShardingRule() {
+    assertThat(dataSourceMetas.getAllInstanceDataSourceNames()).containsExactlyInAnyOrder("ds_1");
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertGetAllInstanceDataSourceNamesForShardingRule() {
+    assertThat(dataSourceMetas.getAllInstanceDataSourceNames()).containsOnly("ds_1");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertGetAllInstanceDataSourceNamesForShardingRule() {
+    assertThat(dataSourceMetas.getAllInstanceDataSourceNames()).containsExactlyInAnyOrder("ds_1");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertGetAllInstanceDataSourceNamesForShardingRule() {
+    assertThat(dataSourceMetas.getAllInstanceDataSourceNames()).containsOnly("ds_1");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertGetAllInstanceDataSourceNamesForShardingRule() {
+    assertThat(dataSourceMetas.getAllInstanceDataSourceNames()).containsExactlyInAnyOrder("ds_1");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+

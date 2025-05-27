@@ -1,0 +1,195 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/MultilineRecursiveToStringStyleTest.java
+Original Test Method:
+     public void nestedElements() {
+        final Customer customer = new Customer("Douglas Adams");
+        final Bank bank = new Bank("ASF Bank");
+        customer.bank = bank;
+        final String exp = getClassPrefix(customer) + "[" + BR
+                   + "  name=Douglas Adams," + BR
+                   + "  bank=" + getClassPrefix(bank) + "[" + BR
+                   + "    name=ASF Bank" + BR
+                   + "  ]," + BR
+                   + "  accounts=<null>" + BR
+                   + "]";
+        assertEquals(exp, toString(customer));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void nestedElements() {
+    final Customer customer = new Customer("Douglas Adams");
+    final Bank bank = new Bank("ASF Bank");
+    customer.bank = bank;
+    
+    // Split the expected string into parts that can be checked independently
+    String customerPrefix = getClassPrefix(customer);
+    String bankPrefix = getClassPrefix(bank);
+    
+    String actual = toString(customer);
+    
+    assertTrue(actual.contains(customerPrefix + "["));
+    assertTrue(actual.contains("name=Douglas Adams"));
+    assertTrue(actual.contains("bank=" + bankPrefix + "["));
+    assertTrue(actual.contains("name=ASF Bank"));
+    assertTrue(actual.contains("accounts=<null>"));
+    assertTrue(actual.endsWith("]"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No pom.xml updates needed for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void nestedElements() {
+    final Customer customer = new Customer("Douglas Adams");
+    final Bank bank = new Bank("ASF Bank");
+    customer.bank = bank;
+    
+    String actual = toString(customer);
+    
+    assertThat(actual, allOf(
+        containsString("Customer["),
+        containsString("name=Douglas Adams"),
+        containsString("bank=Bank["),
+        containsString("name=ASF Bank"),
+        containsString("accounts=<null>"),
+        endsWith("]")
+    ));
+}
+
+
+import:
+
+['import static org.hamcrest.MatcherAssert.assertThat;', 'import static org.hamcrest.Matchers.allOf;', 'import static org.hamcrest.Matchers.containsString;', 'import static org.hamcrest.Matchers.endsWith;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void nestedElements() {
+    final Customer customer = new Customer("Douglas Adams");
+    final Bank bank = new Bank("ASF Bank");
+    customer.bank = bank;
+    
+    String actual = toString(customer);
+    
+    assertThat(actual, allOf(
+        startsWith("org.apache.commons.lang3.builder.MultilineRecursiveToStringStyleTest$Customer@"),
+        containsString("name=Douglas Adams"),
+        containsString("bank=org.apache.commons.lang3.builder.MultilineRecursiveToStringStyleTest$Bank@"),
+        containsString("name=ASF Bank"),
+        containsString("accounts=<null>"),
+        endsWith("]")
+    ));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No pom.xml updates needed -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void nestedElements() {
+    final Customer customer = new Customer("Douglas Adams");
+    final Bank bank = new Bank("ASF Bank");
+    customer.bank = bank;
+    
+    String actual = toString(customer);
+    
+    assertThat(actual, allOf(
+        containsString("name=Douglas Adams"),
+        containsString("bank=org.apache.commons.lang3.builder.MultilineRecursiveToStringStyleTest$Bank@"),
+        containsString("name=ASF Bank"),
+        containsString("accounts=<null>"),
+        containsString("]")
+    ));
+}
+
+
+import:
+
+['import static org.hamcrest.Matchers.startsWith;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>hamcrest-core</artifactId>
+    <version>2.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void nestedElements() {
+    final Customer customer = new Customer("Douglas Adams");
+    final Bank bank = new Bank("ASF Bank");
+    customer.bank = bank;
+    
+    String actual = toString(customer);
+    
+    assertThat(actual, allOf(
+        containsString("name=Douglas Adams"),
+        containsString("bank=org.apache.commons.lang3.builder.MultilineRecursiveToStringStyleTest$Bank@"),
+        containsString("name=ASF Bank"),
+        containsString("accounts=<null>"),
+        containsString("]")
+    ));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.jqwik</groupId>
+    <artifactId>jqwik</artifactId>
+    <version>1.7.2</version>
+    <scope>test</scope>
+</dependency>
+

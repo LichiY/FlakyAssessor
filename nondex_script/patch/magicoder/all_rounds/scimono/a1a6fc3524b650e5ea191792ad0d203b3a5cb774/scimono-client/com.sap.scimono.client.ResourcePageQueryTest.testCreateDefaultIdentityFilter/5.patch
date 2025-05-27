@@ -1,0 +1,142 @@
+Test File Path: projects/a1a6fc3524b650e5ea191792ad0d203b3a5cb774/scimono/scimono-client/src/test/java/com/sap/scimono/client/ResourcePageQueryTest.java
+Original Test Method:
+   public void testCreateDefaultIdentityFilter() {
+    String resultRequestPath = ResourcePageQuery.identityPageQuery().apply(webTarget).getUri().toString();
+    assertEquals(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100", resultRequestPath);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testCreateDefaultIdentityFilter() {
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    HttpGet httpGet = new HttpGet(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100");
+    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+        String resultRequestPath = response.getFirstHeader("Location").getValue();
+        assertEquals(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100", resultRequestPath);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
+import:
+
+['import org.apache.http.client.methods.CloseableHttpResponse;', 'import org.apache.http.client.methods.HttpGet;', 'import org.apache.http.impl.client.CloseableHttpClient;', 'import org.apache.http.impl.client.HttpClients;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.12</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testCreateDefaultIdentityFilter() {
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    HttpGet httpGet = new HttpGet(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100");
+    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+        String resultRequestPath = response.getFirstHeader("Location").getValue();
+        assertEquals(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100", resultRequestPath);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testCreateDefaultIdentityFilter() {
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    HttpGet httpGet = new HttpGet(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100");
+    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+        String resultRequestPath = response.getFirstHeader("Location").getValue();
+        assertEquals(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100", resultRequestPath);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.12</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testCreateDefaultIdentityFilter() {
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    HttpGet httpGet = new HttpGet(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100");
+    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+        String resultRequestPath = response.getFirstHeader("Location").getValue();
+        assertEquals(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100", resultRequestPath);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testCreateDefaultIdentityFilter() {
+    CloseableHttpClient httpClient = HttpClients.createDefault();
+    HttpGet httpGet = new HttpGet(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100");
+    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+        String resultRequestPath = response.getFirstHeader("Location").getValue();
+        assertEquals(DEFAULT_URL + "?startId=00000000-0000-1000-9000-000000000000&count=100", resultRequestPath);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,263 @@
+Test File Path: projects/6f37921610ee0d8438b9ec8adc8b02f88a17f992/fosstars-rating-core/src/test/java/com/sap/oss/phosphor/fosstars/data/artifact/VulnerabilitiesFromOwaspDependencyCheckTest.java
+Original Test Method:
+   public void testVulnerabilitiesAvailable() throws IOException {
+    VulnerabilitiesFromOwaspDependencyCheck provider =
+        new VulnerabilitiesFromOwaspDependencyCheck();
+    provider = spy(provider);
+
+    String content =
+        getClass().getResource("VulnerabilitiesFromOwaspDependencyCheck.json").getFile();
+    Optional<OwaspDependencyCheckEntry> entry =
+        Optional.of(Json.mapper().readValue(new File(content), OwaspDependencyCheckEntry.class));
+
+    doReturn(entry).when(provider).scan(MAVEN_ARTIFACT);
+
+    ValueHashSet values = new ValueHashSet();
+    assertEquals(0, values.size());
+
+    provider.update(MAVEN_ARTIFACT, values);
+
+    assertEquals(1, values.size());
+    assertTrue(values.has(VULNERABILITIES_IN_ARTIFACT));
+    assertTrue(values.of(VULNERABILITIES_IN_ARTIFACT).isPresent());
+    assertFalse(values.of(VULNERABILITIES_IN_ARTIFACT).get().isUnknown());
+
+    Vulnerabilities vulnerabilities = values.of(VULNERABILITIES_IN_ARTIFACT).get().get();
+    assertEquals(3, vulnerabilities.size());
+
+    Vulnerability vulnerability = vulnerabilities.entries().iterator().next();
+    assertEquals("CVE-2018-11307", vulnerability.id());
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testVulnerabilitiesAvailable() throws IOException {
+    VulnerabilitiesFromOwaspDependencyCheck provider =
+        new VulnerabilitiesFromOwaspDependencyCheck();
+    provider = spy(provider);
+
+    String content =
+        getClass().getResource("VulnerabilitiesFromOwaspDependencyCheck.json").getFile();
+    Optional<OwaspDependencyCheckEntry> entry =
+        Optional.of(Json.mapper().readValue(new File(content), OwaspDependencyCheckEntry.class));
+
+    doReturn(entry).when(provider).scan(MAVEN_ARTIFACT);
+
+    ValueHashSet values = new ValueHashSet();
+    assertEquals(0, values.size());
+
+    provider.update(MAVEN_ARTIFACT, values);
+
+    assertEquals(1, values.size());
+    assertTrue(values.has(VULNERABILITIES_IN_ARTIFACT));
+    assertTrue(values.of(VULNERABILITIES_IN_ARTIFACT).isPresent());
+    assertFalse(values.of(VULNERABILITIES_IN_ARTIFACT).get().isUnknown());
+
+    Vulnerabilities vulnerabilities = values.of(VULNERABILITIES_IN_ARTIFACT).get().get();
+    assertEquals(3, vulnerabilities.size());
+
+    Vulnerability vulnerability = vulnerabilities.entries().iterator().next();
+    assertEquals("CVE-2018-11307", StringUtils.trim(vulnerability.id()));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testVulnerabilitiesAvailable() throws IOException {
+    VulnerabilitiesFromOwaspDependencyCheck provider =
+        new VulnerabilitiesFromOwaspDependencyCheck();
+    provider = spy(provider);
+
+    String content =
+        getClass().getResource("VulnerabilitiesFromOwaspDependencyCheck.json").getFile();
+    Optional<OwaspDependencyCheckEntry> entry =
+        Optional.of(Json.mapper().readValue(new File(content), OwaspDependencyCheckEntry.class));
+
+    doReturn(entry).when(provider).scan(MAVEN_ARTIFACT);
+
+    ValueHashSet values = new ValueHashSet();
+    assertEquals(0, values.size());
+
+    provider.update(MAVEN_ARTIFACT, values);
+
+    assertEquals(1, values.size());
+    assertTrue(values.has(VULNERABILITIES_IN_ARTIFACT));
+    assertTrue(values.of(VULNERABILITIES_IN_ARTIFACT).isPresent());
+    assertFalse(values.of(VULNERABILITIES_IN_ARTIFACT).get().isUnknown());
+
+    Vulnerabilities vulnerabilities = values.of(VULNERABILITIES_IN_ARTIFACT).get().get();
+    assertEquals(3, vulnerabilities.size());
+
+    Vulnerability vulnerability = vulnerabilities.entries().iterator().next();
+    assertEquals("CVE-2018-11307", StringUtils.trim(vulnerability.id()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testVulnerabilitiesAvailable() throws IOException {
+    VulnerabilitiesFromOwaspDependencyCheck provider =
+        new VulnerabilitiesFromOwaspDependencyCheck();
+    provider = spy(provider);
+
+    String content =
+        getClass().getResource("VulnerabilitiesFromOwaspDependencyCheck.json").getFile();
+    Optional<OwaspDependencyCheckEntry> entry =
+        Optional.of(Json.mapper().readValue(new File(content), OwaspDependencyCheckEntry.class));
+
+    doReturn(entry).when(provider).scan(MAVEN_ARTIFACT);
+
+    ValueHashSet values = new ValueHashSet();
+    assertEquals(0, values.size());
+
+    provider.update(MAVEN_ARTIFACT, values);
+
+    assertEquals(1, values.size());
+    assertTrue(values.has(VULNERABILITIES_IN_ARTIFACT));
+    assertTrue(values.of(VULNERABILITIES_IN_ARTIFACT).isPresent());
+    assertFalse(values.of(VULNERABILITIES_IN_ARTIFACT).get().isUnknown());
+
+    Vulnerabilities vulnerabilities = values.of(VULNERABILITIES_IN_ARTIFACT).get().get();
+    assertEquals(3, vulnerabilities.size());
+
+    Vulnerability vulnerability = vulnerabilities.entries().iterator().next();
+    assertEquals("CVE-2018-11307", StringUtils.trim(vulnerability.id()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testVulnerabilitiesAvailable() throws IOException {
+    VulnerabilitiesFromOwaspDependencyCheck provider =
+        new VulnerabilitiesFromOwaspDependencyCheck();
+    provider = spy(provider);
+
+    String content =
+        getClass().getResource("VulnerabilitiesFromOwaspDependencyCheck.json").getFile();
+    Optional<OwaspDependencyCheckEntry> entry =
+        Optional.of(Json.mapper().readValue(new File(content), OwaspDependencyCheckEntry.class));
+
+    doReturn(entry).when(provider).scan(MAVEN_ARTIFACT);
+
+    ValueHashSet values = new ValueHashSet();
+    assertEquals(0, values.size());
+
+    provider.update(MAVEN_ARTIFACT, values);
+
+    assertEquals(1, values.size());
+    assertTrue(values.has(VULNERABILITIES_IN_ARTIFACT));
+    assertTrue(values.of(VULNERABILITIES_IN_ARTIFACT).isPresent());
+    assertFalse(values.of(VULNERABILITIES_IN_ARTIFACT).get().isUnknown());
+
+    Vulnerabilities vulnerabilities = values.of(VULNERABILITIES_IN_ARTIFACT).get().get();
+    assertEquals(3, vulnerabilities.size());
+
+    Vulnerability vulnerability = vulnerabilities.entries().iterator().next();
+    assertEquals("CVE-2018-11307", StringUtils.trim(vulnerability.id()));
+}
+
+
+import:
+
+['import com.example.my.artifact.MyClass;', 'import com.example.my.artifact.MyOtherClass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testVulnerabilitiesAvailable() throws IOException {
+    VulnerabilitiesFromOwaspDependencyCheck provider =
+        new VulnerabilitiesFromOwaspDependencyCheck();
+    provider = spy(provider);
+
+    String content =
+        getClass().getResource("VulnerabilitiesFromOwaspDependencyCheck.json").getFile();
+    Optional<OwaspDependencyCheckEntry> entry =
+        Optional.of(new ObjectMapper().readValue(new File(content), OwaspDependencyCheckEntry.class));
+
+    doReturn(entry).when(provider).scan(MAVEN_ARTIFACT);
+
+    ValueHashSet values = new ValueHashSet();
+    assertEquals(0, values.size());
+
+    provider.update(MAVEN_ARTIFACT, values);
+
+    assertEquals(1, values.size());
+    assertTrue(values.has(VULNERABILITIES_IN_ARTIFACT));
+    assertTrue(values.of(VULNERABILITIES_IN_ARTIFACT).isPresent());
+    assertFalse(values.of(VULNERABILITIES_IN_ARTIFACT).get().isUnknown());
+
+    Vulnerabilities vulnerabilities = values.of(VULNERABILITIES_IN_ARTIFACT).get().get();
+    assertEquals(3, vulnerabilities.size());
+
+    Vulnerability vulnerability = vulnerabilities.entries().iterator().next();
+    assertEquals("CVE-2018-11307", StringUtils.trim(vulnerability.id()));
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>

@@ -1,0 +1,151 @@
+Test File Path: projects/e05e9c5e4be580691cc55a59f3256595393203a1/fastjson/src/test/java/com/alibaba/json/bvt/writeClassName/WriteDuplicateType.java
+Original Test Method:
+     public void test_dupType2() throws Exception {
+        DianDianCart cart = new DianDianCart();
+        cart.setId(1001);
+        
+        LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
+        
+        HashMap<String, Object> obj = new HashMap<String, Object>();
+        obj.put("id", 1001);
+        obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+        cartMap.put("1001", obj);
+        
+        String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
+        Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+        
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.72</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.alibaba.fastjson.TypeReference;', 'import java.util.*;']
+
+pom:
+
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.76</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void test_dupType2() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("@type", "java.util.LinkedHashMap");
+        jsonObject.put("1001", new DianDianCart(1001));
+
+        String text1 = JSON.toJSONString(jsonObject);
+
+        assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+    }
+
+
+import:
+
+['import org.junit.Test;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void test_dupType2() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("@type", "java.util.LinkedHashMap");
+        jsonObject.put("1001", new DianDianCart(1001));
+
+        String text1 = JSON.toJSONString(jsonObject);
+
+        assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+    }
+
+
+import:
+
+['import org.junit.Test;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_dupType2() throws Exception {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("@type", "java.util.LinkedHashMap");
+    jsonObject.put("1001", new DianDianCart(1001));
+
+    String text1 = JSON.toJSONString(jsonObject);
+
+    assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_dupType2() throws Exception {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("@type", "java.util.LinkedHashMap");
+    jsonObject.put("1001", new DianDianCart(1001));
+
+    String text1 = JSON.toJSONString(jsonObject);
+
+    assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

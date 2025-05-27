@@ -1,0 +1,264 @@
+Test File Path: projects/65ad15fe58dcedd258fee1c14505e424c8536efc/biojava/biojava-structure/src/test/java/org/biojava/nbio/structure/AtomPositionMapTest.java
+Original Test Method:
+ 	public void testChains() throws IOException, StructureException {
+		String pdbId = "1qdm";
+		AtomPositionMap map = new AtomPositionMap(cache.getAtoms(pdbId));
+
+		ResidueNumber start,end;
+		try {
+			start = new ResidueNumber("A",6,'P');
+			end = new ResidueNumber("B",338,null);
+			map.getLength(start, end);
+			fail("Chain missmatch");
+		} catch(IllegalArgumentException e) {
+			// Expected
+		}
+		try {
+			start = new ResidueNumber("A",6,'P');
+			end = new ResidueNumber("B",338,null);
+			map.getLengthDirectional(start, end);
+			fail("Chain missmatch");
+		} catch(IllegalArgumentException e) {
+			// Expected
+		}
+
+		// With integers, only count matching chain atoms
+		start = new ResidueNumber("A",338,null);
+		end = new ResidueNumber("B",6,'P');
+		int len = map.getLength(map.getPosition(start),map.getPosition(end),"A");
+		assertEquals(1, len);
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+	public void testChains() throws IOException, StructureException {
+		String pdbId = "1qdm";
+		List<Atom> atoms = new ArrayList<>(cache.getAtoms(pdbId));
+		AtomPositionMap map = new AtomPositionMap(atoms);
+
+		ResidueNumber start,end;
+		try {
+			start = new ResidueNumber("A",6,'P');
+			end = new ResidueNumber("B",338,null);
+			map.getLength(start, end);
+			fail("Chain missmatch");
+		} catch(IllegalArgumentException e) {
+			// Expected
+		}
+		try {
+			start = new ResidueNumber("A",6,'P');
+			end = new ResidueNumber("B",338,null);
+			map.getLengthDirectional(start, end);
+			fail("Chain missmatch");
+		} catch(IllegalArgumentException e) {
+			// Expected
+		}
+
+		// With integers, only count matching chain atoms
+		start = new ResidueNumber("A",338,null);
+		end = new ResidueNumber("B",6,'P');
+		int len = map.getLength(map.getPosition(start),map.getPosition(end),"A");
+		assertEquals(1, len);
+	}
+
+
+import:
+
+['import java.util.ArrayList;', 'import java.util.List;']
+
+pom:
+
+
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testChains() throws IOException, StructureException {
+    String pdbId = "1qdm";
+    List<Atom> atoms = new ArrayList<Atom>(cache.getAtoms(pdbId));
+    Atom[] atomArray = atoms.toArray(new Atom[0]);
+    AtomPositionMap map = new AtomPositionMap(atomArray);
+
+    ResidueNumber start,end;
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLength(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLengthDirectional(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+
+    // With integers, only count matching chain atoms
+    start = new ResidueNumber("A",338,null);
+    end = new ResidueNumber("B",6,'P');
+    int len = map.getLength(map.getPosition(start),map.getPosition(end),"A");
+    assertEquals(1, len);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testChains() throws IOException, StructureException {
+    String pdbId = "1qdm";
+    List<Atom> atoms = new ArrayList<Atom>(Arrays.asList(cache.getAtoms(pdbId)));
+    Atom[] atomArray = atoms.toArray(new Atom[0]);
+    AtomPositionMap map = new AtomPositionMap(atomArray);
+
+    ResidueNumber start,end;
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLength(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLengthDirectional(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+
+    // With integers, only count matching chain atoms
+    start = new ResidueNumber("A",338,null);
+    end = new ResidueNumber("B",6,'P');
+    int len = map.getLength(map.getPosition(start),map.getPosition(end),"A");
+    assertEquals(1, len);
+}
+
+
+import:
+
+['import java.util.Arrays;']
+
+pom:
+
+
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testChains() throws IOException, StructureException {
+    String pdbId = "1qdm";
+    List<Atom> atoms = new ArrayList<>(Arrays.asList(cache.getAtoms(pdbId)));
+    atoms.sort(Comparator.comparing(Atom::getSerialNumber));
+    Atom[] atomArray = atoms.toArray(new Atom[0]);
+    AtomPositionMap map = new AtomPositionMap(atomArray);
+
+    ResidueNumber start,end;
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLength(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLengthDirectional(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+
+    // With integers, only count matching chain atoms
+    start = new ResidueNumber("A",338,null);
+    end = new ResidueNumber("B",6,'P');
+    int len = map.getLength(map.getPosition(start),map.getPosition(end),"A");
+    assertEquals(1, len);
+}
+
+
+import:
+
+['import java.util.Comparator;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testChains() throws IOException, StructureException {
+    String pdbId = "1qdm";
+    List<Atom> atoms = new ArrayList<>(Arrays.asList(cache.getAtoms(pdbId)));
+    atoms.sort(Comparator.comparing(a -> Integer.valueOf(a.getPDBserial())));
+    Atom[] atomArray = atoms.toArray(new Atom[0]);
+    AtomPositionMap map = new AtomPositionMap(atomArray);
+
+    ResidueNumber start,end;
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLength(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+    try {
+        start = new ResidueNumber("A",6,'P');
+        end = new ResidueNumber("B",338,null);
+        map.getLengthDirectional(start, end);
+        fail("Chain missmatch");
+    } catch(IllegalArgumentException e) {
+        // Expected
+    }
+
+    // With integers, only count matching chain atoms
+    start = new ResidueNumber("A",338,null);
+    end = new ResidueNumber("B",6,'P');
+    int len = map.getLength(map.getPosition(start),map.getPosition(end),"A");
+    assertEquals(1, len);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+

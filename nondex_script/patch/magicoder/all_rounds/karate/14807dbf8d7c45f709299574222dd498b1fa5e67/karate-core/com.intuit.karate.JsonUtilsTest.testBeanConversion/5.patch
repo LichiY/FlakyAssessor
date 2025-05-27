@@ -1,0 +1,141 @@
+Test File Path: projects/14807dbf8d7c45f709299574222dd498b1fa5e67/karate/karate-core/src/test/java/com/intuit/karate/JsonUtilsTest.java
+Original Test Method:
+     void testBeanConversion() {
+        SimplePojo pojo = new SimplePojo();
+        String s = JsonUtils.toJson(pojo);
+        assertEquals("{\"bar\":0,\"foo\":null}", s);
+        Map<String, Object> map = Json.of(pojo).asMap();
+        Match.that(map).isEqualTo("{ foo: null, bar: 0 }");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+void testBeanConversion() {
+    SimplePojo pojo = new SimplePojo();
+    String s = JsonUtils.toJson(pojo);
+    Map<String, Object> map = Json.of(pojo).asMap();
+    Match.that(map).isEqualTo("{ foo: null, bar: 0 }");
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import com.fasterxml.jackson.databind.ObjectWriter;', 'import org.hamcrest.MatcherAssert;', 'import org.hamcrest.Matchers;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.8</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+void testBeanConversion() {
+    SimplePojo pojo = new SimplePojo();
+    String s = JsonUtils.toJson(pojo);
+    Map<String, Object> map = Json.of(pojo).asMap();
+    MatcherAssert.assertThat(map, Matchers.equalTo(Map.of("foo", null, "bar", 0)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testBeanConversion() {
+        SimplePojo pojo = new SimplePojo();
+        String s = JsonUtils.toJson(pojo);
+        Map<String, Object> map = Json.of(pojo).asMap();
+        MatcherAssert.assertThat(map, Matchers.equalTo(Map.of("foo", null, "bar", 0)));
+    }
+
+
+import:
+
+['import com.intuit.karate.JsonUtils;', 'import com.intuit.karate.Json;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void testBeanConversion() {
+        SimplePojo pojo = new SimplePojo();
+        String s = JsonUtils.toJson(pojo);
+        Map<String, Object> map = Json.of(pojo).asMap();
+        MatcherAssert.assertThat(map, Matchers.equalTo(Map.of("foo", null, "bar", 0)));
+    }
+
+
+import:
+
+['import com.intuit.karate.JsonUtils;', 'import com.intuit.karate.Json;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    void testBeanConversion() {
+        SimplePojo pojo = new SimplePojo();
+        String s = JsonUtils.toJson(pojo);
+        Map<String, Object> map = Json.of(pojo).asMap();
+        MatcherAssert.assertThat(map, Matchers.equalTo(Map.of("foo", null, "bar", 0)));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+void testBeanConversion() {
+    SimplePojo pojo = new SimplePojo();
+    String s = JsonUtils.toJson(pojo);
+    Map<String, Object> map = Json.of(pojo).asMap();
+    MatcherAssert.assertThat(map, Matchers.equalTo(Map.of("foo", null, "bar", 0)));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

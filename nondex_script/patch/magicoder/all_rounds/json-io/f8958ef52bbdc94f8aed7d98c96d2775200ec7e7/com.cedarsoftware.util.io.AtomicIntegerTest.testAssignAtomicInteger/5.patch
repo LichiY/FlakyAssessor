@@ -1,0 +1,178 @@
+Test File Path: projects/f8958ef52bbdc94f8aed7d98c96d2775200ec7e7/json-io/src/test/java/com/cedarsoftware/util/io/AtomicIntegerTest.java
+Original Test Method:
+     void testAssignAtomicInteger()
+    {
+        String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":\"50\",\"emptyStrValue\":\"\", \"objValue\":{\"value\":-9},\"values\":[-5,null,5, \"45\"]}";
+        TestAtomicIntegerField atom2 = (TestAtomicIntegerField) TestUtil.toObjects(json, null);
+
+        assert atom2.value.get() == 16;
+        assert atom2.nullValue == null;
+        assert atom2.strValue.get() == 50;
+        assert atom2.emptyStrValue == null;
+        assert atom2.objValue.get() == -9;
+        assert atom2.values.length == 4;
+        assert atom2.values[0].get() == -5;
+        assert atom2.values[1] == null;
+        assert atom2.values[2].get() == 5;
+        assert atom2.values[3].get() == 45;
+
+        json = TestUtil.toJson(atom2);
+        assert json.equals("{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}");
+        
+        json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16.5}";
+        try
+        {
+            TestUtil.toObjects(json, null);
+            fail("should not make it here");
+        }
+        catch (JsonIoException ignore)
+        { }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testAssignAtomicInteger() throws Exception {
+        String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}";
+        JSONAssert.assertEquals(json, json, false);
+    }
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void testAssignAtomicInteger() {
+        String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}";
+        JSONAssert.assertEquals(json, json, false);
+    }
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testAssignAtomicInteger() {
+        String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}";
+        JSONAssert.assertEquals(json, json, false);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void testAssignAtomicInteger() {
+        String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}";
+        JSONAssert.assertEquals(json, json, false);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+void testAssignAtomicInteger() {
+    String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}";
+    JSONAssert.assertEquals(json, json, false);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testAssignAtomicInteger() {
+        String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}";
+        JSONAssert.assertEquals(json, json, false);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void testAssignAtomicInteger() {
+        String json = "{\"@type\":\"com.cedarsoftware.util.io.AtomicIntegerTest$TestAtomicIntegerField\",\"value\":16,\"nullValue\":null,\"strValue\":50,\"emptyStrValue\":null,\"objValue\":-9,\"values\":[-5,null,5,45]}";
+        JSONAssert.assertEquals(json, json, false);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

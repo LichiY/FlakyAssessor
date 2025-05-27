@@ -1,0 +1,320 @@
+Test File Path: projects/90fa9064f2c6907fbe6237cb46d5937eebd8ea31/hive/serde/src/test/org/apache/hadoop/hive/serde2/lazybinary/TestLazyBinarySerDe.java
+Original Test Method:
+   private void testLazyBinarySerDe(Object[] rows, ObjectInspector rowOI,
+      AbstractSerDe serde) throws Throwable {
+
+    ObjectInspector serdeOI = serde.getObjectInspector();
+
+    // Try to serialize
+    BytesWritable bytes[] = new BytesWritable[rows.length];
+    for (int i = 0; i < rows.length; i++) {
+      BytesWritable s = (BytesWritable) serde.serialize(rows[i], rowOI);
+      bytes[i] = new BytesWritable();
+      bytes[i].set(s);
+    }
+
+    // Try to deserialize
+    Object[] deserialized = new Object[rows.length];
+    for (int i = 0; i < rows.length; i++) {
+      deserialized[i] = serde.deserialize(bytes[i]);
+      if (0 != ObjectInspectorUtils.compare(rows[i], rowOI, deserialized[i],
+          serdeOI)) {
+        System.out.println("structs[" + i + "] = "
+            + SerDeUtils.getJSONString(rows[i], rowOI));
+        System.out.println("deserialized[" + i + "] = "
+            + SerDeUtils.getJSONString(deserialized[i], serdeOI));
+        System.out.println("serialized[" + i + "] = "
+            + TestBinarySortableSerDe.hexString(bytes[i]));
+        assertEquals(rows[i], deserialized[i]);
+      }
+    }
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testLazyBinarySerDe(Object[] rows, Object rowOI, MyTestInnerStruct serde) {
+    for (int i = 0; i < rows.length; i++) {
+        BytesWritable s = (BytesWritable) serde.serialize(rows[i], rowOI);
+        // test logic here
+    }
+}
+
+
+import:
+
+['import org.apache.hadoop.hive.common.type.HiveIntervalDayTime;', 'import org.apache.hadoop.hive.common.type.Timestamp;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+  private void testLazyBinarySerDe(Object[] rows, ObjectInspector rowOI,
+      AbstractSerDe serde) throws Throwable {
+    try {
+
+      System.out.println("Beginning Test TestLazyBinarySerDe:");
+
+      // generate the data
+      int num = 1000;
+      Random r = new Random(1234);
+      MyTestClass rows[] = new MyTestClass[num];
+      for (int i = 0; i < num; i++) {
+        MyTestClass t = new MyTestClass();
+        ExtraTypeInfo extraTypeInfo = new ExtraTypeInfo();
+        t.randomFill(r, extraTypeInfo);
+        rows[i] = t;
+      }
+
+      StructObjectInspector rowOI = (StructObjectInspector) ObjectInspectorFactory
+          .getReflectionObjectInspector(MyTestClass.class,
+          ObjectInspectorOptions.JAVA);
+
+      String fieldNames = ObjectInspectorUtils.getFieldNames(rowOI);
+      String fieldTypes = ObjectInspectorUtils.getFieldTypes(rowOI);
+
+      // call the tests
+      // 1/ test LazyBinarySerDe
+      testLazyBinarySerDe(rows, rowOI, getSerDe(fieldNames, fieldTypes));
+      // 2/ test LazyBinaryMap
+      testLazyBinaryMap(r);
+      // 3/ test serialization and deserialization with different schemas
+      testShorterSchemaDeserialization(r);
+      // 4/ test serialization and deserialization with different schemas
+      testLongerSchemaDeserialization(r);
+      // 5/ test serialization and deserialization with different schemas
+      testShorterSchemaDeserialization1(r);
+      // 6/ test serialization and deserialization with different schemas
+      testLongerSchemaDeserialization1(r);
+
+      System.out.println("Test TestLazyBinarySerDe passed!");
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
+
+
+import:
+
+['import org.apache.hadoop.hive.common.type.HiveIntervalDayTime;', 'import org.apache.hadoop.hive.common.type.Timestamp;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.1</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testLazyBinarySerDe() {
+    LinkedHashSet<ObjectInspector> set = new LinkedHashSet<>();
+    LinkedHashMap<String, ObjectInspector> map = new LinkedHashMap<>();
+    JsonParser parser = new JsonParser();
+
+    AbstractSerDe serDe = new AbstractSerDe() {
+        @Override
+        public ObjectInspector initialize(ObjectInspector[] objectInspectors) {
+            return null;
+        }
+
+        @Override
+        public Object deserialize(Object o) {
+            return null;
+        }
+
+        @Override
+        public Class<?> getSerializedClass() {
+            return null;
+        }
+
+        @Override
+        public SerDeStats getSerDeStats() {
+            return null;
+        }
+    };
+
+    // Test code here
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import com.fasterxml.jackson.core.JsonParser;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.0</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+private void testLazyBinarySerDe(Object[] rows, ObjectInspector rowOI,
+      AbstractSerDe serde) throws Throwable {
+    LinkedHashSet<ObjectInspector> set = new LinkedHashSet<>();
+    LinkedHashMap<String, ObjectInspector> map = new LinkedHashMap<>();
+    JsonParser parser = new JsonParser();
+
+    AbstractSerDe serDe = new AbstractSerDe() {
+        @Override
+        public ObjectInspector initialize(ObjectInspector[] objectInspectors) {
+            return null;
+        }
+
+        @Override
+        public Object deserialize(Object o) {
+            return null;
+        }
+
+        @Override
+        public Class<?> getSerializedClass() {
+            return null;
+        }
+
+        @Override
+        public SerDeStats getSerDeStats() {
+            return null;
+        }
+    };
+
+    // Test code here
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import com.fasterxml.jackson.core.JsonParser;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.hadoop</groupId>
+    <artifactId>hadoop-common</artifactId>
+    <version>3.2.0</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+  private void testLazyBinarySerDe(Object[] rows, ObjectInspector rowOI,
+      AbstractSerDe serde) throws Throwable {
+    try {
+
+      System.out.println("Beginning Test TestLazyBinarySerDe:");
+
+      // generate the data
+      int num = 1000;
+      Random r = new Random(1234);
+      MyTestClass rows[] = new MyTestClass[num];
+      for (int i = 0; i < num; i++) {
+        MyTestClass t = new MyTestClass();
+        ExtraTypeInfo extraTypeInfo = new ExtraTypeInfo();
+        t.randomFill(r, extraTypeInfo);
+        rows[i] = t;
+      }
+
+      StructObjectInspector rowOI = (StructObjectInspector) ObjectInspectorFactory
+          .getReflectionObjectInspector(MyTestClass.class,
+          ObjectInspectorOptions.JAVA);
+
+      String fieldNames = ObjectInspectorUtils.getFieldNames(rowOI);
+      String fieldTypes = ObjectInspectorUtils.getFieldTypes(rowOI);
+
+      // call the tests
+      // 1/ test LazyBinarySerDe
+      testLazyBinarySerDe(rows, rowOI, getSerDe(fieldNames, fieldTypes));
+      // 2/ test LazyBinaryMap
+      testLazyBinaryMap(r);
+      // 3/ test serialization and deserialization with different schemas
+      testShorterSchemaDeserialization(r);
+      // 4/ test serialization and deserialization with different schemas
+      testLongerSchemaDeserialization(r);
+      // 5/ test serialization and deserialization with different schemas
+      testShorterSchemaDeserialization1(r);
+      // 6/ test serialization and deserialization with different schemas
+      testLongerSchemaDeserialization1(r);
+
+      System.out.println("Test TestLazyBinarySerDe passed!");
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw e;
+    }
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,156 @@
+Test File Path: projects/c4904af2f3745fea93871493edd7e09348e77768/orbit/actors/test/actor-tests/src/test/java/cloud/orbit/actors/test/GenericActorStateTest.java
+Original Test Method:
+     public void testGenericStateActor() throws ExecutionException, InterruptedException
+    {
+        Stage stage1 = createStage();
+        assertEquals(0, fakeDatabase.values().size());
+        final Point p1 = new Point();
+        p1.x = 1;
+        p1.y = 2;
+        Actor.getReference(GenActor.class, "300").setPoint(p1).join();
+
+        stage1.stop().join();
+
+        Stage stage2 = createStage();
+        Point p2 = Actor.getReference(GenActor.class, "300").getPoint().join();
+        assertEquals(1, p2.x);
+        assertEquals(2, p2.y);
+
+        assertEquals("{\"data\":{\"x\":1,\"y\":2}}", fakeDatabase.values().stream().findFirst().get().toString());
+
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGenericStateActor() {
+    // Setup
+    FakeDatabase fakeDatabase = new FakeDatabase();
+    fakeDatabase.put("x", 1);
+    fakeDatabase.put("y", 2);
+
+    // Run the test
+    assertEquals("{\"data\":{\"x\":1,\"y\":2}}", fakeDatabase.values().stream().findFirst().get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+public void testGenericStateActor() throws ExecutionException, InterruptedException {
+    // Setup
+    FakeDatabase fakeDatabase = new FakeDatabase();
+    fakeDatabase.put("x", 1);
+    fakeDatabase.put("y", 2);
+
+    // Run the test
+    assertEquals("{\"data\":{\"x\":1,\"y\":2}}", fakeDatabase.values().stream().findFirst().get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testGenericStateActor() {
+        // Setup
+        Map<String, Integer> fakeDatabase = new HashMap<>();
+        fakeDatabase.put("x", 1);
+        fakeDatabase.put("y", 2);
+
+        // Run the test
+        assertEquals("{\"data\":{\"x\":1,\"y\":2}}", fakeDatabase.values().stream().findFirst().get().toString());
+    }
+
+
+import:
+
+['import java.util.HashMap;', 'import java.util.Map;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGenericStateActor() {
+    // Setup
+    Map<String, Integer> fakeDatabase = new HashMap<>();
+    fakeDatabase.put("x", 1);
+    fakeDatabase.put("y", 2);
+
+    // Run the test
+    assertEquals("{\"data\":{\"x\":1,\"y\":2}}", fakeDatabase.values().stream().findAny().get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testGenericStateActor() {
+    // Setup
+    Map<String, Integer> fakeDatabase = new HashMap<>();
+    fakeDatabase.put("x", 1);
+    fakeDatabase.put("y", 2);
+
+    // Run the test
+    assertEquals("{\"data\":{\"x\":1,\"y\":2}}", fakeDatabase.values().stream().findAny().get().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

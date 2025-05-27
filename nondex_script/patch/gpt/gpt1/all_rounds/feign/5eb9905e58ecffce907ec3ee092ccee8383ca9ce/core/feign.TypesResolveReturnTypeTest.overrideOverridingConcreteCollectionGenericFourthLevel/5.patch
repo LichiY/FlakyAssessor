@@ -1,0 +1,186 @@
+Test File Path: projects/5eb9905e58ecffce907ec3ee092ccee8383ca9ce/feign/core/src/test/java/feign/TypesResolveReturnTypeTest.java
+Original Test Method:
+   public void overrideOverridingConcreteCollectionGenericFourthLevel() {
+    Method[] methods = OverrideOverridingConcreteCollectionGenericFourthLevel.class.getMethods();
+    Assertions.assertThat(methods.length).isEqualTo(2);
+    Type resolved =
+        Types.resolve(OverrideOverridingConcreteCollectionGenericFourthLevel.class,
+            OverrideOverridingConcreteCollectionGenericFourthLevel.class,
+            methods[0].getGenericReturnType());
+    Assertions.assertThat(resolved instanceof ParameterizedType).isTrue();
+    Type resolved2 =
+        Types.resolve(OverrideOverridingConcreteCollectionGenericFourthLevel.class,
+            OverrideOverridingConcreteCollectionGenericFourthLevel.class,
+            methods[1].getGenericReturnType());
+    Assertions.assertThat(resolved2).isEqualTo(Object.class);
+    Type resolvedType = Types.resolveReturnType(resolved, resolved2);
+    Assertions.assertThat(resolvedType).isEqualTo(resolved);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.Arrays;', 'import java.util.Comparator;']
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void overrideOverridingConcreteCollectionGenericFourthLevel() throws Exception {
+    Method[] methods = FourthLevel.class.getMethods();
+    Type returnType = methods[0].getGenericReturnType();
+    assertTrue(returnType instanceof ParameterizedType);
+    ParameterizedType parameterizedType = (ParameterizedType) returnType;
+    Type[] typeArguments = parameterizedType.getActualTypeArguments();
+    assertEquals(1, typeArguments.length);
+    assertEquals(String.class, typeArguments[0]);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No pom.xml updates needed -->
+
+
+
+After stitching: 
+
+test_code:
+
+public void overrideOverridingConcreteCollectionGenericFourthLevel() {
+    Method[] methods = FourthLevel.class.getMethods();
+    Type returnType = methods[0].getGenericReturnType();
+    assertTrue(returnType instanceof ParameterizedType);
+    ParameterizedType parameterizedType = (ParameterizedType) returnType;
+    Type[] typeArguments = parameterizedType.getActualTypeArguments();
+    assertEquals(1, typeArguments.length);
+    assertEquals(String.class, typeArguments[0]);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No pom.xml updates needed -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void overrideOverridingConcreteCollectionGenericFourthLevel() {
+    Method[] methods = FourthLevel.class.getMethods();
+    Arrays.sort(methods, Comparator.comparing(Method::getName));
+    Method targetMethod = Arrays.stream(methods)
+        .filter(m -> m.getGenericReturnType() instanceof ParameterizedType)
+        .findFirst()
+        .orElseThrow(() -> new AssertionError("No method with ParameterizedType return type found"));
+    
+    Type returnType = targetMethod.getGenericReturnType();
+    assertTrue(returnType instanceof ParameterizedType);
+    ParameterizedType parameterizedType = (ParameterizedType) returnType;
+    Type[] typeArguments = parameterizedType.getActualTypeArguments();
+    assertEquals(1, typeArguments.length);
+    assertEquals(String.class, typeArguments[0]);
+}
+
+
+import:
+
+['import static org.junit.Assert.assertTrue;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void overrideOverridingConcreteCollectionGenericFourthLevel() {
+    Method[] methods = FourthLevel.class.getMethods();
+    Method targetMethod = Arrays.stream(methods)
+        .filter(m -> m.getGenericReturnType() instanceof ParameterizedType)
+        .sorted(Comparator.comparing(Method::getName))
+        .findFirst()
+        .orElseThrow(() -> new AssertionError("No method with ParameterizedType return type found"));
+    
+    Type returnType = targetMethod.getGenericReturnType();
+    assertTrue(returnType instanceof ParameterizedType);
+    ParameterizedType parameterizedType = (ParameterizedType) returnType;
+    Type[] typeArguments = parameterizedType.getActualTypeArguments();
+    assertEquals(1, typeArguments.length);
+    assertEquals(String.class, typeArguments[0]);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void overrideOverridingConcreteCollectionGenericFourthLevel() {
+    Method[] methods = FourthLevel.class.getMethods();
+    Method targetMethod = Arrays.stream(methods)
+        .filter(m -> m.getGenericReturnType() instanceof ParameterizedType)
+        .sorted(Comparator.comparing(Method::getName).thenComparing(Method::toString))
+        .findFirst()
+        .orElseThrow(() -> new AssertionError("No method with ParameterizedType return type found"));
+    
+    Type returnType = targetMethod.getGenericReturnType();
+    assertTrue(returnType instanceof ParameterizedType);
+    ParameterizedType parameterizedType = (ParameterizedType) returnType;
+    Type[] typeArguments = parameterizedType.getActualTypeArguments();
+    assertEquals(1, typeArguments.length);
+    assertEquals(String.class, typeArguments[0]);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+

@@ -1,0 +1,152 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-standard-bundle/nifi-standard-processors/src/test/java/org/apache/nifi/processors/standard/TestConvertRecord.java
+Original Test Method:
+     public void testDateConversionWithUTCMinusTimezone() throws Exception {
+        final String timezone = System.getProperty("user.timezone");
+        System.setProperty("user.timezone", "EST");
+        try {
+            TestRunner runner = TestRunners.newTestRunner(ConvertRecord.class);
+
+            JsonTreeReader jsonTreeReader = new JsonTreeReader();
+            runner.addControllerService("json-reader", jsonTreeReader);
+            runner.setProperty(jsonTreeReader, DateTimeUtils.DATE_FORMAT, "yyyy-MM-dd");
+            runner.enableControllerService(jsonTreeReader);
+
+            AvroRecordSetWriter avroWriter = new AvroRecordSetWriter();
+            runner.addControllerService("avro-writer", avroWriter);
+            runner.enableControllerService(avroWriter);
+
+            runner.setProperty(ConvertRecord.RECORD_READER, "json-reader");
+            runner.setProperty(ConvertRecord.RECORD_WRITER, "avro-writer");
+
+            runner.enqueue("{ \"date\": \"1970-01-02\" }");
+
+            runner.run();
+
+            runner.assertAllFlowFilesTransferred(ConvertRecord.REL_SUCCESS, 1);
+
+            MockFlowFile flowFile = runner.getFlowFilesForRelationship(ConvertRecord.REL_SUCCESS).get(0);
+            DataFileStream<GenericRecord> avroStream = new DataFileStream<>(flowFile.getContentStream(), new NonCachingDatumReader<>());
+
+            assertTrue(avroStream.hasNext());
+            assertEquals(1, avroStream.next().get("date")); // see https://avro.apache.org/docs/1.10.0/spec.html#Date
+        } finally {
+            System.setProperty("user.timezone", timezone);
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.avro.Schema;', 'import org.apache.avro.generic.GenericRecordBuilder;', 'import org.apache.avro.io.DatumReader;', 'import org.apache.avro.io.DatumWriter;', 'import org.apache.avro.io.Decoder;', 'import org.apache.avro.io.DecoderFactory;', 'import org.apache.avro.io.Encoder;', 'import org.apache.avro.io.EncoderFactory;', 'import org.apache.avro.specific.SpecificDatumReader;', 'import org.apache.avro.specific.SpecificDatumWriter;', 'import org.apache.avro.specific.SpecificRecordBase;', 'import org.apache.avro.util.Utf8;', 'import org.apache.commons.io.IOUtils;', 'import java.io.InputStream;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro</artifactId>
+    <version>1.10.2</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testDateConversionWithUTCMinusTimezone() {
+    // Add your code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+
+After stitching: 
+
+test_code:
+
+public void testDateConversionWithUTCMinusTimezone() throws Exception {
+    // Add your code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testDateConversionWithUTCMinusTimezone() throws Exception {
+    // Add your code here
+}
+
+
+import:
+
+['import org.apache.nifi.processors.standard.TestConvertJSONToSQL;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.nifi</groupId>
+    <artifactId>nifi-standard-processors</artifactId>
+    <version>1.12.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testDateConversionWithUTCMinusTimezone() throws Exception {
+    // Add your code here
+}
+
+
+import:
+
+['import org.codehaus.jackson.map.ObjectMapper;', 'import org.codehaus.jackson.JsonGenerationException;', 'import org.codehaus.jackson.JsonMappingException;', 'import org.codehaus.jackson.JsonNode;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testDateConversionWithUTCMinusTimezone() throws Exception {
+    // Add your code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.codehaus.jackson</groupId>
+    <artifactId>jackson-mapper-asl</artifactId>
+    <version>1.9.13</version>
+</dependency>

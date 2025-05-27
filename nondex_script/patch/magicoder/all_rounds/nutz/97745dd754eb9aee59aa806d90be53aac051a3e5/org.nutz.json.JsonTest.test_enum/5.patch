@@ -1,0 +1,146 @@
+Test File Path: projects/97745dd754eb9aee59aa806d90be53aac051a3e5/nutz/test/org/nutz/json/JsonTest.java
+Original Test Method:
+     public void test_enum() {
+        assertEquals("\"K\"", Json.toJson(K.K));
+        String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+        assertEquals(expected, Json.toJson(TT.T));
+        assertEquals("\"T\"",Json.toJson(TT.T,JsonFormat.full().ignoreJsonShape()));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    assertEquals("\"K\"", Json.toJson(K.K));
+    String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+    assertEquals(expected, Json.toJson(TT.T));
+    assertEquals("\"T\"",Json.toJson(TT.T,JsonFormat.full().ignoreJsonShape()));
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;', 'import com.fasterxml.jackson.databind.SerializationFeature;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void test_enum() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        assertEquals("\"K\"", mapper.writeValueAsString(K.K));
+        String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+        assertEquals(expected, mapper.writeValueAsString(TT.T));
+        assertEquals("\"T\"",mapper.writeValueAsString(TT.T));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+    assertEquals("\"K\"", mapper.writeValueAsString(K.K));
+    String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+    assertEquals(expected, mapper.writeValueAsString(TT.T));
+    assertEquals("\"T\"",mapper.writeValueAsString(TT.T));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<!-- Add the following dependency in your pom.xml file -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.11.2</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void test_enum() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        assertEquals("\"K\"", mapper.writeValueAsString(K.K));
+        String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+        assertEquals(expected, mapper.writeValueAsString(TT.T));
+        assertEquals("\"T\"", mapper.writeValueAsString(TT.T));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+    assertEquals("\"K\"", mapper.writeValueAsString(K.K));
+    String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+    assertEquals(expected, mapper.writeValueAsString(TT.T));
+    assertEquals("\"T\"", mapper.writeValueAsString(TT.T));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+

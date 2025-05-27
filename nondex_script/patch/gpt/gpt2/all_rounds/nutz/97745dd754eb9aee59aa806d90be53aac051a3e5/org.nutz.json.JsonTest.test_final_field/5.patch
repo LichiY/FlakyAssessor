@@ -1,0 +1,145 @@
+Test File Path: projects/97745dd754eb9aee59aa806d90be53aac051a3e5/nutz/test/org/nutz/json/JsonTest.java
+Original Test Method:
+     public void test_final_field() {
+        Issue1393 obj = new Issue1393("test1", 99);
+        String json = Json.toJson(obj, JsonFormat.compact());
+        assertEquals("{\"name\":\"test1\",\"age\":99}", json);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_final_field() {
+    Issue1393 obj = new Issue1393("test1", 99);
+    String json = Json.toJson(obj, JsonFormat.compact());
+    assertEquals(99, JsonPath.read(json, "$.age"));
+    assertEquals("test1", JsonPath.read(json, "$.name"));
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_final_field() {
+    Issue1393 obj = new Issue1393("test1", 99);
+    String json = Json.toJson(obj, JsonFormat.compact());
+    Map<String, Object> map = Json.fromJson(Map.class, json);
+    assertEquals(99, map.get("age"));
+    assertEquals("test1", map.get("name"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No new dependencies needed -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_final_field() {
+    Issue1393 obj = new Issue1393("test1", 99);
+    String json = Json.toJson(obj, JsonFormat.compact());
+    LinkedHashMap<String, Object> map = Json.fromJson(LinkedHashMap.class, json);
+    assertEquals(99, map.get("age"));
+    assertEquals("test1", map.get("name"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.8.0</version>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_final_field() {
+    Issue1393 obj = new Issue1393("test1", 99);
+    ObjectMapper mapper = new ObjectMapper();
+    String json = mapper.writeValueAsString(obj);
+    LinkedHashMap<String, Object> map = mapper.readValue(json, LinkedHashMap.class);
+    assertEquals(99, map.get("age"));
+    assertEquals("test1", map.get("name"));
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.0</version>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_final_field() {
+    Issue1393 obj = new Issue1393("test1", 99);
+    ObjectMapper mapper = new ObjectMapper();
+    String json = mapper.writeValueAsString(obj);
+    LinkedHashMap<String, Object> map = mapper.readValue(json, LinkedHashMap.class);
+    assertEquals(99, map.get("age"));
+    assertEquals("test1", map.get("name"));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.0</version>
+</dependency>
+

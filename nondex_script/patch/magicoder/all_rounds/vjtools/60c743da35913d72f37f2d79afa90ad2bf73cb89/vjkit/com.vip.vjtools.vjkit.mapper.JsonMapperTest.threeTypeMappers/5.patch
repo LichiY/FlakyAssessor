@@ -1,0 +1,191 @@
+Test File Path: projects/60c743da35913d72f37f2d79afa90ad2bf73cb89/vjtools/vjkit/src/test/java/com/vip/vjtools/vjkit/mapper/JsonMapperTest.java
+Original Test Method:
+ 	public void threeTypeMappers() {
+		// 打印全部属性
+		JsonMapper normalBinder = JsonMapper.defaultMapper();
+		TestBean bean = new TestBean("A");
+		assertThat(normalBinder.toJson(bean))
+				.isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+		// 不打印nullValue属性
+		JsonMapper nonNullMapper = JsonMapper.nonNullMapper();
+		assertThat(nonNullMapper.toJson(bean))
+				.isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"emptyValue\":[]}");
+
+		// 不打印nullValue与empty的属性
+		JsonMapper nonEmptyMapper = JsonMapper.nonEmptyMapper();
+		assertThat(nonEmptyMapper.toJson(bean)).isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\"}");
+
+		TestBean nonEmptyBean = nonEmptyMapper.fromJson("{\"name\":\"A\",\"defaultValue\":\"hello\"}", TestBean.class);
+		assertThat(nonEmptyBean.getEmptyValue()).isEmpty();
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void threeTypeMappers() {
+    // 打印全部属性
+    JsonMapper normalBinder = JsonMapper.defaultMapper();
+    TestBean bean = new TestBean("A");
+    assertThat(normalBinder.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+    // 不打印nullValue属性
+    JsonMapper nonNullMapper = JsonMapper.nonNullMapper();
+    assertThat(nonNullMapper.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"emptyValue\":[]}");
+
+    // 不打印nullValue与empty的属性
+    JsonMapper nonEmptyMapper = JsonMapper.nonEmptyMapper();
+    assertThat(nonEmptyMapper.toJson(bean)).isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\"}");
+
+    TestBean nonEmptyBean = nonEmptyMapper.fromJson("{\"name\":\"A\",\"defaultValue\":\"hello\"}", TestBean.class);
+    assertThat(nonEmptyBean.getEmptyValue()).isEmpty();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void threeTypeMappers() {
+    // 打印全部属性
+    JsonMapper normalBinder = JsonMapper.defaultMapper();
+    TestBean bean = new TestBean("A");
+    assertThat(normalBinder.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+    // 不打印nullValue属性
+    JsonMapper nonNullMapper = JsonMapper.nonNullMapper();
+    assertThat(nonNullMapper.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"emptyValue\":[]}");
+
+    // 不打印nullValue与empty的属性
+    JsonMapper nonEmptyMapper = JsonMapper.nonEmptyMapper();
+    assertThat(nonEmptyMapper.toJson(bean)).isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\"}");
+
+    TestBean nonEmptyBean = nonEmptyMapper.fromJson("{\"name\":\"A\",\"defaultValue\":\"hello\"}", TestBean.class);
+    assertThat(nonEmptyBean.getEmptyValue()).isEmpty();
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;', 'import static org.assertj.core.api.Assertions.assertThatThrownBy;', 'import static org.assertj.core.api.Assertions.assertThatCode;', 'import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;', 'import static org.assertj.core.api.Assertions.assertThatIllegalStateException;', 'import static org.assertj.core.api.Assertions.assertThatNoException;', 'import static org.assertj.core.api.Assertions.assertThatExceptionOfType;']
+
+pom:
+
+<!-- put your dependencies here -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void threeTypeMappers() {
+    // 打印全部属性
+    JsonMapper normalBinder = JsonMapper.defaultMapper();
+    TestBean bean = new TestBean("A");
+    assertThat(normalBinder.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+    // 不打印nullValue属性
+    JsonMapper nonNullMapper = JsonMapper.nonNullMapper();
+    assertThat(nonNullMapper.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"emptyValue\":[]}");
+
+    // 不打印nullValue与empty的属性
+    JsonMapper nonEmptyMapper = JsonMapper.nonEmptyMapper();
+    assertThat(nonEmptyMapper.toJson(bean)).isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\"}");
+
+    TestBean nonEmptyBean = nonEmptyMapper.fromJson("{\"name\":\"A\",\"defaultValue\":\"hello\"}", TestBean.class);
+    assertThat(nonEmptyBean.getEmptyValue()).isEmpty();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void threeTypeMappers() {
+    // 打印全部属性
+    JsonMapper normalBinder = JsonMapper.defaultMapper();
+    TestBean bean = new TestBean("A");
+    assertThat(normalBinder.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+    // 不打印nullValue属性
+    JsonMapper nonNullMapper = JsonMapper.nonNullMapper();
+    assertThat(nonNullMapper.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"emptyValue\":[]}");
+
+    // 不打印nullValue与empty的属性
+    JsonMapper nonEmptyMapper = JsonMapper.nonEmptyMapper();
+    assertThat(nonEmptyMapper.toJson(bean)).isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\"}");
+
+    TestBean nonEmptyBean = nonEmptyMapper.fromJson("{\"name\":\"A\",\"defaultValue\":\"hello\"}", TestBean.class);
+    assertThat(nonEmptyBean.getEmptyValue()).isEmpty();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void threeTypeMappers() {
+    // 打印全部属性
+    JsonMapper normalBinder = JsonMapper.defaultMapper();
+    TestBean bean = new TestBean("A");
+    assertThat(normalBinder.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"nullValue\":null,\"emptyValue\":[]}");
+
+    // 不打印nullValue属性
+    JsonMapper nonNullMapper = JsonMapper.nonNullMapper();
+    assertThat(nonNullMapper.toJson(bean))
+            .isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\",\"emptyValue\":[]}");
+
+    // 不打印nullValue与empty的属性
+    JsonMapper nonEmptyMapper = JsonMapper.nonEmptyMapper();
+    assertThat(nonEmptyMapper.toJson(bean)).isEqualTo("{\"name\":\"A\",\"defaultValue\":\"hello\"}");
+
+    TestBean nonEmptyBean = nonEmptyMapper.fromJson("{\"name\":\"A\",\"defaultValue\":\"hello\"}", TestBean.class);
+    assertThat(nonEmptyBean.getEmptyValue()).isEmpty();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

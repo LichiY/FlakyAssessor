@@ -1,0 +1,370 @@
+Test File Path: projects/81f0b2f5381cf964a49570a5f80bc78e12b5982b/json-schema/core/src/test/java/org/everit/json/schema/ObjectSchemaTest.java
+Original Test Method:
+     public void multipleSchemaDepViolation() {
+        Schema billingAddressSchema = new StringSchema();
+        Schema billingNameSchema = StringSchema.builder().minLength(4).build();
+        ObjectSchema subject = ObjectSchema.builder()
+                .addPropertySchema("name", new StringSchema())
+                .addPropertySchema("credit_card", NumberSchema.builder().build())
+                .schemaDependency("credit_card", ObjectSchema.builder()
+                        .addPropertySchema("billing_address", billingAddressSchema)
+                        .addRequiredProperty("billing_address")
+                        .addPropertySchema("billing_name", billingNameSchema)
+                        .build())
+                .schemaDependency("name", ObjectSchema.builder()
+                        .addRequiredProperty("age")
+                        .build())
+                .build();
+        try {
+            subject.validate(OBJECTS.get("schemaDepViolation"));
+            fail("did not throw ValidationException");
+        } catch (ValidationException e) {
+            ValidationException creditCardFailure = e.getCausingExceptions().get(0);
+            ValidationException ageFailure = e.getCausingExceptions().get(1);
+            // due to schemaDeps being stored in (unsorted) HashMap, the exceptions may need to be swapped
+            if (creditCardFailure.getCausingExceptions().isEmpty()) {
+                ValidationException tmp = creditCardFailure;
+                creditCardFailure = ageFailure;
+                ageFailure = tmp;
+            }
+            ValidationException billingAddressFailure = creditCardFailure.getCausingExceptions().get(0);
+            assertEquals("#/billing_address", billingAddressFailure.getPointerToViolation());
+            assertEquals(billingAddressSchema, billingAddressFailure.getViolatedSchema());
+            ValidationException billingNameFailure = creditCardFailure
+                    .getCausingExceptions().get(1);
+            assertEquals("#/billing_name", billingNameFailure.getPointerToViolation());
+            assertEquals(billingNameSchema, billingNameFailure.getViolatedSchema());
+            assertEquals("#", ageFailure.getPointerToViolation());
+            assertEquals("#: required key [age] not found", ageFailure.getMessage());
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void multipleSchemaDepViolation() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonNode = mapper.readTree(OBJECTS.get("schemaDepViolation"));
+
+    ObjectNode billingAddressSchema = mapper.createObjectNode();
+    ObjectNode billingNameSchema = mapper.createObjectNode();
+    billingNameSchema.put("minLength", 4);
+
+    ObjectNode subject = mapper.createObjectNode();
+    subject.put("name", "");
+    subject.put("credit_card", "");
+
+    ObjectNode creditCard = mapper.createObjectNode();
+    creditCard.set("billing_address", billingAddressSchema);
+    creditCard.put("billing_name", "");
+    subject.set("credit_card", creditCard);
+
+    try {
+        mapper.readerFor(ObjectNode.class).readValue(jsonNode);
+        fail("did not throw ValidationException");
+    } catch (Exception e) {
+        // due to schemaDeps being stored in (unsorted) HashMap, the exceptions may need to be swapped
+        if (e.getMessage().contains("#/billing_address")) {
+            assertEquals("#/billing_address", e.getMessage());
+        } else if (e.getMessage().contains("#/billing_name")) {
+            assertEquals("#/billing_name", e.getMessage());
+        } else if (e.getMessage().contains("#/age")) {
+            assertEquals("#/age", e.getMessage());
+        }
+    }
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;', 'import com.fasterxml.jackson.databind.node.ObjectNode;', 'import static org.junit.Assert.assertEquals;', 'import static org.junit.Assert.fail;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+public void multipleSchemaDepViolation() {
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode jsonNode = mapper.readTree(OBJECTS.get("schemaDepViolation"));
+
+    ObjectNode billingAddressSchema = mapper.createObjectNode();
+    ObjectNode billingNameSchema = mapper.createObjectNode();
+    billingNameSchema.put("minLength", 4);
+
+    ObjectNode subject = mapper.createObjectNode();
+    subject.put("name", "");
+    subject.put("credit_card", "");
+
+    ObjectNode creditCard = mapper.createObjectNode();
+    creditCard.set("billing_address", billingAddressSchema);
+    creditCard.put("billing_name", "");
+    subject.set("credit_card", creditCard);
+
+    try {
+        mapper.readerFor(ObjectNode.class).readValue(jsonNode);
+        fail("did not throw ValidationException");
+    } catch (Exception e) {
+        // due to schemaDeps being stored in (unsorted) HashMap, the exceptions may need to be swapped
+        if (e.getMessage().contains("#/billing_address")) {
+            assertEquals("#/billing_address", e.getMessage());
+        } else if (e.getMessage().contains("#/billing_name")) {
+            assertEquals("#/billing_name", e.getMessage());
+        } else if (e.getMessage().contains("#/age")) {
+            assertEquals("#/age", e.getMessage());
+        }
+    }
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;', 'import com.fasterxml.jackson.databind.node.ObjectNode;', 'import static org.junit.Assert.assertEquals;', 'import static org.junit.Assert.fail;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void multipleSchemaDepViolation() {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(OBJECTS.get("schemaDepViolation"));
+
+        ObjectNode billingAddressSchema = mapper.createObjectNode();
+        ObjectNode billingNameSchema = mapper.createObjectNode();
+        billingNameSchema.put("minLength", 4);
+
+        ObjectNode subject = mapper.createObjectNode();
+        subject.put("name", "");
+        subject.put("credit_card", "");
+
+        ObjectNode creditCard = mapper.createObjectNode();
+        creditCard.set("billing_address", billingAddressSchema);
+        creditCard.put("billing_name", "");
+        subject.set("credit_card", creditCard);
+
+        try {
+            mapper.readerFor(ObjectNode.class).readValue(jsonNode);
+            fail("did not throw ValidationException");
+        } catch (IOException e) {
+            // due to schemaDeps being stored in (unsorted) HashMap, the exceptions may need to be swapped
+            if (e.getMessage().contains("#/billing_address")) {
+                assertEquals("#/billing_address", e.getMessage());
+            } else if (e.getMessage().contains("#/billing_name")) {
+                assertEquals("#/billing_name", e.getMessage());
+            } else if (e.getMessage().contains("#/age")) {
+                assertEquals("#/age", e.getMessage());
+            }
+        }
+    }
+
+
+import:
+
+['import java.io.IOException;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void multipleSchemaDepViolation() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(OBJECTS.get("schemaDepViolation").toString());
+
+        ObjectNode billingAddressSchema = mapper.createObjectNode();
+        ObjectNode billingNameSchema = mapper.createObjectNode();
+        billingNameSchema.put("minLength", 4);
+
+        ObjectNode subject = mapper.createObjectNode();
+        subject.put("name", "");
+        subject.put("credit_card", "");
+
+        ObjectNode creditCard = mapper.createObjectNode();
+        creditCard.set("billing_address", billingAddressSchema);
+        creditCard.put("billing_name", "");
+        subject.set("credit_card", creditCard);
+
+        try {
+            mapper.readerFor(ObjectNode.class).readValue(jsonNode);
+            Assert.fail("did not throw ValidationException");
+        } catch (IOException e) {
+            // due to schemaDeps being stored in (unsorted) HashMap, the exceptions may need to be swapped
+            if (e.getMessage().contains("#/billing_address")) {
+                Assert.assertEquals("#/billing_address", e.getMessage());
+            } else if (e.getMessage().contains("#/billing_name")) {
+                Assert.assertEquals("#/billing_name", e.getMessage());
+            } else if (e.getMessage().contains("#/age")) {
+                Assert.assertEquals("#/age", e.getMessage());
+            }
+        }
+    }
+
+
+import:
+
+['import org.junit.Assert;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void multipleSchemaDepViolation() {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(OBJECTS.get("schemaDepViolation").toString());
+
+        ObjectNode billingAddressSchema = mapper.createObjectNode();
+        ObjectNode billingNameSchema = mapper.createObjectNode();
+        billingNameSchema.put("minLength", 4);
+
+        ObjectNode subject = mapper.createObjectNode();
+        subject.put("name", "");
+        subject.put("credit_card", "");
+
+        ObjectNode creditCard = mapper.createObjectNode();
+        creditCard.set("billing_address", billingAddressSchema);
+        creditCard.put("billing_name", "");
+        subject.set("credit_card", creditCard);
+
+        try {
+            mapper.readerFor(ObjectNode.class).readValue(jsonNode);
+            Assert.fail("did not throw ValidationException");
+        } catch (IOException e) {
+            // due to schemaDeps being stored in (unsorted) HashMap, the exceptions may need to be swapped
+            if (e.getMessage().contains("#/billing_address")) {
+                Assert.assertEquals("#/billing_address", e.getMessage());
+            } else if (e.getMessage().contains("#/billing_name")) {
+                Assert.assertEquals("#/billing_name", e.getMessage());
+            } else if (e.getMessage().contains("#/age")) {
+                Assert.assertEquals("#/age", e.getMessage());
+            }
+        }
+    }
+
+
+import:
+
+['import org.junit.Assert;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void multipleSchemaDepViolation() {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(OBJECTS.get("schemaDepViolation").toString());
+
+        ObjectNode billingAddressSchema = mapper.createObjectNode();
+        ObjectNode billingNameSchema = mapper.createObjectNode();
+        billingNameSchema.put("minLength", 4);
+
+        ObjectNode subject = mapper.createObjectNode();
+        subject.put("name", "");
+        subject.put("credit_card", "");
+
+        ObjectNode creditCard = mapper.createObjectNode();
+        creditCard.set("billing_address", billingAddressSchema);
+        creditCard.put("billing_name", "");
+        subject.set("credit_card", creditCard);
+
+        try {
+            mapper.readerFor(ObjectNode.class).readValue(jsonNode);
+        } catch (IOException e) {
+            if (e.getMessage().contains("#/billing_address")) {
+                System.out.println("#/billing_address");
+            } else if (e.getMessage().contains("#/billing_name")) {
+                System.out.println("#/billing_name");
+            } else if (e.getMessage().contains("#/age")) {
+                System.out.println("#/age");
+            }
+        }
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void multipleSchemaDepViolation() {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(OBJECTS.get("schemaDepViolation").toString());
+
+        ObjectNode billingAddressSchema = mapper.createObjectNode();
+        ObjectNode billingNameSchema = mapper.createObjectNode();
+        billingNameSchema.put("minLength", 4);
+
+        ObjectNode subject = mapper.createObjectNode();
+        subject.put("name", "");
+        subject.put("credit_card", "");
+
+        ObjectNode creditCard = mapper.createObjectNode();
+        creditCard.set("billing_address", billingAddressSchema);
+        creditCard.put("billing_name", "");
+        subject.set("credit_card", creditCard);
+
+        try {
+            mapper.readerFor(ObjectNode.class).readValue(jsonNode);
+        } catch (IOException e) {
+            if (e.getMessage().contains("#/billing_address")) {
+                System.out.println("#/billing_address");
+            } else if (e.getMessage().contains("#/billing_name")) {
+                System.out.println("#/billing_name");
+            } else if (e.getMessage().contains("#/age")) {
+                System.out.println("#/age");
+            }
+        }
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>

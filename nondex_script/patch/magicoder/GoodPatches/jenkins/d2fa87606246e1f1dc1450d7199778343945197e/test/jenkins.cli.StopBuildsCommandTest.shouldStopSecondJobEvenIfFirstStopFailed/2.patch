@@ -1,0 +1,54 @@
+Test File Path: projects/d2fa87606246e1f1dc1450d7199778343945197e/jenkins/test/src/test/java/jenkins/cli/StopBuildsCommandTest.java
+Original Test Method:
+     public void shouldStopSecondJobEvenIfFirstStopFailed() throws Exception {
+        final FreeStyleProject project = createLongRunningProject(TEST_JOB_NAME_2);
+
+        final FreeStyleProject restrictedProject = createLongRunningProject(TEST_JOB_NAME);
+
+        j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+        j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().
+                grant(Jenkins.READ).everywhere().toEveryone().
+                grant(Item.READ).onItems(restrictedProject, project).toEveryone().
+                grant(Item.CANCEL).onItems(restrictedProject).toAuthenticated().
+                grant(Item.CANCEL).onItems(project).toEveryone());
+
+        restrictedProject.scheduleBuild2(0).waitForStart();
+        project.scheduleBuild2(0).waitForStart();
+
+        final String stdout = runWith(asList(TEST_JOB_NAME, TEST_JOB_NAME_2)).stdout();
+
+        assertThat(stdout,
+                equalTo("Exception occurred while trying to stop build '#1' for job 'jobName'. " +
+                        "Exception class: AccessDeniedException3, message: anonymous is missing the Job/Cancel permission" + LN +
+                        "Build '#1' stopped for job 'jobName2'" + LN));
+    }
+Patch:
+
+test_code:
+public void shouldStopSecondJobEvenIfFirstStopFailed() throws Exception {
+    final FreeStyleProject project = createLongRunningProject(TEST_JOB_NAME_2);
+
+    final FreeStyleProject restrictedProject = createLongRunningProject(TEST_JOB_NAME);
+
+    j.jenkins.setSecurityRealm(j.createDummySecurityRealm());
+    j.jenkins.setAuthorizationStrategy(new MockAuthorizationStrategy().
+            grant(Jenkins.READ).everywhere().toEveryone().
+            grant(Item.READ).onItems(restrictedProject, project).toEveryone().
+            grant(Item.CANCEL).onItems(restrictedProject).toAuthenticated().
+            grant(Item.CANCEL).onItems(project).toEveryone());
+
+    restrictedProject.scheduleBuild2(0).waitForStart();
+    project.scheduleBuild2(0).waitForStart();
+
+    final String stdout = runWith(asList(TEST_JOB_NAME, TEST_JOB_NAME_2)).stdout();
+
+    assertThat(stdout,
+            equalTo("Exception occurred while trying to stop build '#1' for job 'jobName'. " +
+                    "Exception class: AccessDeniedException3, message: anonymous is missing the Job/Cancel permission" + LN +
+                    "Build '#1' stopped for job 'jobName2'" + LN));
+}
+
+import:
+[]
+pom:
+<!-- put your dependencies here -->

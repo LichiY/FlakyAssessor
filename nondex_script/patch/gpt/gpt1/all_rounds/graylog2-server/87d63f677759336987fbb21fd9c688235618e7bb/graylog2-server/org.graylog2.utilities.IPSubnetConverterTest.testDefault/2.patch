@@ -1,0 +1,62 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/utilities/IPSubnetConverterTest.java
+Original Test Method:
+     public void testDefault() throws Exception {
+        final String defaultList = "127.0.0.1/32,0:0:0:0:0:0:0:1/128";
+        final Set<IpSubnet> results = converter.convertFrom(defaultList);
+        assertThat(results)
+            .hasSize(2)
+            .contains(new IpSubnet("127.0.0.1/32"))
+            .contains(new IpSubnet("0:0:0:0:0:0:0:1/128"));
+        assertThat(converter.convertTo(results)).isEqualTo(defaultList);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testDefault() throws Exception {
+    final String defaultList = "127.0.0.1/32,0:0:0:0:0:0:0:1/128";
+    final Set<IpSubnet> results = new LinkedHashSet<>(converter.convertFrom(defaultList));
+    assertThat(results)
+        .hasSize(2)
+        .contains(new IpSubnet("127.0.0.1/32"))
+        .contains(new IpSubnet("0:0:0:0:0:0:0:1/128"));
+    assertThat(converter.convertTo(results)).isEqualTo(defaultList);
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testDefault() throws Exception {
+    final String defaultList = "127.0.0.1/32,0:0:0:0:0:0:0:1/128";
+    final Set<IpSubnet> results = new LinkedHashSet<>(converter.convertFrom(defaultList));
+    assertThat(results)
+        .hasSize(2)
+        .contains(new IpSubnet("127.0.0.1/32"))
+        .contains(new IpSubnet("0:0:0:0:0:0:0:1/128"));
+    assertThat(converter.convertTo(results)).isIn(
+        "127.0.0.1/32,0:0:0:0:0:0:0:1/128",
+        "0:0:0:0:0:0:0:1/128,127.0.0.1/32"
+    );
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

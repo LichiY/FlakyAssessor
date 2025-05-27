@@ -1,0 +1,117 @@
+Test File Path: projects/d28019640ac3eb6ac167dd0dc582adac7656226e/jetcache/jetcache-test/src/test/java/com/alicp/jetcache/anno/filed/CreateCacheTest.java
+Original Test Method:
+     public void test() throws Exception {
+        doTest();
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    LinkedHashMap<String, Object> cache1 = new LinkedHashMap<>();
+    LinkedHashSet<Object> result = new LinkedHashSet<>();
+    loadingCacheTest(cache1, 0);
+    runGeneralTest();
+    Assertions.assertThat(result).containsExactlyInAnyOrder();
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.LinkedHashMap;', 'import org.assertj.core.api.Assertions;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    LinkedHashMap<String, Object> cache1 = new LinkedHashMap<>();
+    LinkedHashSet<Object> result = new LinkedHashSet<>();
+    cache1.put("key", "value");
+    result.add("value");
+    runGeneralTest();
+    Assertions.assertThat(result).containsExactlyInAnyOrder("value");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    LinkedHashMap<String, Object> cache1 = new LinkedHashMap<>();
+    LinkedHashSet<Object> result = new LinkedHashSet<>();
+    cache1.put("key", "value");
+    result.add("value");
+    runGeneralTest();
+    Assertions.assertThat(result).containsExactlyInAnyOrder("value");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    LinkedHashMap<String, Object> cache1 = new LinkedHashMap<>();
+    LinkedHashSet<Object> result = new LinkedHashSet<>();
+    cache1.put("key", "value");
+    result.add("value");
+    Assertions.assertThat(result).containsExactlyInAnyOrder("value");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+

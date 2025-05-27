@@ -1,0 +1,59 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/contentpacks/model/entities/references/ValueReferenceTest.java
+Original Test Method:
+     public void serializeFloat() throws IOException {
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(1.0f))).isEqualTo("{\"@type\":\"float\",\"@value\":1.0}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(42.4f))).isEqualTo("{\"@type\":\"float\",\"@value\":42.4}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void serializeFloat() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        assertThat(objectMapper.writeValueAsString(1.0f)).isEqualTo("1.0");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    public void serializeFloat() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        assertThat(objectMapper.writeValueAsString(1.0f)).isEqualTo("1.0");
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

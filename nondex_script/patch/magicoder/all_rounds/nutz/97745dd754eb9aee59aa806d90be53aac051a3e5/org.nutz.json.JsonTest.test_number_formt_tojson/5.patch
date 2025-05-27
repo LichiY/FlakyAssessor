@@ -1,0 +1,131 @@
+Test File Path: projects/97745dd754eb9aee59aa806d90be53aac051a3e5/nutz/test/org/nutz/json/JsonTest.java
+Original Test Method:
+     public void test_number_formt_tojson() {
+        NumBean num = new NumBean();
+        num.setNum1(1);
+        String a = "{\n" + "   \"num1\": \"01.00\",\n" + "   \"num2\": \"02.00\"\n" + "}";
+        String str = Json.toJson(num);
+        assertEquals(a, str);
+        System.out.println(str);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String a = "{\n" + "   \"num1\": \"01.00\",\n" + "   \"num2\": \"02.00\"\n" + "}";
+    String str = Json.toJson(num);
+    assertEquals(a, str);
+    System.out.println(str);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String a = "{\n" + "   \"num1\": \"01.00\",\n" + "   \"num2\": \"02.00\"\n" + "}";
+    String str = Json.toJson(num);
+    assertEquals(a, str);
+    System.out.println(str);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String a = "{\n" + "   \"num1\": \"01.00\",\n" + "   \"num2\": \"02.00\"\n" + "}";
+    String str = Json.toJson(num);
+    assertEquals(a, str);
+    System.out.println(str);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>your.groupId</groupId>
+        <artifactId>your.artifactId</artifactId>
+        <version>your.version</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String a = "{\n" + "   \"num1\": \"01.00\",\n" + "   \"num2\": \"02.00\"\n" + "}";
+    String str = Json.toJson(num);
+    assertEquals(a, str);
+    System.out.println(str);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_number_formt_tojson() {
+    NumBean num = new NumBean();
+    num.setNum1(1);
+    String a = "{\n" + "   \"num1\": \"01.00\",\n" + "   \"num2\": \"02.00\"\n" + "}";
+    String str = Json.toJson(num);
+    assertEquals(a, str);
+    System.out.println(str);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,158 @@
+Test File Path: projects/b022898ef1b8c984e17efb2a422ee45f6b13e46e/shardingsphere-elasticjob/elastic-job-lite-core/src/test/java/io/elasticjob/lite/executor/type/SimpleJobExecutorTest.java
+Original Test Method:
+     public void assertExecuteWhenRunOnceAndThrowExceptionForMultipleShardingItems() throws JobExecutionEnvironmentException {
+        assertExecuteWhenRunOnceAndThrowException(ShardingContextsBuilder.getMultipleShardingContexts());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertExecuteWhenRunOnceAndThrowExceptionForMultipleShardingItems() throws JobExecutionEnvironmentException {
+    assertExecuteWhenRunOnceAndThrowException(ShardingContextsBuilder.getMultipleShardingContexts());
+}
+
+
+import:
+
+['import io.elasticjob.lite.executor.type.SimpleJobExecutorTest;']
+
+pom:
+
+<dependency>
+    <groupId>io.elasticjob</groupId>
+    <artifactId>elasticjob-lite-core</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertExecuteWhenRunOnceAndThrowExceptionForMultipleShardingItems() throws JobExecutionEnvironmentException {
+    ShardingContextsBuilder.getMultipleShardingContexts().forEach(context -> {
+        try {
+            assertExecuteWhenRunOnceAndThrowException(context);
+        } catch (JobExecutionEnvironmentException e) {
+            throw new RuntimeException(e);
+        }
+    });
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.shardingsphere</groupId>
+        <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertExecuteWhenRunOnceAndThrowExceptionForMultipleShardingItems() {
+    ShardingContextsBuilder.getMultipleShardingContexts().forEach(context -> {
+        try {
+            assertExecuteWhenRunOnceAndThrowException(context);
+        } catch (JobExecutionEnvironmentException e) {
+            throw e;
+        }
+    });
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+public void assertExecuteWhenRunOnceAndThrowExceptionForMultipleShardingItems() throws JobExecutionEnvironmentException {
+    ShardingContextsBuilder.getMultipleShardingContexts().forEach(context -> {
+        try {
+            assertExecuteWhenRunOnceAndThrowException(context);
+        } catch (JobExecutionEnvironmentException e) {
+            throw e;
+        }
+    });
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertExecuteWhenRunOnceAndThrowExceptionForMultipleShardingItems() throws JobExecutionEnvironmentException {
+    List<ShardingContext> shardingContexts = ShardingContextsBuilder.getMultipleShardingContexts();
+    Collections.sort(shardingContexts, Comparator.comparing(ShardingContext::getShardingItem));
+    for (ShardingContext context : shardingContexts) {
+        try {
+            assertExecuteWhenRunOnceAndThrowException(context);
+        } catch (JobExecutionEnvironmentException e) {
+            throw e;
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertExecuteWhenRunOnceAndThrowExceptionForMultipleShardingItems() throws JobExecutionEnvironmentException {
+    List<ShardingContext> shardingContexts = ShardingContextsBuilder.getMultipleShardingContexts();
+    Collections.sort(shardingContexts, Comparator.comparing(ShardingContext::getShardingItem));
+    for (ShardingContext context : shardingContexts) {
+        try {
+            assertExecuteWhenRunOnceAndThrowException(context);
+        } catch (JobExecutionEnvironmentException e) {
+            throw e;
+        }
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

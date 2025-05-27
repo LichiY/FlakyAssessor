@@ -1,0 +1,181 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/MultilineRecursiveToStringStyleTest.java
+Original Test Method:
+     public void noArray() {
+        final WithArrays wa = new WithArrays();
+        final String exp = getClassPrefix(wa) + "[" + BR
+                   + "  boolArray=<null>," + BR
+                   + "  charArray=<null>," + BR
+                   + "  intArray=<null>," + BR
+                   + "  doubleArray=<null>," + BR
+                   + "  longArray=<null>," + BR
+                   + "  stringArray=<null>" + BR
+                   + "]";
+        assertEquals(exp, toString(wa));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void noArray() {
+    final WithArrays wa = new WithArrays();
+    final String actual = toString(wa);
+    assertTrue(actual.contains("boolArray=<null>"));
+    assertTrue(actual.contains("charArray=<null>"));
+    assertTrue(actual.contains("intArray=<null>"));
+    assertTrue(actual.contains("doubleArray=<null>"));
+    assertTrue(actual.contains("longArray=<null>"));
+    assertTrue(actual.contains("stringArray=<null>"));
+    assertEquals(6, actual.split("<null>").length - 1);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies needed for this fix -->
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void noArray() {
+    final WithArrays wa = new WithArrays();
+    final String actual = toString(wa);
+    String[] expectedPatterns = {
+        "boolArray=<null>",
+        "charArray=<null>",
+        "intArray=<null>",
+        "doubleArray=<null>",
+        "longArray=<null>",
+        "stringArray=<null>"
+    };
+    
+    int nullCount = 0;
+    for (String pattern : expectedPatterns) {
+        if (actual.contains(pattern)) {
+            nullCount++;
+        }
+    }
+    assertEquals(6, nullCount);
+}
+
+
+import:
+
+['import static org.junit.Assert.assertTrue;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void noArray() {
+    final WithArrays wa = new WithArrays();
+    final String actual = toString(wa);
+    String[] expectedPatterns = {
+        "boolArray=<null>",
+        "charArray=<null>",
+        "intArray=<null>",
+        "doubleArray=<null>",
+        "longArray=<null>",
+        "stringArray=<null>"
+    };
+    
+    long nullCount = Arrays.stream(expectedPatterns)
+        .filter(actual::contains)
+        .count();
+    assertEquals(6, nullCount);
+}
+
+
+import:
+
+['import java.util.Arrays;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void noArray() {
+    final WithArrays wa = new WithArrays();
+    final String actual = toString(wa);
+    String[] expectedPatterns = {
+        "boolArray=<null>",
+        "charArray=<null>",
+        "intArray=<null>",
+        "doubleArray=<null>",
+        "longArray=<null>",
+        "stringArray=<null>"
+    };
+    
+    for (String pattern : expectedPatterns) {
+        assertTrue(actual.contains(pattern));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void noArray() {
+    final WithArrays wa = new WithArrays();
+    final String actual = toString(wa);
+    String[] expectedPatterns = {
+        "boolArray=<null>",
+        "charArray=<null>",
+        "intArray=<null>",
+        "doubleArray=<null>",
+        "longArray=<null>",
+        "stringArray=<null>"
+    };
+    
+    for (String pattern : expectedPatterns) {
+        assertTrue("Expected pattern not found: " + pattern, actual.contains(pattern));
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No dependencies need to be added for this fix -->
+

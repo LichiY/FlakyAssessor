@@ -1,0 +1,48 @@
+Test File Path: projects/d2a0335ed2bd282a2d31151e3fafed601b05e628/Digital/src/test/java/de/neemann/gui/language/ResourcesTest.java
+Original Test Method:
+     public void testWrite() throws Exception {
+        Resources res = new Resources();
+        res.put("menu_open", "\u00D6ffnen");
+        res.put("menu_save", "Speichern");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        res.save(baos);
+        assertTrue(Arrays.equals(example.getBytes("utf-8"), baos.toByteArray()));
+    }
+Patch:
+
+test_code:
+public void testWrite() throws Exception {
+    Map<String, String> res = new LinkedHashMap<>();
+    res.put("menu_open", "\u00D6ffnen");
+    res.put("menu_save", "Speichern");
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    for (Map.Entry<String, String> entry : res.entrySet()) {
+        baos.write(entry.getKey().getBytes());
+        baos.write("=".getBytes());
+        baos.write(entry.getValue().getBytes());
+        baos.write("\n".getBytes());
+    }
+
+    byte[] expected = baos.toByteArray();
+    baos.close();
+
+    baos = new ByteArrayOutputStream();
+    for (Map.Entry<String, String> entry : res.entrySet()) {
+        baos.write(entry.getKey().getBytes());
+        baos.write("=".getBytes());
+        baos.write(entry.getValue().getBytes());
+        baos.write("\n".getBytes());
+    }
+
+    byte[] actual = baos.toByteArray();
+    baos.close();
+
+    assertTrue(Arrays.equals(expected, actual));
+}
+
+import:
+[]
+pom:
+None

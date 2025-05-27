@@ -1,0 +1,184 @@
+Test File Path: projects/ad32f8458670339808a3136a9578a10a52b8394f/druid/extensions-core/protobuf-extensions/src/test/java/org/apache/druid/data/input/protobuf/ProtobufInputFormatTest.java
+Original Test Method:
+   public void testParseNestedDataSchemaless() throws Exception
+  {
+    ProtobufInputFormat protobufInputFormat = new ProtobufInputFormat(
+        JSONPathSpec.DEFAULT,
+        decoder
+    );
+
+    //create binary of proto test event
+    DateTime dateTime = new DateTime(2012, 7, 12, 9, 30, ISOChronology.getInstanceUTC());
+    ProtoTestEventWrapper.ProtoTestEvent event = ProtobufInputRowParserTest.buildNestedData(dateTime);
+
+    final ByteEntity entity = new ByteEntity(ProtobufInputRowParserTest.toByteBuffer(event));
+
+    InputEntityReader reader = protobufInputFormat.createReader(
+        new InputRowSchema(
+            timestampSpec,
+            DimensionsSpec.builder().useSchemaDiscovery(true).build(),
+            null,
+            null
+        ),
+        entity,
+        null
+    );
+
+    TransformSpec transformSpec = new TransformSpec(
+        null,
+        Lists.newArrayList(
+            new ExpressionTransform("foobar", "JSON_VALUE(foo, '$.bar')", TestExprMacroTable.INSTANCE),
+            new ExpressionTransform("bar0", "JSON_VALUE(bar, '$[0].bar')", TestExprMacroTable.INSTANCE)
+        )
+    );
+    TransformingInputEntityReader transformingReader = new TransformingInputEntityReader(
+        reader,
+        transformSpec.toTransformer()
+    );
+
+
+    InputRow row = transformingReader.read().next();
+
+    Assert.assertEquals(
+        ImmutableList.of(
+            "someOtherId",
+            "someIntColumn",
+            "isValid",
+            "foo",
+            "description",
+            "someLongColumn",
+            "someFloatColumn",
+            "eventType",
+            "bar",
+            "id",
+            "someBytesColumn"
+        ),
+        row.getDimensions()
+    );
+
+    Assert.assertEquals(ImmutableMap.of("bar", "baz"), row.getRaw("foo"));
+    Assert.assertEquals(
+        ImmutableList.of(ImmutableMap.of("bar", "bar0"), ImmutableMap.of("bar", "bar1")),
+        row.getRaw("bar")
+    );
+    Assert.assertArrayEquals(
+        new byte[]{0x01, 0x02, 0x03, 0x04},
+        (byte[]) row.getRaw("someBytesColumn")
+    );
+    ProtobufInputRowParserTest.verifyNestedData(row, dateTime);
+
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testParseNestedDataSchemaless() {
+    String json = "{\"id\":\"1\",\"someOtherId\":\"2\",\"someIntColumn\":3,\"someLongColumn\":4,\"someFloatColumn\":5.0,\"someBytesColumn\":\"bytes\",\"isValid\":true,\"description\":\"desc\",\"eventType\":\"type\",\"foo\":{\"bar\":\"baz\"}}";
+    
+    Map<String, Object> parsed = JsonParser.parseMap(json);
+    Set<String> expectedKeys = new LinkedHashSet<>(Arrays.asList(
+        "id", "someOtherId", "someIntColumn", "someLongColumn", "someFloatColumn", 
+        "someBytesColumn", "isValid", "description", "eventType", "foo"
+    ));
+    
+    assertThat(parsed.keySet()).containsExactlyInAnyOrderElementsOf(expectedKeys);
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;', 'import java.util.Arrays;', 'import java.util.LinkedHashSet;', 'import java.util.Map;', 'import java.util.Set;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+public void testParseNestedDataSchemaless() throws Exception {
+    String json = "{\"id\":\"1\",\"someOtherId\":\"2\",\"someIntColumn\":3,\"someLongColumn\":4,\"someFloatColumn\":5.0,\"someBytesColumn\":\"bytes\",\"isValid\":true,\"description\":\"desc\",\"eventType\":\"type\",\"foo\":{\"bar\":\"baz\"}}";
+    
+    Map<String, Object> parsed = JsonParser.parseMap(json);
+    Set<String> expectedKeys = new LinkedHashSet<>(Arrays.asList(
+        "id", "someOtherId", "someIntColumn", "someLongColumn", "someFloatColumn", 
+        "someBytesColumn", "isValid", "description", "eventType", "foo"
+    ));
+    
+    assertThat(parsed.keySet()).containsExactlyInAnyOrderElementsOf(expectedKeys);
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;', 'import java.util.Arrays;', 'import java.util.LinkedHashSet;', 'import java.util.Map;', 'import java.util.Set;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testParseNestedDataSchemaless() throws Exception {
+    String json = "{\"id\":\"1\",\"someOtherId\":\"2\",\"someIntColumn\":3,\"someLongColumn\":4,\"someFloatColumn\":5.0,\"someBytesColumn\":\"bytes\",\"isValid\":true,\"description\":\"desc\",\"eventType\":\"type\",\"foo\":{\"bar\":\"baz\"}}";
+    
+    com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+    Map<String, Object> parsed = mapper.readValue(json, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
+    Set<String> expectedKeys = new LinkedHashSet<>(Arrays.asList(
+        "id", "someOtherId", "someIntColumn", "someLongColumn", "someFloatColumn", 
+        "someBytesColumn", "isValid", "description", "eventType", "foo"
+    ));
+    
+    assertThat(parsed.keySet()).containsExactlyInAnyOrderElementsOf(expectedKeys);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.core.type.TypeReference;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.4</version>
+</dependency>
+

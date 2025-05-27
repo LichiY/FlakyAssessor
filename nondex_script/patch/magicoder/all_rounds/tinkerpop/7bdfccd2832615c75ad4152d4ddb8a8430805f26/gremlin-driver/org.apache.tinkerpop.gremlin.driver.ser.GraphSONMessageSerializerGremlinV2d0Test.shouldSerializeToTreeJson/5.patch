@@ -1,0 +1,315 @@
+Test File Path: projects/7bdfccd2832615c75ad4152d4ddb8a8430805f26/tinkerpop/gremlin-driver/src/test/java/org/apache/tinkerpop/gremlin/driver/ser/GraphSONMessageSerializerGremlinV2d0Test.java
+Original Test Method:
+     public void shouldSerializeToTreeJson() throws Exception {
+        final TinkerGraph graph = TinkerFactory.createClassic();
+        final GraphTraversalSource g = graph.traversal();
+        final Map t = g.V(1).out().properties("name").tree().next();
+
+        final ResponseMessage response = convert(t);
+        assertCommon(response);
+
+        final Tree deserializedTree = (Tree)response.getResult().getData();
+
+        //check the first object and its key's properties
+        assertEquals(1, deserializedTree.size());
+        final Vertex v = ((Vertex) deserializedTree.keySet().iterator().next());
+        assertEquals(1, v.id());
+        assertEquals("marko", v.property("name").value());
+
+        final Tree firstTree = (Tree)deserializedTree.get(v);
+        assertEquals(3, firstTree.size());
+        Iterator<Vertex> vertexKeys = firstTree.keySet().iterator();
+
+        Tree t2 = (Tree)firstTree.get(vertexKeys.next());
+        VertexProperty vp = (VertexProperty)t2.keySet().iterator().next();
+        assertEquals(3, vp.id());
+        assertEquals("vadas", vp.value());
+
+        t2 = (Tree) firstTree.get(vertexKeys.next());
+        vp = (VertexProperty) t2.keySet().iterator().next();
+        assertEquals(5, vp.id());
+        assertEquals("lop", vp.value());
+
+        t2 = (Tree) firstTree.get(vertexKeys.next());
+        vp = (VertexProperty) t2.keySet().iterator().next();
+        assertEquals(7, vp.id());
+        assertEquals("josh", vp.value());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeToTreeJson() throws Exception {
+    final TinkerGraph graph = TinkerFactory.createClassic();
+    final GraphTraversalSource g = graph.traversal();
+    final Map t = g.V(1).out().properties("name").tree().next();
+
+    final ResponseMessage response = convert(t);
+    assertCommon(response);
+
+    final Tree deserializedTree = (Tree)response.getResult().getData();
+
+    //check the first object and its key's properties
+    assertEquals(1, deserializedTree.size());
+    final Vertex v = ((Vertex) deserializedTree.keySet().iterator().next());
+    assertEquals(1, v.id());
+    assertEquals("marko", v.property("name").value());
+
+    final Tree firstTree = (Tree)deserializedTree.get(v);
+    assertEquals(3, firstTree.size());
+    Iterator<Vertex> vertexKeys = firstTree.keySet().iterator();
+
+    Tree t2 = (Tree)firstTree.get(vertexKeys.next());
+    VertexProperty vp = (VertexProperty)t2.keySet().iterator().next();
+    assertEquals(3, vp.id());
+    assertEquals("vadas", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(5, vp.id());
+    assertEquals("lop", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(7, vp.id());
+    assertEquals("josh", vp.value());
+}
+
+
+import:
+
+['import org.neo4j.graphdb.GraphDatabaseService;', 'import org.neo4j.graphdb.Node;', 'import org.neo4j.graphdb.Relationship;', 'import org.neo4j.graphdb.Transaction;', 'import org.neo4j.graphdb.factory.GraphDatabaseFactory;', 'import org.neo4j.graphdb.traversal.Evaluators;', 'import org.neo4j.graphdb.traversal.TraversalDescription;', 'import org.neo4j.graphdb.traversal.Traverser;', 'import org.neo4j.graphdb.traversal.Uniqueness;', 'import org.neo4j.helpers.collection.Iterables;', 'import org.neo4j.kernel.impl.util.StringLogger;', 'import org.neo4j.kernel.impl.util.StringLoggerFactory;', 'import org.neo4j.logging.Log;', 'import org.neo4j.logging.LogProvider;', 'import org.neo4j.logging.internal.LogService;', 'import org.neo4j.logging.internal.LogServiceImpl;', 'import org.neo4j.logging.internal.LogServiceImpl.LogServiceImplBuilder;', 'import org.neo4j.logging.slf4j.Slf4jLogProvider;', 'import org.neo4j.logging.slf4j.Slf4jLogService;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep1;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep2;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep3;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep4;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep5;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep6;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep7;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep8;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep9;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep10;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep11;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep12;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep13;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep14;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep15;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep16;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep17;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep18;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep19;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep20;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep21;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep22;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep23;', 'import org.neo4j.logging.slf4j.Slf4jLogServiceImpl.Slf4jLogServiceImplBuilder.Slf4jLogServiceImplBuilderStep24;']
+
+pom:
+
+
+
+    <dependency>
+        <groupId>org.neo4j</groupId>
+        <artifactId>neo4j</artifactId>
+        <version>3.4.3</version>
+    </dependency>
+
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeToTreeJson() throws Exception {
+    final TinkerGraph graph = TinkerFactory.createClassic();
+    final GraphTraversalSource g = graph.traversal();
+    final Map t = g.V(1).out().properties("name").tree().next();
+
+    final ResponseMessage response = convert(t);
+    assertCommon(response);
+
+    final Tree deserializedTree = (Tree)response.getResult().getData();
+
+    //check the first object and its key's properties
+    assertEquals(1, deserializedTree.size());
+    final Vertex v = ((Vertex) deserializedTree.keySet().iterator().next());
+    assertEquals(1, v.id());
+    assertEquals("marko", v.property("name").value());
+
+    final Tree firstTree = (Tree)deserializedTree.get(v);
+    assertEquals(3, firstTree.size());
+    Iterator<Vertex> vertexKeys = firstTree.keySet().iterator();
+
+    Tree t2 = (Tree)firstTree.get(vertexKeys.next());
+    VertexProperty vp = (VertexProperty)t2.keySet().iterator().next();
+    assertEquals(3, vp.id());
+    assertEquals("vadas", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(5, vp.id());
+    assertEquals("lop", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(7, vp.id());
+    assertEquals("josh", vp.value());
+}
+
+
+import:
+
+['import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertex;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexPropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexPropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySet;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySingleProperty;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertyMap;', 'import org.apache.tinkerpop.gremlin.structure.util.detached.DetachedVertexSinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySinglePropertySet;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.tinkerpop</groupId>
+        <artifactId>tinkerpop-gremlin</artifactId>
+        <version>3.4.9</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeToTreeJson() throws Exception {
+    final TinkerGraph graph = TinkerFactory.createClassic();
+    final GraphTraversalSource g = graph.traversal();
+    final Map t = g.V(1).out().properties("name").tree().next();
+
+    final ResponseMessage response = convert(t);
+    assertCommon(response);
+
+    final Tree deserializedTree = (Tree)response.getResult().getData();
+
+    //check the first object and its key's properties
+    assertEquals(1, deserializedTree.size());
+    final Vertex v = ((Vertex) deserializedTree.keySet().iterator().next());
+    assertEquals(1, v.id());
+    assertEquals("marko", v.property("name").value());
+
+    final Tree firstTree = (Tree)deserializedTree.get(v);
+    assertEquals(3, firstTree.size());
+    Iterator<Vertex> vertexKeys = firstTree.keySet().iterator();
+
+    Tree t2 = (Tree)firstTree.get(vertexKeys.next());
+    VertexProperty vp = (VertexProperty)t2.keySet().iterator().next();
+    assertEquals(3, vp.id());
+    assertEquals("vadas", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(5, vp.id());
+    assertEquals("lop", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(7, vp.id());
+    assertEquals("josh", vp.value());
+}
+
+
+import:
+
+['import org.neo4j.graphdb.Label;', 'import org.neo4j.graphdb.index.Index;', 'import org.neo4j.graphdb.index.IndexHits;', 'import org.neo4j.graphdb.schema.ConstraintType;', 'import org.neo4j.graphdb.schema.Schema;', 'import org.neo4j.graphdb.schema.SchemaBuilder;', 'import org.neo4j.graphdb.schema.SchemaRule;', 'import org.neo4j.graphdb.schema.SchemaRuleType;', 'import org.neo4j.graphdb.schema.UniquePropertyRule;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithName;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndType;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndProperty;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelType;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirection;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelType;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirection;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelType;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirection;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelType;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirection;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabel;', 'import org.neo4j.graphdb.schema.UniquePropertyRuleBuilder.UniquePropertyRuleBuilderWithNameAndTypeAndLabelAndPropertyAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelTypeAndDirectionAndStartNodeLabelAndEndNodeLabelAndRelType;']
+
+pom:
+
+<dependency>
+    <groupId>org.neo4j</groupId>
+    <artifactId>neo4j</artifactId>
+    <version>3.5.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeToTreeJson() throws Exception {
+    final TinkerGraph graph = TinkerFactory.createClassic();
+    final GraphTraversalSource g = graph.traversal();
+    final Map t = g.V(1).out().properties("name").tree().next();
+
+    final ResponseMessage response = convert(t);
+    assertCommon(response);
+
+    final Tree deserializedTree = (Tree)response.getResult().getData();
+
+    //check the first object and its key's properties
+    assertEquals(1, deserializedTree.size());
+    final Vertex v = ((Vertex) deserializedTree.keySet().iterator().next());
+    assertEquals(1, v.id());
+    assertEquals("marko", v.property("name").value());
+
+    final Tree firstTree = (Tree)deserializedTree.get(v);
+    assertEquals(3, firstTree.size());
+    Iterator<Vertex> vertexKeys = firstTree.keySet().iterator();
+
+    Tree t2 = (Tree)firstTree.get(vertexKeys.next());
+    VertexProperty vp = (VertexProperty)t2.keySet().iterator().next();
+    assertEquals(3, vp.id());
+    assertEquals("vadas", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(5, vp.id());
+    assertEquals("lop", vp.value());
+
+    t2 = (Tree) firstTree.get(vertexKeys.next());
+    vp = (VertexProperty) t2.keySet().iterator().next();
+    assertEquals(7, vp.id());
+    assertEquals("josh", vp.value());
+}
+
+
+import:
+
+['import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;', 'import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;', 'import org.apache.tinkerpop.gremlin.process.traversal.util.TraversalHelper;', 'import org.apache.tinkerpop.gremlin.structure.util.empty.EmptyGraph;', 'import org.apache.tinkerpop.gremlin.structure.util.empty.EmptyGraphTraversalSource;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactory;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilUtilClass;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilUtilLoader;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilUtilRegistry;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilUtilUtil;', 'import org.apache.tinkerpop.gremlin.structure.util.graph.GraphFactoryUtilUtilUtilUtilUtilUtilUtilUtilUtilUtilClass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.tinkerpop</groupId>
+        <artifactId>gremlin-core</artifactId>
+        <version>3.4.9</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void shouldSerializeToTreeJson() throws Exception {
+        final TinkerGraph graph = new TinkerGraph(EmptyGraph.instance());
+        final GraphTraversalSource g = graph.traversal();
+        final Map t = g.V(1).out().properties("name").tree().next();
+
+        final ResponseMessage response = convert(t);
+        assertCommon(response);
+
+        final Tree deserializedTree = (Tree)response.getResult().getData();
+
+        //check the first object and its key's properties
+        assertEquals(1, deserializedTree.size());
+        final Vertex v = ((Vertex) deserializedTree.keySet().iterator().next());
+        assertEquals(1, v.id());
+        assertEquals("marko", v.property("name").value());
+
+        final Tree firstTree = (Tree)deserializedTree.get(v);
+        assertEquals(3, firstTree.size());
+        Iterator<Vertex> vertexKeys = firstTree.keySet().iterator();
+
+        Tree t2 = (Tree)firstTree.get(vertexKeys.next());
+        VertexProperty vp = (VertexProperty)t2.keySet().iterator().next();
+        assertEquals(3, vp.id());
+        assertEquals("vadas", vp.value());
+
+        t2 = (Tree) firstTree.get(vertexKeys.next());
+        vp = (VertexProperty) t2.keySet().iterator().next();
+        assertEquals(5, vp.id());
+        assertEquals("lop", vp.value());
+
+        t2 = (Tree) firstTree.get(vertexKeys.next());
+        vp = (VertexProperty) t2.keySet().iterator().next();
+        assertEquals(7, vp.id());
+        assertEquals("josh", vp.value());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.tinkerpop</groupId>
+    <artifactId>gremlin-core</artifactId>
+    <version>3.4.6</version>
+</dependency>

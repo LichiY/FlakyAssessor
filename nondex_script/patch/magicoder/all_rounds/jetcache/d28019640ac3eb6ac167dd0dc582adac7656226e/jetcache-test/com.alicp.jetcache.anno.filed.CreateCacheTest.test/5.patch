@@ -1,0 +1,264 @@
+Test File Path: projects/d28019640ac3eb6ac167dd0dc582adac7656226e/jetcache/jetcache-test/src/test/java/com/alicp/jetcache/anno/filed/CreateCacheTest.java
+Original Test Method:
+             public void test() throws Exception {
+                runGeneralTest();
+                refreshTest();
+                cacheWithoutConvertorTest();
+                AbstractCacheTest.penetrationProtectTest(cacheWithProtect);
+                testCacheWithLocalExpire();
+
+                cache1.put("KK1", "V1");
+                Assert.assertNull(cache_A1.get("KK1"));
+                Assert.assertNull(cache2.get("KK1"));
+
+                Assert.assertSame(getTarget(cacheSameName1), getTarget(cacheSameName2));
+                Assert.assertSame(getTarget(cacheSameName1),
+                        getTarget(configProvider.getCacheContext().getCache("sameCacheName")));
+                Assert.assertNotSame(getTarget(cacheSameName1), getTarget(cache1));
+
+                cacheSameName1.put("SameKey", "SameValue");
+                Assert.assertEquals(cacheSameName1.get("SameKey"),cacheSameName2.get("SameKey"));
+                Assert.assertNull(cache1.get("SameKey"));
+
+                Assert.assertTrue(getTarget(cache1) instanceof MockRemoteCache);
+                Assert.assertSame(FastjsonKeyConvertor.INSTANCE, cache1.config().getKeyConvertor());
+
+                Assert.assertTrue(getTarget(cacheWithConfig) instanceof MultiLevelCache);
+                Assert.assertEquals(50, cacheWithConfig.config().getExpireAfterWriteInMillis());
+
+                MultiLevelCache mc = (MultiLevelCache) getTarget(cacheWithConfig);
+                Cache localCache = getTarget(mc.caches()[0]);
+                Cache remoteCache = getTarget(mc.caches()[1]);
+                Assert.assertTrue(localCache instanceof LinkedHashMapCache);
+                Assert.assertTrue(remoteCache instanceof MockRemoteCache);
+                EmbeddedCacheConfig localConfig = (EmbeddedCacheConfig) localCache.config();
+                ExternalCacheConfig remoteConfig = (ExternalCacheConfig) remoteCache.config();
+                Assert.assertEquals(50, localConfig.getExpireAfterWriteInMillis());
+                Assert.assertEquals(50, remoteConfig.getExpireAfterWriteInMillis());
+                Assert.assertEquals(10, localConfig.getLimit());
+                Assert.assertEquals(JavaValueEncoder.class, remoteConfig.getValueEncoder().getClass());
+                Assert.assertTrue(remoteConfig.getValueDecoder() instanceof JavaValueDecoder);
+                Assert.assertNull(localConfig.getKeyConvertor());
+                Assert.assertNull(remoteConfig.getKeyConvertor());
+
+            }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    runGeneralTest();
+    refreshTest();
+    cacheWithoutConvertorTest();
+    AbstractCacheTest.penetrationProtectTest(cacheWithProtect);
+    testCacheWithLocalExpire();
+
+    cache1.put("KK1", "V1");
+    Assert.assertNull(cache_A1.get("KK1"));
+    Assert.assertNull(cache2.get("KK1"));
+
+    Assert.assertSame(getTarget(cacheSameName1), getTarget(cacheSameName2));
+    Assert.assertSame(getTarget(cacheSameName1),
+            getTarget(configProvider.getCacheContext().getCache("sameCacheName")));
+    Assert.assertNotSame(getTarget(cacheSameName1), getTarget(cache1));
+
+    cacheSameName1.put("SameKey", "SameValue");
+    Assert.assertEquals(cacheSameName1.get("SameKey"),cacheSameName2.get("SameKey"));
+    Assert.assertNull(cache1.get("SameKey"));
+
+    Assert.assertTrue(getTarget(cache1) instanceof MockRemoteCache);
+    Assert.assertSame(FastjsonKeyConvertor.INSTANCE, cache1.config().getKeyConvertor());
+
+    Assert.assertTrue(getTarget(cacheWithConfig) instanceof MultiLevelCache);
+    Assert.assertEquals(50, cacheWithConfig.config().getExpireAfterWriteInMillis());
+
+    MultiLevelCache mc = (MultiLevelCache) getTarget(cacheWithConfig);
+    Cache localCache = getTarget(mc.caches()[0]);
+    Cache remoteCache = getTarget(mc.caches()[1]);
+    Assert.assertTrue(localCache instanceof LinkedHashMapCache);
+    Assert.assertTrue(remoteCache instanceof MockRemoteCache);
+    EmbeddedCacheConfig localConfig = (EmbeddedCacheConfig) localCache.config();
+    ExternalCacheConfig remoteConfig = (ExternalCacheConfig) remoteCache.config();
+    Assert.assertEquals(50, localConfig.getExpireAfterWriteInMillis());
+    Assert.assertEquals(50, remoteConfig.getExpireAfterWriteInMillis());
+    Assert.assertEquals(10, localConfig.getLimit());
+    Assert.assertEquals(JavaValueEncoder.class, remoteConfig.getValueEncoder().getClass());
+    Assert.assertTrue(remoteConfig.getValueDecoder() instanceof JavaValueDecoder);
+    Assert.assertNull(localConfig.getKeyConvertor());
+    Assert.assertNull(remoteConfig.getKeyConvertor());
+}
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;', 'import com.google.common.collect.ImmutableSet;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>29.0-jre</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    runGeneralTest();
+    refreshTest();
+    cacheWithoutConvertorTest();
+    AbstractCacheTest.penetrationProtectTest(cacheWithProtect);
+    testCacheWithLocalExpire();
+
+    cache1.put("KK1", "V1");
+    Assert.assertNull(cache_A1.get("KK1"));
+    Assert.assertNull(cache2.get("KK1"));
+
+    Assert.assertSame(getTarget(cacheSameName1), getTarget(cacheSameName2));
+    Assert.assertSame(getTarget(cacheSameName1),
+            getTarget(configProvider.getCacheContext().getCache("sameCacheName")));
+    Assert.assertNotSame(getTarget(cacheSameName1), getTarget(cache1));
+
+    cacheSameName1.put("SameKey", "SameValue");
+    Assert.assertEquals(cacheSameName1.get("SameKey"),cacheSameName2.get("SameKey"));
+    Assert.assertNull(cache1.get("SameKey"));
+
+    Assert.assertTrue(getTarget(cache1) instanceof MockRemoteCache);
+    Assert.assertSame(FastjsonKeyConvertor.INSTANCE, cache1.config().getKeyConvertor());
+
+    Assert.assertTrue(getTarget(cacheWithConfig) instanceof MultiLevelCache);
+    Assert.assertEquals(50, cacheWithConfig.config().getExpireAfterWriteInMillis());
+
+    MultiLevelCache mc = (MultiLevelCache) getTarget(cacheWithConfig);
+    Cache localCache = getTarget(mc.caches()[0]);
+    Cache remoteCache = getTarget(mc.caches()[1]);
+    Assert.assertTrue(localCache instanceof LinkedHashMapCache);
+    Assert.assertTrue(remoteCache instanceof MockRemoteCache);
+    EmbeddedCacheConfig localConfig = (EmbeddedCacheConfig) localCache.config();
+    ExternalCacheConfig remoteConfig = (ExternalCacheConfig) remoteCache.config();
+    Assert.assertEquals(50, localConfig.getExpireAfterWriteInMillis());
+    Assert.assertEquals(50, remoteConfig.getExpireAfterWriteInMillis());
+    Assert.assertEquals(10, localConfig.getLimit());
+    Assert.assertEquals(JavaValueEncoder.class, remoteConfig.getValueEncoder().getClass());
+    Assert.assertTrue(remoteConfig.getValueDecoder() instanceof JavaValueDecoder);
+    Assert.assertNull(localConfig.getKeyConvertor());
+    Assert.assertNull(remoteConfig.getKeyConvertor());
+}
+
+
+import:
+
+['import com.alicp.jetcache.Cache;', 'import com.alicp.jetcache.MultiLevelCache;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.alicp.jetcache</groupId>
+        <artifactId>jetcache-core</artifactId>
+        <version>2.1.1</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test() throws Exception {
+    runGeneralTest();
+    refreshTest();
+    cacheWithoutConvertorTest();
+    AbstractCacheTest.penetrationProtectTest(cacheWithProtect);
+    testCacheWithLocalExpire();
+
+    cache1.put("KK1", "V1");
+    Assert.assertNull(cache_A1.get("KK1"));
+    Assert.assertNull(cache2.get("KK1"));
+
+    Assert.assertSame(getTarget(cacheSameName1), getTarget(cacheSameName2));
+    Assert.assertSame(getTarget(cacheSameName1),
+            getTarget(configProvider.getCacheContext().getCache("sameCacheName")));
+    Assert.assertNotSame(getTarget(cacheSameName1), getTarget(cache1));
+
+    cacheSameName1.put("SameKey", "SameValue");
+    Assert.assertEquals(cacheSameName1.get("SameKey"),cacheSameName2.get("SameKey"));
+    Assert.assertNull(cache1.get("SameKey"));
+
+    Assert.assertTrue(getTarget(cache1) instanceof MockRemoteCache);
+    Assert.assertSame(FastjsonKeyConvertor.INSTANCE, cache1.config().getKeyConvertor());
+
+    Assert.assertTrue(getTarget(cacheWithConfig) instanceof MultiLevelCache);
+    Assert.assertEquals(50, cacheWithConfig.config().getExpireAfterWriteInMillis());
+
+    MultiLevelCache mc = (MultiLevelCache) getTarget(cacheWithConfig);
+    Cache localCache = getTarget(mc.caches()[0]);
+    Cache remoteCache = getTarget(mc.caches()[1]);
+    Assert.assertTrue(localCache instanceof LinkedHashMapCache);
+    Assert.assertTrue(remoteCache instanceof MockRemoteCache);
+    EmbeddedCacheConfig localConfig = (EmbeddedCacheConfig) localCache.config();
+    ExternalCacheConfig remoteConfig = (ExternalCacheConfig) remoteCache.config();
+    Assert.assertEquals(50, localConfig.getExpireAfterWriteInMillis());
+    Assert.assertEquals(50, remoteConfig.getExpireAfterWriteInMillis());
+    Assert.assertEquals(10, localConfig.getLimit());
+    Assert.assertEquals(JavaValueEncoder.class, remoteConfig.getValueEncoder().getClass());
+    Assert.assertTrue(remoteConfig.getValueDecoder() instanceof JavaValueDecoder);
+    Assert.assertNull(localConfig.getKeyConvertor());
+    Assert.assertNull(remoteConfig.getKeyConvertor());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.alicp</groupId>
+        <artifactId>jetcache</artifactId>
+        <version>1.2.1</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None

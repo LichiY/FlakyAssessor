@@ -1,0 +1,185 @@
+Test File Path: projects/399ab58c5c29b2437c56f5418d8610bc3fb3381d/flowable-engine/modules/flowable-engine/src/test/java/org/flowable/engine/test/el/function/VariableExpressionFunctionsTest.java
+Original Test Method:
+     public void testGetVariableEquals() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+        assertEquals("B", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+        
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 12)
+                .start();
+        assertEquals("B", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+        
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 123)
+                .start();
+        assertEquals("A", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testGetVariableEquals() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+    assertEquals("B", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 12)
+            .start();
+    assertEquals("B", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 123)
+            .start();
+    assertEquals("A", taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult().getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetVariableEquals() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+    Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 12)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals("B", task.getName());
+    
+    processInstance = runtimeService.createProcessInstanceBuilder()
+            .processDefinitionKey("testExpressionFunction")
+            .variable("myVar", 123)
+            .start();
+    task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+    assertEquals("A", task.getName());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetVariableEquals() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("B", task.getName());
+
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 12)
+                .start();
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("B", task.getName());
+
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 123)
+                .start();
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("A", task.getName());
+    }
+
+
+import:
+
+['import org.flowable.engine.task.Task;', 'import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetVariableEquals() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("B", task.getName());
+
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 12)
+                .start();
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("B", task.getName());
+
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 123)
+                .start();
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("A", task.getName());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetVariableEquals() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testExpressionFunction");
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("B", task.getName());
+
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 12)
+                .start();
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("B", task.getName());
+
+        processInstance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("testExpressionFunction")
+                .variable("myVar", 123)
+                .start();
+        task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
+        assertEquals("A", task.getName());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

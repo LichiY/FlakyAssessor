@@ -1,0 +1,46 @@
+Test File Path: projects/505e08a76425c6e49ff5bc691f8ca7587184a2bf/pulsar/pulsar-client/src/test/java/org/apache/pulsar/client/impl/schema/KeyValueSchemaInfoTest.java
+Original Test Method:
+     public void testKeyValueSchemaInfoToString() {
+        String havePrimitiveType = DefaultImplementation
+                .convertKeyValueSchemaInfoDataToString(KeyValueSchemaInfo
+                        .decodeKeyValueSchemaInfo(Schema.KeyValue(Schema.AVRO(Foo.class), Schema.STRING)
+                                .getSchemaInfo()));
+        assertEquals(havePrimitiveType, KEY_VALUE_SCHEMA_INFO_INCLUDE_PRIMITIVE);
+
+        String notHavePrimitiveType = DefaultImplementation
+                .convertKeyValueSchemaInfoDataToString(KeyValueSchemaInfo
+                        .decodeKeyValueSchemaInfo(Schema.KeyValue(Schema.AVRO(Foo.class),
+                                Schema.AVRO(Foo.class)).getSchemaInfo()));
+        assertEquals(notHavePrimitiveType, KEY_VALUE_SCHEMA_INFO_NOT_INCLUDE_PRIMITIVE);
+    }
+Patch:
+
+test_code:
+public void testKeyValueSchemaInfoToString() {
+    String havePrimitiveType = DefaultImplementation
+            .convertKeyValueSchemaInfoDataToString(KeyValueSchemaInfo
+                    .decodeKeyValueSchemaInfo(Schema.KeyValue(Schema.AVRO(Foo.class), Schema.STRING)
+                            .getSchemaInfo()));
+    assertThatJson(havePrimitiveType)
+            .when(Option.IGNORING_ARRAY_ORDER)
+            .isEqualTo(KEY_VALUE_SCHEMA_INFO_INCLUDE_PRIMITIVE);
+
+    String notHavePrimitiveType = DefaultImplementation
+            .convertKeyValueSchemaInfoDataToString(KeyValueSchemaInfo
+                    .decodeKeyValueSchemaInfo(Schema.KeyValue(Schema.AVRO(Foo.class),
+                            Schema.AVRO(Foo.class)).getSchemaInfo()));
+    assertThatJson(notHavePrimitiveType)
+            .when(Option.IGNORING_ARRAY_ORDER)
+            .isEqualTo(KEY_VALUE_SCHEMA_INFO_NOT_INCLUDE_PRIMITIVE);
+}
+
+import:
+['import net.javacrumbs.jsonunit.core.Option;']
+pom:
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>

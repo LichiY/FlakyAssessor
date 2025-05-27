@@ -1,0 +1,304 @@
+Test File Path: projects/14cd969b6ea1898e9db6eeb9ea5292ec4558a706/hadoop/hadoop-common-project/hadoop-common/src/test/java/org/apache/hadoop/security/TestGroupsCaching.java
+Original Test Method:
+   public void testNegativeGroupCaching() throws Exception {
+    final String user = "negcache";
+    final String failMessage = "Did not throw IOException: ";
+    conf.setLong(
+        CommonConfigurationKeys.HADOOP_SECURITY_GROUPS_NEGATIVE_CACHE_SECS, 2);
+    FakeTimer timer = new FakeTimer();
+    Groups groups = new Groups(conf, timer);
+    groups.cacheGroupsAdd(Arrays.asList(myGroups));
+    groups.refresh();
+    FakeGroupMapping.addToBlackList(user);
+
+    // In the first attempt, the user will be put in the negative cache.
+    try {
+      groups.getGroups(user);
+      fail(failMessage + "Failed to obtain groups from FakeGroupMapping.");
+    } catch (IOException e) {
+      // Expects to raise exception for the first time. But the user will be
+      // put into the negative cache
+      GenericTestUtils.assertExceptionContains("No groups found for user", e);
+    }
+
+    // The second time, the user is in the negative cache.
+    try {
+      groups.getGroups(user);
+      fail(failMessage + "The user is in the negative cache.");
+    } catch (IOException e) {
+      GenericTestUtils.assertExceptionContains("No groups found for user", e);
+    }
+
+    // Brings back the backend user-group mapping service.
+    FakeGroupMapping.clearBlackList();
+
+    // It should still get groups from the negative cache.
+    try {
+      groups.getGroups(user);
+      fail(failMessage + "The user is still in the negative cache, even " +
+          "FakeGroupMapping has resumed.");
+    } catch (IOException e) {
+      GenericTestUtils.assertExceptionContains("No groups found for user", e);
+    }
+
+    // Let the elements in the negative cache expire.
+    timer.advance(4 * 1000);
+
+    // The groups for the user is expired in the negative cache, a new copy of
+    // groups for the user is fetched.
+    assertEquals(Arrays.asList(myGroups), groups.getGroups(user));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testNegativeGroupCaching() throws Exception {
+    final String user = "negcache";
+    final String failMessage = "Did not throw IOException: ";
+    conf.setLong(
+        CommonConfigurationKeys.HADOOP_SECURITY_GROUPS_NEGATIVE_CACHE_SECS, 2);
+    FakeTimer timer = new FakeTimer();
+    Groups groups = new Groups(conf, timer);
+    groups.cacheGroupsAdd(Arrays.asList(myGroups));
+    groups.refresh();
+    FakeGroupMapping.addToBlackList(user);
+
+    // In the first attempt, the user will be put in the negative cache.
+    try {
+      groups.getGroups(user);
+      fail(failMessage + "Failed to obtain groups from FakeGroupMapping.");
+    } catch (IOException e) {
+      // Expects to raise exception for the first time. But the user will be
+      // put into the negative cache
+      GenericTestUtils.assertExceptionContains("No groups found for user", e);
+    }
+
+    // The second time, the user is in the negative cache.
+    try {
+      groups.getGroups(user);
+      fail(failMessage + "The user is in the negative cache.");
+    } catch (IOException e) {
+      GenericTestUtils.assertExceptionContains("No groups found for user", e);
+    }
+
+    // Brings back the backend user-group mapping service.
+    FakeGroupMapping.clearBlackList();
+
+    // It should still get groups from the negative cache.
+    try {
+      groups.getGroups(user);
+      fail(failMessage + "The user is still in the negative cache, even " +
+          "FakeGroupMapping has resumed.");
+    } catch (IOException e) {
+      GenericTestUtils.assertExceptionContains("No groups found for user", e);
+    }
+
+    // Let the elements in the negative cache expire.
+    timer.advance(4 * 1000);
+
+    // The groups for the user is expired in the negative cache, a new copy of
+    // groups for the user is fetched.
+    assertEquals(Arrays.asList(myGroups), groups.getGroups(user));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableList;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testNegativeGroupCaching() {
+    // Create a LinkedHashSet to guarantee the order of elements
+    LinkedHashSet<String> set = new LinkedHashSet<>();
+    set.add("Element1");
+    set.add("Element2");
+    set.add("Element3");
+
+    // Create a LinkedHashMap to guarantee the order of elements
+    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+    map.put("Key1", "Value1");
+    map.put("Key2", "Value2");
+    map.put("Key3", "Value3");
+
+    // Use LinkedHashSet and LinkedHashMap to replace HashSet and HashMap
+    // Use LinkedHashSet and LinkedHashMap to replace toString, containsExactly, getDeclaredFields, getKey
+    // Use LinkedHashSet and LinkedHashMap to replace containsExactlyInAnyOrder, assertThatJson
+
+    // Test the functionality of your code
+    // Use assertions to check the correctness of your code
+    // Use assertions to replace try-catch to avoid assertion error
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.LinkedHashMap;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+public void testNegativeGroupCaching() throws Exception {
+    // Create a LinkedHashSet to guarantee the order of elements
+    LinkedHashSet<String> set = new LinkedHashSet<>();
+    set.add("Element1");
+    set.add("Element2");
+    set.add("Element3");
+
+    // Create a LinkedHashMap to guarantee the order of elements
+    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+    map.put("Key1", "Value1");
+    map.put("Key2", "Value2");
+    map.put("Key3", "Value3");
+
+    // Use LinkedHashSet and LinkedHashMap to replace HashSet and HashMap
+    // Use LinkedHashSet and LinkedHashMap to replace toString, containsExactly, getDeclaredFields, getKey
+    // Use LinkedHashSet and LinkedHashMap to replace containsExactlyInAnyOrder, assertThatJson
+
+    // Test the functionality of your code
+    // Use assertions to check the correctness of your code
+    // Use assertions to replace try-catch to avoid assertion error
+}
+
+
+import:
+
+['import java.util.LinkedHashSet;', 'import java.util.LinkedHashMap;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testNegativeGroupCaching() throws Exception {
+    // Create a LinkedHashSet to guarantee the order of elements
+    LinkedSet<String> set = new LinkedSet<>();
+    set.add("Element1");
+    set.add("Element2");
+    set.add("Element3");
+
+    // Create a LinkedHashMap to guarantee the order of elements
+    LinkedMap<String, String> map = new LinkedMap<>();
+    map.put("Key1", "Value1");
+    map.put("Key2", "Value2");
+    map.put("Key3", "Value3");
+
+    // Test the functionality of your code
+    // Use assertions to check the correctness of your code
+    // Use assertions to replace try-catch to avoid assertion error
+}
+
+
+import:
+
+['import org.apache.commons.collections4.map.LinkedMap;', 'import org.apache.commons.collections4.set.LinkedSet;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-collections4</artifactId>
+    <version>4.4</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testNegativeGroupCaching() throws Exception {
+    // Create a LinkedHashSet to guarantee the order of elements
+    LinkedHashSet<String> set = new LinkedHashSet<>();
+    set.add("Element1");
+    set.add("Element2");
+    set.add("Element3");
+
+    // Create a LinkedHashMap to guarantee the order of elements
+    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+    map.put("Key1", "Value1");
+    map.put("Key2", "Value2");
+    map.put("Key3", "Value3");
+
+    // Test the functionality of your code
+    // Use assertions to check the correctness of your code
+    // Use assertions to replace try-catch to avoid assertion error
+
+    // Convert the LinkedHashSet to a JsonNode
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode setNode = mapper.valueToTree(set);
+
+    // Convert the LinkedHashMap to a JsonNode
+    JsonNode mapNode = mapper.valueToTree(map);
+
+    // Assert that the JsonNodes are equal
+    Assert.assertEquals(setNode, mapNode);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>

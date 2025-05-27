@@ -1,0 +1,299 @@
+Test File Path: projects/3009f363b84df6a0ba377e72f6cff6ce204af0e8/mockserver/mockserver-core/src/test/java/org/mockserver/serialization/WebSocketMessageSerializerTest.java
+Original Test Method:
+     public void shouldSerializeCompleteResponse() throws IOException {
+        // when
+        String jsonHttpResponse = new WebSocketMessageSerializer(new MockServerLogger()).serialize(
+            new HttpResponseDTO()
+                .setStatusCode(123)
+                .setBody(BodyWithContentTypeDTO.createWithContentTypeDTO(exact("somebody")))
+                .setHeaders(new Headers().withEntries(
+                    header("someHeaderName", "someHeaderValue")
+                ))
+                .setCookies(new Cookies().withEntries(
+                    cookie("someCookieName", "someCookieValue")
+                ))
+                .setDelay(new DelayDTO(minutes(1)))
+                .buildObject()
+        );
+
+        // then
+        assertEquals("{" + NEW_LINE +
+            "  \"type\" : \"org.mockserver.model.HttpResponse\"," + NEW_LINE +
+            "  \"value\" : \"{" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  \\\"statusCode\\\" : 123," + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  \\\"headers\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "    \\\"someHeaderName\\\" : [ \\\"someHeaderValue\\\" ]" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  \\\"cookies\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "    \\\"someCookieName\\\" : \\\"someCookieValue\\\"" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  \\\"body\\\" : \\\"somebody\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  \\\"delay\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "    \\\"timeUnit\\\" : \\\"MINUTES\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "    \\\"value\\\" : 1" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "  }" + StringEscapeUtils.escapeJava(NEW_LINE) +
+            "}\"" + NEW_LINE +
+            "}", jsonHttpResponse);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeCompleteResponse() throws IOException {
+    // when
+    String jsonHttpResponse = new WebSocketMessageSerializer(new MockServerLogger()).serialize(
+        new HttpResponseDTO()
+            .setStatusCode(123)
+            .setBody(BodyWithContentTypeDTO.createWithContentTypeDTO(exact("somebody")))
+            .setHeaders(new Headers().withEntries(
+                header("someHeaderName", "someHeaderValue")
+            ))
+            .setCookies(new Cookies().withEntries(
+                cookie("someCookieName", "someCookieValue")
+            ))
+            .setDelay(new DelayDTO(minutes(1)))
+            .buildObject()
+    );
+
+    // then
+    assertEquals("{" + NEW_LINE +
+        "  \"type\" : \"org.mockserver.model.HttpResponse\"," + NEW_LINE +
+        "  \"value\" : \"{" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"statusCode\\\" : 123," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"headers\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someHeaderName\\\" : [ \\\"someHeaderValue\\\" ]" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"cookies\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someCookieName\\\" : \\\"someCookieValue\\\"" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"body\\\" : \\\"somebody\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"delay\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"timeUnit\\\" : \\\"MINUTES\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"value\\\" : 1" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "}\"" + NEW_LINE +
+        "}", jsonHttpResponse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeCompleteResponse() throws IOException {
+    // when
+    String jsonHttpResponse = new WebSocketMessageSerializer(new MockServerLogger()).serialize(
+        new HttpResponseDTO()
+            .setStatusCode(123)
+            .setBody(BodyWithContentTypeDTO.createWithContentTypeDTO(exact("somebody")))
+            .setHeaders(new Headers().withEntries(
+                header("someHeaderName", "someHeaderValue")
+            ))
+            .setCookies(new Cookies().withEntries(
+                cookie("someCookieName", "someCookieValue")
+            ))
+            .setDelay(new DelayDTO(minutes(1)))
+            .buildObject()
+    );
+
+    // then
+    assertEquals("{" + NEW_LINE +
+        "  \"type\" : \"org.mockserver.model.HttpResponse\"," + NEW_LINE +
+        "  \"value\" : \"{" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"statusCode\\\" : 123," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"headers\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someHeaderName\\\" : [ \\\"someHeaderValue\\\" ]" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"cookies\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someCookieName\\\" : \\\"someCookieValue\\\"" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"body\\\" : \\\"somebody\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"delay\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"timeUnit\\\" : \\\"MINUTES\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"value\\\" : 1" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "}\"" + NEW_LINE +
+        "}", jsonHttpResponse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeCompleteResponse() throws IOException {
+    // when
+    String jsonHttpResponse = new WebSocketMessageSerializer(new MockServerLogger()).serialize(
+        new HttpResponseDTO()
+            .setStatusCode(123)
+            .setBody(BodyWithContentTypeDTO.createWithContentTypeDTO(exact("somebody")))
+            .setHeaders(new Headers().withEntries(
+                header("someHeaderName", "someHeaderValue")
+            ))
+            .setCookies(new Cookies().withEntries(
+                cookie("someCookieName", "someCookieValue")
+            ))
+            .setDelay(new DelayDTO(minutes(1)))
+            .buildObject()
+    );
+
+    // then
+    assertEquals("{" + NEW_LINE +
+        "  \"type\" : \"org.mockserver.model.HttpResponse\"," + NEW_LINE +
+        "  \"value\" : \"{" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"statusCode\\\" : 123," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"headers\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someHeaderName\\\" : [ \\\"someHeaderValue\\\" ]" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"cookies\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someCookieName\\\" : \\\"someCookieValue\\\"" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"body\\\" : \\\"somebody\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"delay\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"timeUnit\\\" : \\\"MINUTES\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"value\\\" : 1" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "}\"" + NEW_LINE +
+        "}", jsonHttpResponse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.mock-server</groupId>
+        <artifactId>mockserver-model</artifactId>
+        <version>5.11.2</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeCompleteResponse() throws IOException {
+    // when
+    String jsonHttpResponse = new WebSocketMessageSerializer(new MockServerLogger()).serialize(
+        new HttpResponseDTO()
+            .setStatusCode(123)
+            .setBody(BodyWithContentTypeDTO.createWithContentTypeDTO(exact("somebody")))
+            .setHeaders(new Headers().withEntries(
+                header("someHeaderName", "someHeaderValue")
+            ))
+            .setCookies(new Cookies().withEntries(
+                cookie("someCookieName", "someCookieValue")
+            ))
+            .setDelay(new DelayDTO(minutes(1)))
+            .buildObject()
+    );
+
+    // then
+    assertEquals("{" + NEW_LINE +
+        "  \"type\" : \"org.mockserver.model.HttpResponse\"," + NEW_LINE +
+        "  \"value\" : \"{" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"statusCode\\\" : 123," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"headers\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someHeaderName\\\" : [ \\\"someHeaderValue\\\" ]" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"cookies\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someCookieName\\\" : \\\"someCookieValue\\\"" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"body\\\" : \\\"somebody\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"delay\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"timeUnit\\\" : \\\"MINUTES\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"value\\\" : 1" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "}\"" + NEW_LINE +
+        "}", jsonHttpResponse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.mock-server</groupId>
+        <artifactId>mockserver-mock-server-core</artifactId>
+        <version>5.11.2</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void shouldSerializeCompleteResponse() throws IOException {
+    // when
+    String jsonHttpResponse = new WebSocketMessageSerializer(new MockServerLogger()).serialize(
+        new HttpResponseDTO()
+            .setStatusCode(123)
+            .setBody(BodyWithContentTypeDTO.createWithContentTypeDTO(exact("somebody")))
+            .setHeaders(new Headers().withEntries(
+                header("someHeaderName", "someHeaderValue")
+            ))
+            .setCookies(new Cookies().withEntries(
+                cookie("someCookieName", "someCookieValue")
+            ))
+            .setDelay(new DelayDTO(minutes(1)))
+            .buildObject()
+    );
+
+    // then
+    assertEquals("{" + NEW_LINE +
+        "  \"type\" : \"org.mockserver.model.HttpResponse\"," + NEW_LINE +
+        "  \"value\" : \"{" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"statusCode\\\" : 123," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"headers\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someHeaderName\\\" : [ \\\"someHeaderValue\\\" ]" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"cookies\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"someCookieName\\\" : \\\"someCookieValue\\\"" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"body\\\" : \\\"somebody\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  \\\"delay\\\" : {" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"timeUnit\\\" : \\\"MINUTES\\\"," + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "    \\\"value\\\" : 1" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "  }" + StringEscapeUtils.escapeJava(NEW_LINE) +
+        "}\"" + NEW_LINE +
+        "}", jsonHttpResponse);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

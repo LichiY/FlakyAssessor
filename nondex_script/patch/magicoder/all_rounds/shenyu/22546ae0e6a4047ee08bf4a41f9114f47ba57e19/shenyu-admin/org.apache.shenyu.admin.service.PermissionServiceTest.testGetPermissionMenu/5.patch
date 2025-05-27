@@ -1,0 +1,160 @@
+Test File Path: projects/22546ae0e6a4047ee08bf4a41f9114f47ba57e19/shenyu/shenyu-admin/src/test/java/org/apache/shenyu/admin/service/PermissionServiceTest.java
+Original Test Method:
+     public void testGetPermissionMenu() {
+        try (MockedStatic<JwtUtils> mocked = mockStatic(JwtUtils.class)) {
+            mocked.when(JwtUtils::getUserInfo)
+                    .thenAnswer((Answer<UserInfo>) invocation -> UserInfo.builder().userId("1").userName("admin").build());
+            final PermissionMenuVO expectedResult = new PermissionMenuVO(Arrays.asList(
+                    new PermissionMenuVO.MenuInfo("1346776175553376256", "system", "/system", "system",
+                            new PermissionMenuVO.Meta("setting", "SHENYU.MENU.SYSTEM.MANAGMENT"), Collections.singletonList(
+                            new PermissionMenuVO.MenuInfo("1346777157943259136", "manage", "/system/manage", "manage",
+                                    new PermissionMenuVO.Meta("", "SHENYU.MENU.SYSTEM.MANAGMENT.USER"), Collections.emptyList(), 1)
+                    ), 1),
+                    new PermissionMenuVO.MenuInfo("1346775491550474240", "plug", "/plug", "PluginList",
+                            new PermissionMenuVO.Meta("dashboard", "SHENYU.MENU.PLUGIN.LIST"), Collections.emptyList(), 0)
+            ),
+                    Collections.singletonList(new PermissionMenuVO.AuthPerm("plugin:sign:modify", "SHENYU.BUTTON.PLUGIN.SYNCHRONIZE", null)),
+                    Collections.singletonList(new PermissionMenuVO.AuthPerm("plugin:sign:modify", "SHENYU.BUTTON.PLUGIN.SYNCHRONIZE", null)));
+            String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbiIsImlhdCI6MTYxMTc5MjEzOX0.eFORUk5kZawKLTsfRYojy-uaaDySo9kWtcfgxISS_3g";
+            final PermissionMenuVO result = permissionServiceImplUnderTest.getPermissionMenu(token);
+            assertThat(result, is(expectedResult));
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import static org.mockito.Mockito.*;', 'import org.mockito.invocation.InvocationOnMock;', 'import java.util.*;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPermissionMenu() {
+    // Arrange
+    // Setup your objects and dependencies here
+
+    // Act
+    // Call the method you want to test
+    List<Permission> result = yourObject.getPermissionMenu();
+
+    // Assert
+    // Use the correct assertion method for the expected result
+    assertThat(result, containsInAnyOrder(expectedPermission1, expectedPermission2, expectedPermission3));
+}
+
+
+import:
+
+['import static org.hamcrest.Matchers.containsInAnyOrder;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.3.3</version>
+        <scope>test</scope>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetPermissionMenu() {
+        // Arrange
+        // Setup your objects and dependencies here
+
+        // Act
+        // Call the method you want to test
+        List<Permission> result = permissionService.getPermissionMenu();
+
+        // Assert
+        // Use the correct assertion method for the expected result
+        assertThat(result, containsInAnyOrder(expectedPermission1, expectedPermission2, expectedPermission3));
+    }
+
+
+import:
+
+['import org.apache.shenyu.admin.service.PermissionService;', 'import org.apache.shenyu.admin.service.PermissionServiceTest;', 'import org.apache.shenyu.admin.service.Permission;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.shenyu</groupId>
+    <artifactId>shenyu-admin</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetPermissionMenu() {
+    // Arrange
+    // Setup your objects and dependencies here
+
+    // Act
+    // Call the method you want to test
+    List<Permission> result = permissionService.getPermissionMenu();
+
+    // Assert
+    // Use the correct assertion method for the expected result
+    assertThat(result, containsInAnyOrder(expectedPermission1, expectedPermission2, expectedPermission3));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testGetPermissionMenu() {
+        // Arrange
+        // Setup your objects and dependencies here
+
+        // Act
+        // Call the method you want to test
+        List<Permission> result = permissionService.getPermissionMenu();
+
+        // Assert
+        // Use the correct assertion method for the expected result
+        assertThat(result, containsInAnyOrder(expectedPermission1, expectedPermission2, expectedPermission3));
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

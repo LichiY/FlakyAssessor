@@ -1,0 +1,52 @@
+Test File Path: projects/3fc2d100bb2081c3da1996508e1f1200cea21d2f/dubbo/dubbo-common/src/test/java/org/apache/dubbo/common/utils/AnnotationUtilsTest.java
+Original Test Method:
+     public void testGetAllDeclaredAnnotations() {
+        List<Annotation> annotations = getAllDeclaredAnnotations(A.class);
+        assertADeclaredAnnotations(annotations, 0);
+
+        annotations = getAllDeclaredAnnotations(B.class);
+        assertTrue(isSameType(annotations.get(0), Service5.class));
+        assertADeclaredAnnotations(annotations, 1);
+
+        annotations = new LinkedList<>(getAllDeclaredAnnotations(C.class));
+        assertTrue(isSameType(annotations.get(0), MyAdaptive.class));
+        assertTrue(isSameType(annotations.get(1), Service5.class));
+        assertADeclaredAnnotations(annotations, 2);
+
+        annotations = getAllDeclaredAnnotations(findMethod(A.class, "execute"));
+        MyAdaptive myAdaptive = (MyAdaptive) annotations.get(0);
+        assertArrayEquals(new String[]{"e"}, myAdaptive.value());
+
+        annotations = getAllDeclaredAnnotations(findMethod(B.class, "execute"));
+        Adaptive adaptive = (Adaptive) annotations.get(0);
+        assertArrayEquals(new String[]{"f"}, adaptive.value());
+    }
+Patch:
+
+test_code:
+public void testGetAllDeclaredAnnotations() {
+    List<Annotation> annotations = new ArrayList<>(getAllDeclaredAnnotations(A.class));
+    assertEquals(1, (long) annotations.stream().filter(ann -> isSameType(ann, Service.class)).count());
+
+    annotations = new ArrayList<>(getAllDeclaredAnnotations(B.class));
+    assertEquals(1, (long) annotations.stream().filter(ann -> isSameType(ann, Service5.class)).count());
+    assertEquals(1, (long) annotations.stream().filter(ann -> isSameType(ann, Service.class)).count());
+
+    annotations = new ArrayList<>(getAllDeclaredAnnotations(C.class));
+    assertEquals(1, (long) annotations.stream().filter(ann -> isSameType(ann, MyAdaptive.class)).count());
+    assertEquals(1, (long) annotations.stream().filter(ann -> isSameType(ann, Service5.class)).count());
+    assertEquals(1, (long) annotations.stream().filter(ann -> isSameType(ann, Service.class)).count());
+
+    annotations = getAllDeclaredAnnotations(findMethod(A.class, "execute"));
+    MyAdaptive myAdaptive = (MyAdaptive) annotations.get(0);
+    assertArrayEquals(new String[]{"e"}, myAdaptive.value());
+
+    annotations = getAllDeclaredAnnotations(findMethod(B.class, "execute"));
+    Adaptive adaptive = (Adaptive) annotations.get(0);
+    assertArrayEquals(new String[]{"f"}, adaptive.value());
+}
+
+import:
+[]
+pom:
+None

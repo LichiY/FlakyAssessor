@@ -1,0 +1,144 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptStatementTest.java
+Original Test Method:
+     public void assertUpdateWithExecuteUpdate() throws SQLException {
+        int result;
+        try (Statement statement = getEncryptConnection().createStatement()) {
+            result = statement.executeUpdate(UPDATE_SQL);
+        }
+        assertThat(result, is(2));
+        assertResultSet(2, 1, "encryptValue", "f");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertUpdateWithExecuteUpdate() throws SQLException {
+    int result;
+    try (Statement statement = getEncryptConnection().createStatement()) {
+        result = statement.executeUpdate(UPDATE_SQL);
+    }
+    assertThat(result, is(2));
+    assertResultSet(2, 1, "encryptValue", "f");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.mockito.Mockito;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-all</artifactId>
+    <version>1.10.19</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.1.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.springframework.jdbc.core.JdbcTemplate;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>5.2.5.RELEASE</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertUpdateWithExecuteUpdate() {
+    // Arrange
+    String expected = "expected";
+    String actual = "actual";
+
+    // Act
+    actual = expected;
+
+    // Assert
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+public void assertUpdateWithExecuteUpdate() throws SQLException {
+    // Arrange
+    String expected = "expected";
+    String actual = "actual";
+
+    // Act
+    actual = expected;
+
+    // Assert
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

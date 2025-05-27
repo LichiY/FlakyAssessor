@@ -1,0 +1,152 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptPreparedStatementTest.java
+Original Test Method:
+     public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+        try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            statement.execute();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            assertTrue(resultSet.next());
+            assertThat(resultSet.getInt(1), is(6));
+            assertFalse(resultSet.next());
+        }
+        assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        statement.execute();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        statement.execute();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        statement.execute();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        statement.execute();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import static org.junit.Assert.*;', 'import static org.hamcrest.CoreMatchers.*;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecuteWithGeneratedKey() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_GENERATED_KEY_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        statement.execute();
+        ResultSet resultSet = statement.getGeneratedKeys();
+        assertTrue(resultSet.next());
+        assertThat(resultSet.getInt(1), is(6));
+        assertFalse(resultSet.next());
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import org.mockito.Mockito;']
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.1.0</version>
+</dependency>

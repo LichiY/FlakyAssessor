@@ -1,0 +1,124 @@
+Test File Path: projects/4c0a98d8f0f93733b0fddbb2b4b3dd4edd32470d/MyPerf4J/MyPerf4J-Base/src/test/java/cn/myperf4j/base/influxdb/InfluxDbV2ClientTest.java
+Original Test Method:
+     public void testWrite() {
+        Assert.assertTrue(influxDbClient.writeMetricsSync(
+                "cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000\n" +
+                        "cpu_load_short,host=server02,region=us-west value=0.96 1434055562000000000"));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testWrite() {
+    String metrics = "cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000\n" +
+            "cpu_load_short,host=server02,region=us-west value=0.96 1434055562000000000";
+    Assert.assertTrue(influxDbClient.writeMetricsSync(metrics));
+    Assert.assertTrue(influxDbClient.close());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testWrite() {
+    String metrics = "cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000\n" +
+            "cpu_load_short,host=server02,region=us-west value=0.96 1434055562000000000";
+    Assert.assertTrue(influxDbClient.writeMetricsSync(metrics));
+    Assert.assertTrue(influxDbClient.close());
+}
+
+
+import:
+
+['import org.influxdb.InfluxDB;', 'import org.influxdb.InfluxDBFactory;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.influxdb</groupId>
+        <artifactId>influxdb-java</artifactId>
+        <version>2.19</version>
+    </dependency>
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testWrite() {
+    String metrics = "cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000\n" +
+            "cpu_load_short,host=server02,region=us-west value=0.96 1434055562000000000";
+    Assert.assertTrue(influxDbClient.writeMetricsSync(metrics));
+    Assert.assertTrue(influxDbClient.close());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testWrite() {
+    String metrics = "cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000\n" +
+            "cpu_load_short,host=server02,region=us-west value=0.96 1434055562000000000";
+    Assert.assertTrue(influxDbClient.writeMetricsSync(metrics));
+    Assert.assertTrue(influxDbClient.close());
+}
+
+
+import:
+
+['import org.junit.jupiter.api.Assertions;']
+
+pom:
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.7.0</version>
+    <scope>test</scope>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testWrite() {
+    String metrics = "cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000\n" +
+            "cpu_load_short,host=server02,region=us-west value=0.96 1434055562000000000";
+    Assert.assertTrue(influxDbClient.writeMetricsSync(metrics));
+    Assert.assertTrue(influxDbClient.close());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

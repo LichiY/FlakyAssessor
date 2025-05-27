@@ -1,0 +1,196 @@
+Test File Path: projects/0ac96e1602baf1f516c3c614f13523adb2992e69/nacos/common/src/test/java/com/alibaba/nacos/common/utils/JacksonUtilsTest.java
+Original Test Method:
+     public void testToJsonBytes() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("string", "你好，中国！");
+        map.put("integer", 999);
+        RestResult<Map<String, Object>> restResult = new RestResult();
+        restResult.setData(map);
+
+        byte[] bytes = JacksonUtils.toJsonBytes(restResult);
+        String jsonFromBytes = ByteUtils.toString(bytes);
+        String expectedJson = "{\"code\":0,\"data\":{\"string\":\"你好，中国！\",\"integer\":999}}";
+        Assert.assertEquals(expectedJson, jsonFromBytes);
+
+        // old `toJsonBytes` method implementation:
+        //     public static byte[] toJsonBytes(Object obj) {
+        //        try {
+        //            return ByteUtils.toBytes(mapper.writeValueAsString(obj));
+        //        } catch (JsonProcessingException e) {
+        //            throw new NacosSerializationException(obj.getClass(), e);
+        //        }
+        //    }
+
+        // here is a verification to compare with the old implementation
+        byte[] bytesFromOldImplementation = ByteUtils.toBytes(JacksonUtils.toJson(restResult));
+        Assert.assertEquals(expectedJson, new String(bytesFromOldImplementation, Charset.forName(Constants.ENCODE)));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.1</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void testToJsonBytes() throws Exception {
+        // Arrange
+        None none = new None();
+
+        // Act
+        byte[] jsonBytes = mapper.writeValueAsBytes(none);
+
+        // Assert
+        String expectedJson = "{\"code\":0,\"data\":{\"string\":\"你好，中国!\"}}";
+        assertThat(new String(jsonBytes)).isEqualTo(expectedJson);
+    }
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+
+
+
+After stitching: 
+
+test_code:
+
+    public void testToJsonBytes() {
+        // Arrange
+        None none = new None();
+
+        // Act
+        byte[] jsonBytes = mapper.writeValueAsBytes(none);
+
+        // Assert
+        String expectedJson = "{\"code\":0,\"data\":{\"string\":\"你好，中国!\"}}";
+        assertThat(new String(jsonBytes)).isEqualTo(expectedJson);
+    }
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void testToJsonBytes() {
+        // Arrange
+        None none = new None();
+
+        // Act
+        byte[] jsonBytes = mapper.writeValueAsBytes(none);
+
+        // Assert
+        String expectedJson = "{\"code\":0,\"data\":{\"string\":\"你好，中国!\"}}";
+        Assertions.assertThat(new String(jsonBytes)).isEqualTo(expectedJson);
+    }
+
+
+import:
+
+['import org.assertj.core.api.Assertions;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void testToJsonBytes() {
+        // Arrange
+        None none = new None();
+
+        // Act
+        byte[] jsonBytes = mapper.writeValueAsBytes(none);
+
+        // Assert
+        String expectedJson = "{\"code\":0,\"data\":{\"string\":\"你好，中国!\"}}";
+        Assertions.assertThat(new String(jsonBytes)).isEqualTo(expectedJson);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void testToJsonBytes() {
+        // Arrange
+        None none = new None();
+
+        // Act
+        byte[] jsonBytes = mapper.writeValueAsBytes(none);
+
+        // Assert
+        String expectedJson = "{\"code\":0,\"data\":{\"string\":\"你好，中国!\"}}";
+        Assertions.assertThat(new String(jsonBytes)).isEqualTo(expectedJson);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

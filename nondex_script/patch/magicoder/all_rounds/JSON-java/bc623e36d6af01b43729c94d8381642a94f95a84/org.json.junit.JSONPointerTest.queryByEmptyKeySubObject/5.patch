@@ -1,0 +1,135 @@
+Test File Path: projects/bc623e36d6af01b43729c94d8381642a94f95a84/JSON-java/src/test/java/org/json/junit/JSONPointerTest.java
+Original Test Method:
+     public void queryByEmptyKeySubObject() {
+        assertEquals( "{\"\":\"empty key of an object with an empty key\",\"subKey\":\"Some" +
+                " other value\"}", query("/obj/").toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void queryByEmptyKeySubObject() {
+    String expected = "{\"\":\"empty key of an object with an empty key\",\"subKey\":\"Some other value\"}";
+    String actual = query("/obj/").toString();
+
+    // Sort the expected and actual strings to ensure they are in the same order
+    String sortedExpected = sortJsonString(expected);
+    String sortedActual = sortJsonString(actual);
+
+    assertEquals(sortedExpected, sortedActual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void queryByEmptyKeySubObject() {
+        String expected = "{\"\":\"empty key of an object with an empty key\",\"subKey\":\"Some other value\"}";
+        String actual = query("/obj/").toString();
+
+        // Sort the expected and actual strings to ensure they are in the same order
+        String sortedExpected = sortJsonString(expected);
+        String sortedActual = sortJsonString(actual);
+
+        assertThat(sortedExpected).isEqualTo(sortedActual);
+    }
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;', 'import static org.assertj.core.api.Assertions.assertThatJson;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void queryByEmptyKeySubObject() {
+    String expected = "{\"\":\"empty key of an object with an empty key\",\"subKey\":\"Some other value\"}";
+    String actual = query("/obj/").toString();
+
+    // Sort the expected and actual strings to ensure they are in the same order
+    String sortedExpected = sortJsonString(expected);
+    String sortedActual = sortJsonString(actual);
+
+    assertThat(sortedExpected).isEqualTo(sortedActual);
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void queryByEmptyKeySubObject() {
+        String expected = "{\"\":\"empty key of an object with an empty key\",\"subKey\":\"Some other value\"}";
+        String actual = query("/obj/").toString();
+
+        // Sort the expected and actual strings to ensure they are in the same order
+        String sortedExpected = sortJsonString(expected);
+        String sortedActual = sortJsonString(actual);
+
+        assertThat(sortedExpected).isEqualTo(sortedActual);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void queryByEmptyKeySubObject() {
+        String expected = "{\"\":\"empty key of an object with an empty key\",\"subKey\":\"Some other value\"}";
+        String actual = query("/obj/").toString();
+
+        // Sort the expected and actual strings to ensure they are in the same order
+        String sortedExpected = sortJsonString(expected);
+        String sortedActual = sortJsonString(actual);
+
+        assertThat(sortedExpected).isEqualTo(sortedActual);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

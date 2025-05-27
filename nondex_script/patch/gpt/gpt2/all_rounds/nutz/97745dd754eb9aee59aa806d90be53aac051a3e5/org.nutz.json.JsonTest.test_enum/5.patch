@@ -1,0 +1,164 @@
+Test File Path: projects/97745dd754eb9aee59aa806d90be53aac051a3e5/nutz/test/org/nutz/json/JsonTest.java
+Original Test Method:
+     public void test_enum() {
+        assertEquals("\"K\"", Json.toJson(K.K));
+        String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+        assertEquals(expected, Json.toJson(TT.T));
+        assertEquals("\"T\"",Json.toJson(TT.T,JsonFormat.full().ignoreJsonShape()));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    assertEquals("\"K\"", Json.toJson(K.K));
+    String expected = "{\n" + "   \"name\": \"t\",\n" + "   \"index\": 1\n" + "}";
+    String actual = Json.toJson(TT.T);
+    assertThatJson(actual).isEqualTo(expected);
+    assertEquals("\"T\"",Json.toJson(TT.T,JsonFormat.full().ignoreJsonShape()));
+}
+
+
+import:
+
+['import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    assertEquals("\"K\"", Json.toJson(K.K));
+    
+    Map<String, Object> expectedMap = new LinkedHashMap<>();
+    expectedMap.put("name", "t");
+    expectedMap.put("index", 1);
+    String actual = Json.toJson(TT.T);
+    assertEquals(Json.toJson(expectedMap), actual);
+    
+    assertEquals("\"T\"", Json.toJson(TT.T, JsonFormat.full().ignoreJsonShape()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    assertEquals("\"K\"", Json.toJson(K.K));
+    
+    Map<String, Object> expectedMap = new LinkedHashMap<String, Object>();
+    expectedMap.put("name", "t");
+    expectedMap.put("index", 1);
+    String actual = Json.toJson(TT.T);
+    assertEquals(Json.toJson(expectedMap), actual);
+    
+    assertEquals("\"T\"", Json.toJson(TT.T, JsonFormat.full().ignoreJsonShape()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<!-- No pom.xml updates needed -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    assertEquals("\"K\"", Json.toJson(K.K));
+    
+    Map<String, Object> expectedMap = new LinkedHashMap<String, Object>();
+    expectedMap.put("name", "t");
+    expectedMap.put("index", 1);
+    String actual = Json.toJson(TT.T);
+    assertEquals(Json.toJson(expectedMap), actual);
+    
+    assertEquals("\"T\"", Json.toJson(TT.T, JsonFormat.full().ignoreJsonShape()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void test_enum() {
+    assertEquals("\"K\"", Json.toJson(K.K));
+    
+    Map<String, Object> expectedMap = new LinkedHashMap<String, Object>();
+    expectedMap.put("name", "t");
+    expectedMap.put("index", 1);
+    String actual = Json.toJson(TT.T);
+    assertEquals(Json.toJson(expectedMap), actual);
+    
+    assertEquals("\"T\"", Json.toJson(TT.T, JsonFormat.full().ignoreJsonShape()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+

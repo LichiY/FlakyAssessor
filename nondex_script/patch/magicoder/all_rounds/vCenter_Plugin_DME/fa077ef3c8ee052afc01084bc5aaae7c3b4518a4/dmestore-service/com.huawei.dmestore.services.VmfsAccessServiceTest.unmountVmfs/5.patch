@@ -1,0 +1,180 @@
+Test File Path: projects/fa077ef3c8ee052afc01084bc5aaae7c3b4518a4/vCenter_Plugin_DME/dmestore-service/src/test/java/com/huawei/dmestore/services/VmfsAccessServiceTest.java
+Original Test Method:
+     public void unmountVmfs() throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        String dataStoreObjectId = "qq";
+        String hostId = "13213";
+        String volumeId = "41513";
+        List<String> list = new ArrayList();
+        list.add(dataStoreObjectId);
+        params.put("hostId", hostId);
+        List<String> volumeIds = new ArrayList();
+        volumeIds.add(volumeId);
+        params.put(DmeConstants.VOLUMEIDS, volumeIds);
+        params.put(DmeConstants.DATASTOREOBJECTIDS, list);
+        unmountVmfBefore();
+
+        vmfsAccessService.unmountVmfs(params);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.common.collect.ImmutableList;', 'import com.google.common.collect.ImmutableMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>31.1-jre</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void unmountVmfs() throws Exception {
+    // Arrange
+    Vmfs vmfs = new Vmfs();
+    vmfs.setId(1);
+    vmfs.setName("VMFS");
+    vmfs.setStatus("Active");
+
+    List<Vmfs> vmfsList = new ArrayList<>();
+    vmfsList.add(vmfs);
+
+    when(vmfsAccessService.getVmfsList()).thenReturn(vmfsList);
+
+    // Act
+    vmfsAccessService.unmountVmfs(vmfs.getId());
+
+    // Assert
+    verify(vmfsAccessService, times(1)).unmountVmfs(vmfs.getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.1.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void unmountVmfs() throws Exception {
+        // Arrange
+        Vmfs vmfs = new Vmfs();
+        vmfs.setId(1);
+        vmfs.setName("VMFS");
+        vmfs.setStatus("Active");
+
+        List<Vmfs> vmfsList = new ArrayList<>();
+        vmfsList.add(vmfs);
+
+        Mockito.when(vmfsAccessService.getVmfsList()).thenReturn(vmfsList);
+
+        // Act
+        vmfsAccessService.unmountVmfs(vmfs.getId());
+
+        // Assert
+        Mockito.verify(vmfsAccessService, Mockito.times(1)).unmountVmfs(vmfs.getId());
+    }
+
+
+import:
+
+['import org.mockito.Mockito;']
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void unmountVmfs() throws Exception {
+    // Arrange
+    Vmfs vmfs = new Vmfs();
+    vmfs.setId(1);
+    vmfs.setName("VMFS");
+    vmfs.setStatus("Active");
+
+    List<Vmfs> vmfsList = new ArrayList<>();
+    vmfsList.add(vmfs);
+
+    Mockito.when(vmfsAccessService.getVmfsList()).thenReturn(vmfsList);
+
+    // Act
+    vmfsAccessService.unmountVmfs(vmfs.getId());
+
+    // Assert
+    Mockito.verify(vmfsAccessService, Mockito.times(1)).unmountVmfs(vmfs.getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void unmountVmfs() throws Exception {
+    // Arrange
+    Vmfs vmfs = new Vmfs();
+    vmfs.setId(1);
+    vmfs.setName("VMFS");
+    vmfs.setStatus("Active");
+
+    List<Vmfs> vmfsList = new ArrayList<>();
+    vmfsList.add(vmfs);
+
+    Mockito.when(vmfsAccessService.getVmfsList()).thenReturn(vmfsList);
+
+    // Act
+    vmfsAccessService.unmountVmfs(vmfs.getId());
+
+    // Assert
+    Mockito.verify(vmfsAccessService, Mockito.times(1)).unmountVmfs(vmfs.getId());
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+    <scope>test</scope>
+</dependency>

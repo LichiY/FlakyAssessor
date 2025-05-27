@@ -1,0 +1,161 @@
+Test File Path: projects/8c93b59dbc57841959f5237cb141ce0b3c18b778/retrofit/retrofit/src/test/java/retrofit2/RequestFactoryAndroidTest.java
+Original Test Method:
+   @Test public void getWithAndroidUriUrl() {
+    class Example {
+      @GET
+      Call<ResponseBody> method(@Url Uri url) {
+        return null;
+      }
+    }
+
+    Request request = buildRequest(Example.class, Uri.parse("foo/bar/"));
+    assertThat(request.method()).isEqualTo("GET");
+    assertThat(request.headers().size()).isZero();
+    assertThat(request.url().toString()).isEqualTo("http://example.com/foo/bar/");
+    assertThat(request.body()).isNull();
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void getWithAndroidUriUrl() {
+    class Example {
+        @GET
+        Call<ResponseBody> method(@Url Uri url) {
+            return null;
+        }
+    }
+
+    Request request = buildRequest(Example.class, Uri.parse("foo/bar/"));
+    assertThat(request.method()).isEqualTo("GET");
+    assertThat(request.headers().size()).isZero();
+    assertThat(request.url().toString()).isEqualTo("http://example.com/foo/bar/");
+    assertThat(request.body()).isNull();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void getWithAndroidUriUrl() {
+    class Example {
+        @GET
+        Call<ResponseBody> method(@Url Uri url) {
+            return null;
+        }
+    }
+
+    Request request = buildRequest(Example.class, Uri.parse("foo/bar/"));
+    assertThat(request.method()).isEqualTo("GET");
+    assertThat(request.headers().size()).isZero();
+    assertThat(request.url().toString()).isEqualTo("http://example.com/foo/bar/");
+    assertThat(request.body()).isNull();
+}
+
+
+import:
+
+['import org.junit.Assert;', 'import java.net.URI;', 'import java.util.HashMap;', 'import java.util.Map;']
+
+pom:
+
+<!-- <pom.xml end> -->
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void getWithAndroidUriUrl() {
+    class Example {
+        @GET
+        Call<ResponseBody> method(@Url Uri url) {
+            return null;
+        }
+    }
+
+    Request request = buildRequest(Example.class, Uri.parse("foo/bar/"));
+    assertThat(request.method()).isEqualTo("GET");
+    assertThat(request.headers().size()).isZero();
+    assertThat(request.url().toString()).isEqualTo("http://example.com/foo/bar/");
+    assertThat(request.body()).isNull();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void getWithAndroidUriUrl() {
+    class Example {
+        @GET
+        Call<ResponseBody> method(@Url Uri url) {
+            return null;
+        }
+    }
+
+    Request request = buildRequest(Example.class, Uri.parse("foo/bar/"));
+    assertThat(request.method()).isEqualTo("GET");
+    assertThat(request.headers().size()).isZero();
+    assertThat(request.url().toString()).isEqualTo("http://example.com/foo/bar/");
+    assertThat(request.body()).isNull();
+}
+
+
+import:
+
+['import static org.assertj.core.api.Assertions.*;', 'import retrofit2.Call;']
+
+pom:
+
+<!-- <pom.xml end> -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void getWithAndroidUriUrl() {
+    class Example {
+        @GET
+        Call<ResponseBody> method(@Url Uri url) {
+            return null;
+        }
+    }
+
+    Request request = buildRequest(Example.class, Uri.parse("foo/bar/"));
+    assertThat(request.method()).isEqualTo("GET");
+    assertThat(request.headers().size()).isZero();
+    assertThat(request.url().toString()).isEqualTo("http://example.com/foo/bar/");
+    assertThat(request.body()).isNull();
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

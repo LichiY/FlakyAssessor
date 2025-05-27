@@ -1,0 +1,58 @@
+Test File Path: projects/e6d76803f27133d7700811585f5310470e50e487/alluxio/core/server/worker/src/test/java/alluxio/worker/block/BlockLockManagerTest.java
+Original Test Method:
+   public void lockAlreadyReadLockedBlock() {
+    BlockLockManager manager = new BlockLockManager();
+    manager.lockBlock(1, 1, BlockLockType.READ);
+    mThrown.expect(IllegalStateException.class);
+    manager.lockBlock(1, 1, BlockLockType.WRITE);
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void lockAlreadyReadLockedBlock() {
+    BlockLockManager manager = new BlockLockManager();
+    manager.lockBlock(1, 1, BlockLockType.READ);
+    try {
+        manager.lockBlock(1, 1, BlockLockType.WRITE);
+        fail("Expected IllegalStateException");
+    } catch (IllegalStateException e) {
+        // Expected
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void lockAlreadyReadLockedBlock() {
+    BlockLockManager manager = new BlockLockManager();
+    manager.lockBlock(1, 1, BlockLockType.READ);
+    try {
+        manager.lockBlock(1, 1, BlockLockType.WRITE);
+        throw new IllegalStateException("Expected IllegalStateException");
+    } catch (IllegalStateException e) {
+        // Expected
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

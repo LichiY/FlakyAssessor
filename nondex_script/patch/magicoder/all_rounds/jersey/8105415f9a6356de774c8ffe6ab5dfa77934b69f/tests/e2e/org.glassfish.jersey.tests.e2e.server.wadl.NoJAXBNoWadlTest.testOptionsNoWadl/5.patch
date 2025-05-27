@@ -1,0 +1,162 @@
+Test File Path: projects/8105415f9a6356de774c8ffe6ab5dfa77934b69f/jersey/tests/e2e/src/test/java/org/glassfish/jersey/tests/e2e/server/wadl/NoJAXBNoWadlTest.java
+Original Test Method:
+     public void testOptionsNoWadl() {
+        final boolean shouldHaveJaxb = JdkVersion.getJdkVersion().getMajor() == 1;
+
+        // Make sure the test does not have JAX-B on a classpath
+        Assertions.assertFalse(ServiceFinder.find("javax.xml.bind.JAXBContext").iterator().hasNext());
+
+        try (Response r = target("dummy").request(MediaTypes.WADL_TYPE).options()) {
+            String headers = r.getHeaderString(HttpHeaders.ALLOW);
+            Assertions.assertEquals("OPTIONS,PUT", headers);
+        }
+        System.out.println(readableStream.toString());
+        Assertions.assertEquals(!shouldHaveJaxb,
+                readableStream.toString().contains(LocalizationMessages.WADL_FEATURE_DISABLED()));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testOptionsNoWadl() {
+    final boolean shouldHaveJaxb = JdkVersion.getJdkVersion().getMajor() == 1;
+
+    // Make sure the test does not have JAX-B on a classpath
+    Assertions.assertFalse(ServiceFinder.find("javax.xml.bind.JAXBContext").iterator().hasNext());
+
+    try (Response r = target("dummy").request(MediaTypes.WADL_TYPE).options()) {
+        String headers = r.getHeaderString(HttpHeaders.ALLOW);
+        Assertions.assertEquals("OPTIONS,PUT", headers);
+    }
+    System.out.println(readableStream.toString());
+    Assertions.assertEquals(!shouldHaveJaxb,
+            readableStream.toString().contains(LocalizationMessages.WADL_FEATURE_DISABLED()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testOptionsNoWadl() {
+    final boolean shouldHaveJaxb = JdkVersion.getJdkVersion().getMajor() == 1;
+
+    // Make sure the test does not have JAX-B on a classpath
+    Assertions.assertFalse(ServiceFinder.find("javax.xml.bind.JAXBContext").iterator().hasNext());
+
+    try (Response r = target("dummy").request(MediaTypes.WADL_TYPE).options()) {
+        String headers = r.getHeaderString(HttpHeaders.ALLOW);
+        Assertions.assertEquals("OPTIONS,PUT", headers);
+    }
+    System.out.println(readableStream.toString());
+    Assertions.assertEquals(!shouldHaveJaxb,
+            readableStream.toString().contains(LocalizationMessages.WADL_FEATURE_DISABLED()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testOptionsNoWadl() {
+    final boolean shouldHaveJaxb = JdkVersion.getJdkVersion().getMajor() == 1;
+
+    // Make sure the test does not have JAX-B on a classpath
+    Assertions.assertFalse(ServiceFinder.find("javax.xml.bind.JAXBContext").iterator().hasNext());
+
+    try (Response r = target("dummy").request(MediaTypes.WADL_TYPE).options()) {
+        String headers = r.getHeaderString(HttpHeaders.ALLOW);
+        Assertions.assertEquals("OPTIONS,PUT", headers);
+    }
+    System.out.println(readableStream.toString());
+    Assertions.assertEquals(!shouldHaveJaxb,
+            readableStream.toString().contains(LocalizationMessages.WADL_FEATURE_DISABLED()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testOptionsNoWadl() {
+    final boolean shouldHaveJaxb = JdkVersion.getJdkVersion().getMajor() == 1;
+
+    // Make sure the test does not have JAX-B on a classpath
+    Assertions.assertFalse(ServiceFinder.find("javax.xml.bind.JAXBContext").iterator().hasNext());
+
+    try (Response r = target("dummy").request(MediaTypes.WADL_TYPE).options()) {
+        String headers = r.getHeaderString(HttpHeaders.ALLOW);
+        Assertions.assertEquals("OPTIONS,PUT", headers);
+    }
+    System.out.println(readableStream.toString());
+    Assertions.assertEquals(!shouldHaveJaxb,
+            readableStream.toString().contains(LocalizationMessages.WADL_FEATURE_DISABLED()));
+}
+
+
+import:
+
+['import javax.ws.rs.client.WebTarget;', 'import javax.ws.rs.client.Invocation;', 'import javax.ws.rs.client.Entity;']
+
+pom:
+
+<!-- No dependencies needed for this test -->
+<!-- No pom.xml code needed for this test -->
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testOptionsNoWadl() {
+    final boolean shouldHaveJaxb = JdkVersion.getJdkVersion().getMajor() == 1;
+
+    // Make sure the test does not have JAX-B on a classpath
+    Assertions.assertFalse(ServiceFinder.find("javax.xml.bind.JAXBContext").iterator().hasNext());
+
+    try (Response r = target("dummy").request(MediaTypes.WADL_TYPE).options()) {
+        String headers = r.getHeaderString(HttpHeaders.ALLOW);
+        Assertions.assertEquals("OPTIONS,PUT", headers);
+    }
+    System.out.println(readableStream.toString());
+    Assertions.assertEquals(!shouldHaveJaxb,
+            readableStream.toString().contains(LocalizationMessages.WADL_FEATURE_DISABLED()));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

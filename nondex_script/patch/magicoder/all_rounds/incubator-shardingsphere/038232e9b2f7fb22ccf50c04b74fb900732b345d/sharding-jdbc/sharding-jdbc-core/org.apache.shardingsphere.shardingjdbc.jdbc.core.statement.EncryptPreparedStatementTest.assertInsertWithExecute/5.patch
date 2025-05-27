@@ -1,0 +1,139 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-jdbc/sharding-jdbc-core/src/test/java/org/apache/shardingsphere/shardingjdbc/jdbc/core/statement/EncryptPreparedStatementTest.java
+Original Test Method:
+     public void assertInsertWithExecute() throws SQLException {
+        try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_SQL)) {
+            statement.setObject(1, 2);
+            statement.setObject(2, 'b');
+            statement.execute();
+        }
+        assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_SQL)) {
+        statement.setObject(1, 2);
+        statement.setObject(2, 'b');
+        statement.execute();
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_SQL)) {
+        statement.setObject(1, 2);
+        statement.setObject(2, 'b');
+        statement.execute();
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import com.example.myclass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_SQL)) {
+        statement.setObject(1, 2);
+        statement.setObject(2, 'b');
+        statement.execute();
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_SQL)) {
+        statement.setObject(1, 2);
+        statement.setObject(2, 'b');
+        statement.execute();
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+['import com.google.gson.JsonParser;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void assertInsertWithExecute() throws SQLException {
+    try (PreparedStatement statement = getEncryptConnection().prepareStatement(INSERT_SQL)) {
+        statement.setObject(1, 2);
+        statement.setObject(2, 'b');
+        statement.execute();
+    }
+    assertResultSet(3, 2, "encryptValue", "assistedEncryptValue");
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

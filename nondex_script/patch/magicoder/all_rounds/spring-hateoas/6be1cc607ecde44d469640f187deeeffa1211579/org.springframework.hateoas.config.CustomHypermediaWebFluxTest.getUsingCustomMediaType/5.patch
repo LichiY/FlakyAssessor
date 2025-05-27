@@ -1,0 +1,256 @@
+Test File Path: projects/6be1cc607ecde44d469640f187deeeffa1211579/spring-hateoas/src/test/java/org/springframework/hateoas/config/CustomHypermediaWebFluxTest.java
+Original Test Method:
+ 	void getUsingCustomMediaType() throws IOException {
+
+		this.testClient.get().uri("http://localhost/employees/1") //
+				.accept(FRODO_MEDIATYPE) //
+				.exchange() //
+				.expectStatus().isOk() //
+				.expectHeader().contentType(FRODO_MEDIATYPE.toString()) //
+				.expectBody(String.class) //
+				.isEqualTo(read(new ClassPathResource("webflux-frodo.json", getClass())));
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.3</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void getUsingCustomMediaType() throws Exception {
+    // Given
+    Employee employee = new Employee("Frodo Baggins", "ring bearer");
+    employee.add(linkTo(methodOn(EmployeeController.class).getEmployee(employee.getName())).withSelfRel());
+
+    // When
+    ResponseEntity<Employee> responseEntity = testRestTemplate.exchange("/employees/" + employee.getName(), HttpMethod.GET, null, Employee.class);
+
+    // Then
+    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(responseEntity.getBody()).isEqualTo(employee);
+}
+
+
+import:
+
+['import org.springframework.http.HttpMethod;', 'import org.springframework.http.HttpStatus;', 'import org.springframework.http.ResponseEntity;', 'import org.springframework.web.client.RestTemplate;', 'import org.springframework.web.util.UriComponentsBuilder;', 'import org.springframework.beans.factory.annotation.Autowired;', 'import org.springframework.boot.test.context.SpringBootTest;', 'import org.springframework.boot.test.web.client.TestRestTemplate;', 'import org.springframework.boot.web.server.LocalServerPort;', 'import org.springframework.http.HttpEntity;', 'import org.springframework.http.HttpHeaders;', 'import org.springframework.http.MediaType;', 'import org.springframework.web.util.UriTemplate;', 'import org.assertj.core.api.Assertions;', 'import org.assertj.core.api.SoftAssertions;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-hateoas</artifactId>
+    </dependency>
+
+
+
+After stitching: 
+
+test_code:
+
+void getUsingCustomMediaType() throws IOException {
+    // Given
+    Employee employee = new Employee("Frodo Baggins", "ring bearer");
+    employee.add(linkTo(methodOn(EmployeeController.class).getEmployee(employee.getName())).withSelfRel());
+
+    // When
+    ResponseEntity<Employee> responseEntity = testRestTemplate.exchange("/employees/" + employee.getName(), HttpMethod.GET, null, Employee.class);
+
+    // Then
+    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(responseEntity.getBody()).isEqualTo(employee);
+}
+
+
+import:
+
+['import org.springframework.http.HttpMethod;', 'import org.springframework.http.HttpStatus;', 'import org.springframework.http.ResponseEntity;', 'import org.springframework.web.client.RestTemplate;', 'import org.springframework.web.util.UriComponentsBuilder;', 'import org.springframework.beans.factory.annotation.Autowired;', 'import org.springframework.boot.test.context.SpringBootTest;', 'import org.springframework.boot.test.web.client.TestRestTemplate;', 'import org.springframework.boot.web.server.LocalServerPort;', 'import org.springframework.http.HttpEntity;', 'import org.springframework.http.HttpHeaders;', 'import org.springframework.http.MediaType;', 'import org.springframework.web.util.UriTemplate;', 'import org.assertj.core.api.Assertions;', 'import org.assertj.core.api.SoftAssertions;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-hateoas</artifactId>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void getUsingCustomMediaType() throws Exception {
+        // Given
+        Employee employee = new Employee("Frodo Baggins", "ring bearer");
+        employee.add(linkTo(methodOn(EmployeeController.class).getEmployee(employee.getName())).withSelfRel());
+
+        // When
+        ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(new URI("/employees/" + employee.getName()), Employee.class);
+
+        // Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(employee);
+    }
+
+
+import:
+
+['import java.net.URI;', 'import static org.assertj.core.api.Assertions.assertThat;', 'import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;', 'import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.7.0</version>
+</dependency>
+
+
+After stitching: 
+
+test_code:
+
+    void getUsingCustomMediaType() throws IOException {
+        // Given
+        Employee employee = new Employee("Frodo Baggins", "ring bearer");
+        employee.add(linkTo(methodOn(EmployeeController.class).getEmployee(employee.getName())).withSelfRel());
+
+        // When
+        ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(new URI("/employees/" + employee.getName()), Employee.class);
+
+        // Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(employee);
+    }
+
+
+import:
+
+['import java.net.URI;', 'import static org.assertj.core.api.Assertions.assertThat;', 'import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;', 'import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;']
+
+pom:
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>2.7.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    void getUsingCustomMediaType() throws URISyntaxException {
+        // Given
+        Employee employee = new Employee("Frodo Baggins", "ring bearer");
+        employee.add(linkTo(methodOn(EmployeeController.class).getEmployee(employee.getName())).withSelfRel());
+
+        // When
+        ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(new URI("/employees/" + employee.getName()), Employee.class);
+
+        // Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(employee);
+    }
+
+
+import:
+
+['import java.net.URISyntaxException;']
+
+pom:
+
+None
+
+
+After stitching: 
+
+test_code:
+
+    void getUsingCustomMediaType() throws IOException {
+        // Given
+        Employee employee = new Employee("Frodo Baggins", "ring bearer");
+        employee.add(linkTo(methodOn(EmployeeController.class).getEmployee(employee.getName())).withSelfRel());
+
+        // When
+        ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(new URI("/employees/" + employee.getName()), Employee.class);
+
+        // Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(employee);
+    }
+
+
+import:
+
+['import java.net.URISyntaxException;']
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+void getUsingCustomMediaType() throws IOException {
+    // Given
+    Employee employee = new Employee("Frodo Baggins", "ring bearer");
+    employee.add(linkTo(methodOn(EmployeeController.class).getEmployee(employee.getName())).withSelfRel());
+
+    // When
+    ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(new URI("/employees/" + employee.getName()), Employee.class);
+
+    // Then
+    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(responseEntity.getBody()).isEqualTo(employee);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

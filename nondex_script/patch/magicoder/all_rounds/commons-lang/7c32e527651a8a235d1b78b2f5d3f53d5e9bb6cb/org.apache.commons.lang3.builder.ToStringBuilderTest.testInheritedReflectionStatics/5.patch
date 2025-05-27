@@ -1,0 +1,179 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/ToStringBuilderTest.java
+Original Test Method:
+     public void testInheritedReflectionStatics() {
+        final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890]",
+            ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+            ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+            this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+        assertEquals(
+            this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+            this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testInheritedReflectionStatics() {
+    final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testInheritedReflectionStatics() {
+    final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testInheritedReflectionStatics() {
+    final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.ReflectionToStringBuilder;', 'import org.apache.commons.lang3.builder.ToStringStyle;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.9</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testInheritedReflectionStatics() {
+    final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testInheritedReflectionStatics() {
+    final InheritedReflectionStaticFieldsFixture instance1 = new InheritedReflectionStaticFieldsFixture();
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, InheritedReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        ReflectionToStringBuilder.toString(instance1, null, false, true, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+    assertEquals(
+        this.toBaseString(instance1) + "[staticString2=staticString2,staticInt2=67890,staticString=staticString,staticInt=12345]",
+        this.toStringWithStatics(instance1, null, SimpleReflectionStaticFieldsFixture.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.12.0</version>
+    </dependency>
+

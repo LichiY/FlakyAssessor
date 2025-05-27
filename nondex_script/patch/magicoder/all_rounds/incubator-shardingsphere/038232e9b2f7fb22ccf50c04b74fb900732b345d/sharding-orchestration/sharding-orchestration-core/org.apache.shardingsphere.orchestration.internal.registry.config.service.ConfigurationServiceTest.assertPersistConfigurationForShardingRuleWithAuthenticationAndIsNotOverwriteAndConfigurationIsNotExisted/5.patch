@@ -1,0 +1,102 @@
+Test File Path: projects/038232e9b2f7fb22ccf50c04b74fb900732b345d/incubator-shardingsphere/sharding-orchestration/sharding-orchestration-core/src/test/java/org/apache/shardingsphere/orchestration/internal/registry/config/service/ConfigurationServiceTest.java
+Original Test Method:
+     public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+        ConfigurationService configurationService = new ConfigurationService("test", regCenter);
+        configurationService.persistConfiguration("sharding_db", createDataSourceConfigurations(), createShardingRuleConfiguration(), createAuthentication(), createProperties(), false);
+        verify(regCenter).persist(eq("/test/config/schema/sharding_db/datasource"), ArgumentMatchers.<String>any());
+        verify(regCenter).persist("/test/config/schema/sharding_db/rule", SHARDING_RULE_YAML);
+        verify(regCenter).persist("/test/config/authentication", AUTHENTICATION_YAML);
+        verify(regCenter).persist("/test/config/props", PROPS_YAML);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.shardingsphere.orchestration.internal.registry.config.service.ConfigurationService;', 'import org.apache.shardingsphere.orchestration.internal.registry.config.service.ConfigurationServiceTest;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.Node;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.NodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.PayloadNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.SchemaNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.ShardingNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.ShardingNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.TableNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.TableNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.TypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.TypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.UserNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.UserNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.ZookeeperNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.node.ZookeeperNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.Path;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathImpl;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeType;', 'import org.apache.shardingsphere.orchestration.internal.registry.path.PathTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNodeTypeNode;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.shardingsphere</groupId>
+    <artifactId>shardingsphere-orchestration-core</artifactId>
+    <version>4.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+    // Your code here
+}
+
+
+import:
+
+['import com.example.myclass;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+    // Your code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void assertPersistConfigurationForShardingRuleWithAuthenticationAndIsNotOverwriteAndConfigurationIsNotExisted() {
+    // Your code here
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None

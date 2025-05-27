@@ -1,0 +1,121 @@
+Test File Path: projects/97745dd754eb9aee59aa806d90be53aac051a3e5/nutz/test/org/nutz/json/JsonTest.java
+Original Test Method:
+     public void test_empty_obj_toJson() {
+        String j = Json.toJson(new Person(), JsonFormat.compact().setQuoteName(true));
+        assertEquals("{\"age\":0,\"num\":0}", j);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_empty_obj_toJson() {
+    String j = Json.toJson(new Person(), JsonFormat.compact().setQuoteName(true));
+    assertEquals("{\"age\":0,\"num\":0}", j);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void test_empty_obj_toJson() {
+    String j = Json.toJson(new Person(), JsonFormat.compact().setQuoteName(true));
+
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode node = mapper.readTree(j);
+    String sortedJson = mapper.writeValueAsString(node);
+
+    assertEquals("{\"age\":0,\"num\":0}", sortedJson);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.JsonNode;', 'import com.fasterxml.jackson.databind.ObjectMapper;']
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void test_empty_obj_toJson() {
+        String j = Json.toJson(new Person(), JsonFormat.compact().setQuoteName(true));
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(j);
+        String sortedJson = mapper.writeValueAsString(node);
+
+        assertEquals("{\"age\":0,\"num\":0}", sortedJson);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void test_empty_obj_toJson() {
+        String j = Json.toJson(new Person(), JsonFormat.compact().setQuoteName(true));
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(j);
+        String sortedJson = mapper.writeValueAsString(node);
+
+        assertEquals("{\"age\":0,\"num\":0}", sortedJson);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test_empty_obj_toJson() {
+        String j = Json.toJson(new Person(), JsonFormat.compact().setQuoteName(true));
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(j);
+        String sortedJson = mapper.writeValueAsString(node);
+
+        assertEquals("{\"age\":0,\"num\":0}", sortedJson);
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

@@ -1,0 +1,139 @@
+Test File Path: projects/3ea25de368b185e3c9f3d56e46a4cfcdb9265318/fastjson/src/test/java/com/alibaba/json/bvt/path/JSONPath_reverse_test.java
+Original Test Method:
+     public void test_reserve() throws Exception {
+        JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+        assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+        assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+        assertEquals("[\"ljw\",[\"ljw\",1001,50]]", JSONPath.reserveToArray(object, "name", "*").toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void test_reserve() throws Exception {
+    JSONObject object = JSON.parseObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+    assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+    assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+    assertEquals("[\"ljw\",[\"ljw\",1001,50]]", JSONPath.reserveToArray(object, "name", "*").toString());
+}
+
+
+import:
+
+['import org.junit.jupiter.api.Test;', 'import static org.junit.jupiter.api.Assertions.assertEquals;']
+
+pom:
+
+<!-- ... -->
+
+    <!-- ... -->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.76</version>
+    </dependency>
+    <!-- ... -->
+
+<!-- ... -->
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+    public void test_reserve() throws Exception {
+        JSONObject object = new JSONObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+        assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+        assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+        assertEquals("[\"ljw\",[\"ljw\",1001,50]]", JSONPath.reserveToArray(object, "name", "*").toString());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>com.jayway.jsonpath</groupId>
+        <artifactId>json-path</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+    public void test_reserve() throws Exception {
+        JSONObject object = new JSONObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+        assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+        assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+        assertEquals("[\"ljw\",[\"ljw\",1001,50]]", JSONPath.reserveToArray(object, "name", "*").toString());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20210307</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+    public void test_reserve() throws Exception {
+        JSONObject object = new JSONObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+        assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+        assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+        assertEquals("[\"ljw\",[\"ljw\",1001,50]]", JSONPath.reserveToArray(object, "name", "*").toString());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+    public void test_reserve() throws Exception {
+        JSONObject object = new JSONObject("{\"id\":1001,\"name\":\"ljw\",\"age\":50}");
+
+        assertEquals("[1001,\"ljw\"]", JSONPath.reserveToArray(object, "id", "name").toString());
+        assertEquals("[\"ljw\",1001]", JSONPath.reserveToArray(object, "name", "id").toString());
+        assertEquals("[\"ljw\",[\"ljw\",1001,50]]", JSONPath.reserveToArray(object, "name", "*").toString());
+    }
+
+
+import:
+
+[]
+
+pom:
+
+None

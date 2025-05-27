@@ -1,0 +1,96 @@
+Test File Path: projects/2bd752d868a8f3e36113b078bb576cf054e945e8/nifi/nifi-nar-bundles/nifi-hbase-bundle/nifi-hbase-processors/src/test/java/org/apache/nifi/hbase/TestScanHBase.java
+Original Test Method:
+     public void testScanToContentWithStringValues() {
+        final Map<String, String> cells = new HashMap<>();
+        cells.put("cq1", "val1");
+        cells.put("cq2", "val2");
+
+        final long ts1 = 123456789;
+        hBaseClientService.addResult("row1", cells, ts1);
+        hBaseClientService.addResult("row2", cells, ts1);
+
+        runner.setProperty(ScanHBase.TABLE_NAME, "table1");
+        runner.setProperty(ScanHBase.START_ROW, "row1");
+        runner.setProperty(ScanHBase.END_ROW, "row2");
+        runner.setProperty(ScanHBase.TIME_RANGE_MIN, "0");
+        runner.setProperty(ScanHBase.TIME_RANGE_MAX, "1111111110");
+        runner.setProperty(ScanHBase.LIMIT_ROWS, "10");
+        runner.setProperty(ScanHBase.REVERSED_SCAN, "false");
+        runner.setProperty(ScanHBase.BULK_SIZE, "10");
+
+        runner.enqueue("trigger flow file");
+        runner.run();
+
+        runner.assertTransferCount(ScanHBase.REL_FAILURE, 0);
+        runner.assertTransferCount(ScanHBase.REL_SUCCESS, 1);
+        runner.assertTransferCount(ScanHBase.REL_ORIGINAL, 1);
+
+        MockFlowFile flowFile = runner.getFlowFilesForRelationship(ScanHBase.REL_SUCCESS).get(0);
+        flowFile.assertContentEquals("[{\"row\":\"row1\", \"cells\": [" +
+                "{\"fam\":\"nifi\",\"qual\":\"cq1\",\"val\":\"val1\",\"ts\":" + ts1 + "}, " +
+                "{\"fam\":\"nifi\",\"qual\":\"cq2\",\"val\":\"val2\",\"ts\":" + ts1 + "}]},\n"
+                        + "{\"row\":\"row2\", \"cells\": [" +
+                "{\"fam\":\"nifi\",\"qual\":\"cq1\",\"val\":\"val1\",\"ts\":" + ts1 + "}, " +
+                "{\"fam\":\"nifi\",\"qual\":\"cq2\",\"val\":\"val2\",\"ts\":" + ts1 + "}]}]");
+        flowFile.assertAttributeEquals(ScanHBase.HBASE_ROWS_COUNT_ATTR, "2");
+
+        flowFile = runner.getFlowFilesForRelationship(ScanHBase.REL_ORIGINAL).get(0);
+        flowFile.assertAttributeEquals("scanhbase.results.found", Boolean.TRUE.toString());
+
+        Assert.assertEquals(1, hBaseClientService.getNumScans());
+    }
+Patch:
+
+test_code:
+public void testScanToContentWithStringValues() throws JSONException {
+    final Map<String, String> cells = new LinkedHashMap<>();
+    cells.put("cq1", "val1");
+    cells.put("cq2", "val2");
+
+    final long ts1 = 123456789;
+    hBaseClientService.addResult("row1", cells, ts1);
+    hBaseClientService.addResult("row2", cells, ts1);
+
+    runner.setProperty(ScanHBase.TABLE_NAME, "table1");
+    runner.setProperty(ScanHBase.START_ROW, "row1");
+    runner.setProperty(ScanHBase.END_ROW, "row2");
+    runner.setProperty(ScanHBase.TIME_RANGE_MIN, "0");
+    runner.setProperty(ScanHBase.TIME_RANGE_MAX, "1111111110");
+    runner.setProperty(ScanHBase.LIMIT_ROWS, "10");
+    runner.setProperty(ScanHBase.REVERSED_SCAN, "false");
+    runner.setProperty(ScanHBase.BULK_SIZE, "10");
+
+    runner.enqueue("trigger flow file");
+    runner.run();
+
+    runner.assertTransferCount(ScanHBase.REL_FAILURE, 0);
+    runner.assertTransferCount(ScanHBase.REL_SUCCESS, 1);
+    runner.assertTransferCount(ScanHBase.REL_ORIGINAL, 1);
+
+    MockFlowFile flowFile = runner.getFlowFilesForRelationship(ScanHBase.REL_SUCCESS).get(0);
+    String actualContent = new String(flowFile.toByteArray());
+    JSONAssert.assertEquals("[{\"row\":\"row1\", \"cells\": [" +
+            "{\"fam\":\"nifi\",\"qual\":\"cq1\",\"val\":\"val1\",\"ts\":" + ts1 + "}, " +
+            "{\"fam\":\"nifi\",\"qual\":\"cq2\",\"val\":\"val2\",\"ts\":" + ts1 + "}]}, " +
+            "{\"row\":\"row2\", \"cells\": [" +
+            "{\"fam\":\"nifi\",\"qual\":\"cq1\",\"val\":\"val1\",\"ts\":" + ts1 + "}, " +
+            "{\"fam\":\"nifi\",\"qual\":\"cq2\",\"val\":\"val2\",\"ts\":" + ts1 + "}]}]", 
+            actualContent, JSONCompareMode.LENIENT);
+    flowFile.assertAttributeEquals(ScanHBase.HBASE_ROWS_COUNT_ATTR, "2");
+
+    flowFile = runner.getFlowFilesForRelationship(ScanHBase.REL_ORIGINAL).get(0);
+    flowFile.assertAttributeEquals("scanhbase.results.found", "true");
+
+    Assert.assertEquals(1, hBaseClientService.getNumScans());
+}
+
+import:
+['import org.json.JSONException;']
+pom:
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>

@@ -1,0 +1,93 @@
+Test File Path: projects/60c743da35913d72f37f2d79afa90ad2bf73cb89/vjtools/vjkit/src/test/java/com/vip/vjtools/vjkit/mapper/JsonMapperTest.java
+Original Test Method:
+ 	public void jsonp() {
+		TestBean bean = new TestBean("A");
+		String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+		assertThat(jsonp).isEqualTo("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})");
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+	public void jsonp() {
+		TestBean bean = new TestBean("A");
+		String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+		assertThat(JsonPath.parse(jsonp).read("$", Object.class))
+			.isEqualTo(JsonPath.parse("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})").read("$", Object.class));
+	}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;', 'import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void jsonp() {
+    TestBean bean = new TestBean("A");
+    String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+    assertThatJson(jsonp).isEqualTo("haha({\"name\":\"A\",\"defaultValue\":\"hello\"})");
+}
+
+
+import:
+
+['import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;']
+
+pom:
+
+
+<dependency>
+    <groupId>net.javacrumbs.json-unit</groupId>
+    <artifactId>json-unit-assertj</artifactId>
+    <version>2.38.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void jsonp() {
+    TestBean bean = new TestBean("A");
+    String jsonp = JsonMapper.nonEmptyMapper().toJsonP("haha", bean);
+    Map<String, Object> expected = new LinkedHashMap<>();
+    expected.put("name", "A");
+    expected.put("defaultValue", "hello");
+    Map<String, Object> actual = JsonPath.parse(jsonp.substring(5, jsonp.length() - 1)).read("$");
+    assertThat(actual).isEqualTo(expected);
+}
+
+
+import:
+
+['import java.util.LinkedHashMap;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.8.0</version>
+    <scope>test</scope>
+</dependency>
+

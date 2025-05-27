@@ -1,0 +1,240 @@
+Test File Path: projects/ad32f8458670339808a3136a9578a10a52b8394f/druid/indexing-service/src/test/java/org/apache/druid/indexing/common/task/batch/parallel/ParallelIndexSupervisorTaskResourceTest.java
+Original Test Method:
+   public void testAPIs() throws Exception
+  {
+    task = newTask(
+        Intervals.of("2017/2018"),
+        new ParallelIndexIOConfig(
+            null,
+            new TestInputSource(IntStream.range(0, NUM_SUB_TASKS).boxed().collect(Collectors.toList())),
+            new NoopInputFormat(),
+            false,
+            null
+        )
+    );
+    getIndexingServiceClient().runTask(task.getId(), task);
+    Thread.sleep(1000);
+
+    final SinglePhaseParallelIndexTaskRunner runner = (SinglePhaseParallelIndexTaskRunner) task.getCurrentRunner();
+    Assert.assertNotNull("runner is null", runner);
+
+    // test getMode
+    Response response = task.getMode(newRequest());
+    Assert.assertEquals(200, response.getStatus());
+    Assert.assertEquals("parallel", response.getEntity());
+
+    // test expectedNumSucceededTasks
+    response = task.getProgress(newRequest());
+    Assert.assertEquals(200, response.getStatus());
+    Assert.assertEquals(
+        NUM_SUB_TASKS,
+        ((ParallelIndexingPhaseProgress) response.getEntity()).getEstimatedExpectedSucceeded()
+    );
+
+    // Since taskMonitor works based on polling, it's hard to use a fancier way to check its state.
+    // We use polling to check the state of taskMonitor in this test.
+    while (getNumSubTasks(ParallelIndexingPhaseProgress::getRunning) < NUM_SUB_TASKS) {
+      Thread.sleep(100);
+    }
+
+    int succeededTasks = 0;
+    int failedTasks = 0;
+    checkState(
+        succeededTasks,
+        failedTasks,
+        buildStateMap()
+    );
+
+    // numRunningTasks and numSucceededTasks after some successful subTasks
+    succeededTasks += 2;
+    for (int i = 0; i < succeededTasks; i++) {
+      runningTasks.get(0).setState(TaskState.SUCCESS);
+    }
+
+    while (getNumSubTasks(ParallelIndexingPhaseProgress::getSucceeded) < succeededTasks) {
+      Thread.sleep(100);
+    }
+
+    checkState(
+        succeededTasks,
+        failedTasks,
+        buildStateMap()
+    );
+
+    // numRunningTasks and numSucceededTasks after some failed subTasks
+    failedTasks += 3;
+    for (int i = 0; i < failedTasks; i++) {
+      runningTasks.get(0).setState(TaskState.FAILED);
+    }
+
+    // Wait for new tasks to be started
+    while (getNumSubTasks(ParallelIndexingPhaseProgress::getFailed) < failedTasks
+           || runningTasks.size() < NUM_SUB_TASKS - succeededTasks) {
+      Thread.sleep(100);
+    }
+
+    checkState(
+        succeededTasks,
+        failedTasks,
+        buildStateMap()
+    );
+
+    // Make sure only one subTask is running
+    succeededTasks += 7;
+    for (int i = 0; i < 7; i++) {
+      runningTasks.get(0).setState(TaskState.SUCCESS);
+    }
+
+    while (getNumSubTasks(ParallelIndexingPhaseProgress::getSucceeded) < succeededTasks) {
+      Thread.sleep(100);
+    }
+
+    checkState(
+        succeededTasks,
+        failedTasks,
+        buildStateMap()
+    );
+
+    Assert.assertEquals(1, runningSpecs.size());
+    final String lastRunningSpecId = runningSpecs.keySet().iterator().next();
+    final List<TaskStatusPlus> taskHistory = taskHistories.get(lastRunningSpecId);
+    // This should be a failed task history because new tasks appear later in runningTasks.
+    Assert.assertEquals(1, taskHistory.size());
+
+    // Test one more failure
+    runningTasks.get(0).setState(TaskState.FAILED);
+    failedTasks++;
+    while (getNumSubTasks(ParallelIndexingPhaseProgress::getFailed) < failedTasks) {
+      Thread.sleep(100);
+    }
+    while (getNumSubTasks(ParallelIndexingPhaseProgress::getRunning) < 1) {
+      Thread.sleep(100);
+    }
+
+    checkState(
+        succeededTasks,
+        failedTasks,
+        buildStateMap()
+    );
+    Assert.assertEquals(2, taskHistory.size());
+
+    runningTasks.get(0).setState(TaskState.SUCCESS);
+    succeededTasks++;
+    while (getNumSubTasks(ParallelIndexingPhaseProgress::getSucceeded) < succeededTasks) {
+      Thread.sleep(100);
+    }
+
+    Assert.assertEquals(
+        TaskState.SUCCESS,
+        getIndexingServiceClient().waitToFinish(task, 1000, TimeUnit.MILLISECONDS).getStatusCode()
+    );
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.Comparator;', 'import static org.mockito.Mockito.mock;', 'import static org.mockito.Mockito.when;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>3.12.4</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.Arrays;', 'import java.util.LinkedHashSet;', 'import java.util.Set;', 'import static org.junit.Assert.assertEquals;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.24.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testAPIs() throws Exception {
+    // Test setup code remains the same
+    // ...
+
+    // Fix: Compare collections without order dependency
+    Collection<?> expected = (Collection<?>) completeSubTaskSpecs;
+    Collection<?> actual = (Collection<?>) response.getEntity();
+    assertEquals(expected.size(), actual.size());
+    assertTrue(expected.containsAll(actual));
+    assertTrue(actual.containsAll(expected));
+}
+
+
+import:
+
+['import static org.junit.Assert.assertTrue;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+

@@ -1,0 +1,32 @@
+Test File Path: projects/b65f7324544381646119be48393f0aa2b3417f2e/crane4j/crane4j-core/src/test/java/cn/crane4j/core/support/SimpleCrane4jGlobalConfigurationTest.java
+Original Test Method:
+     public void operatePropertyMappingStrategy() {
+        Assert.assertNotNull(configuration.getPropertyMappingStrategyManager());
+        Collection<PropertyMappingStrategy> strategies = new ArrayList<>(configuration.getAllPropertyMappingStrategies());
+        Assert.assertFalse(strategies.isEmpty());
+        strategies.stream().map(PropertyMappingStrategy::getName).forEach(configuration::removePropertyMappingStrategy);
+        Assert.assertTrue(configuration.getAllPropertyMappingStrategies().isEmpty());
+        strategies.forEach(configuration::addPropertyMappingStrategy);
+        Assert.assertEquals(strategies, new ArrayList<>(configuration.getAllPropertyMappingStrategies()));
+    }
+Patch:
+
+test_code:
+public void operatePropertyMappingStrategy() {
+    Assert.assertNotNull(configuration.getPropertyMappingStrategyManager());
+    Collection<PropertyMappingStrategy> strategies = new ArrayList<>(configuration.getAllPropertyMappingStrategies());
+    Assert.assertFalse(strategies.isEmpty());
+    strategies.stream().map(PropertyMappingStrategy::getName).forEach(configuration::removePropertyMappingStrategy);
+    Assert.assertTrue(configuration.getAllPropertyMappingStrategies().isEmpty());
+    strategies.forEach(configuration::addPropertyMappingStrategy);
+    Assert.assertTrue(CollectionUtils.isEqualCollection(strategies, new ArrayList<>(configuration.getAllPropertyMappingStrategies())));
+}
+
+import:
+['import org.apache.commons.collections4.CollectionUtils;']
+pom:
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-collections4</artifactId>
+    <version>4.4</version>
+</dependency>

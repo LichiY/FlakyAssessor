@@ -1,0 +1,238 @@
+Test File Path: projects/7797062ad8957507f697acc8f1469861081ba8b5/moquette/broker/src/test/java/io/moquette/broker/MemoryRetainedRepositoryTest.java
+Original Test Method:
+     public void testRetainedOnTopicReturnsWildcardTopicMatch() {
+        MemoryRetainedRepository repository = new MemoryRetainedRepository();
+        Topic retainedTopic = new Topic("foo/bar/baz");
+        Topic otherRetainedTopic = new Topic("foo/baz/bar");
+
+        repository.retain(retainedTopic, MqttMessageBuilders
+            .publish()
+            .qos(MqttQoS.AT_LEAST_ONCE)
+            .topicName("foo/bar/baz")
+            .retained(true)
+            .payload(Unpooled.buffer(0))
+            .build());
+        repository.retain(otherRetainedTopic, MqttMessageBuilders
+            .publish()
+            .qos(MqttQoS.AT_LEAST_ONCE)
+            .topicName("foo/baz/bar")
+            .retained(true)
+            .payload(Unpooled.buffer(0))
+            .build());
+
+        List<RetainedMessage> retainedMessages = repository.retainedOnTopic("foo/bar/#");
+
+        assertEquals(1, retainedMessages.size());
+        assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+
+        retainedMessages = repository.retainedOnTopic("foo/#");
+
+        assertEquals(2, retainedMessages.size());
+        assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+        assertEquals("foo/baz/bar", retainedMessages.get(1).getTopic().toString());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testRetainedOnTopicReturnsWildcardTopicMatch() {
+    MemoryRetainedRepository repository = new MemoryRetainedRepository();
+    Topic retainedTopic = new Topic("foo/bar/baz");
+    Topic otherRetainedTopic = new Topic("foo/baz/bar");
+
+    repository.retain(retainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/bar/baz")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+    repository.retain(otherRetainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/baz/bar")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+
+    List<RetainedMessage> retainedMessages = repository.retainedOnTopic("foo/bar/#");
+
+    assertEquals(1, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+
+    retainedMessages = repository.retainedOnTopic("foo/#");
+
+    assertEquals(2, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+    assertEquals("foo/baz/bar", retainedMessages.get(1).getTopic().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testRetainedOnTopicReturnsWildcardTopicMatch() {
+    MemoryRetainedRepository repository = new MemoryRetainedRepository();
+    Topic retainedTopic = new Topic("foo/bar/baz");
+    Topic otherRetainedTopic = new Topic("foo/baz/bar");
+
+    repository.retain(retainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/bar/baz")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+    repository.retain(otherRetainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/baz/bar")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+
+    List<RetainedMessage> retainedMessages = repository.retainedOnTopic("foo/bar/#");
+
+    assertEquals(1, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+
+    retainedMessages = repository.retainedOnTopic("foo/#");
+
+    assertEquals(2, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+    assertEquals("foo/baz/bar", retainedMessages.get(1).getTopic().toString());
+}
+
+
+import:
+
+['import org.eclipse.paho.client.mqttv3.MqttMessage;', 'import org.eclipse.paho.client.mqttv3.MqttMessageBuilder;', 'import org.eclipse.paho.client.mqttv3.MqttException;', 'import org.eclipse.paho.client.mqttv3.MqttConnectOptions;', 'import org.eclipse.paho.client.mqttv3.MqttClient;', 'import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;', 'import java.util.ArrayList;', 'import java.util.Arrays;', 'import java.util.Collections;', 'import java.util.Comparator;', 'import java.util.HashMap;', 'import java.util.HashSet;', 'import java.util.Iterator;', 'import java.util.LinkedHashMap;', 'import java.util.LinkedHashSet;', 'import java.util.LinkedList;', 'import java.util.ListIterator;', 'import java.util.Map;', 'import java.util.Map.Entry;', 'import java.util.NavigableMap;', 'import java.util.NavigableSet;', 'import java.util.PriorityQueue;', 'import java.util.Queue;', 'import java.util.Set;', 'import java.util.SortedMap;', 'import java.util.SortedSet;', 'import java.util.Stack;', 'import java.util.TreeMap;', 'import java.util.TreeSet;', 'import java.util.Vector;', 'import java.util.concurrent.ConcurrentHashMap;', 'import java.util.concurrent.ConcurrentLinkedQueue;', 'import java.util.concurrent.ConcurrentSkipListMap;', 'import java.util.concurrent.ConcurrentSkipListSet;', 'import java.util.concurrent.CopyOnWriteArrayList;', 'import java.util.concurrent.CopyOnWriteArraySet;', 'import java.util.concurrent.DelayQueue;', 'import java.util.concurrent.Delayed;', 'import java.util.concurrent.LinkedBlockingQueue;', 'import java.util.concurrent.LinkedTransferQueue;', 'import java.util.concurrent.PriorityBlockingQueue;', 'import java.util.concurrent.SynchronousQueue;', 'import java.util.concurrent.TransferQueue;', 'import java.util.concurrent.atomic.AtomicInteger;', 'import java.util.concurrent.atomic.AtomicLong;', 'import java.util.concurrent.atomic.AtomicReference;', 'import java.util.concurrent.atomic.AtomicStampedReference;', 'import java.util.concurrent.atomic.LongAdder;', 'import java.util.concurrent.locks.Condition;', 'import java.util.concurrent.locks.Lock;', 'import java.util.concurrent.locks.ReentrantLock;', 'import java.util.concurrent.locks.ReentrantReadWriteLock;', 'import java.util.concurrent.locks.StampedLock;', 'import java.util.concurrent.locks.AbstractQueuedSynchronizer;']
+
+pom:
+
+
+    <dependency>
+        <groupId>org.eclipse.paho</groupId>
+        <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+        <version>1.2.0</version>
+    </dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testRetainedOnTopicReturnsWildcardTopicMatch() {
+    MemoryRetainedRepository repository = new MemoryRetainedRepository();
+    Topic retainedTopic = new Topic("foo/bar/baz");
+    Topic otherRetainedTopic = new Topic("foo/baz/bar");
+
+    repository.retain(retainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/bar/baz")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+    repository.retain(otherRetainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/baz/bar")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+
+    List<RetainedMessage> retainedMessages = repository.retainedOnTopic("foo/bar/#");
+
+    assertEquals(1, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+
+    retainedMessages = repository.retainedOnTopic("foo/#");
+
+    assertEquals(2, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+    assertEquals("foo/baz/bar", retainedMessages.get(1).getTopic().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testRetainedOnTopicReturnsWildcardTopicMatch() {
+    MemoryRetainedRepository repository = new MemoryRetainedRepository();
+    Topic retainedTopic = new Topic("foo/bar/baz");
+    Topic otherRetainedTopic = new Topic("foo/baz/bar");
+
+    repository.retain(retainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/bar/baz")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+    repository.retain(otherRetainedTopic, MqttMessageBuilders
+        .publish()
+        .qos(MqttQoS.AT_LEAST_ONCE)
+        .topicName("foo/baz/bar")
+        .retained(true)
+        .payload(Unpooled.buffer(0))
+        .build());
+
+    List<RetainedMessage> retainedMessages = repository.retainedOnTopic("foo/bar/#");
+
+    assertEquals(1, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+
+    retainedMessages = repository.retainedOnTopic("foo/#");
+
+    assertEquals(2, retainedMessages.size());
+    assertEquals("foo/bar/baz", retainedMessages.get(0).getTopic().toString());
+    assertEquals("foo/baz/bar", retainedMessages.get(1).getTopic().toString());
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import java.util.stream.Collectors;', 'import java.util.stream.Stream;', 'import java.nio.ByteBuffer;', 'import java.nio.ByteOrder;', 'import java.nio.charset.Charset;', 'import java.nio.charset.StandardCharsets;', 'import java.util.Base64;', 'import java.util.Base64.Decoder;', 'import java.util.Base64.Encoder;', 'import java.util.regex.Matcher;', 'import java.util.regex.Pattern;', 'import java.util.regex.PatternSyntaxException;', 'import java.io.File;', 'import java.io.FileInputStream;', 'import java.io.FileOutputStream;', 'import java.io.IOException;', 'import java.io.ObjectInputStream;', 'import java.io.ObjectOutputStream;', 'import java.io.Serializable;', 'import java.lang.reflect.Array;', 'import java.lang.reflect.Field;', 'import java.lang.reflect.Method;', 'import java.lang.reflect.Modifier;', 'import java.lang.reflect.Proxy;', 'import java.lang.reflect.Type;', 'import java.lang.reflect.TypeVariable;', 'import java.lang.reflect.WildcardType;', 'import java.lang.reflect.Constructor;', 'import java.lang.reflect.InvocationTargetException;', 'import java.lang.reflect.Executable;', 'import java.lang.reflect.Parameter;', 'import java.lang.reflect.ParameterizedType;', 'import java.lang.reflect.AnnotatedElement;', 'import java.lang.reflect.AnnotatedArrayType;', 'import java.lang.reflect.AnnotatedType;']
+
+pom:
+
+None

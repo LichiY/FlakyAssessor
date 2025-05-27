@@ -1,0 +1,193 @@
+Test File Path: projects/1764748eedb2f320a0d1c43cb4f928c4ccb1f2f5/Mapper/core/src/test/java/tk/mybatis/mapper/annotation/IdTest.java
+Original Test Method:
+     public void testCompositeKeys(){
+        EntityHelper.initEntityNameMap(UserCompositeKeys.class, config);
+        EntityTable entityTable = EntityHelper.getEntityTable(UserCompositeKeys.class);
+        Assert.assertNotNull(entityTable);
+
+        Set<EntityColumn> columns = entityTable.getEntityClassColumns();
+        Assert.assertEquals(2, columns.size());
+        Assert.assertEquals(2, entityTable.getEntityClassPKColumns().size());
+
+        for (EntityColumn column : columns) {
+            Assert.assertTrue(column.isId());
+        }
+
+        ResultMap resultMap = entityTable.getResultMap(configuration);
+        Assert.assertEquals(2, resultMap.getResultMappings().size());
+        Assert.assertTrue(resultMap.getResultMappings().get(0).getFlags().contains(ResultFlag.ID));
+        Assert.assertTrue(resultMap.getResultMappings().get(1).getFlags().contains(ResultFlag.ID));
+
+        Assert.assertEquals("<where> AND name = #{name} AND orgId = #{orgId}</where>", SqlHelper.wherePKColumns(UserCompositeKeys.class));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testCompositeKeys(){
+    EntityHelper.initEntityNameMap(UserCompositeKeys.class, config);
+    EntityTable entityTable = EntityHelper.getEntityTable(UserCompositeKeys.class);
+    Assert.assertNotNull(entityTable);
+
+    Set<EntityColumn> columns = entityTable.getEntityClassColumns();
+    Assert.assertEquals(2, columns.size());
+    Assert.assertEquals(2, entityTable.getEntityClassPKColumns().size());
+
+    for (EntityColumn column : columns) {
+        Assert.assertTrue(column.isId());
+    }
+
+    ResultMap resultMap = entityTable.getResultMap(configuration);
+    Assert.assertEquals(2, resultMap.getResultMappings().size());
+    Assert.assertTrue(resultMap.getResultMappings().get(0).getFlags().contains(ResultFlag.ID));
+    Assert.assertTrue(resultMap.getResultMappings().get(1).getFlags().contains(ResultFlag.ID));
+
+    Assert.assertEquals("<where> AND name = #{name} AND orgId = #{orgId}</where>", SqlHelper.wherePKColumns(UserCompositeKeys.class));
+}
+
+
+import:
+
+['import java.util.*;', 'import org.junit.*;', 'import com.example.*;']
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testCompositeKeys(){
+    EntityHelper.initEntityNameMap(UserCompositeKeys.class, config);
+    EntityTable entityTable = EntityHelper.getEntityTable(UserCompositeKeys.class);
+    Assert.assertNotNull(entityTable);
+
+    Set<EntityColumn> columns = entityTable.getEntityClassColumns();
+    Assert.assertEquals(2, columns.size());
+    Assert.assertEquals(2, entityTable.getEntityClassPKColumns().size());
+
+    for (EntityColumn column : columns) {
+        Assert.assertTrue(column.isId());
+    }
+
+    ResultMap resultMap = entityTable.getResultMap(configuration);
+    Assert.assertEquals(2, resultMap.getResultMappings().size());
+    Assert.assertTrue(resultMap.getResultMappings().get(0).getFlags().contains(ResultFlag.ID));
+    Assert.assertTrue(resultMap.getResultMappings().get(1).getFlags().contains(ResultFlag.ID));
+
+    Assert.assertEquals("<where> AND name = #{name} AND orgId = #{orgId}</where>", SqlHelper.wherePKColumns(UserCompositeKeys.class));
+}
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testCompositeKeys(){
+    EntityHelper.initEntityNameMap(UserCompositeKeys.class, config);
+    EntityTable entityTable = EntityHelper.getEntityTable(UserCompositeKeys.class);
+    Assert.assertNotNull(entityTable);
+
+    Set<EntityColumn> columns = entityTable.getEntityClassColumns();
+    Assert.assertEquals(2, columns.size());
+    Assert.assertEquals(2, entityTable.getEntityClassPKColumns().size());
+
+    for (EntityColumn column : columns) {
+        Assert.assertTrue(column.isId());
+    }
+
+    ResultMap resultMap = entityTable.getResultMap(configuration);
+    Assert.assertEquals(2, resultMap.getResultMappings().size());
+    Assert.assertTrue(resultMap.getResultMappings().get(0).getFlags().contains(ResultFlag.ID));
+    Assert.assertTrue(resultMap.getResultMappings().get(1).getFlags().contains(ResultFlag.ID));
+
+    Assert.assertEquals("<where> AND name = #{name} AND orgId = #{orgId}</where>", SqlHelper.wherePKColumns(UserCompositeKeys.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>my-artifact</artifactId>
+    <version>1.0.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testCompositeKeys(){
+    EntityHelper.initEntityNameMap(UserCompositeKeys.class, config);
+    EntityTable entityTable = EntityHelper.getEntityTable(UserCompositeKeys.class);
+    Assert.assertNotNull(entityTable);
+
+    Set<EntityColumn> columns = entityTable.getEntityClassColumns();
+    Assert.assertEquals(2, columns.size());
+    Assert.assertEquals(2, entityTable.getEntityClassPKColumns().size());
+
+    for (EntityColumn column : columns) {
+        Assert.assertTrue(column.isId());
+    }
+
+    ResultMap resultMap = entityTable.getResultMap(configuration);
+    Assert.assertEquals(2, resultMap.getResultMappings().size());
+    Assert.assertTrue(resultMap.getResultMappings().get(0).getFlags().contains(ResultFlag.ID));
+    Assert.assertTrue(resultMap.getResultMappings().get(1).getFlags().contains(ResultFlag.ID));
+
+    Assert.assertEquals("<where> AND name = #{name} AND orgId = #{orgId}</where>", SqlHelper.wherePKColumns(UserCompositeKeys.class));
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import com.google.gson.JsonParser;', 'import java.util.LinkedHashSet;', 'import java.util.LinkedHashMap;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.6</version>
+</dependency>

@@ -1,0 +1,68 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/contentpacks/model/entities/references/ValueReferenceTest.java
+Original Test Method:
+     public void serializeBoolean() throws IOException {
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(true))).isEqualTo("{\"@type\":\"boolean\",\"@value\":true}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(false))).isEqualTo("{\"@type\":\"boolean\",\"@value\":false}");
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void serializeBoolean() throws IOException {
+    String expectedTrue = "{\"@type\":\"boolean\",\"@value\":true}";
+    String actualTrue = objectMapper.writeValueAsString(ValueReference.of(true));
+    JSONAssert.assertEquals(expectedTrue, actualTrue, false);
+
+    String expectedFalse = "{\"@type\":\"boolean\",\"@value\":false}";
+    String actualFalse = objectMapper.writeValueAsString(ValueReference.of(false));
+    JSONAssert.assertEquals(expectedFalse, actualFalse, false);
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void serializeBoolean() throws Exception {
+    String expectedTrue = "{\"@type\":\"boolean\",\"@value\":true}";
+    String actualTrue = objectMapper.writeValueAsString(ValueReference.of(true));
+    JSONAssert.assertEquals(expectedTrue, actualTrue, JSONCompareMode.STRICT);
+
+    String expectedFalse = "{\"@type\":\"boolean\",\"@value\":false}";
+    String actualFalse = objectMapper.writeValueAsString(ValueReference.of(false));
+    JSONAssert.assertEquals(expectedFalse, actualFalse, JSONCompareMode.STRICT);
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+

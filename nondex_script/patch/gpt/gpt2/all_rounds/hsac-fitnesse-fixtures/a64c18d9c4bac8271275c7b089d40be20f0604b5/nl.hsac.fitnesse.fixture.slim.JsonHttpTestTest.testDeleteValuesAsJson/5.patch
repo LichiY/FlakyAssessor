@@ -1,0 +1,184 @@
+Test File Path: projects/a64c18d9c4bac8271275c7b089d40be20f0604b5/hsac-fitnesse-fixtures/src/test/java/nl/hsac/fitnesse/fixture/slim/JsonHttpTestTest.java
+Original Test Method:
+     public void testDeleteValuesAsJson() {
+        JsonHttpTest jsonHttpTestTest = new JsonHttpTest();
+        jsonHttpTestTest.setValueFor("3", "C");
+        jsonHttpTestTest.setValueFor("4", "d");
+        XmlHttpResponse req1 = checkCall(url -> jsonHttpTestTest.deleteWithValuesAsJson(url));
+        assertEquals("DELETE", jsonHttpTestTest.getResponse().getMethod());
+        assertEquals("DELETE", req1.getMethod());
+        assertEquals("{\"C\":\"3\",\"d\":\"4\"}", req1.getRequest());
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteValuesAsJson() {
+    JsonHttpTest jsonHttpTestTest = new JsonHttpTest();
+    jsonHttpTestTest.setValueFor("3", "C");
+    jsonHttpTestTest.setValueFor("4", "d");
+    XmlHttpResponse req1 = checkCall(url -> jsonHttpTestTest.deleteWithValuesAsJson(url));
+    assertEquals("DELETE", jsonHttpTestTest.getResponse().getMethod());
+    assertEquals("DELETE", req1.getMethod());
+    JSONObject expectedJson = new JSONObject();
+    expectedJson.put("C", "3");
+    expectedJson.put("d", "4");
+    JSONObject actualJson = new JSONObject(req1.getRequest());
+    assertEquals(expectedJson.toString(), actualJson.toString());
+}
+
+
+import:
+
+['import org.json.JSONObject;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20231013</version>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteValuesAsJson() {
+    JsonHttpTest jsonHttpTestTest = new JsonHttpTest();
+    jsonHttpTestTest.setValueFor("3", "C");
+    jsonHttpTestTest.setValueFor("4", "d");
+    XmlHttpResponse req1 = checkCall(url -> jsonHttpTestTest.deleteWithValuesAsJson(url));
+    assertEquals("DELETE", jsonHttpTestTest.getResponse().getMethod());
+    assertEquals("DELETE", req1.getMethod());
+    JSONObject expectedJson = new JSONObject();
+    expectedJson.put("C", "3");
+    expectedJson.put("d", "4");
+    JSONObject actualJson = new JSONObject(req1.getRequest());
+    JSONAssert.assertEquals(expectedJson, actualJson, false);
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteValuesAsJson() {
+    JsonHttpTest jsonHttpTestTest = new JsonHttpTest();
+    jsonHttpTestTest.setValueFor("3", "C");
+    jsonHttpTestTest.setValueFor("4", "d");
+    XmlHttpResponse req1 = checkCall(url -> jsonHttpTestTest.deleteWithValuesAsJson(url));
+    assertEquals("DELETE", jsonHttpTestTest.getResponse().getMethod());
+    assertEquals("DELETE", req1.getMethod());
+    JSONObject expectedJson = new JSONObject();
+    expectedJson.put("C", "3");
+    expectedJson.put("d", "4");
+    JSONObject actualJson = new JSONObject(req1.getRequest());
+    JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.NON_EXTENSIBLE);
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteValuesAsJson() {
+    JsonHttpTest jsonHttpTestTest = new JsonHttpTest();
+    jsonHttpTestTest.setValueFor("3", "C");
+    jsonHttpTestTest.setValueFor("4", "d");
+    XmlHttpResponse req1 = checkCall(url -> jsonHttpTestTest.deleteWithValuesAsJson(url));
+    assertEquals("DELETE", jsonHttpTestTest.getResponse().getMethod());
+    assertEquals("DELETE", req1.getMethod());
+    JSONObject expectedJson = new JSONObject();
+    expectedJson.put("C", "3");
+    expectedJson.put("d", "4");
+    JSONObject actualJson = new JSONObject(req1.getRequest());
+    JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.LENIENT);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testDeleteValuesAsJson() {
+    JsonHttpTest jsonHttpTestTest = new JsonHttpTest();
+    jsonHttpTestTest.setValueFor("3", "C");
+    jsonHttpTestTest.setValueFor("4", "d");
+    XmlHttpResponse req1 = checkCall(url -> jsonHttpTestTest.deleteWithValuesAsJson(url));
+    assertEquals("DELETE", jsonHttpTestTest.getResponse().getMethod());
+    assertEquals("DELETE", req1.getMethod());
+    JSONObject expectedJson = new JSONObject();
+    expectedJson.put("C", "3");
+    expectedJson.put("d", "4");
+    JSONObject actualJson = new JSONObject(new JSONTokener(req1.getRequest()));
+    JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.LENIENT);
+}
+
+
+import:
+
+['import org.json.JSONTokener;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20231013</version>
+</dependency>
+

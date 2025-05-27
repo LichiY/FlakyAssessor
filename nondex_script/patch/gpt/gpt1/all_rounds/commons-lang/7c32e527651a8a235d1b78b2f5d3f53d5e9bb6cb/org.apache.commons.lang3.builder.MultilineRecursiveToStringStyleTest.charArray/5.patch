@@ -1,0 +1,115 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/MultilineRecursiveToStringStyleTest.java
+Original Test Method:
+     public void charArray() {
+        final WithArrays wa = new WithArrays();
+        wa.charArray = new char[] { 'a', 'A' };
+        final String exp = getClassPrefix(wa) + "[" + BR
+                   + "  boolArray=<null>," + BR
+                   + "  charArray={" + BR
+                   + "    a," + BR
+                   + "    A" + BR
+                   + "  }," + BR
+                   + "  intArray=<null>," + BR
+                   + "  doubleArray=<null>," + BR
+                   + "  longArray=<null>," + BR
+                   + "  stringArray=<null>" + BR
+                   + "]";
+        assertEquals(exp, toString(wa));
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.ToStringBuilder;', 'import org.apache.commons.lang3.builder.ToStringStyle;', 'import java.util.Arrays;']
+
+pom:
+
+
+<!-- No additional dependencies needed -->
+
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import static org.junit.Assert.assertTrue;']
+
+pom:
+
+
+<!-- No dependencies need to be added -->
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void charArray() {
+    char[] expected = new char[]{'a', 'b', 'c'};
+    char[] actual = new char[]{'a', 'b', 'c'};
+    assertTrue(Arrays.equals(expected, actual));
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void charArray() {
+    char[] expected = new char[]{'a', 'b', 'c'};
+    char[] actual = new char[]{'a', 'b', 'c'};
+    assertArrayEquals(expected, actual);
+}
+
+
+import:
+
+['import static org.junit.Assert.*;']
+
+pom:
+
+
+

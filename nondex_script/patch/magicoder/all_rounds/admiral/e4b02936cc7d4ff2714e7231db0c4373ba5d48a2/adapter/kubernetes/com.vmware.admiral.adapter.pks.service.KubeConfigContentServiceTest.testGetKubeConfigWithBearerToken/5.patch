@@ -1,0 +1,169 @@
+Test File Path: projects/e4b02936cc7d4ff2714e7231db0c4373ba5d48a2/admiral/adapter/kubernetes/src/test/java/com/vmware/admiral/adapter/pks/service/KubeConfigContentServiceTest.java
+Original Test Method:
+     public void testGetKubeConfigWithBearerToken() throws Throwable {
+        String authCredentialsLink = createCredentials(AuthCredentialsType.Bearer, true)
+                .documentSelfLink;
+        String hostLink = createCompute(authCredentialsLink, true, true).documentSelfLink;
+
+        URI serviceUri = UriUtils.buildUri(host, KubeConfigContentService.SELF_LINK,
+                UriUtils.buildUriQuery("hostLink", hostLink));
+
+        verifyOperation(Operation.createGet(serviceUri), o -> {
+            assertEquals("attachment; filename=\"kubeconfig\"",
+                    o.getResponseHeader("Content-Disposition"));
+            assertEquals(KUBE_CONFIG_YAML, o.getBody(String.class));
+        });
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testGetKubeConfigWithBearerToken() throws Throwable {
+    String authCredentialsLink = createCredentials(AuthCredentialsType.Bearer, true)
+            .documentSelfLink;
+    String hostLink = createCompute(authCredentialsLink, true, true).documentSelfLink;
+
+    URI serviceUri = UriUtils.buildUri(host, KubeConfigContentService.SELF_LINK,
+            UriUtils.buildUriQuery("hostLink", hostLink));
+
+    verifyOperation(Operation.createGet(serviceUri), o -> {
+        assertEquals("attachment; filename=\"kubeconfig\"",
+                o.getResponseHeader("Content-Disposition"));
+        assertEquals(KUBE_CONFIG_YAML, o.getBody(String.class));
+    });
+}
+
+
+import:
+
+['import org.apache.commons.lang3.StringUtils;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.9</version>
+</dependency>
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testGetKubeConfigWithBearerToken() throws Throwable {
+    String authCredentialsLink = createCredentials(AuthCredentialsType.Bearer, true)
+            .documentSelfLink;
+    String hostLink = createCompute(authCredentialsLink, true, true).documentSelfLink;
+
+    URI serviceUri = UriUtils.buildUri(host, KubeConfigContentService.SELF_LINK,
+            UriUtils.buildUriQuery("hostLink", hostLink));
+
+    verifyOperation(Operation.createGet(serviceUri), o -> {
+        assertEquals("attachment; filename=\"kubeconfig\"",
+                o.getResponseHeader("Content-Disposition"));
+        assertEquals(KUBE_CONFIG_YAML, o.getBody(String.class));
+    });
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testGetKubeConfigWithBearerToken() throws Throwable {
+    String authCredentialsLink = createCredentials(AuthCredentialsType.Bearer, true)
+            .documentSelfLink;
+    String hostLink = createCompute(authCredentialsLink, true, true).documentSelfLink;
+
+    URI serviceUri = UriUtils.buildUri(host, KubeConfigContentService.SELF_LINK,
+            UriUtils.buildUriQuery("hostLink", hostLink));
+
+    verifyOperation(Operation.createGet(serviceUri), o -> {
+        assertEquals("attachment; filename=\"kubeconfig\"",
+                o.getResponseHeader("Content-Disposition"));
+        assertEquals(KUBE_CONFIG_YAML, o.getBody(String.class));
+    });
+}
+
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testGetKubeConfigWithBearerToken() throws Throwable {
+    String authCredentialsLink = createCredentials(AuthCredentialsType.Bearer, true)
+            .documentSelfLink;
+    String hostLink = createCompute(authCredentialsLink, true, true).documentSelfLink;
+
+    URI serviceUri = UriUtils.buildUri(host, KubeConfigContentService.SELF_LINK,
+            UriUtils.buildUriQuery("hostLink", hostLink));
+
+    verifyOperation(Operation.createGet(serviceUri), o -> {
+        assertEquals("attachment; filename=\"kubeconfig\"",
+                o.getResponseHeader("Content-Disposition"));
+        assertEquals(KUBE_CONFIG_YAML, o.getBody(String.class));
+    });
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testGetKubeConfigWithBearerToken() throws Throwable {
+    String authCredentialsLink = createCredentials(AuthCredentialsType.Bearer, true)
+            .documentSelfLink;
+    String hostLink = createCompute(authCredentialsLink, true, true).documentSelfLink;
+
+    URI serviceUri = UriUtils.buildUri(host, KubeConfigContentService.SELF_LINK,
+            UriUtils.buildUriQuery("hostLink", hostLink));
+
+    verifyOperation(Operation.createGet(serviceUri), o -> {
+        assertEquals("attachment; filename=\"kubeconfig\"",
+                o.getResponseHeader("Content-Disposition"));
+        assertEquals(KUBE_CONFIG_YAML, o.getBody(String.class));
+    });
+}
+
+
+import:
+
+['import java.util.*;', 'import java.net.*;', 'import java.util.stream.*;', 'import org.junit.*;', 'import static org.junit.Assert.*;']
+
+pom:
+
+<!-- put your dependencies here -->

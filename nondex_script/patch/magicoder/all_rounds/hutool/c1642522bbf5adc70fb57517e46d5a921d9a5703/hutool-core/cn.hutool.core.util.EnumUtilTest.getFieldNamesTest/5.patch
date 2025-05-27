@@ -1,0 +1,112 @@
+Test File Path: projects/c1642522bbf5adc70fb57517e46d5a921d9a5703/hutool/hutool-core/src/test/java/cn/hutool/core/util/EnumUtilTest.java
+Original Test Method:
+ 	public void getFieldNamesTest() {
+		List<String> names = EnumUtil.getFieldNames(TestEnum.class);
+		Assert.assertEquals(CollUtil.newArrayList("type", "name"), names);
+	}
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void getFieldNamesTest() {
+    List<String> names = EnumUtil.getFieldNames(TestEnum.class);
+    Assert.assertEquals(CollUtil.newArrayList("type", "name"), names);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void getFieldNamesTest() {
+    List<String> names = EnumUtil.getFieldNames(TestEnum.class);
+    Assert.assertEquals(CollUtil.newArrayList("type", "name"), names);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void getFieldNamesTest() {
+    List<String> names = EnumUtil.getFieldNames(TestEnum.class);
+    Assert.assertEquals(Lists.newArrayList("type", "name"), names);
+}
+
+
+import:
+
+['import org.assertj.core.util.Lists;']
+
+pom:
+
+<!-- Add the following dependency in your pom.xml file -->
+<dependency>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-core</artifactId>
+    <version>3.18.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void getFieldNamesTest() {
+    List<String> names = EnumUtil.getFieldNames(TestEnum.class);
+    Assert.assertEquals(Lists.newArrayList("type", "name"), names);
+}
+
+
+import:
+
+[]
+
+pom:
+
+
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.18.1</version>
+    </dependency>
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void getFieldNamesTest() {
+    List<String> names = EnumUtil.getFieldNames(TestEnum.class);
+    Assert.assertEquals(Lists.newArrayList("type", "name"), names);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

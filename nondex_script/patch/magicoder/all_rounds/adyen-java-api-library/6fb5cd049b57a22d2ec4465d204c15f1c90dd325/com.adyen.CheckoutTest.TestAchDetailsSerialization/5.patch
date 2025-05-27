@@ -1,0 +1,138 @@
+Test File Path: projects/6fb5cd049b57a22d2ec4465d204c15f1c90dd325/adyen-java-api-library/src/test/java/com/adyen/CheckoutTest.java
+Original Test Method:
+     public void TestAchDetailsSerialization() throws JsonProcessingException {
+        String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"bankAccountNumber\":\"1234567\",\"bankLocationId\":\"1234567\",\"encryptedBankAccountNumber\":\"1234asdfg\",\"ownerName\":\"John Smith\",\"type\":\"ach\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
+
+        AchDetails achDetails = new AchDetails();
+        achDetails.setBankAccountNumber("1234567");
+        achDetails.setBankLocationId("1234567");
+        achDetails.setEncryptedBankAccountNumber("1234asdfg");
+        achDetails.setOwnerName("John Smith");
+        PaymentsRequest paymentsRequest = createPaymentsCheckoutRequest();
+        paymentsRequest.setPaymentMethod(achDetails);
+
+        String gson = GSON.toJson(paymentsRequest);
+        assertEquals(expectedJson, gson);
+
+        String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
+        assertEquals(expectedJson, jackson);
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void TestAchDetailsSerialization() throws JsonProcessingException {
+    String expectedJson = "{\"amount\":{\"value\":1000,\"currency\":\"USD\"},\"merchantAccount\":\"MagentoMerchantTest\",\"paymentMethod\":{\"bankAccountNumber\":\"1234567\",\"bankLocationId\":\"1234567\",\"encryptedBankAccountNumber\":\"1234asdfg\",\"ownerName\":\"John Smith\",\"type\":\"ach\"},\"reference\":\"Your order number\",\"returnUrl\":\"https://your-company.com/...\",\"applicationInfo\":{\"adyenLibrary\":{\"name\":\"adyen-java-api-library\",\"version\":\"" + LIB_VERSION + "\"}}}";
+
+    AchDetails achDetails = new AchDetails();
+    achDetails.setBankAccountNumber("1234567");
+    achDetails.setBankLocationId("1234567");
+    achDetails.setEncryptedBankAccountNumber("1234asdfg");
+    achDetails.setOwnerName("John Smith");
+    PaymentsRequest paymentsRequest = createPaymentsCheckoutRequest();
+    paymentsRequest.setPaymentMethod(achDetails);
+
+    String gson = GSON.toJson(paymentsRequest);
+    assertEquals(expectedJson, gson);
+
+    String jackson = OBJECT_MAPPER.writeValueAsString(paymentsRequest);
+    assertEquals(expectedJson, jackson);
+}
+
+
+import:
+
+['import com.fasterxml.jackson.databind.ObjectWriter;', 'import com.fasterxml.jackson.databind.SerializationFeature;', 'import com.fasterxml.jackson.databind.json.JsonMapper;', 'import com.fasterxml.jackson.databind.util.StdDateFormat;', 'import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;', 'import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.3</version>
+    </dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-jsr310</artifactId>
+    <version>2.12.1</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.module</groupId>
+    <artifactId>jackson-module-parameter-names</artifactId>
+    <version>2.12.1</version>
+</dependency>
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import static org.assertj.core.api.Assertions.assertThat;']
+
+pom:
+
+
+
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.1</version>
+    </dependency>
+
+
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+['import org.apache.commons.lang3.builder.EqualsBuilder;', 'import org.apache.commons.lang3.builder.HashCodeBuilder;', 'import org.apache.commons.lang3.builder.ToStringBuilder;']
+
+pom:
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version>
+</dependency>

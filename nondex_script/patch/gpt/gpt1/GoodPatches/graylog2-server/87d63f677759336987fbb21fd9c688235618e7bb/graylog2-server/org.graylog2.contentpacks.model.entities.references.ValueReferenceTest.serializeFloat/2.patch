@@ -1,0 +1,24 @@
+Test File Path: projects/87d63f677759336987fbb21fd9c688235618e7bb/graylog2-server/graylog2-server/src/test/java/org/graylog2/contentpacks/model/entities/references/ValueReferenceTest.java
+Original Test Method:
+     public void serializeFloat() throws IOException {
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(1.0f))).isEqualTo("{\"@type\":\"float\",\"@value\":1.0}");
+        assertThat(objectMapper.writeValueAsString(ValueReference.of(42.4f))).isEqualTo("{\"@type\":\"float\",\"@value\":42.4}");
+    }
+Patch:
+
+test_code:
+public void serializeFloat() throws IOException, org.json.JSONException {
+    JSONAssert.assertEquals("{\"@type\":\"float\",\"@value\":1.0}", objectMapper.writeValueAsString(ValueReference.of(1.0f)), JSONCompareMode.STRICT);
+    JSONAssert.assertEquals("{\"@type\":\"float\",\"@value\":42.4}", objectMapper.writeValueAsString(ValueReference.of(42.4f)), JSONCompareMode.STRICT);
+}
+
+import:
+['import org.skyscreamer.jsonassert.JSONCompareMode;']
+pom:
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>

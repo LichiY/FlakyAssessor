@@ -1,0 +1,337 @@
+Test File Path: projects/51d6f53967110e2b91b6d90b46f8e16bdc062091/tez/tez-dag/src/test/java/org/apache/tez/dag/app/dag/impl/TestVertexImpl.java
+Original Test Method:
+   public void testVertexInit() throws AMUserCodeException {
+    initAllVertices(VertexState.INITED);
+
+    VertexImpl v3 = vertices.get("vertex3");
+
+    Assert.assertEquals("x3.y3", v3.getProcessorName());
+    Assert.assertTrue(v3.getJavaOpts().contains("foo"));
+
+    Assert.assertEquals(2, v3.getInputSpecList(0).size());
+    Assert.assertEquals(2, v3.getInputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+
+    assertTrue("vertex1".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName()));
+    assertTrue("vertex1".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName()));
+    assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName()));
+    assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName()));
+
+    assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName()));
+    assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName()));
+    assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName()));
+    assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName()));
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testVertexInit() throws AMUserCodeException {
+    initAllVertices(VertexState.INITED);
+
+    VertexImpl v3 = vertices.get("vertex3");
+
+    Assert.assertEquals("x3.y3", v3.getProcessorName());
+    Assert.assertTrue(v3.getJavaOpts().contains("foo"));
+
+    Assert.assertEquals(2, v3.getInputSpecList(0).size());
+    Assert.assertEquals(2, v3.getInputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+
+    Assert.assertTrue("vertex1".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName()));
+    Assert.assertTrue("vertex1".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName()));
+    Assert.assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName()));
+    Assert.assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName()));
+
+    Assert.assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName()));
+    Assert.assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName()));
+    Assert.assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName()));
+    Assert.assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName()));
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testVertexInit() throws AMUserCodeException {
+    initAllVertices(VertexState.INITED);
+
+    VertexImpl v3 = vertices.get("vertex3");
+
+    Assert.assertEquals("x3.y3", v3.getProcessorName());
+    Assert.assertTrue(v3.getJavaOpts().contains("foo"));
+
+    Assert.assertEquals(2, v3.getInputSpecList(0).size());
+    Assert.assertEquals(2, v3.getInputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+
+    Assert.assertTrue("vertex1".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName()));
+    Assert.assertTrue("vertex1".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName()));
+    Assert.assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName()));
+    Assert.assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName()));
+
+    Assert.assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName()));
+    Assert.assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName()));
+    Assert.assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName()));
+    Assert.assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName()));
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testVertexInit() throws AMUserCodeException {
+    initAllVertices(VertexState.INITED);
+
+    VertexImpl v3 = vertices.get("vertex3");
+
+    Assert.assertEquals("x3.y3", v3.getProcessorName());
+    Assert.assertTrue(v3.getJavaOpts().contains("foo"));
+
+    Assert.assertEquals(2, v3.getInputSpecList(0).size());
+    Assert.assertEquals(2, v3.getInputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+
+    Assert.assertTrue("vertex1".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName()));
+    Assert.assertTrue("vertex1".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName())
+        || "vertex2".equals(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName()));
+    Assert.assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName()));
+    Assert.assertTrue("i3_v1".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName())
+        || "i3_v2".equals(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName()));
+
+    Assert.assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName()));
+    Assert.assertTrue("vertex4".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName())
+        || "vertex5".equals(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName()));
+    Assert.assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName()));
+    Assert.assertTrue("o3_v4".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName())
+        || "o3_v5".equals(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName()));
+  }
+
+
+import:
+
+['import com.example.myclass;', 'import com.example.myotherclass;']
+
+pom:
+
+
+    <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>my-artifact</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+public void testVertexInit() throws AMUserCodeException {
+    initAllVertices(VertexState.INITED);
+
+    VertexImpl v3 = vertices.get("vertex3");
+
+    Assert.assertEquals("x3.y3", v3.getProcessorName());
+    Assert.assertTrue(v3.getJavaOpts().contains("foo"));
+
+    Assert.assertEquals(2, v3.getInputSpecList(0).size());
+    Assert.assertEquals(2, v3.getInputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+
+    Assert.assertTrue(ImmutableList.of("vertex1", "vertex2").contains(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName()));
+    Assert.assertTrue(ImmutableList.of("vertex1", "vertex2").contains(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName()));
+    Assert.assertTrue(ImmutableList.of("i3_v1", "i3_v2").contains(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName()));
+    Assert.assertTrue(ImmutableList.of("i3_v1", "i3_v2").contains(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName()));
+
+    Assert.assertTrue(ImmutableList.of("vertex4", "vertex5").contains(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName()));
+    Assert.assertTrue(ImmutableList.of("vertex4", "vertex5").contains(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName()));
+    Assert.assertTrue(ImmutableList.of("o3_v4", "o3_v5").contains(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName()));
+    Assert.assertTrue(ImmutableList.of("o3_v4", "o3_v5").contains(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName()));
+  }
+
+
+import:
+
+['import com.google.common.collect.ImmutableList;']
+
+pom:
+
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>29.0-jre</version>
+</dependency>
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testVertexInit() throws AMUserCodeException {
+    initAllVertices(VertexState.INITED);
+
+    VertexImpl v3 = vertices.get("vertex3");
+
+    Assert.assertEquals("x3.y3", v3.getProcessorName());
+    Assert.assertTrue(v3.getJavaOpts().contains("foo"));
+
+    Assert.assertEquals(2, v3.getInputSpecList(0).size());
+    Assert.assertEquals(2, v3.getInputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+    Assert.assertEquals(2, v3.getOutputVerticesCount());
+
+    Assert.assertTrue(ImmutableList.of("vertex1", "vertex2").contains(v3.getInputSpecList(0).get(0)
+        .getSourceVertexName()));
+    Assert.assertTrue(ImmutableList.of("vertex1", "vertex2").contains(v3.getInputSpecList(0).get(1)
+        .getSourceVertexName()));
+    Assert.assertTrue(ImmutableList.of("i3_v1", "i3_v2").contains(v3.getInputSpecList(0).get(0)
+        .getInputDescriptor().getClassName()));
+    Assert.assertTrue(ImmutableList.of("i3_v1", "i3_v2").contains(v3.getInputSpecList(0).get(1)
+        .getInputDescriptor().getClassName()));
+
+    Assert.assertTrue(ImmutableList.of("vertex4", "vertex5").contains(v3.getOutputSpecList(0).get(0)
+        .getDestinationVertexName()));
+    Assert.assertTrue(ImmutableList.of("vertex4", "vertex5").contains(v3.getOutputSpecList(0).get(1)
+        .getDestinationVertexName()));
+    Assert.assertTrue(ImmutableList.of("o3_v4", "o3_v5").contains(v3.getOutputSpecList(0).get(0)
+        .getOutputDescriptor().getClassName()));
+    Assert.assertTrue(ImmutableList.of("o3_v4", "o3_v5").contains(v3.getOutputSpecList(0).get(1)
+        .getOutputDescriptor().getClassName()));
+  }
+
+
+import:
+
+[]
+
+pom:
+
+None

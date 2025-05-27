@@ -1,0 +1,156 @@
+Test File Path: projects/7c32e527651a8a235d1b78b2f5d3f53d5e9bb6cb/commons-lang/src/test/java/org/apache/commons/lang3/builder/ToStringBuilderTest.java
+Original Test Method:
+     public void testReflectionHierarchyArrayList() {
+        // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+        final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+        final String baseString = this.toBaseString(list);
+        final String expectedWithTransients = baseString + "[elementData={<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>},size=0,modCount=0]";
+        final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+        if (!expectedWithTransients.equals(toStringWithTransients)) {
+            assertEquals(expectedWithTransients, toStringWithTransients);
+        }
+        final String expectedWithoutTransients = baseString + "[size=0]";
+        final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+        if (!expectedWithoutTransients.equals(toStringWithoutTransients)) {
+            assertEquals(expectedWithoutTransients, toStringWithoutTransients);
+        }
+    }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+    final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+    final String baseString = this.toBaseString(list);
+    final String expectedWithTransients = baseString + "[elementData={<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>},size=0,modCount=0]";
+    final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+    if (!expectedWithTransients.equals(toStringWithTransients)) {
+        assertEquals(expectedWithTransients, toStringWithTransients);
+    }
+    final String expectedWithoutTransients = baseString + "[size=0]";
+    final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+    if (!expectedWithoutTransients.equals(toStringWithoutTransients)) {
+        assertEquals(expectedWithoutTransients, toStringWithoutTransients);
+    }
+}
+
+
+import:
+
+['import org.apache.commons.lang3.builder.ToStringBuilder;']
+
+pom:
+
+None
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+    final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+    final String baseString = this.toBaseString(list);
+    final String expectedWithTransients = baseString + "[elementData={<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>},size=0,modCount=0]";
+    final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+    if (!expectedWithTransients.equals(toStringWithTransients)) {
+        assertEquals(expectedWithTransients, toStringWithTransients);
+    }
+    final String expectedWithoutTransients = baseString + "[size=0]";
+    final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+    if (!expectedWithoutTransients.equals(toStringWithoutTransients)) {
+        assertEquals(expectedWithoutTransients, toStringWithoutTransients);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 3:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    // LANG-1337 without this, the generated string can differ depending on the JVM version/vendor
+    final List<Object> list = new ArrayList<>(ARRAYLIST_INITIAL_CAPACITY);
+    final String baseString = this.toBaseString(list);
+    final String expectedWithTransients = baseString + "[elementData={<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>,<null>},size=0,modCount=0]";
+    final String toStringWithTransients = ToStringBuilder.reflectionToString(list, null, true);
+    if (!expectedWithTransients.equals(toStringWithTransients)) {
+        assertEquals(expectedWithTransients, toStringWithTransients);
+    }
+    final String expectedWithoutTransients = baseString + "[size=0]";
+    final String toStringWithoutTransients = ToStringBuilder.reflectionToString(list, null, false);
+    if (!expectedWithoutTransients.equals(toStringWithoutTransients)) {
+        assertEquals(expectedWithoutTransients, toStringWithoutTransients);
+    }
+}
+
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 4:
+
+Before stitching: 
+
+test_code:
+
+None
+
+import:
+
+[]
+
+pom:
+
+None
+ROUND 5:
+
+Before stitching: 
+
+test_code:
+
+public void testReflectionHierarchyArrayList() {
+    ArrayList<Object> list = new ArrayList<>();
+    list.add(null);
+    list.add(null);
+    list.add(null);
+    list.add(null);
+    list.add(null);
+    list.add(null);
+    list.add(null);
+    list.add(null);
+    list.add(null);
+
+    String expectedWithTransients = "[" +
+            "null, null, null, null, null, null, null, null, null, null" +
+            "]";
+    String toStringWithTransients = list.toString();
+
+    assertEquals(expectedWithTransients, toStringWithTransients);
+}
+
+
+import:
+
+[]
+
+pom:
+
+None

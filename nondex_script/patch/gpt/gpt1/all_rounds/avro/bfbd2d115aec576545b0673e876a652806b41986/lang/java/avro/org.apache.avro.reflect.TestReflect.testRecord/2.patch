@@ -1,0 +1,79 @@
+Test File Path: projects/bfbd2d115aec576545b0673e876a652806b41986/avro/lang/java/avro/src/test/java/org/apache/avro/reflect/TestReflect.java
+Original Test Method:
+   public void testRecord() throws Exception {
+    check(R.class,
+        "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}");
+  }
+ROUND 1:
+
+Before stitching: 
+
+test_code:
+
+public void testRecord() throws Exception {
+    String expectedJson = "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}";
+    String actualJson = ReflectData.get().getSchema(R.class).toString();
+    
+    Configuration config = Configuration.defaultConfiguration()
+            .addOptions(Option.SUPPRESS_EXCEPTIONS)
+            .addOptions(Option.ALWAYS_RETURN_LIST);
+    
+    Object expected = JsonPath.using(config).parse(expectedJson).json();
+    Object actual = JsonPath.using(config).parse(actualJson).json();
+    
+    assertEquals(expected, actual);
+}
+
+
+import:
+
+['import com.jayway.jsonpath.JsonPath;', 'import com.jayway.jsonpath.Configuration;', 'import com.jayway.jsonpath.Option;']
+
+pom:
+
+
+<dependency>
+    <groupId>com.jayway.jsonpath</groupId>
+    <artifactId>json-path</artifactId>
+    <version>2.7.0</version>
+    <scope>test</scope>
+</dependency>
+
+ROUND 2:
+
+Before stitching: 
+
+test_code:
+
+public void testRecord() throws Exception {
+    String expectedJson = "{\"type\":\"record\",\"name\":\"R\",\"namespace\":" + "\"org.apache.avro.reflect.TestReflect\",\"fields\":["
+            + "{\"name\":\"a\",\"type\":\"int\"}," + "{\"name\":\"b\",\"type\":\"long\"}]}";
+    String actualJson = ReflectData.get().getSchema(R.class).toString();
+    
+    Configuration config = Configuration.defaultConfiguration()
+            .addOptions(Option.SUPPRESS_EXCEPTIONS)
+            .addOptions(Option.ALWAYS_RETURN_LIST);
+    
+    Object expected = JsonPath.using(config).parse(expectedJson).json();
+    Object actual = JsonPath.using(config).parse(actualJson).json();
+    
+    JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.NON_EXTENSIBLE);
+}
+
+
+import:
+
+['import org.skyscreamer.jsonassert.JSONAssert;', 'import org.skyscreamer.jsonassert.JSONCompareMode;']
+
+pom:
+
+
+<dependency>
+    <groupId>org.skyscreamer</groupId>
+    <artifactId>jsonassert</artifactId>
+    <version>1.5.1</version>
+    <scope>test</scope>
+</dependency>
+
