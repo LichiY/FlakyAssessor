@@ -14,17 +14,17 @@ This is the replication package associated with the paper: 'FlakyAssessor: A Sem
 
 ```
 FlakyAssessor/
-├── README.md                   # Project description document
-├── requirements.txt            # List of Python dependencies
-├── per_project_train_test.py   # project-based evaluation script
-├── train_test_5fold.py         # 5-fold cross-validation script
-├── aggregate_kfold_results.py  # Script to aggregate 5-fold validation results
-├── config/                     # Configuration files directory
-├── models/                     # Model definitions
-├── data_modules/               # Data processing modules
-├── helper/                     # Helper utilities
-├── data/                       # Data directory
-└── nondex_script/              # NonDex related scripts
+├── README.md                       # Project description document
+├── requirements.txt                # List of Python dependencies
+├── per_project_train_test.py       # project-based evaluation script
+├── train_test_5fold.py             # 5-fold cross-validation script
+├── aggregate_kfold_results.py      # Script to aggregate 5-fold validation results
+├── config/                         # Configuration files directory
+├── models/                         # Model definitions
+├── data_modules/                   # Data processing modules
+├── helper/                         # Helper utilities
+├── data/cleaned_mutation_data.csv  # Final dataset
+└── nondex_script/                  # NonDex related scripts
 ```
 
 
