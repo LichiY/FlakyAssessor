@@ -16,7 +16,7 @@
     "generated_source_marker_col":"augmented_source_marker"
   },
   "model": {
-    "encoder_name": "/home/lizhyu/model/microsoft/unixcoder-base",
+    "encoder_name": "/model/microsoft/unixcoder-base",
     "max_length": 512,
     "dnn_layers": [768, 128],
     "dropout_rate": 0.25
