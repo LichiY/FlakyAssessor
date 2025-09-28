@@ -1,4 +1,4 @@
-# FlakyAssessor
+# FlakyAssessor👍
 
 This is the replication package associated with the paper: 'FlakyAssessor: A Semantic-aware Oracle for Assessing the Correctness of Flaky Test Patches'
 
