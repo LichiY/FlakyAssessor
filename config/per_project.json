@@ -18,7 +18,7 @@
     "train_ratio_of_remaining_pool": 0.6
   },
   "model": {
-    "encoder_name": "/home/lizhyu/model/microsoft/unixcoder-base", 
+    "encoder_name": "/model/microsoft/unixcoder-base", 
     "max_length": 512,
     "dnn_layers": [768, 256, 128],
     "dropout_rate": 0.3
