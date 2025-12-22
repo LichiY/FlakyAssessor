@@ -1,31 +1,32 @@
 {
   "project_name": "FlakyPatchValidator_ProjectSplit",
-  "seed": 66,
+  "seed": 88,
   "data": {
-    "data_dir": "data",
-    "combined_csv_file": "cleaned_mutation_data.csv",
+    "data_dir": "/home/lizhyu/libspace/FlakyAssessor_FSE/FlakyAssessor/data/split",
+    "train_csv_file": "train_split_used.csv",
+    "val_csv_file": "val_split_used.csv",
+    "test_csv_file": "test_split_used.csv",
     "project_col": "project_name",
     "flaky_col": "flaky_code",
     "patch_col": "generated_patch",
-    "label_col": "isCorrect", 
-    "time_col": "time_consume", 
-    "source_file_col": "source_file",
+    "label_col": "isCorrect",
+    "time_col": "time_consume",
+    "source_col": "source_file",
     "test_name_col": "full_test_name",
     "incorrect_type_col": "incorrect_type",
     "generated_source_marker_col": "augmented_source_marker",
-    "rerun_consistency_col": "rerun_consistency",
-    "overall_test_project_ratio": 0.2, 
-    "train_ratio_of_remaining_pool": 0.6
+    "rerun_consistency_col": "rerun_consistency"
   },
   "model": {
-    "encoder_name": "/home/lizhyu/model/microsoft/unixcoder-base", 
+    "class_name": "PatchValidator", 
+    "encoder_name": "/home/lizhyu/model/microsoft/unixcoder-base",
     "max_length": 512,
     "dnn_layers": [768, 256, 128],
     "dropout_rate": 0.3
   },
   "train": {
-    "output_dir": "outputs_per_project_with_Sem", 
-    "epochs": 100, 
+    "output_dir": "outputs_per_project_ablation_with_All_88",
+    "epochs": 100,
     "batch_size": 48,
     "early_stopping_patience": 20,
     "learning_rate": 5e-05,
@@ -33,20 +34,22 @@
     "weight_decay": 0.05,
     "lr_scheduler": "cosine",
     "use_weighted_loss": true,
-    "pos_weight_multiplier": 1.0, 
+    "pos_weight_multiplier": 1.0,
     "warmup_steps_ratio": 0.06,
     "device_setting": {
-      "device_ids": "1",
+      "device_ids": "0",
       "num_workers": 1
     },
     "log_steps": 50,
     "eval_strategy": "epoch"
   },
-  "eval": { 
+  "eval": {
     "batch_size": 1
   },
   "log": {
-    "filename": "./outputs_per_project/run_per_project.log",
+    "filename": "./outputs_per_project_ablation_with_All/run_per_project_ablation_with_All.log",
     "level": "info"
   }
 }
+
+

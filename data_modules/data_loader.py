@@ -4,6 +4,15 @@ from torch.utils.data import DataLoader, WeightedRandomSampler
 import helper.logger as logger
 import numpy as np
 import pandas as pd
+import torch
+import random
+
+
+def _seed_worker(worker_id):
+    """Initialize worker seeds for reproducibility across DataLoader workers."""
+    worker_seed = torch.initial_seed() % 2**32
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
 
 
 def get_data_loaders(config, tokenizer, df_train, df_val, df_test, current_fold_num=None):
@@ -13,6 +22,14 @@ def get_data_loaders(config, tokenizer, df_train, df_val, df_test, current_fold_
     """
     collate_fn = PatchCollator(tokenizer)
     log_prefix = f"[Fold {current_fold_num}] " if current_fold_num is not None else ""
+    # Set base generator using config.seed for deterministic shuffling/sampling
+    base_seed = getattr(config, 'seed', 42)
+    torch_generator = torch.Generator()
+    try:
+        torch_generator.manual_seed(int(base_seed))
+    except Exception:
+        torch_generator.manual_seed(42)
+
     train_loader = None
     if not df_train.empty:
         train_sampler = None
@@ -32,7 +49,7 @@ def get_data_loaders(config, tokenizer, df_train, df_val, df_test, current_fold_
                     else:
                         weights_per_class = 1. / class_counts
                         weights = weights_per_class[train_labels]
-                    train_sampler = WeightedRandomSampler(weights=weights, num_samples=len(weights), replacement=True)
+                    train_sampler = WeightedRandomSampler(weights=weights, num_samples=len(weights), replacement=True, generator=torch_generator)
                     logger.info(f"{log_prefix}Created WeightedRandomSampler.")
             except Exception as e:
                 logger.error(f"{log_prefix}Failed to create WeightedRandomSampler: {e}. Falling back to standard shuffling.")
@@ -44,7 +61,9 @@ def get_data_loaders(config, tokenizer, df_train, df_val, df_test, current_fold_
                                   shuffle=(train_sampler is None),
                                   num_workers=config.train.device_setting.get('num_workers', 0),
                                   collate_fn=collate_fn,
-                                  pin_memory=True)
+                                  pin_memory=True,
+                                  worker_init_fn=_seed_worker,
+                                  generator=torch_generator)
         logger.info(f"{log_prefix}Train DataLoader created (Batch: {config.train.batch_size}, Sampler: {'Yes' if train_sampler else 'No'}, Shuffle: {'Yes' if train_sampler is None else 'No'}).")
     else:
         logger.warning(f"{log_prefix}Training DataFrame is empty. Train DataLoader will be None.")
@@ -56,7 +75,9 @@ def get_data_loaders(config, tokenizer, df_train, df_val, df_test, current_fold_
                                 shuffle=False,
                                 num_workers=config.train.device_setting.get('num_workers', 0),
                                 collate_fn=collate_fn,
-                                pin_memory=True)
+                                pin_memory=True,
+                                worker_init_fn=_seed_worker,
+                                generator=torch_generator)
         logger.info(f"{log_prefix}Validation DataLoader created (Batch: {config.eval.batch_size}).")
     else:
         logger.warning(f"{log_prefix}Validation DataFrame is empty. Validation DataLoader will be None.")
@@ -68,6 +89,8 @@ def get_data_loaders(config, tokenizer, df_train, df_val, df_test, current_fold_
                                  shuffle=False,
                                  num_workers=config.train.device_setting.get('num_workers', 0),
                                  collate_fn=collate_fn,
-                                 pin_memory=True)
+                                 pin_memory=True,
+                                 worker_init_fn=_seed_worker,
+                                 generator=torch_generator)
         logger.info(f"{log_prefix}Test DataLoader created (Batch: {config.eval.batch_size}).")
     return train_loader, val_loader, test_loader
