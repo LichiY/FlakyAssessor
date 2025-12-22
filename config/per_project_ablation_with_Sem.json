@@ -2,7 +2,7 @@
   "project_name": "FlakyPatchValidator_ProjectSplit",
   "seed": 66,
   "data": {
-    "data_dir": "/home/lizhyu/libspace/FlakyAssessor_FSE/FlakyAssessor/data/split",
+    "data_dir": "FlakyAssessor/data/split",
     "train_csv_file": "train_split_used.csv",
     "val_csv_file": "val_split_used.csv",
     "test_csv_file": "test_split_used.csv",
@@ -19,7 +19,7 @@
   },
   "model": {
     "class_name": "PatchValidator_with_Sem", 
-    "encoder_name": "/home/lizhyu/model/microsoft/unixcoder-base",
+    "encoder_name": "/model/microsoft/unixcoder-base",
     "max_length": 512,
     "dnn_layers": [768, 256, 128],
     "dropout_rate": 0.3
